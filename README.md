@@ -25,11 +25,14 @@ Each chapter is linked to a certain position in time.
 
 <pre>
 name.zip
-    metadata.json
+    metadata.yaml
     chapters
         chapter1.md
         ...
-    persons.md    
-    places.md
-
+    persons
+        name1.md
+        ,,, 
+    places
+        name1.md
+    time.md    
 </pre>    
