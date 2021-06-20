@@ -139,8 +139,12 @@ export class Novel {
 		await fs.writeFile(this.pathname, file);
 	}
 
-	writePerson(name: string, pdef: person_def): void {
+	writePerson(pdef: person_def): void {
+		const name = pdef.name;
 		this.def.persons[name] = pdef;
+		if (!this.def.metadata.persons.find((p) => p == name)) {
+			this.def.metadata.persons.push(name);
+		}
 	}
 	getPerson(name: string): person_def {
 		return this.def.persons[name];
