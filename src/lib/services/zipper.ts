@@ -33,9 +33,13 @@ export class Zipper {
 			this.zipper.addFile('persons/', Buffer.alloc(0));
 			this.zipper.addFile('places/', Buffer.alloc(0));
 			this.zipper.addFile('time.md', '# t0');
-			this.zipper.writeZip(zipname);
+            this.flush()
 		}
 	}
+
+    flush():void{
+        this.zipper.writeZip(this.zipname)
+    }
 
 	list(): Array<string> {
 		return this.zipper
@@ -44,7 +48,8 @@ export class Zipper {
 			.map((e) => e.entryName);
 	}
 
-	getFile(name: string): string {
+	getFile(nameRaw: string): string {
+        const name=nameRaw.toLocaleLowerCase()
 		const entry = this.zipper.getEntry(name);
 		if (entry) {
 			return this.zipper.readAsText(entry, 'utf-8');
@@ -56,6 +61,7 @@ export class Zipper {
 		const entry = this.zipper.getEntry(name);
 		if (entry) {
 			this.zipper.updateFile(entry, content);
+            this.flush()
 		} else {
 			this.zipper.addFile(name, content);
 		}
@@ -68,7 +74,7 @@ export class Zipper {
         this.writeMetadata(meta)
 	}
 	readPerson(name: string): person {
-		const raw = this.getFile(name);
+		const raw = this.getFile("persons/"+name+".md");
 		const split = metadataParser(raw);
 		return {
 			properties: split.metadata,
@@ -83,5 +89,6 @@ export class Zipper {
 	writeMetadata(json:any): void {
 		const yaml = YAML.stringify(json);
 		this.writeFile('metadata.yaml', yaml);
+        this.flush()
 	}
 }
