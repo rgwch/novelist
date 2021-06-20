@@ -1,0 +1,15 @@
+/**
+ * @jest-environment jsdom
+ */
+
+import {{name}} from './{{name}}.svelte'
+import { render } from '@testing-library/svelte';
+
+describe('{{name}} Component', () => {
+	it('Should create', () => {
+		const { container } = render({{name}});
+
+		expect(container).toBeTruthy();
+	});
+});
+

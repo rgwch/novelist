@@ -19,3 +19,17 @@ Description of all important places in the story. Whenever the cursor is on a pl
 ### Time
 
 Each chapter is linked to a certain position in time.
+
+
+## Book file layout
+
+<pre>
+name.zip
+    metadata.json
+    chapters
+        chapter1.md
+        ...
+    persons.md    
+    places.md
+
+</pre>    

@@ -2,6 +2,7 @@
   "name": "~TODO~",
   "version": "0.0.1",
   "scripts": {
+    "test": "jest -c .config/jest.config.cjs",
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "preview": "svelte-kit preview",
@@ -11,12 +12,19 @@
     "format": "prettier --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
     "@sveltejs/kit": "next",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/svelte": "^3.0.3",
+    "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
+    "babel-jest": "^27.0.2",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-svelte3": "^3.2.0",
+    "jest": "^27.0.4",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
     "simplemde": "^1.11.2",
@@ -26,5 +34,11 @@
     "tslib": "^2.0.0",
     "typescript": "^4.0.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "sass": "^1.35.1",
+    "save-dev": "0.0.1-security",
+    "svelte-jester": "^1.7.0",
+    "ts-jest": "^27.0.3"
+  }
 }

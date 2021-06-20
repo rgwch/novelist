@@ -1,0 +1,16 @@
+import {{name}} from './{{name}}.svelte'
+
+export default {
+  title: "Novelist/{{name}}",
+  component: {{name}}
+}
+
+const Template = ({...args}) => ({
+  component: {{name}},
+  props: args
+})
+
+export const Default = Template.bind({});
+Default.args = {
+
+}
