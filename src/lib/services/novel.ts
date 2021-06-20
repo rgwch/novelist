@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
 import metadataParser from 'markdown-yaml-metadata-parser';
-import { deflate, unzip, createGzip, createGunzip } from 'zlib';
-import { promisify } from 'util';
+import { createGzip, createGunzip } from 'zlib';
+import crypto from 'crypto';
 
 type metadata_def = {
 	title: string;
@@ -58,14 +58,26 @@ type noveldef = {
 		[name: string]: chapter_def;
 	};
 };
+
+function generateKey(password: string): any {
+	const algo = 'aes-192-cbc';
+	const key = crypto.scryptSync(password, 'salt', 24);
+	const iv = Buffer.alloc(16.0);
+	const cipher = crypto.createCipheriv(algo, key, iv);
+	const decipher = crypto.createDecipheriv(algo, key, iv);
+	return { cipher, decipher };
+}
+
 export class Novel {
-	static open(pathname: string): Promise<Novel> {
+	static open(pathname: string, password = 'default'): Promise<Novel> {
 		return new Promise((resolve, reject) => {
 			const chunks = [];
 			let def;
 			if (fs.existsSync(pathname)) {
 				const input = fs.createReadStream(pathname);
+				const { decipher } = generateKey(password);
 				input
+					.pipe(decipher)
 					.pipe(createGunzip())
 					.on('data', (chunk) => {
 						chunks.push(chunk);
@@ -93,7 +105,7 @@ export class Novel {
 		});
 	}
 
-	static async fromDirectory(dir: string): Promise<Novel> {
+	static async fromDirectory(dir: string, password?: string): Promise<Novel> {
 		const def: noveldef = {
 			metadata: default_metadata,
 			persons: {},
@@ -150,12 +162,12 @@ export class Novel {
 			console.log('no chapters');
 		}
 
-		const novel = new Novel(path.resolve(dir, '../..', `${dir}.novel`), def);
+		const novel = new Novel(path.resolve(dir, '../..', `${dir}.novel`), def, password);
 		await novel.flush();
 		return novel;
 	}
 
-	constructor(private pathname: string, private def: noveldef) {}
+	constructor(private pathname: string, private def: noveldef, private password = 'default') {}
 
 	async flush(): Promise<void> {
 		this.def.metadata.modified = new Date();
@@ -163,11 +175,15 @@ export class Novel {
 
 		const output = fs.createWriteStream(this.pathname);
 		const gz = createGzip();
-		gz.pipe(output);
-		gz.on('error', (err) => {
+
+		const { cipher } = generateKey(this.password);
+		gz.pipe(cipher);
+		cipher.pipe(output);
+		cipher.on('error', (err) => {
 			console.log(err);
 			return Promise.reject(err);
 		});
+
 		gz.write(buff);
 		gz.end();
 	}
