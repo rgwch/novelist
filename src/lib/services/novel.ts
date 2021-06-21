@@ -48,13 +48,14 @@ type chapter_def = {
 };
 type noveldef = {
   metadata: metadata_def;
-  persons: {
+  expose?: string
+  persons?: {
     [name: string]: person_def;
   };
-  places: {
+  places?: {
     [name: string]: place_def;
   };
-  time: string;
+  time?: string;
   chapters: {
     [name: string]: chapter_def;
   };
