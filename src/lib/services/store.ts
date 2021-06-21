@@ -33,7 +33,10 @@ export class Store {
       instream.on('end', () => {
         gz.flush()
         gz.end()
+        gz.close()
+      
         outstream.end()
+        outstream.close()
         resolve(true)
       })
       outstream.on("error", (err) => {
