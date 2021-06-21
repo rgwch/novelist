@@ -1,6 +1,13 @@
 import { Store } from './store'
+import fs from 'fs'
+
 
 describe("Store", () => {
+  afterAll(()=>{
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    fs.rm("test/dump.store",()=>{})
+  })
+
   it("saves and retrieves serialized data", async () => {
     const store = new Store('default');
     const buffer = Buffer.alloc(100, "*", "utf-8")
