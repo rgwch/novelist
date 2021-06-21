@@ -1,13 +1,16 @@
 import { Novel } from './novel';
 import fs from 'fs'
 
-xdescribe('Novel', () => {
+describe('Novel', () => {
   beforeAll(async () => {
     await Novel.fromDirectory('test/sample');
   });
   afterAll(async () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     fs.rm('test/sample.novel', () => { });
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    fs.rm('test/sample1.novel', () => { });
+
   });
   it('opens a noveldef', async () => {
     const novel = await Novel.open('test/sample.novel');
@@ -18,7 +21,7 @@ xdescribe('Novel', () => {
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined;
     expect(novel.readMetadata()).toBeDefined;
-    expect(novel.getTime()).toBeDefined;
+    expect(novel.getTimeline()).toBeDefined;
   });
   it('creates a new noveldef', async () => {
     const novel = await Novel.open('test/sample1.novel');

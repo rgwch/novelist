@@ -1,4 +1,3 @@
-// https://gist.github.com/chris-rock/335f92742b497256982a#file-crypto-stream-js
 
 import fsp from 'fs/promises';
 import fs from 'fs';
@@ -55,7 +54,7 @@ type noveldef = {
   places?: {
     [name: string]: place_def;
   };
-  time?: string;
+  timeline?: string;
   chapters: {
     [name: string]: chapter_def;
   };
@@ -91,15 +90,15 @@ export class Novel {
       persons: {},
       places: {},
       chapters: {},
-      time: ''
+      timeline: ''
     };
     def.metadata.created = new Date();
     try {
       const time = await fsp.readFile(path.resolve(dir, 'time.md'));
-      def.time = time.toString('utf-8');
+      def.timeline = time.toString('utf-8');
     } catch (err) {
       console.log('no time def found ' + err);
-      def.time = '';
+      def.timeline = '';
     }
     try {
       const meta = await fsp.readFile(path.resolve(dir, 'metadata.yaml'));
@@ -157,6 +156,11 @@ export class Novel {
     return this.store.save(this.pathname, buff)
   }
 
+  writeExpose(text: string): void {
+    this.def.expose = text
+    this.flush()
+  }
+
   writePerson(pdef: person_def): void {
     const name = pdef.name;
     this.def.persons[name] = pdef;
@@ -191,17 +195,20 @@ export class Novel {
     return this.def.places[name];
   }
 
+  getExpose(): string {
+    return this.def.expose
+  }
   readMetadata(): metadata_def {
     return this.def.metadata;
   }
   writeMetadata(meta: metadata_def): void {
     this.def.metadata = meta;
   }
-  getTime(): string {
-    return this.def.time;
+  getTimeline(): string {
+    return this.def.timeline;
   }
   addTimestamp(ds: string): void {
-    const t = this.getTime() + ds;
-    this.def.time = t;
+    const t = this.def.timeline + ds;
+    this.def.timeline = t;
   }
 }
