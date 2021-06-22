@@ -29,8 +29,6 @@
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-svelte3": "^3.2.0",
-    "i18next": "^20.3.2",
-    "i18next-fetch-backend": "^3.0.0",
     "jest": "^27.0.4",
     "markdown-yaml-metadata-parser": "^3.0.0",
     "postcss": "^8.3.5",
@@ -51,6 +49,7 @@
   "dependencies": {
     "sass": "^1.35.1",
     "save-dev": "0.0.1-security",
+    "svelte-i18n": "^3.3.9",
     "svelte-jester": "^1.7.0",
     "ts-jest": "^27.0.3"
   }
