@@ -20,7 +20,9 @@
     "street": "Rue",
     "zip": "Code postal"
   },
-  "benutzername": "Benutzername",
+  "book": {
+    "chapter": "Kapitel"
+  },
   "cal": {
     "apr": "Avril",
     "aug": "Août",
@@ -57,20 +59,6 @@
       "unknown": "inconnu"
     }
   },
-  "comm": {
-    "fax": "Fax",
-    "mail": "E-Mail",
-    "mobile": "Téléphone portable",
-    "phone": "Téléphone"
-  },
-  "datatypes": {
-    "Appointment": "Termin",
-    "Patient": "Patient",
-    "Practitioner": "Behandler",
-    "Schedule": "Terminplan",
-    "Slot": "Zeitraum",
-    "name": "Name"
-  },
   "elements": {
     "account": "Compte",
     "agenda": "Agenda",
@@ -90,8 +78,11 @@
     "date": "DD.MM.YYYY"
   },
   "general": {
+    "created": "erstellt",
     "login": "Se connecter",
     "logout": "Se déconnecter",
+    "nopatselected": "Kein Patient ausgewählt",
+    "open": "Öffnen",
     "password": "Passwort",
     "username": "Nom"
   },
@@ -101,7 +92,6 @@
   "menu": {
     "datei": "Datei"
   },
-  "nopatselected": "Pas de patient selecté",
   "person": {
     "birthdate": "Date de naissance",
     "female": "féminin",

@@ -26,13 +26,7 @@
 			const md = await res.json();
 			metadata = md.metadata;
 		}
-		/*
-		if (!editor) {
-			let module = await import('simplemde');
-			let SimpleMDE = module.default;
-			editor = new SimpleMDE({ element: ed_chapter });
-		}
-		*/
+
 	});
 
 	let bookname;
@@ -52,11 +46,11 @@
 <template>
 	{#if metadata}
 		<p>{JSON.stringify(metadata)}</p>
-		<h1 class="h1">
+		<h1>
 			{metadata.title}, {$_('general.created')}: {new Date(metadata.created).toString()}
 		</h1>
 	{:else}
-		<h1>Open Book</h1>
+		<h1>{$_('book.open')}</h1>
 		<input class="border" type="text" id="name" bind:this={bookname} />
 		<button class="bg-green-300" on:click={openbook}>{$_('general.open')}</button>
 	{/if}
@@ -65,7 +59,7 @@
 		role="button"
 		on:click={() => {
 			toggle('chapter');
-		}}>Editor</span
+		}}>{$_('book.chapter')}</span
 	>
 	<div class={visible.chapter}>
 		<Chapter {metadata} />

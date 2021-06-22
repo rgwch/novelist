@@ -135,13 +135,13 @@ export class Novel {
     }
     this.flush();
   }
-  writeChapter(cdef: n.chapter_def): void {
+  writeChapter(cdef: n.chapter_def): Promise<boolean> {
     const title = cdef.title;
     this.def.chapters[title] = cdef;
     if (!this.def.metadata.chapters.find((c) => c == title)) {
       this.def.metadata.chapters.push(title);
     }
-    this.flush();
+    return this.flush();
   }
   writePlace(pdef: n.place_def): void {
     const name = pdef.name;

@@ -20,7 +20,9 @@
     "street": "Via",
     "zip": "CAP"
   },
-  "benutzername": "Nome utente",
+  "book": {
+    "chapter": "Kapitel"
+  },
   "cal": {
     "apr": "Aprile",
     "aug": "Agosto",
@@ -57,20 +59,6 @@
       "unknown": "unbekannt"
     }
   },
-  "comm": {
-    "fax": "Fax",
-    "mail": "E-Mail",
-    "mobile": "Telefonino",
-    "phone": "Telefono"
-  },
-  "datatypes": {
-    "Appointment": "Termin",
-    "Patient": "Patient",
-    "Practitioner": "Behandler",
-    "Schedule": "Terminplan",
-    "Slot": "Zeitraum",
-    "name": "Name"
-  },
   "elements": {
     "account": "Konto",
     "agenda": "Agenda",
@@ -90,8 +78,11 @@
     "date": "DD.MM.YYYY"
   },
   "general": {
+    "created": "erstellt",
     "login": "Anmelden",
     "logout": "Abmelden",
+    "nopatselected": "Kein Patient ausgewählt",
+    "open": "Öffnen",
     "password": "Passwort",
     "username": "Benutzername"
   },
@@ -101,7 +92,6 @@
   "menu": {
     "datei": "Datei"
   },
-  "nopatselected": "Kein Patient ausgewählt",
   "person": {
     "birthdate": "Data di nascita",
     "female": "weiblich",

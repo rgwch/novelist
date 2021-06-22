@@ -20,6 +20,9 @@
     "street": "Street",
     "zip": "Zip"
   },
+  "book": {
+    "chapter": "Kapitel"
+  },
   "cal": {
     "apr": "April",
     "aug": "August",
@@ -56,20 +59,6 @@
       "unknown": "unknown"
     }
   },
-  "comm": {
-    "fax": "Fax",
-    "mail": "Mail",
-    "mobile": "Mobile",
-    "phone": "Phone"
-  },
-  "datatypes": {
-    "Appointment": "Appointment",
-    "Patient": "Patient",
-    "Practitioner": "Practitioner",
-    "Schedule": "Schedule",
-    "Slot": "Time span",
-    "name": "Name"
-  },
   "elements": {
     "account": "Account",
     "agenda": "Schedule",
@@ -92,6 +81,7 @@
     "created": "created",
     "login": "Login",
     "logout": "Logout",
+    "nopatselected": "Kein Patient ausgewählt",
     "open": "Open",
     "password": "Password",
     "username": "Username"
@@ -102,7 +92,6 @@
   "menu": {
     "datei": "File"
   },
-  "nopatselected": "No patient selected",
   "person": {
     "birthdate": "Date of birth",
     "female": "female",

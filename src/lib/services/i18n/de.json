@@ -20,6 +20,11 @@
     "street": "Strasse",
     "zip": "Plz"
   },
+  "book": {
+    "open": "Buch laden oder erstellen",
+    "chapter": "Kapitel",
+    "chaptername":"Name des neuen Kapitels"
+  },
   "cal": {
     "apr": "April",
     "aug": "August",
@@ -55,20 +60,6 @@
       "other": "sonstige",
       "unknown": "unbekannt"
     }
-  },
-  "comm": {
-    "fax": "Fax",
-    "mail": "E-Mail",
-    "mobile": "Mobil",
-    "phone": "Telefon"
-  },
-  "datatypes": {
-    "Appointment": "Termin",
-    "Patient": "Patient",
-    "Practitioner": "Behandler",
-    "Schedule": "Terminplan",
-    "Slot": "Zeitraum",
-    "name": "Name"
   },
   "elements": {
     "account": "Konto",
