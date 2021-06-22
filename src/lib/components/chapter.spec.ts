@@ -5,7 +5,7 @@
 import Chapter from './Chapter.svelte'
 import { render } from '@testing-library/svelte';
 
-xdescribe('Chapter Component', () => {
+describe('Chapter Component', () => {
   it('Should create', () => {
     const { container } = render(Chapter);
 
