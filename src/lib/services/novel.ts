@@ -8,7 +8,7 @@ import { promisify } from 'util'
 const preadFile = promisify(fs.readFile)
 const preaddir = promisify(fs.readdir)
 
-type metadata_def = {
+export type metadata_def = {
   title: string;
   author?: string;
   created: Date;

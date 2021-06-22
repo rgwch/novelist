@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { stringify } from 'postcss';
 	import { onMount } from 'svelte';
+	import type { metadata_def } from '$lib/services/novel';
 	import '../../node_modules/simplemde/dist/simplemde.min.css';
 	export async function load({ page, fetch, session, context }) {
 		const res = await fetch('/novel/metadata.json');
@@ -8,7 +9,7 @@
 			metadata = await res.json();
 		}
 	}
-	let metadata;
+	let metadata: metadata_def;
 	let container;
 	let editor;
 	onMount(async () => {
