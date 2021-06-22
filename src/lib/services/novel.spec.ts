@@ -27,7 +27,7 @@ describe('Novel', () => {
     const novel = await Novel.open('test/sample1.novel');
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined;
-    expect(metadata.title).toEqual('');
+    expect(metadata.title).toEqual('sample1');
   });
 
   it('adds and modifies a file', async () => {
