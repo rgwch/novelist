@@ -7,6 +7,6 @@
 </template>
 
 <style lang="scss">
-  @import "../../theme/smui-theme.scss";
+ 
   
 </style>
