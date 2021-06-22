@@ -7,7 +7,7 @@ export async function get(request: EndpointData): Promise<EndpointOutput> {
     return {
       status: 200,
       body: {
-        metadata: global.novel.metadata
+        metadata: global.novel.def.metadata
       }
     }
   } else {

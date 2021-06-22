@@ -2,5 +2,6 @@ import { Novel } from "../routes/novel/novel.json.json";
 
 export default{
 
-    novel:null
+    novel:null,
+    value:2
 }

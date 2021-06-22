@@ -4,21 +4,12 @@ import YAML from 'yaml';
 import metadataParser from 'markdown-yaml-metadata-parser';
 import { Store } from './store';
 import { promisify } from 'util'
+import type * as n from './novel.d'
 
 const preadFile = promisify(fs.readFile)
 const preaddir = promisify(fs.readdir)
 
-export type metadata_def = {
-  title: string;
-  author?: string;
-  created: Date;
-  modified?: Date;
-  chapters: Array<string>;
-  persons: Array<string>;
-  places: Array<string>;
-  // [propName: string]: any;
-};
-const default_metadata: metadata_def = {
+const default_metadata: n.metadata_def = {
   title: '',
   author: '',
   created: new Date(),
@@ -26,42 +17,6 @@ const default_metadata: metadata_def = {
   persons: [],
   places: []
 };
-type person_def = {
-  name: string;
-  nicknames?: Array<string>;
-  gender?: 'm' | 'f';
-  height?: number;
-  birthDate?: Date;
-  description?: string;
-};
-type place_def = {
-  name: string;
-  surround?: string;
-  description?: string;
-};
-type chapter_def = {
-  title: string;
-  persons?: Array<string>;
-  places?: Array<string>;
-  summary?: string;
-  time?: string;
-  text?: string;
-};
-type noveldef = {
-  metadata: metadata_def;
-  expose?: string;
-  persons?: {
-    [name: string]: person_def;
-  };
-  places?: {
-    [name: string]: place_def;
-  };
-  timeline?: string;
-  chapters: {
-    [name: string]: chapter_def;
-  };
-};
-
 
 
 export class Novel {
@@ -69,6 +24,9 @@ export class Novel {
   static open(pathname: string, password = 'default'): Promise<Novel> {
     // console.log("opening " + pathname + " from " + __dirname)
     return new Promise((resolve, reject) => {
+      if(!pathname.endsWith(".novel")){
+        pathname+=".novel"
+      }
       if (fs.existsSync(pathname)) {
         const store = new Store(password);
         store.load(pathname).then((buffer) => {
@@ -82,6 +40,7 @@ export class Novel {
           chapters: {},
           time: ''
         };
+        def.metadata.title=path.basename(pathname,".novel") 
         def.metadata.created = new Date();
         const novel = new Novel(pathname, def)
         novel.flush().then(() => {
@@ -92,7 +51,7 @@ export class Novel {
   }
 
   static async fromDirectory(dir: string, password?: string): Promise<Novel> {
-    const def: noveldef = {
+    const def: n.noveldef = {
       metadata: default_metadata,
       persons: {},
       places: {},
@@ -153,7 +112,7 @@ export class Novel {
     return novel;
   }
 
-  constructor(private pathname: string, private def: noveldef, private password = 'default') {
+  constructor(private pathname: string, private def: n.noveldef, private password = 'default') {
     this.store = new Store(this.password);
   }
 
@@ -168,7 +127,7 @@ export class Novel {
     this.flush();
   }
 
-  writePerson(pdef: person_def): void {
+  writePerson(pdef: n.person_def): void {
     const name = pdef.name;
     this.def.persons[name] = pdef;
     if (!this.def.metadata.persons.find((p) => p == name)) {
@@ -176,7 +135,7 @@ export class Novel {
     }
     this.flush();
   }
-  writeChapter(cdef: chapter_def): void {
+  writeChapter(cdef: n.chapter_def): void {
     const title = cdef.title;
     this.def.chapters[title] = cdef;
     if (!this.def.metadata.chapters.find((c) => c == title)) {
@@ -184,7 +143,7 @@ export class Novel {
     }
     this.flush();
   }
-  writePlace(pdef: place_def): void {
+  writePlace(pdef: n.place_def): void {
     const name = pdef.name;
     this.def.places[name] = pdef;
     if (!this.def.metadata.places.find((p) => p == name)) {
@@ -192,23 +151,23 @@ export class Novel {
     }
     this.flush();
   }
-  getPerson(name: string): person_def {
+  getPerson(name: string): n.person_def {
     return this.def.persons[name];
   }
-  getChapter(title: string): chapter_def {
+  getChapter(title: string): n.chapter_def {
     return this.def.chapters[title];
   }
-  getPlace(name: string): place_def {
+  getPlace(name: string): n.place_def {
     return this.def.places[name];
   }
 
   getExpose(): string {
     return this.def.expose;
   }
-  readMetadata(): metadata_def {
+  readMetadata(): n.metadata_def {
     return this.def.metadata;
   }
-  writeMetadata(meta: metadata_def): void {
+  writeMetadata(meta: n.metadata_def): void {
     this.def.metadata = meta;
   }
   getTimeline(): string {

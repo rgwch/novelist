@@ -1,0 +1,118 @@
+{
+  "adapters": {
+    "database_format_date": "yyyyLLdd",
+    "date_format": "dd.LL.yyyy",
+    "date_format_day": "ccc, dd.LL.yyyy",
+    "date_format_parse": "d.L.yyyy",
+    "datetime_format": "dd.LL.yyyy, HH:mm",
+    "datetime_format_parse": "d.L.yyyy,H:m",
+    "day": "Jour",
+    "month": "Mois",
+    "time_format": "HH:mm",
+    "time_format_parse": "H:m",
+    "week": "Semaine",
+    "year": "An"
+  },
+  "address": {
+    "country": "Pays",
+    "number": "No.",
+    "place": "Ville",
+    "street": "Rue",
+    "zip": "Code postal"
+  },
+  "benutzername": "Benutzername",
+  "cal": {
+    "apr": "Avril",
+    "aug": "Août",
+    "dec": "Decembre",
+    "feb": "Février",
+    "fr": "Ven",
+    "fri": "Vendredi",
+    "jan": "Janvier",
+    "jul": "Juillet",
+    "jun": "Juin",
+    "mai": "Mai",
+    "mar": "Mart",
+    "mo": "Lun",
+    "mon": "Lundi",
+    "nov": "Novembre",
+    "oct": "Octobre",
+    "sa": "Sam",
+    "sat": "Samedi",
+    "sep": "Septembre",
+    "su": "Dim",
+    "sun": "Dimanche",
+    "th": "Jeu",
+    "thu": "Jeudi",
+    "tu": "Mar",
+    "tue": "Mardi",
+    "we": "Mer",
+    "wed": "Mercredi"
+  },
+  "codes": {
+    "gender": {
+      "female": "féminin",
+      "male": "masculin",
+      "other": "autre",
+      "unknown": "inconnu"
+    }
+  },
+  "comm": {
+    "fax": "Fax",
+    "mail": "E-Mail",
+    "mobile": "Téléphone portable",
+    "phone": "Téléphone"
+  },
+  "datatypes": {
+    "Appointment": "Termin",
+    "Patient": "Patient",
+    "Practitioner": "Behandler",
+    "Schedule": "Terminplan",
+    "Slot": "Zeitraum",
+    "name": "Name"
+  },
+  "elements": {
+    "account": "Compte",
+    "agenda": "Agenda",
+    "allergies": "Allergies",
+    "articles": "Articles",
+    "documents": "Documents",
+    "encounters": "Rencontres",
+    "medications": "Médikations",
+    "noxes": "Noxes et risques",
+    "patients": "Patients",
+    "personalia": "Dates personnelles",
+    "prescriptions": "Préscriptions",
+    "problems": "Problèmes",
+    "values": "Mésurements"
+  },
+  "formatting": {
+    "date": "DD.MM.YYYY"
+  },
+  "general": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "password": "Passwort",
+    "username": "Nom"
+  },
+  "headings": {
+    "logindatafor": "Login Daten für"
+  },
+  "menu": {
+    "datei": "Datei"
+  },
+  "nopatselected": "Pas de patient selecté",
+  "person": {
+    "birthdate": "Date de naissance",
+    "female": "féminin",
+    "firstname": "Prénom",
+    "gender": "sexe",
+    "lastname": "Nom",
+    "male": "masculin",
+    "other": "autre",
+    "title": "Titre",
+    "titlesuffix": "Suffix",
+    "undefined": "inconnu",
+    "unknown": "inconnu"
+  }
+}

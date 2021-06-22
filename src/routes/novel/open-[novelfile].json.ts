@@ -6,12 +6,11 @@ import path from 'path'
 
 export async function get(request): Promise<EndpointOutput> {
   console.log(JSON.stringify(request.params));
-  return Novel.open(path.join(os.homedir(), request.params.novelfile)).then((novel) => {
-    globals.novel = novel;
-    return {
-      body: {
-        result: 'ok'
-      }
-    };
-  });
+  globals.novel = await Novel.open(path.join(os.homedir(), request.params.novelfile))
+  return {
+    body: {
+      result: (globals.novel ? globals.novel.def.metadata : "fail")
+    }
+  };
+
 }

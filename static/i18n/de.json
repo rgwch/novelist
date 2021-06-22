@@ -1,0 +1,119 @@
+{
+  "adapters": {
+    "database_format_date": "yyyyLLdd",
+    "date_format": "dd.LL.yyyy",
+    "date_format_day": "ccc, dd.LL.yyyy",
+    "date_format_parse": "d.L.yyyy",
+    "datetime_format": "dd.LL.yyyy, HH:mm",
+    "datetime_format_parse": "d.L.yyyy,H:m",
+    "day": "Tag",
+    "month": "Monat",
+    "time_format": "HH:mm",
+    "time_format_parse": "H:m",
+    "week": "Woche",
+    "year": "Jahr"
+  },
+  "address": {
+    "country": "Land",
+    "number": "Nr.",
+    "place": "Ort",
+    "street": "Strasse",
+    "zip": "Plz"
+  },
+  "cal": {
+    "apr": "April",
+    "aug": "August",
+    "dec": "Dezember",
+    "feb": "Februar",
+    "fr": "Fr",
+    "fri": "Freitag",
+    "jan": "Januar",
+    "jul": "Juli",
+    "jun": "Juni",
+    "mai": "Mai",
+    "mar": "März",
+    "mo": "Mo",
+    "mon": "Montag",
+    "nov": "November",
+    "oct": "Oktober",
+    "sa": "Sa",
+    "sat": "Samstag",
+    "sep": "September",
+    "su": "So",
+    "sun": "Sonntag",
+    "th": "Do",
+    "thu": "Donnerstag",
+    "tu": "Di",
+    "tue": "Dienstag",
+    "we": "Mi",
+    "wed": "Mittwoch"
+  },
+  "codes": {
+    "gender": {
+      "female": "weiblich",
+      "male": "männlich",
+      "other": "sonstige",
+      "unknown": "unbekannt"
+    }
+  },
+  "comm": {
+    "fax": "Fax",
+    "mail": "E-Mail",
+    "mobile": "Mobil",
+    "phone": "Telefon"
+  },
+  "datatypes": {
+    "Appointment": "Termin",
+    "Patient": "Patient",
+    "Practitioner": "Behandler",
+    "Schedule": "Terminplan",
+    "Slot": "Zeitraum",
+    "name": "Name"
+  },
+  "elements": {
+    "account": "Konto",
+    "agenda": "Agenda",
+    "allergies": "Allergien",
+    "articles": "Artikel",
+    "documents": "Dokumente",
+    "encounters": "Konsultationen",
+    "medications": "Medikation",
+    "noxes": "Noxen und Risiken",
+    "patients": "Patienten",
+    "personalia": "Personalien",
+    "prescriptions": "Rezepte",
+    "problems": "Probleme",
+    "values": "Messwerte"
+  },
+  "formatting": {
+    "date": "DD.MM.YYYY"
+  },
+  "general": {
+    "created": "erstellt",
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "nopatselected": "Kein Patient ausgewählt",
+    "open": "Öffnen",
+    "password": "Passwort",
+    "username": "Benutzername"
+  },
+  "headings": {
+    "logindatafor": "Login Daten für"
+  },
+  "menu": {
+    "datei": "Datei"
+  },
+  "person": {
+    "birthdate": "Geburtsdatum",
+    "female": "weiblich",
+    "firstname": "Vorname",
+    "gender": "Geschlecht",
+    "lastname": "Nachname",
+    "male": "männlich",
+    "other": "sonstige",
+    "title": "Titel",
+    "titlesuffix": "Suffix",
+    "undefined": "unbekannt",
+    "unknown": "unbekannt"
+  }
+}
