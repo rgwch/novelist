@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n'
+	import { _ } from 'svelte-i18n';
+	import type { metadata_def } from '$lib/services/novel.d';
 	import { onMount } from 'svelte';
-	export let metadata;
+	export let metadata: metadata_def;
+
 	let container;
 	let editor;
 	let chaptername;
@@ -12,10 +14,12 @@
 		editor = new SimpleMDE({ element: container });
 	});
 	function addChapter() {
-		fetch(`/novel/chapter-${chaptername}.json`, {method: "post", 
-		body:JSON.stringify({
-			title: chaptername
-		})})
+		fetch(`/novel/chapter-${chaptername}.json`, {
+			method: 'post',
+			body: JSON.stringify({
+				title: chaptername
+			})
+		});
 	}
 </script>
 
@@ -29,7 +33,12 @@
 					{/each}
 				{/if}
 				<ul>
-					<input class="border-2" type="text" bind:value={chaptername} placeholder={$_("book.chaptername")}>
+					<input
+						class="border-2"
+						type="text"
+						bind:value={chaptername}
+						placeholder={$_('book.chaptername')}
+					/>
 					<span on:click={addChapter} class="bg-green-100 border-2">Neu...</span>
 				</ul>
 			</ul>

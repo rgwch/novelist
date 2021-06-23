@@ -21,7 +21,9 @@
     "zip": "CAP"
   },
   "book": {
-    "chapter": "Kapitel"
+    "chapter": "Kapitel",
+    "chaptername": "Name des neuen Kapitels",
+    "open": "Buch laden oder erstellen"
   },
   "cal": {
     "apr": "Aprile",

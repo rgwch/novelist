@@ -21,9 +21,9 @@
     "zip": "Plz"
   },
   "book": {
-    "open": "Buch laden oder erstellen",
     "chapter": "Kapitel",
-    "chaptername":"Name des neuen Kapitels"
+    "chaptername": "Name des neuen Kapitels",
+    "open": "Buch laden oder erstellen"
   },
   "cal": {
     "apr": "April",
