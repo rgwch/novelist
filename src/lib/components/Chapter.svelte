@@ -1,3 +1,11 @@
+<!--
+ ********************************************
+ * This file is part of Novelist            *
+ * Copyright (c) 2021 by G. Weirich         *
+ * License and Terms see LICENSE            *
+ ********************************************
+-->
+
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import type { metadata_def } from '$lib/services/novel.d';
@@ -11,13 +19,21 @@
 	onMount(async () => {
 		let module = await import('simplemde');
 		let SimpleMDE = module.default;
-		editor = new SimpleMDE({ element: container });
+		editor = new SimpleMDE(
+			{ element: container,
+			autofocus: true,
+			spellChecker: false }
+			);
+		editor.codemirror.on('blur',()=>{
+			console.log("blur")
+		})
 	});
 	function addChapter() {
 		fetch(`/novel/chapter-${chaptername}.json`, {
 			method: 'post',
 			body: JSON.stringify({
-				title: chaptername
+				title: chaptername,
+				text: "# "+chaptername+"\n\n"
 			})
 		});
 	}

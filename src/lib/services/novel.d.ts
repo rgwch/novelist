@@ -1,3 +1,9 @@
+/********************************************
+ * This file is part of Novelist            *
+ * Copyright (c) 2021 by G. Weirich         *
+ * License and Terms see LICENSE            *
+ ********************************************/
+
 export type metadata_def = {
   title: string;
   author?: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Novel } from './novel';
 import fs from 'fs'
 
@@ -5,11 +6,12 @@ describe('Novel', () => {
   beforeAll(async () => {
     await Novel.fromDirectory('test/sample');
   });
+
   afterAll(async () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     fs.rm('test/sample.novel', () => { });
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     fs.rm('test/sample1.novel', () => { });
+    fs.rm('test/sample1.novel_1', () => { });
+    fs.rm('test/sample1.novel_2', () => { });
 
   });
   it('opens a noveldef', async () => {
