@@ -37,7 +37,7 @@ export type chapter_def = {
   text?: string;
 };
 export type noveldef = {
-  metadata: metadata_def;
+  metadata?: metadata_def;
   expose?: string;
   persons?: {
     [name: string]: person_def;
@@ -46,7 +46,7 @@ export type noveldef = {
     [name: string]: place_def;
   };
   timeline?: string;
-  chapters: {
+  chapters?: {
     [name: string]: chapter_def;
   };
 };

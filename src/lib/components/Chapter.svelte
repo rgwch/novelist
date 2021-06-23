@@ -5,37 +5,32 @@
  * License and Terms see LICENSE            *
  ********************************************
 -->
-
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import type { metadata_def } from '$lib/services/novel.d';
-	import { onMount } from 'svelte';
-	export let metadata: metadata_def;
-
-	let container;
-	let editor;
+	import Editor from './Editor.svelte'
+	import type { metadata_def, noveldef } from '$lib/services/novel.d';
+	export let metadata: metadata_def
+	import {load,save} from '$lib/services/fileio'
 	let chaptername;
-
-	onMount(async () => {
-		let module = await import('simplemde');
-		let SimpleMDE = module.default;
-		editor = new SimpleMDE(
-			{ element: container,
-			autofocus: true,
-			spellChecker: false }
-			);
-		editor.codemirror.on('blur',()=>{
-			console.log("blur")
-		})
-	});
+	let currentChapter
+	
 	function addChapter() {
+		
 		fetch(`/novel/chapter-${chaptername}.json`, {
 			method: 'post',
 			body: JSON.stringify({
 				title: chaptername,
-				text: "# "+chaptername+"\n\n"
+				text: '# ' + chaptername + '\n\n'
 			})
-		});
+		}).then(ok=>{
+			metadata.chapters.push(chaptername)
+		})
+	}
+	function saveChapter(text:string){
+
+	}
+	function select(ch:string){
+		currentChapter=ch
 	}
 </script>
 
@@ -45,7 +40,7 @@
 			<ul>
 				{#if metadata}
 					{#each metadata.chapters as chapter}
-						<ul>{chapter}</ul>
+						<ul on:click={()=>select(chapter)}>{chapter}</ul>
 					{/each}
 				{/if}
 				<ul>
@@ -60,7 +55,8 @@
 			</ul>
 		</div>
 		<div class="flex-1 h-full">
-			<textarea bind:this={container} />
+			<h2>{currentChapter}</h2>
+			<Editor save={saveChapter}></Editor>
 		</div>
 	</div>
 </template>
