@@ -24,13 +24,19 @@ export class Novel {
   static open(pathname: string, password = 'default'): Promise<Novel> {
     // console.log("opening " + pathname + " from " + __dirname)
     return new Promise((resolve, reject) => {
-      if(!pathname.endsWith(".novel")){
-        pathname+=".novel"
+      if (!pathname.endsWith(".novel")) {
+        pathname += ".novel"
       }
       if (fs.existsSync(pathname)) {
         const store = new Store(password);
         store.load(pathname).then((buffer) => {
-          resolve(new Novel(pathname, JSON.parse(buffer.toString('utf-8'))));
+          try {
+            const json = JSON.parse(buffer.toString("utf-8"))
+            resolve(new Novel(pathname, json));
+          } catch (err) {
+            reject("structure error " + err)
+          }
+
         });
       } else {
         const def = {
@@ -40,7 +46,7 @@ export class Novel {
           chapters: {},
           time: ''
         };
-        def.metadata.title=path.basename(pathname,".novel") 
+        def.metadata.title = path.basename(pathname, ".novel")
         def.metadata.created = new Date();
         const novel = new Novel(pathname, def)
         novel.flush().then(() => {
