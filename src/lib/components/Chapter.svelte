@@ -7,30 +7,42 @@
 -->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import Editor from './Editor.svelte'
-	import type { metadata_def, noveldef } from '$lib/services/novel.d';
-	export let metadata: metadata_def
-	import {load,save} from '$lib/services/fileio'
+	import Editor from './Editor.svelte';
+	import type { metadata_def, noveldef, chapter_def } from '$lib/services/novel.d';
+	export let metadata: metadata_def;
+	import { load, save } from '$lib/services/fileio';
 	let chaptername;
-	let currentChapter
-	
+	let currentChapter;
+	let ed;
+
 	function addChapter() {
-		
 		fetch(`/novel/chapter-${chaptername}.json`, {
 			method: 'post',
 			body: JSON.stringify({
 				title: chaptername,
 				text: '# ' + chaptername + '\n\n'
 			})
-		}).then(ok=>{
-			metadata.chapters.push(chaptername)
-		})
+		}).then((ok) => {
+			metadata.chapters.push(chaptername);
+		});
 	}
-	function saveChapter(text:string){
 
+	async function saveChapter(text: string) {
+		try {
+			await save('chapter', metadata.title, text);
+		} catch (err) {
+			alert(err);
+		}
 	}
-	function select(ch:string){
-		currentChapter=ch
+
+	async function select(ch: string) {
+		try {
+			const def: chapter_def = await load('chapter', ch);
+			currentChapter = ch;
+			ed.setValue(def.text);
+		} catch (err) {
+			alert(err);
+		}
 	}
 </script>
 
@@ -40,7 +52,7 @@
 			<ul>
 				{#if metadata}
 					{#each metadata.chapters as chapter}
-						<ul on:click={()=>select(chapter)}>{chapter}</ul>
+						<ul on:click={() => select(chapter)}>{chapter}</ul>
 					{/each}
 				{/if}
 				<ul>
@@ -56,7 +68,7 @@
 		</div>
 		<div class="flex-1 h-full">
 			<h2>{currentChapter}</h2>
-			<Editor save={saveChapter}></Editor>
+			<Editor save={saveChapter} bind:this={ed} />
 		</div>
 	</div>
 </template>
