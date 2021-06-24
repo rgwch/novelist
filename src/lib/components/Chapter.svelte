@@ -16,16 +16,20 @@
 	let currentChapterText: string;
 
 	function addChapter() {
-		fetch(`/novel/chapter-${chaptername}.json`, {
-			method: 'post',
-			body: JSON.stringify({
-				title: chaptername,
-				text: '# ' + chaptername + '\n\n'
-			})
-		}).then((ok) => {
-			metadata.chapters = [...metadata.chapters, chaptername];
-			chaptername = '';
-		});
+		if (chaptername) {
+			fetch(`/novel/chapter-${chaptername}.json`, {
+				method: 'post',
+				body: JSON.stringify({
+					title: chaptername,
+					text: '# ' + chaptername + '\n\n'
+				})
+			}).then((ok) => {
+				metadata.chapters = [...metadata.chapters, chaptername];
+				chaptername = '';
+			});
+		}else{
+      alert($_("book.nochaptername"))
+    }
 	}
 
 	async function saveChapter(text: string) {
@@ -54,8 +58,17 @@
 			<ul>
 				{#if metadata}
 					{#each metadata.chapters as chapter}
-						<div class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400">
-							<ul class="cursor-pointer" on:click={() => select(chapter)}>{chapter}</ul>
+						<div
+							class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"
+						>
+							<ul
+								class={currentChapter && chapter == currentChapter.title
+									? 'font-bold'
+									: 'font-normal'}
+								on:click={() => select(chapter)}
+							>
+								{chapter}
+							</ul>
 						</div>
 					{/each}
 				{/if}

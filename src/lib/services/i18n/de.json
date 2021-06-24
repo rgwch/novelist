@@ -23,7 +23,8 @@
   "book": {
     "chapter": "Kapitel",
     "chaptername": "Name des neuen Kapitels",
-    "open": "Buch laden oder erstellen"
+    "open": "Buch laden oder erstellen",
+    "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein."
   },
   "cal": {
     "apr": "April",

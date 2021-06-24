@@ -21,9 +21,10 @@
     "zip": "Zip"
   },
   "book": {
-    "chapter": "Kapitel",
-    "chaptername": "Name des neuen Kapitels",
-    "open": "Buch laden oder erstellen"
+    "chapter": "Chapter",
+    "chaptername": "Name of new chapter",
+    "open": "Open or create a book",
+    "nochaptername": "Please enter a title for the new chapter first"
   },
   "cal": {
     "apr": "April",

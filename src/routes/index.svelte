@@ -68,4 +68,6 @@
 	<div class={visible.chapter}>
 		<Chapter {metadata} />
 	</div>
+  <div class={visible.persons}>
+  </div>
 </template>
