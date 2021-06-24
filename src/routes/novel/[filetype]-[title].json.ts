@@ -10,40 +10,80 @@ import globals from '$lib/global';
 
 export async function get({ params, headers }): Promise<EndpointOutput> {
   console.log("get:" + JSON.stringify(params));
-  console.log("get: " + JSON.stringify(headers));
-  return {
-    body: {
-      result: 'ok',
-      params
-    }
-  };
-}
-
-export async function post({ params, body, query }): Promise<EndpointOutput> {
-  console.log("post " + JSON.stringify(params));
-
-  const def = JSON.parse(body);
-
+  // console.log("get: " + JSON.stringify(headers));
   if (!globals.novel) {
     return {
-      status: 500
-    };
-  }
-  const novel: Novel = globals.novel;
-
-  switch (params.filetype) {
-    case 'chapter':
-      await novel.writeChapter(def);
-      break;
-    default:
-      return {
-        status: 403
-      };
-  }
-
-  return {
-    body: {
-      result: 'ok'
+      status: 420,
+      body: {
+        Error: "No book selected"
+      }
     }
-  };
+  }
+  try {
+    const novel: Novel = globals.novel
+    let result = {}
+    switch (params.filetype) {
+      case 'chapter':
+        result = await novel.getChapter(params.title)
+        break;
+      default:
+        return {
+          status: 400
+        }
+
+    }
+    return {
+      body: result
+    };
+  } catch (err) {
+    console.log(err)
+    return {
+      status: 500
+    }
+  }
+}
+
+export async function post({ params, body }): Promise<EndpointOutput> {
+  console.log("post " + JSON.stringify(params));
+  try {
+    const def = JSON.parse(body);
+    const novel: Novel = globals.novel;
+    if (!novel) {
+      return {
+        status: 420,
+        body: {
+          Error: "No book selected"
+        }
+      };
+    }
+    try {
+      switch (params.filetype) {
+        case 'chapter':
+          await novel.writeChapter(def);
+          break;
+        default:
+          return {
+            status: 400
+          };
+      }
+
+      return {
+        body: {
+          result: 'ok'
+        }
+      };
+    } catch (serverErr) {
+      console.log(serverErr)
+      return {
+        status: 500
+      }
+    }
+  } catch (clientErr) {
+    console.log(clientErr)
+    return {
+      status: 400
+    }
+  }
+
+
 }

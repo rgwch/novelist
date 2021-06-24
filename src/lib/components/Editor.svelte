@@ -11,7 +11,7 @@
 
 	function setValue(val: string) {
 		if (editor) {
-			editor.setValue(val);
+			editor.value(val);
 		}
 	}
 	onMount(async () => {
