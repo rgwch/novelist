@@ -23,7 +23,8 @@
 				text: '# ' + chaptername + '\n\n'
 			})
 		}).then((ok) => {
-			metadata.chapters.push(chaptername);
+			metadata.chapters = [...metadata.chapters, chaptername];
+			chaptername = '';
 		});
 	}
 
@@ -53,7 +54,9 @@
 			<ul>
 				{#if metadata}
 					{#each metadata.chapters as chapter}
-						<ul on:click={() => select(chapter)}>{chapter}</ul>
+						<div class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400">
+							<ul class="cursor-pointer" on:click={() => select(chapter)}>{chapter}</ul>
+						</div>
 					{/each}
 				{/if}
 				<ul>
@@ -68,8 +71,9 @@
 			</ul>
 		</div>
 		<div class="flex-1 h-full">
-			<h3>
-				{currentChapter ? currentChapter.title : ''}, {currentChapter ? currentChapter.time : ''}
+			<h3 class="text-lg font-semibold text-blue-400">
+				{currentChapter ? currentChapter.title : ''}
+				{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 			</h3>
 			<Editor save={saveChapter} contents={currentChapterText} />
 		</div>
