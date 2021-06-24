@@ -33,6 +33,7 @@
     }
 	}
 
+  
 	async function saveChapter(text: string) {
 		try {
 			currentChapter.text = text;
@@ -91,7 +92,7 @@
 				{currentChapter ? currentChapter.title : ''}
 				{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 			</h3>
-      <textarea class="border-2 border-solid" placeholder={$_("book.summary")} bind:value={currentChapterSummary}></textarea>
+      <textarea on:blur={saveSummary} class="border-2 border-solid" placeholder={$_("book.summary")} bind:value={currentChapterSummary}></textarea>
 			<Editor save={saveChapter} contents={currentChapterText} />
 		</div>
 	</div>
