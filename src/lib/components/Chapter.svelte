@@ -29,7 +29,8 @@
 
 	async function saveChapter(text: string) {
 		try {
-			await save('chapter', metadata.title, text);
+			currentChapter.text = text;
+			await save('chapter', currentChapter.title, currentChapter);
 		} catch (err) {
 			alert(err);
 		}
