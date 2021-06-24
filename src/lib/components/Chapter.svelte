@@ -12,9 +12,8 @@
 	export let metadata: metadata_def;
 	import { load, save } from '../services/fileio';
 	let chaptername;
-	let currentChapter: chapter_def;
-	let currentChapterText: string;
-  let currentChapterSummary: string;
+	let currentChapter: chapter_def = {};
+	let currentChapterText: string = '';
 
 	function addChapter() {
 		if (chaptername) {
@@ -28,17 +27,23 @@
 				metadata.chapters = [...metadata.chapters, chaptername];
 				chaptername = '';
 			});
-		}else{
-      alert($_("book.nochaptername"))
-    }
+		} else {
+			alert($_('book.nochaptername'));
+		}
 	}
 
-  
 	async function saveChapter(text: string) {
 		try {
 			currentChapter.text = text;
-      currentChapter.summary=currentChapterSummary
 			await save('chapter', currentChapter.title, currentChapter);
+		} catch (err) {
+			alert(err);
+		}
+	}
+
+	async function saveMetadata() {
+		try {
+      await save('chapter', currentChapter.title,currentChapter)
 		} catch (err) {
 			alert(err);
 		}
@@ -49,7 +54,6 @@
 			const def: chapter_def = await load('chapter', ch);
 			currentChapter = def;
 			currentChapterText = def.text;
-      currentChapterSummary=def.summary;
 		} catch (err) {
 			alert(err);
 		}
@@ -92,7 +96,12 @@
 				{currentChapter ? currentChapter.title : ''}
 				{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 			</h3>
-      <textarea on:blur={saveSummary} class="border-2 border-solid" placeholder={$_("book.summary")} bind:value={currentChapterSummary}></textarea>
+			<textarea
+				on:blur={saveMetadata}
+				class="border-2 border-solid"
+				placeholder={$_('book.summary')}
+				bind:value={currentChapter.summary}
+			/>
 			<Editor save={saveChapter} contents={currentChapterText} />
 		</div>
 	</div>

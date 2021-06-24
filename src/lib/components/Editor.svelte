@@ -1,7 +1,7 @@
 <script lang="ts">
 	// import '../node_modules/simplemde/dist/simplemde.min.css';
+  import '../../../node_modules/simplemde/dist/simplemde.min.css'
 	import { onMount, setContext } from 'svelte';
-	import { set_input_value } from 'svelte/internal';
 	let container;
 	let editor;
 	export let save: (data) => void;
