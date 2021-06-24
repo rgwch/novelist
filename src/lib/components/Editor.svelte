@@ -5,16 +5,21 @@
 	let container;
 	let editor;
 	export let save: (data) => void;
-	function setValue(val: string) {
-		editor.value(val);
-	}
+	export let contents: string;
 
+	$: setValue(contents);
+
+	function setValue(val: string) {
+		if (editor) {
+			editor.setValue(val);
+		}
+	}
 	onMount(async () => {
 		let module = await import('simplemde');
 		let SimpleMDE = module.default;
 		editor = new SimpleMDE({ element: container, autofocus: true, spellChecker: false });
 		editor.codemirror.on('blur', () => {
-			console.log('blur');
+			console.log('Editor: blur');
 			save(editor.value());
 		});
 	});

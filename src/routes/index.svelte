@@ -8,13 +8,13 @@
 <script lang="ts">
 	import '$lib/services/i18n/i18n';
 
-	import { onMount} from 'svelte';
+	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
 	import '../../node_modules/simplemde/dist/simplemde.min.css';
 	import Chapter from '$lib/components/Chapter.svelte';
 	import { _ } from 'svelte-i18n';
 
-	let metadata:metadata_def
+	let metadata: metadata_def;
 
 	const visible = {
 		chapter: 'invisible',
@@ -35,7 +35,7 @@
 
 	let bookname;
 	async function openbook() {
-		console.log('Open ' + bookname.value);
+		console.log('index: Open ' + bookname.value);
 		const res = await fetch(`/novel/open-${bookname.value}.json`);
 		if (res.ok) {
 			const result = await res.json();
@@ -51,9 +51,7 @@
 	<p>{JSON.stringify(metadata)}</p>
 	{#if metadata}
 		<h1>
-			{metadata.title}, {$_('general.created')}: {new Date(
-				metadata.created
-			).toString()}
+			{metadata.title}, {$_('general.created')}: {new Date(metadata.created).toString()}
 		</h1>
 	{:else}
 		<h1>{$_('book.open')}</h1>
@@ -68,6 +66,6 @@
 		}}>{$_('book.chapter')}</span
 	>
 	<div class={visible.chapter}>
-		<Chapter {metadata}/>
+		<Chapter {metadata} />
 	</div>
 </template>

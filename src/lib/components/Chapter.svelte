@@ -8,12 +8,12 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Editor from './Editor.svelte';
-	import type { metadata_def, noveldef, chapter_def } from '$lib/services/novel.d';
+	import type { metadata_def, noveldef, chapter_def } from '../services/novel.d';
 	export let metadata: metadata_def;
-	import { load, save } from '$lib/services/fileio';
+	import { load, save } from '../services/fileio';
 	let chaptername;
-	let currentChapter;
-	let ed;
+	let currentChapter: chapter_def;
+	let currentChapterText: string;
 
 	function addChapter() {
 		fetch(`/novel/chapter-${chaptername}.json`, {
@@ -38,8 +38,8 @@
 	async function select(ch: string) {
 		try {
 			const def: chapter_def = await load('chapter', ch);
-			currentChapter = ch;
-			ed.setValue(def.text);
+			currentChapter = def;
+			currentChapterText = def.text;
 		} catch (err) {
 			alert(err);
 		}
@@ -67,8 +67,10 @@
 			</ul>
 		</div>
 		<div class="flex-1 h-full">
-			<h2>{currentChapter}</h2>
-			<Editor save={saveChapter} bind:this={ed} />
+			<h3>
+				{currentChapter ? currentChapter.title : ''}, {currentChapter ? currentChapter.time : ''}
+			</h3>
+			<Editor save={saveChapter} contents={currentChapterText} />
 		</div>
 	</div>
 </template>

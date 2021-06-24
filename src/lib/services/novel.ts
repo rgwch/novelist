@@ -78,14 +78,14 @@ export class Novel {
 			const time = await preadFile(path.resolve(dir, 'time.md'));
 			def.timeline = time.toString('utf-8');
 		} catch (err) {
-			console.log('no time def found ' + err);
+			console.log('Novel.fromDirectory: no time def found ' + err);
 			def.timeline = '';
 		}
 		try {
 			const meta = await preadFile(path.resolve(dir, 'metadata.yaml'));
 			def.metadata = YAML.parse((await meta).toString('utf-8'));
 		} catch (err) {
-			console.log('no metadata found ' + err);
+			console.log('Novel.fromDirectoryno metadata found ' + err);
 			def.metadata = default_metadata;
 		}
 		try {
@@ -97,7 +97,7 @@ export class Novel {
 				def.persons[split.metadata.name].description = split.content;
 			}
 		} catch (err) {
-			console.log('no persons ' + err);
+			console.log('Novel.fromDirectory: no persons ' + err);
 		}
 		try {
 			const places = await preaddir(path.resolve(dir, 'places'));
@@ -108,7 +108,7 @@ export class Novel {
 				def.places[split.metadata.name].description = split.content;
 			}
 		} catch (err) {
-			console.log('no places ' + err);
+			console.log('Novel.fromDirectory: no places ' + err);
 		}
 		try {
 			const chapters = await preaddir(path.resolve(dir, 'chapters'));
@@ -119,7 +119,7 @@ export class Novel {
 				def.chapters[split.metadata.title].text = split.content;
 			}
 		} catch (err) {
-			console.log('no chapters');
+			console.log('Novel.fromDirectory: no chapters');
 		}
 
 		const novel = new Novel(path.resolve(dir, '../..', `${dir}.novel`), def, password);

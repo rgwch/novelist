@@ -12,7 +12,7 @@ import path from 'path'
 
 
 export async function get(request): Promise<EndpointOutput> {
-  console.log(JSON.stringify(request.params));
+  console.log("Open Novel: " + JSON.stringify(request.params));
   globals.novel = await Novel.open(path.join(os.homedir(), request.params.novelfile))
   return {
     body: {
