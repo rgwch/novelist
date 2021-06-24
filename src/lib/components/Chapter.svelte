@@ -14,6 +14,7 @@
 	let chaptername;
 	let currentChapter: chapter_def;
 	let currentChapterText: string;
+  let currentChapterSummary: string;
 
 	function addChapter() {
 		if (chaptername) {
@@ -35,6 +36,7 @@
 	async function saveChapter(text: string) {
 		try {
 			currentChapter.text = text;
+      currentChapter.summary=currentChapterSummary
 			await save('chapter', currentChapter.title, currentChapter);
 		} catch (err) {
 			alert(err);
@@ -46,6 +48,7 @@
 			const def: chapter_def = await load('chapter', ch);
 			currentChapter = def;
 			currentChapterText = def.text;
+      currentChapterSummary=def.summary;
 		} catch (err) {
 			alert(err);
 		}
@@ -88,6 +91,7 @@
 				{currentChapter ? currentChapter.title : ''}
 				{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 			</h3>
+      <textarea class="border-2 border-solid" placeholder={$_("book.summary")} bind:value={currentChapterSummary}></textarea>
 			<Editor save={saveChapter} contents={currentChapterText} />
 		</div>
 	</div>

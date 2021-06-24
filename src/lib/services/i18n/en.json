@@ -24,7 +24,8 @@
     "chapter": "Chapter",
     "chaptername": "Name of new chapter",
     "open": "Open or create a book",
-    "nochaptername": "Please enter a title for the new chapter first"
+    "nochaptername": "Please enter a title for the new chapter first",
+    "summary": "Summary"
   },
   "cal": {
     "apr": "April",
