@@ -7,6 +7,7 @@
 -->
 <script lang="ts">
 	import '$lib/services/i18n/i18n';
+	import { DateTime } from 'luxon';
 
 	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
@@ -45,14 +46,18 @@
 			}
 		}
 	}
+	function dateText(d: Date) {
+		const dt = DateTime.fromJSDate(d);
+		return dt.toLocaleString();
+	}
 </script>
 
 <template>
-	<p>{JSON.stringify(metadata)}</p>
 	{#if metadata}
 		<h1>
-			{metadata.title}, {$_('general.created')}: {new Date(metadata.created).toString()}
+			{metadata.title}
 		</h1>
+		<span>{$_('general.created')}: {dateText(new Date(metadata.created))}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
 		<input class="border" type="text" id="name" bind:this={bookname} />
@@ -68,6 +73,16 @@
 	<div class={visible.chapter}>
 		<Chapter {metadata} />
 	</div>
-  <div class={visible.persons}>
+	<span role="button" on:click={() => toggle('persons')}>
+		{$_('book.persons')}
+	</span>
+	<div class={visible.persons}>
+		<div class="border-solid">Persons</div>
+	</div>
+  <span role="button" on:click={() => toggle('places')}>
+		{$_('book.places')}
+	</span>
+  <div class={visible.places}>
+    places
   </div>
 </template>

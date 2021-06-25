@@ -15,6 +15,16 @@
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
 
+	$: {
+		if (metadata && metadata.title) {
+			if (Array.isArray(metadata.chapters)) {
+				if (metadata.chapters.length > 0) {
+					const last = metadata.chapters[metadata.chapters.length - 1];
+					select(last);
+				}
+			}
+		}
+	}
 	function addChapter() {
 		if (chaptername) {
 			fetch(`/novel/chapter-${chaptername}.json`, {
@@ -53,9 +63,9 @@
 		}
 	}
 
-	async function select(ch: string) {
+	async function select(chaptertitle: string) {
 		try {
-			const def: chapter_def = await load('chapter', ch);
+			const def: chapter_def = await load('chapter', chaptertitle);
 			currentChapter = def;
 			currentChapterText = def.text;
 		} catch (err) {
@@ -102,7 +112,7 @@
 			</h3>
 			<textarea
 				on:blur={saveMetadata}
-				class="border-2 border-solid"
+				class="border-2 border-solid min-w-full"
 				placeholder={$_('book.summary')}
 				bind:value={currentChapter.summary}
 			/>
