@@ -16,7 +16,7 @@ export type metadata_def = {
 };
 
 export type person_def = {
-  name: string;
+  name?: string;
   nicknames?: Array<string>;
   gender?: 'm' | 'f';
   height?: number;

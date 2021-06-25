@@ -77,24 +77,24 @@
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<ul>
+			<div>
 				{#if metadata}
 					{#each metadata.chapters as chapter}
 						<div
 							class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"
 						>
-							<ul
+							<div
 								class={currentChapter && chapter == currentChapter.title
 									? 'font-bold'
 									: 'font-normal'}
 								on:click={() => select(chapter)}
 							>
 								{chapter}
-							</ul>
+                </div>
 						</div>
 					{/each}
 				{/if}
-				<ul>
+				<div>
 					<input
 						class="border-2"
 						type="text"
@@ -102,8 +102,8 @@
 						placeholder={$_('book.chaptername')}
 					/>
 					<span on:click={addChapter} class="bg-green-100 border-2">Neu...</span>
-				</ul>
-			</ul>
+        </div>
+			</div>
 		</div>
 		<div class="flex-1 h-full">
 			<h3 class="text-lg font-semibold text-blue-400">
@@ -112,7 +112,7 @@
 			</h3>
 			<textarea
 				on:blur={saveMetadata}
-				class="border-2 border-solid min-w-full"
+				class="border-2 border-solid"
 				placeholder={$_('book.summary')}
 				bind:value={currentChapter.summary}
 			/>

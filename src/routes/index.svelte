@@ -18,13 +18,13 @@
 	let metadata: metadata_def;
 
 	const visible = {
-		chapter: 'invisible',
-		persons: 'invisible',
-		places: 'invisible'
+		chapter: false,
+		persons: false,
+		places: false
 	};
 
 	function toggle(elem) {
-		visible[elem] = visible[elem] === 'visible' ? 'invisible' : 'visible';
+		visible[elem] = !visible[elem];
 	}
 	onMount(async () => {
 		const res = await fetch('/novel/metadata.json');
@@ -60,7 +60,7 @@
 		<span>{$_('general.created')}: {dateText(new Date(metadata.created))}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
-		<input class="border" type="text" id="name" bind:this={bookname} />
+		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
 		<button class="bg-green-300" on:click={openbook}>{$_('general.open')}</button>
 	{/if}
 	<br />
@@ -70,19 +70,22 @@
 			toggle('chapter');
 		}}>{$_('book.chapter')}</span
 	>
-	<div class={visible.chapter}>
-		<Chapter {metadata} />
-	</div>
+	{#if visible.chapter}
+		<div>
+			<Chapter {metadata} />
+		</div>
+	{/if}
 	<span role="button" on:click={() => toggle('persons')}>
 		{$_('book.persons')}
 	</span>
-	<div class={visible.persons}>
+	{#if visible.persons}
 		<div class="border-solid">Persons</div>
-	</div>
-  <span role="button" on:click={() => toggle('places')}>
+	{/if}
+
+	<span role="button" on:click={() => toggle('places')}>
 		{$_('book.places')}
 	</span>
-  <div class={visible.places}>
-    places
-  </div>
+	{#if visible.places}
+		<div>places</div>
+	{/if}
 </template>
