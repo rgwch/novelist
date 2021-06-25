@@ -34,8 +34,10 @@
 
 	async function saveChapter(text: string) {
 		try {
-			currentChapter.text = text;
-			await save('chapter', currentChapter.title, currentChapter);
+			if (currentChapter.title) {
+				currentChapter.text = text;
+				await save('chapter', currentChapter.title, currentChapter);
+			}
 		} catch (err) {
 			alert(err);
 		}
@@ -43,7 +45,9 @@
 
 	async function saveMetadata() {
 		try {
-      await save('chapter', currentChapter.title,currentChapter)
+			if (currentChapter.title) {
+				await save('chapter', currentChapter.title, currentChapter);
+			}
 		} catch (err) {
 			alert(err);
 		}
