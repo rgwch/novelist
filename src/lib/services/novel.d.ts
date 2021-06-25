@@ -29,7 +29,7 @@ export type place_def = {
   description?: string;
 };
 export type chapter_def = {
-  title?: string;
+  name?: string;
   persons?: Array<string>;
   places?: Array<string>;
   summary?: string;

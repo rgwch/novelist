@@ -1,17 +1,27 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
-    import { _ } from 'svelte-i18n';
-	export let definition = { type: 'chapter', newelem: "book.newchapter" };
+	import { _ } from 'svelte-i18n';
+	export let definition = { type: 'chapters', newelem: 'book.newchapter' };
 
 	export let metadata: metadata_def;
-    let newelement:string
-    function addElement(){
-        if(newelement){
-            fetch(`/novel/${definition.type}-${newelement}.json`,{
-                method:'post'
-            })
-        }
-    }
+	let newelement: string;
+	function addElement() {
+		if (newelement) {
+			const arr = definition.type;
+			fetch(`/novel/${arr}-${newelement}.json`, {
+				method: 'post',
+				body: JSON.stringify({ name: newelement })
+			})
+				.then((ok) => {
+					metadata[arr] = [...metadata[arr], newelement];
+					newelement = '';
+				})
+				.catch((err) => {
+					alert(err);
+				});
+		} else {
+		}
+	}
 </script>
 
 <template>

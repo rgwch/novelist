@@ -27,10 +27,10 @@
 	}
 	function addChapter() {
 		if (chaptername) {
-			fetch(`/novel/chapter-${chaptername}.json`, {
+			fetch(`/novel/chapters-${chaptername}.json`, {
 				method: 'post',
 				body: JSON.stringify({
-					title: chaptername,
+					name: chaptername,
 					text: '# ' + chaptername + '\n\n'
 				})
 			}).then((ok) => {
@@ -44,9 +44,9 @@
 
 	async function saveChapter(text: string) {
 		try {
-			if (currentChapter.title) {
+			if (currentChapter.name) {
 				currentChapter.text = text;
-				await save('chapter', currentChapter.title, currentChapter);
+				await save('chapters', currentChapter.name, currentChapter);
 			}
 		} catch (err) {
 			alert(err);
@@ -55,17 +55,17 @@
 
 	async function saveMetadata() {
 		try {
-			if (currentChapter.title) {
-				await save('chapter', currentChapter.title, currentChapter);
+			if (currentChapter.name) {
+				await save('chapters', currentChapter.name, currentChapter);
 			}
 		} catch (err) {
 			alert(err);
 		}
 	}
 
-	async function select(chaptertitle: string) {
+	async function select(chaptername: string) {
 		try {
-			const def: chapter_def = await load('chapter', chaptertitle);
+			const def: chapter_def = await load('chapters', chaptername);
 			currentChapter = def;
 			currentChapterText = def.text;
 		} catch (err) {
@@ -84,7 +84,7 @@
 							class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"
 						>
 							<div
-								class={currentChapter && chapter == currentChapter.title
+								class={currentChapter && chapter == currentChapter.name
 									? 'font-bold'
 									: 'font-normal'}
 								on:click={() => select(chapter)}
@@ -99,7 +99,7 @@
 						class="border-2"
 						type="text"
 						bind:value={chaptername}
-						placeholder={$_('book.chaptername')}
+						placeholder={$_('book.newchapter')}
 					/>
 					<span on:click={addChapter} class="bg-green-100 border-2">Neu...</span>
         </div>
@@ -107,7 +107,7 @@
 		</div>
 		<div class="flex-1 h-full">
 			<h3 class="text-lg font-semibold text-blue-400">
-				{currentChapter ? currentChapter.title : ''}
+				{currentChapter ? currentChapter.name : ''}
 				{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 			</h3>
 			<textarea

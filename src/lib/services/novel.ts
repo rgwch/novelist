@@ -151,10 +151,10 @@ export class Novel {
 		return this.flush();
 	}
 	writeChapter(cdef: n.chapter_def): Promise<boolean> {
-		const title = cdef.title;
-		this.def.chapters[title] = cdef;
-		if (!this.def.metadata.chapters.find((c) => c == title)) {
-			this.def.metadata.chapters.push(title);
+		const name = cdef.name;
+		this.def.chapters[name] = cdef;
+		if (!this.def.metadata.chapters.find((c) => c == name)) {
+			this.def.metadata.chapters.push(name);
 		}
 		return this.flush();
 	}
