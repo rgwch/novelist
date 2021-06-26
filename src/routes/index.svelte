@@ -14,6 +14,7 @@
 	import '../../node_modules/simplemde/dist/simplemde.min.css';
 	import Chapter from '$lib/components/Chapter.svelte';
 	import Person from '$lib/components/Person.svelte';
+	import Place from '$lib/components/Place.svelte';
 	import { _ } from 'svelte-i18n';
 	import Persons from './persons.svelte';
 
@@ -88,6 +89,6 @@
 		{$_('book.places')}
 	</span>
 	{#if visible.places}
-		<div>places</div>
+		<div><Place {metadata} /></div>
 	{/if}
 </template>

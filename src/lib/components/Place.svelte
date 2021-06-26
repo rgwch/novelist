@@ -8,12 +8,12 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
-	let currentPerson;
+	let currentPlace;
 	export let metadata: metadata_def;
 	const definition = {
-		type: 'persons',
-		newelem: 'book.newperson',
-		promptname: 'book.nopersonname'
+		type: 'places',
+		newelem: 'book.newplace',
+		promptname: 'book.noplacename'
 	};
 	function select(event) {
 		console.log(event.detail);
@@ -23,7 +23,7 @@
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {metadata} {definition} currentElement={currentPerson} on:selected={select} />
+			<Elementlist {metadata} {definition} currentElement={currentPlace} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">

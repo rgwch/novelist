@@ -2,6 +2,9 @@
 	import type { metadata_def } from '$lib/services/novel.d';
 	import { _ } from 'svelte-i18n';
 	import { select_multiple_value } from 'svelte/internal';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -32,6 +35,7 @@
 	}
 	function select(item) {
 		currentElement = item;
+		dispatch('selected', item);
 	}
 </script>
 
