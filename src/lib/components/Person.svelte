@@ -8,6 +8,7 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
+	import Jsoneditor from '$lib/components/Jsoneditor.svelte';
 	let currentPerson;
 	export let metadata: metadata_def;
 	const definition = {
@@ -17,6 +18,7 @@
 	};
 	function select(event) {
 		console.log(event.detail);
+		
 	}
 </script>
 
@@ -28,8 +30,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<span>Name</span>
-				<input type="text" placeholder="name" />
+				<Jsoneditor json={metadata[currentPerson]} title={currentPerson} />
 			</div>
 		</div>
 	</div>
