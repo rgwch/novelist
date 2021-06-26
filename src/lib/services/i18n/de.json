@@ -15,7 +15,7 @@
   },
   "book": {
     "chapter": "Kapitel",
-    "newchapter": "Name des neuen Kapitels",
+    "newchapter": "Titel des neuen Kapitels",
     "open": "Buch laden oder erstellen",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
     "nopersonname": "Bitte geben Sie einen Namen für die neue Person ein",

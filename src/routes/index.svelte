@@ -11,7 +11,6 @@
 
 	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
-	import '../../node_modules/simplemde/dist/simplemde.min.css';
 	import Chapter from '$lib/components/Chapter.svelte';
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
