@@ -2,6 +2,7 @@
 	// import '../node_modules/simplemde/dist/simplemde.min.css';
   import '../../../node_modules/simplemde/dist/simplemde.min.css'
 	import { onMount, setContext } from 'svelte';
+	
 	let container;
 	let editor;
 	export let save: (data) => void;

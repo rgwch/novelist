@@ -13,7 +13,7 @@
 
 	let currentPerson: person_def={}
 	export let metadata: metadata_def;
-	const fields = ['Name', 'Nicknames', 'Gender', 'Height', 'Age', 'Description'];
+	const fields = ['name', 'nicknames', 'gender', 'height', 'age', 'description'];
 	const definition = {
 		type: 'persons',
 		newelem: 'book.newperson',
@@ -23,7 +23,12 @@
 		console.log(event.detail);
 		try {
 			const def = await load('persons', event.detail);
-			currentPerson = def;
+			for(let field of fields){
+				if(!def[field]){
+					def[field]=""
+				}
+			}
+			currentPerson = def
 		} catch (err) {
 			alert(err);
 		}
@@ -38,7 +43,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={metadata[currentPerson.name]} />
+				<Fieldeditor {fields} entity={currentPerson} />
 			</div>
 		</div>
 	</div>

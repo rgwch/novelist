@@ -25,6 +25,14 @@
     "newplace": "Neuer Schauplatz",
     "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein."
   },
+  "fields":{
+    "name": "Name",
+    "nicknames": "Weitere Bezeichnungen",
+    "gender": "Geschlecht",
+    "height": "Größe",
+    "age": "Alter",
+    "description": "Beschreibung"
+  },
   "cal": {
     "apr": "April",
     "aug": "August",
