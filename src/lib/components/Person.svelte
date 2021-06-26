@@ -11,7 +11,7 @@
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
 	import { load, save } from '../services/fileio';
 
-	let currentPerson: person_def={}
+	let currentPerson: person_def = {};
 	export let metadata: metadata_def;
 	const fields = ['name', 'nicknames', 'gender', 'height', 'age', 'description'];
 	const definition = {
@@ -23,12 +23,20 @@
 		console.log(event.detail);
 		try {
 			const def = await load('persons', event.detail);
-			for(let field of fields){
-				if(!def[field]){
-					def[field]=""
+			for (let field of fields) {
+				if (!def[field]) {
+					def[field] = '';
 				}
 			}
-			currentPerson = def
+			currentPerson = def;
+		} catch (err) {
+			alert(err);
+		}
+	}
+	async function saveFields(event) {
+		try {
+			currentPerson = event.detail;
+			await save('persons', currentPerson.name, currentPerson);
 		} catch (err) {
 			alert(err);
 		}
@@ -43,7 +51,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPerson} />
+				<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 			</div>
 		</div>
 	</div>

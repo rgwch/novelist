@@ -31,7 +31,8 @@
     "gender": "Geschlecht",
     "height": "Größe",
     "age": "Alter",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "surround": "Umgebung"
   },
   "cal": {
     "apr": "April",
@@ -68,10 +69,10 @@
     "created": "erstellt",
     "login": "Anmelden",
     "logout": "Abmelden",
-    "nopatselected": "Kein Patient ausgewählt",
     "open": "Öffnen",
     "password": "Passwort",
-    "username": "Benutzername"
+    "username": "Benutzername",
+    "save": "Speichern"
   },
   "headings": {
     "logindatafor": "Login Daten für"

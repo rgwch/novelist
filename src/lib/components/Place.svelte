@@ -6,30 +6,52 @@
  ********************************************
 -->
 <script lang="ts">
-	import type { metadata_def } from '$lib/services/novel.d';
+	import type { metadata_def, place_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
-	let currentPlace;
+	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
+	import { load, save } from '../services/fileio';
+
+	let currentPlace: place_def = {};
 	export let metadata: metadata_def;
+	const fields = ['name', 'surround', 'description'];
 	const definition = {
 		type: 'places',
 		newelem: 'book.newplace',
 		promptname: 'book.noplacename'
 	};
-	function select(event) {
+	async function select(event) {
 		console.log(event.detail);
+		try {
+			const def = await load('places', event.detail);
+			for (let field of fields) {
+				if (!def[field]) {
+					def[field] = '';
+				}
+			}
+			currentPlace = def;
+		} catch (err) {
+			alert(err);
+		}
+	}
+	async function saveFields(event) {
+		try {
+			currentPlace = event.detail;
+			await save('places', currentPlace.name, currentPlace);
+		} catch (err) {
+			alert(err);
+		}
 	}
 </script>
 
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {metadata} {definition} currentElement={currentPlace} on:selected={select} />
+			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<span>Name</span>
-				<input type="text" placeholder="name" />
+				<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} />
 			</div>
 		</div>
 	</div>

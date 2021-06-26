@@ -29,6 +29,9 @@ export async function get({ params, headers }): Promise<EndpointOutput> {
 			case 'persons':
 				result = await novel.getPerson(params.name);
 				break;
+			case 'places':
+				result = await novel.getPlace(params.name);
+				break;
 			default:
 				return {
 					status: 400
@@ -65,6 +68,9 @@ export async function post({ params, body }): Promise<EndpointOutput> {
 					break;
 				case 'persons':
 					await novel.writePerson(def);
+					break;
+				case 'places':
+					await novel.writePlace(def);
 					break;
 				default:
 					return {

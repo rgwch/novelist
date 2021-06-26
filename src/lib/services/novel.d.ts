@@ -24,7 +24,7 @@ export type person_def = {
   description?: string;
 };
 export type place_def = {
-  name: string;
+  name?: string;
   surround?: string;
   description?: string;
 };
