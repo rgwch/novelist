@@ -15,6 +15,7 @@
   },
   "book": {
     "chapter": "Kapitel",
+    "title": "Titel",
     "newchapter": "Titel des neuen Kapitels",
     "open": "Buch laden oder erstellen",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
@@ -32,7 +33,12 @@
     "height": "Größe",
     "age": "Alter",
     "description": "Beschreibung",
-    "surround": "Umgebung"
+    "surround": "Umgebung",
+    "created": "Erstellt am",
+    "modified": "Geändert am",
+    "title": "Titel",
+    "author": "Autor",
+    "expose": "Exposé"
   },
   "cal": {
     "apr": "April",

@@ -8,7 +8,7 @@
 <script lang="ts">
 	import '$lib/services/i18n/i18n';
 	import { DateTime } from 'luxon';
-	import Book from '$lib/components/Book.svelte'
+	import Book from '$lib/components/Book.svelte';
 	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
 	import Chapter from '$lib/components/Chapter.svelte';
@@ -20,6 +20,7 @@
 	let metadata: metadata_def;
 
 	const visible = {
+		book: true,
 		chapter: false,
 		persons: false,
 		places: false
@@ -36,7 +37,6 @@
 		}
 	});
 
-	
 	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
@@ -44,29 +44,41 @@
 </script>
 
 <template>
-	<Book {metadata}></Book>
-	<br />
+	<span
+		role="button"
+		on:click={() => {
+			toggle('book');
+		}}
+	>
+		{$_('book.title')}</span
+	>
 	<span
 		role="button"
 		on:click={() => {
 			toggle('chapter');
 		}}>{$_('book.chapter')}</span
 	>
+	<span role="button" on:click={() => toggle('persons')}>
+		{$_('book.persons')}
+	</span>
+	<span role="button" on:click={() => toggle('places')}>
+		{$_('book.places')}
+	</span>
+	{#if visible.book}
+		<Book {metadata} />
+	{/if}
+	<br />
+
 	{#if visible.chapter}
 		<div>
 			<Chapter {metadata} />
 		</div>
 	{/if}
-	<span role="button" on:click={() => toggle('persons')}>
-		{$_('book.persons')}
-	</span>
+
 	{#if visible.persons}
 		<div class="border-solid"><Person {metadata} /></div>
 	{/if}
 
-	<span role="button" on:click={() => toggle('places')}>
-		{$_('book.places')}
-	</span>
 	{#if visible.places}
 		<div><Place {metadata} /></div>
 	{/if}
