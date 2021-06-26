@@ -13,7 +13,9 @@
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
 	import '../../node_modules/simplemde/dist/simplemde.min.css';
 	import Chapter from '$lib/components/Chapter.svelte';
+	import Person from '$lib/components/Person.svelte';
 	import { _ } from 'svelte-i18n';
+	import Persons from './persons.svelte';
 
 	let metadata: metadata_def;
 
@@ -79,7 +81,7 @@
 		{$_('book.persons')}
 	</span>
 	{#if visible.persons}
-		<div class="border-solid">Persons</div>
+		<div class="border-solid"><Person {metadata} /></div>
 	{/if}
 
 	<span role="button" on:click={() => toggle('places')}>

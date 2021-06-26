@@ -15,13 +15,13 @@
   },
   "book": {
     "chapter": "Kapitel",
-    "chaptername": "Name des neuen Kapitels",
+    "newchapter": "Name des neuen Kapitels",
+    "open": "Buch laden oder erstellen",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
     "nopersonname": "Bitte geben Sie einen Nsmrn für die neue Person ein",
-    "open": "Buch laden oder erstellen",
     "persons": "Personen",
-    "places": "Orte",
-    "summary": "Zusammenfassung"
+    "newperson": "Name der neuen Person",
+    "places": "Orte"
   },
   "cal": {
     "apr": "April",
