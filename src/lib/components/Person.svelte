@@ -10,7 +10,11 @@
 	import Elementlist from '$lib/components/Elementlist.svelte';
 
 	export let metadata: metadata_def;
-	const definition = { type: 'persons', newelem: "book.newperson" };
+	const definition = {
+		type: 'persons',
+		newelem: 'book.newperson',
+		promptname: 'book.nopersonname'
+	};
 </script>
 
 <template>
