@@ -12,7 +12,7 @@
 	};
 
 	export let metadata: metadata_def;
-	export let currentElement;
+	let currentElementName: string;
 
 	let newelement: string;
 	function addElement() {
@@ -34,7 +34,7 @@
 		}
 	}
 	function select(item) {
-		currentElement = item;
+		currentElementName = item;
 		dispatch('selected', item);
 	}
 </script>
@@ -46,7 +46,7 @@
 				class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"
 			>
 				<div
-					class={currentElement == elem ? 'font-bold' : 'font-normal'}
+					class={currentElementName == elem ? 'font-bold' : 'font-normal'}
 					on:click={() => select(elem)}
 				>
 					{elem}

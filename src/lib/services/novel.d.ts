@@ -19,8 +19,8 @@ export type person_def = {
   name?: string;
   nicknames?: Array<string>;
   gender?: 'm' | 'f';
-  height?: number;
-  birthDate?: Date;
+  height?: number | string;
+  age?: number
   description?: string;
 };
 export type place_def = {

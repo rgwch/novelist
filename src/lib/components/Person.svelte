@@ -6,31 +6,39 @@
  ********************************************
 -->
 <script lang="ts">
-	import type { metadata_def } from '$lib/services/novel.d';
+	import type { metadata_def, person_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
-	import Jsoneditor from '$lib/components/Jsoneditor.svelte';
-	let currentPerson;
+	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
+	import { load, save } from '../services/fileio';
+
+	let currentPerson: person_def;
 	export let metadata: metadata_def;
+	const fields = ['Name', 'Nicknames', 'Gender', 'Height', 'Age', 'Description'];
 	const definition = {
 		type: 'persons',
 		newelem: 'book.newperson',
 		promptname: 'book.nopersonname'
 	};
-	function select(event) {
+	async function select(event) {
 		console.log(event.detail);
-		
+		try {
+			const def = await load('persons', event.detail);
+			currentPerson = def;
+		} catch (err) {
+			alert(err);
+		}
 	}
 </script>
 
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {metadata} {definition} currentElement={currentPerson} on:selected={select} />
+			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Jsoneditor json={metadata[currentPerson]} title={currentPerson} />
+				<Fieldeditor {fields} entity={metadata[currentPerson]} />
 			</div>
 		</div>
 	</div>
