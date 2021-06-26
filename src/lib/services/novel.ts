@@ -33,16 +33,21 @@ export class Novel {
 				pathname += '.novel';
 			}
 			if (fs.existsSync(pathname)) {
+				const lockfile=pathname+".lock"
+				if(fs.existsSync(lockfile)){
+					throw new Error("Book already opened")
+				}
+				fs.writeFileSync(lockfile,new Date().toString())
 				const store = new Store(password);
 				store.load(pathname).then((buffer) => {
 					try {
 						const json: n.noveldef = JSON.parse(buffer.toString('utf-8'));
 						const lastWrite = new Date(json.metadata.modified);
-						if (lastWrite && (lastWrite.getTime() == lastWrite.getTime())) {
+						if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
 							resolve(new Novel(pathname, json));
-						}else{
-              reject("invalid date "+json.metadata.modified)
-            }
+						} else {
+							reject('invalid date ' + json.metadata.modified);
+						}
 					} catch (err) {
 						reject('structure error ' + err);
 					}
@@ -66,6 +71,10 @@ export class Novel {
 	}
 
 	static async fromDirectory(dir: string, password?: string): Promise<Novel> {
+		const filepath = path.join(dir, '../..', `${dir}.novel`);
+		if (fs.existsSync(filepath)) {
+			throw new Error('file exists');
+		}
 		const def: n.noveldef = {
 			metadata: default_metadata,
 			persons: {},
@@ -122,7 +131,7 @@ export class Novel {
 			console.log('Novel.fromDirectory: no chapters');
 		}
 
-		const novel = new Novel(path.resolve(dir, '../..', `${dir}.novel`), def, password);
+		const novel = new Novel(filepath, def, password);
 		await novel.flush();
 		return novel;
 	}
@@ -131,10 +140,28 @@ export class Novel {
 		this.store = new Store(this.password);
 	}
 
+	close():void {
+		this.flush().then((success) => {
+			if (!success) {
+				throw new Error('could not weite contents ti file');
+			}
+			this.def = undefined;
+			const lockfile = this.pathname + '.lock';
+			if (fs.existsSync(lockfile)) {
+				fs.rm(lockfile, (err) => {
+					if (err) {
+						throw new Error('could not remove lockfile');
+					}
+				});
+			}
+			this.pathname=undefined
+		});
+
+	}
 	flush(): Promise<boolean> {
 		this.def.metadata.modified = new Date();
 		const buff = Buffer.from(JSON.stringify(this.def));
-		return this.store.save(this.pathname, buff)
+		return this.store.save(this.pathname, buff);
 	}
 
 	writeExpose(text: string): void {

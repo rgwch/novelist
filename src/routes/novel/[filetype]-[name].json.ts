@@ -9,7 +9,6 @@ import type { Novel } from '$lib/services/novel';
 import globals from '$lib/global';
 
 export async function get({ params, headers }): Promise<EndpointOutput> {
-	console.log('get:' + JSON.stringify(params));
 	// console.log("get: " + JSON.stringify(headers));
 	if (!globals.novel) {
 		return {
@@ -50,8 +49,10 @@ export async function get({ params, headers }): Promise<EndpointOutput> {
 
 export async function post({ params, body }): Promise<EndpointOutput> {
 	console.log('post ' + JSON.stringify(params));
+
 	try {
 		const def = JSON.parse(body);
+		console.log(def)
 		const novel: Novel = globals.novel;
 		if (!novel) {
 			return {

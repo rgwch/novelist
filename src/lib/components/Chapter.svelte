@@ -21,19 +21,6 @@
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
 
-	/*
-	$: {
-		if (metadata && metadata.title) {
-			if (Array.isArray(metadata.chapters)) {
-				if (metadata.chapters.length > 0) {
-					const last = metadata.chapters[metadata.chapters.length - 1];
-					select(last);
-				}
-			}
-		}
-	}
-*/
-
 	async function saveChapter(text: string) {
 		try {
 			if (currentChapter.name) {
@@ -59,7 +46,10 @@
 		try {
 			const def: chapter_def = await load('chapters', event.detail);
 			currentChapter = def;
-			currentChapterText = def.text;
+			setTimeout(()=>{
+				currentChapterText = def.text;
+			},100)
+			
 		} catch (err) {
 			alert(err);
 		}
