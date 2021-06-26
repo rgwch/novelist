@@ -31,3 +31,4 @@ export async function load(type: string, name: string): Promise<any> {
 		throw new Error('Read error ' + err);
 	}
 }
+

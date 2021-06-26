@@ -9,6 +9,7 @@ export type metadata_def = {
   author?: string;
   created: Date;
   modified?: Date;
+  expose?: string
   chapters: Array<string>;
   persons: Array<string>;
   places: Array<string>;
@@ -38,7 +39,6 @@ export type chapter_def = {
 };
 export type noveldef = {
   metadata?: metadata_def;
-  expose?: string;
   persons?: {
     [name: string]: person_def;
   };

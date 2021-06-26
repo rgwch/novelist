@@ -19,5 +19,4 @@ export async function get(request): Promise<EndpointOutput> {
       result: (globals.novel ? globals.novel.def.metadata : "fail")
     }
   };
-
 }

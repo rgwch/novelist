@@ -8,7 +8,7 @@
 <script lang="ts">
 	import '$lib/services/i18n/i18n';
 	import { DateTime } from 'luxon';
-
+	import Book from '$lib/components/Book.svelte'
 	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
 	import Chapter from '$lib/components/Chapter.svelte';
@@ -36,18 +36,7 @@
 		}
 	});
 
-	let bookname;
-	async function openbook() {
-		console.log('index: Open ' + bookname.value);
-		const res = await fetch(`/novel/open-${bookname.value}.json`);
-		if (res.ok) {
-			const result = await res.json();
-			if (result.result !== 'fail') {
-				metadata = result.result;
-				console.log('metadata=' + metadata);
-			}
-		}
-	}
+	
 	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
@@ -55,16 +44,7 @@
 </script>
 
 <template>
-	{#if metadata}
-		<h1>
-			{metadata.title}
-		</h1>
-		<span>{$_('general.created')}: {dateText(new Date(metadata.created))}</span>
-	{:else}
-		<h1>{$_('book.open')}</h1>
-		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
-		<button class="bg-green-300" on:click={openbook}>{$_('general.open')}</button>
-	{/if}
+	<Book {metadata}></Book>
 	<br />
 	<span
 		role="button"
