@@ -7,7 +7,7 @@
 -->
 <script lang="ts">
 	import '$lib/services/i18n/i18n';
-	import { DateTime } from 'luxon';
+
 	import Book from '$lib/components/Book.svelte';
 	import { onMount } from 'svelte';
 	import type { metadata_def, noveldef } from '$lib/services/novel.d';
@@ -15,7 +15,6 @@
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
 	import { _ } from 'svelte-i18n';
-	import Persons from './persons.svelte';
 
 	let metadata: metadata_def;
 
@@ -36,11 +35,6 @@
 			metadata = md.metadata;
 		}
 	});
-
-	function dateText(d: Date) {
-		const dt = DateTime.fromJSDate(d);
-		return dt.toLocaleString();
-	}
 </script>
 
 <template>
@@ -50,8 +44,13 @@
 			toggle('book');
 		}}
 	>
-		{$_('book.title')}</span
-	>
+		{#if metadata}
+			{metadata.title}
+		{:else}
+			{$_('book.title')}
+		{/if}
+	</span>
+
 	<span
 		role="button"
 		on:click={() => {

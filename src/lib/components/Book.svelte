@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
+    import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	export let metadata: metadata_def;
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
@@ -25,6 +26,10 @@
 			}
 		}
     }
+    function dateText(d: Date) {
+		const dt = DateTime.fromJSDate(d);
+		return dt.toLocaleString();
+	}
 </script>
 
 <template>
