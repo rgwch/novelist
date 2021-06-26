@@ -12,6 +12,7 @@
 	};
 
 	export let metadata: metadata_def;
+	
 	let currentElementName: string;
 
 	let newelement: string;

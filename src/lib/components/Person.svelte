@@ -11,7 +11,7 @@
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
 	import { load, save } from '../services/fileio';
 
-	let currentPerson: person_def;
+	let currentPerson: person_def={}
 	export let metadata: metadata_def;
 	const fields = ['Name', 'Nicknames', 'Gender', 'Height', 'Age', 'Description'];
 	const definition = {
@@ -38,7 +38,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={metadata[currentPerson]} />
+				<Fieldeditor {fields} entity={metadata[currentPerson.name]} />
 			</div>
 		</div>
 	</div>
