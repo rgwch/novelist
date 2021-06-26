@@ -13,17 +13,15 @@
     "week": "Semaine",
     "year": "An"
   },
-  "address": {
-    "country": "Pays",
-    "number": "No.",
-    "place": "Ville",
-    "street": "Rue",
-    "zip": "Code postal"
-  },
   "book": {
     "chapter": "Kapitel",
     "chaptername": "Name des neuen Kapitels",
-    "open": "Buch laden oder erstellen"
+    "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
+    "nopersonname": "Bitte geben Sie einen Nsmrn für die neue Person ein",
+    "open": "Buch laden oder erstellen",
+    "persons": "Personen",
+    "places": "Orte",
+    "summary": "Zusammenfassung"
   },
   "cal": {
     "apr": "Avril",
@@ -53,29 +51,6 @@
     "we": "Mer",
     "wed": "Mercredi"
   },
-  "codes": {
-    "gender": {
-      "female": "féminin",
-      "male": "masculin",
-      "other": "autre",
-      "unknown": "inconnu"
-    }
-  },
-  "elements": {
-    "account": "Compte",
-    "agenda": "Agenda",
-    "allergies": "Allergies",
-    "articles": "Articles",
-    "documents": "Documents",
-    "encounters": "Rencontres",
-    "medications": "Médikations",
-    "noxes": "Noxes et risques",
-    "patients": "Patients",
-    "personalia": "Dates personnelles",
-    "prescriptions": "Préscriptions",
-    "problems": "Problèmes",
-    "values": "Mésurements"
-  },
   "formatting": {
     "date": "DD.MM.YYYY"
   },
@@ -90,21 +65,5 @@
   },
   "headings": {
     "logindatafor": "Login Daten für"
-  },
-  "menu": {
-    "datei": "Datei"
-  },
-  "person": {
-    "birthdate": "Date de naissance",
-    "female": "féminin",
-    "firstname": "Prénom",
-    "gender": "sexe",
-    "lastname": "Nom",
-    "male": "masculin",
-    "other": "autre",
-    "title": "Titre",
-    "titlesuffix": "Suffix",
-    "undefined": "inconnu",
-    "unknown": "inconnu"
   }
 }

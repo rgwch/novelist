@@ -13,21 +13,15 @@
     "week": "Week",
     "year": "Year"
   },
-  "address": {
-    "country": "Country",
-    "number": "No.",
-    "place": "Place",
-    "street": "Street",
-    "zip": "Zip"
-  },
   "book": {
     "chapter": "Chapter",
     "chaptername": "Name of new chapter",
-    "open": "Open or create a book",
     "nochaptername": "Please enter a title for the new chapter first",
-    "summary": "Summary",
+    "nopersonname": "Please enter a name for the new person",
+    "open": "Open or create a book",
     "persons": "Persons",
-    "places": "Places"
+    "places": "Places",
+    "summary": "Summary"
   },
   "cal": {
     "apr": "April",
@@ -57,29 +51,6 @@
     "we": "Wed",
     "wed": "Wednesday"
   },
-  "codes": {
-    "gender": {
-      "female": "female",
-      "male": "male",
-      "other": "other",
-      "unknown": "unknown"
-    }
-  },
-  "elements": {
-    "account": "Account",
-    "agenda": "Schedule",
-    "allergies": "Allergies",
-    "articles": "Articles",
-    "documents": "Documents",
-    "encounters": "Encounters",
-    "medications": "Medication",
-    "noxes": "Noxes nd Risks",
-    "patients": "Patients",
-    "personalia": "Personal data",
-    "prescriptions": "Prescriptions",
-    "problems": "Problems",
-    "values": "Measurements"
-  },
   "formatting": {
     "date": "YYYY-MM-DD"
   },
@@ -94,21 +65,5 @@
   },
   "headings": {
     "logindatafor": "Login data for"
-  },
-  "menu": {
-    "datei": "File"
-  },
-  "person": {
-    "birthdate": "Date of birth",
-    "female": "female",
-    "firstname": "first name",
-    "gender": "Gender",
-    "lastname": "Last name",
-    "male": "male",
-    "other": "other",
-    "title": "Title",
-    "titlesuffix": "Suffix",
-    "undefined": "unknown",
-    "unknown": "unknown"
   }
 }
