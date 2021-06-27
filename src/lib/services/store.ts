@@ -52,7 +52,7 @@ export class Store {
 				});
 				instream.put(data);
 				instream.stop();
-				pipeline(instream, /*gz, cipher, */ outstream, (err) => {
+				pipeline(instream, gz, cipher, outstream, (err) => {
 					if (err) {
 						reject('pipeline ' + err);
 					} else {
@@ -86,7 +86,7 @@ export class Store {
 				reject('gzip ' + err);
 			});
 
-			pipeline(instream, /*decipher, gz,*/ outstream, (err) => {
+			pipeline(instream, decipher, gz, outstream, (err) => {
 				if (err) {
 					reject('pipeline ' + err);
 				} else {
