@@ -12,7 +12,8 @@
     "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --write --plugin-search-dir=. .",
     "start": "svelte-kit start",
-    "i18n": "sync-i18n --files '**/i18n/*.json' --primary de --languages en fr it --space 2"
+    "i18n": "sync-i18n --files '**/i18n/*.json' --primary de --languages en fr it --space 2",
+    "checkenv": "node -e 'console.log(process.env)'"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

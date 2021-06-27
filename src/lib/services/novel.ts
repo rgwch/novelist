@@ -27,7 +27,7 @@ const default_metadata: n.metadata_def = {
 export class Novel {
 	private store: Store;
 	static open(pathname: string, password = 'default'): Promise<Novel> {
-		// console.log("opening " + pathname + " from " + __dirname)
+		console.log("opening " + pathname)
 		return new Promise((resolve, reject) => {
 			if (!pathname.endsWith('.novel')) {
 				pathname += '.novel';

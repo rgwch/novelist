@@ -5,6 +5,8 @@
 	import { _ } from 'svelte-i18n';
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
 	import { current, saveMetadata } from '$lib/services/fileio';
+	import { listFiles } from '$lib/services/fileio';
+	import globals from '$lib/global';
 
 	let bookname;
 	let metadata;
@@ -32,7 +34,7 @@
 		if (res.ok) {
 			const result = await res.json();
 			if (result.result !== 'fail') {
-        console.log(JSON.stringify(result))
+				console.log(JSON.stringify(result));
 				current.set(result.result);
 				setTimeout(() => {
 					console.log('metadata=' + JSON.stringify(metadata));
@@ -44,15 +46,24 @@
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
 	}
+
 </script>
 
 <template>
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<hr class="py-4" />
+		<button class="btn">Generate PDF</button>
+		<button class="btn">Generate eBook</button>
 		<span role="button" class="btn" on:click={close}>{$_('general.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
+		{#await listFiles() then files}
+			{#each files as file}
+				file
+			{/each}
+		{/await}
+
 		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
 		<button class="btn" on:click={open}>{$_('general.open')}</button>
 	{/if}

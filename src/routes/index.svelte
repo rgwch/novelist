@@ -56,7 +56,6 @@
 			}}
 		>
 			{#if metadata}
-				{@debug metadata}
 				{metadata.title}
 			{:else}
 				{$_('book.title')}
