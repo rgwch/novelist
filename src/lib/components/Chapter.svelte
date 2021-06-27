@@ -10,8 +10,8 @@
 	import Elementlist from '$lib/components/Elementlist.svelte';
 	import Editor from './Editor.svelte';
 	import type { metadata_def, noveldef, chapter_def } from '../services/novel.d';
-	export let metadata: metadata_def;
-	import { load, save } from '../services/fileio';
+	
+  import { load, save } from '../services/fileio';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -59,7 +59,7 @@
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {metadata} {definition} on:selected={select} />
+			<Elementlist {definition} on:selected={select} />
 		</div>
 		<div class="flex-1 h-full">
 			{#if currentChapter && currentChapter.name}

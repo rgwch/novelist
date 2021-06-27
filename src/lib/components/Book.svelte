@@ -3,15 +3,16 @@
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
-	export let metadata: metadata_def;
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
+	import { current } from '$lib/services/fileio';
 
 	let bookname;
+	let metadata: metadata_def = $current;
 	function saveMetadata(event) {}
 	function close() {
 		fetch('/novel/close.json').then((res) => {
 			if (res.ok) {
-				metadata = undefined;
+				current.set({});
 			}
 		});
 	}
@@ -21,8 +22,8 @@
 		if (res.ok) {
 			const result = await res.json();
 			if (result.result !== 'fail') {
-				metadata = result.result;
-				console.log('metadata=' + metadata);
+				current.set(result.result);
+				console.log('metadata=' + JSON.stringify(metadata));
 			}
 		}
 	}

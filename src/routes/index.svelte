@@ -15,10 +15,13 @@
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
 	import { _ } from 'svelte-i18n';
-	import { writable } from 'svelte/store';
+	import { current, openCurrent } from '$lib/services/fileio';
 
-	export const metadata=writable({})
+	let metadata: metadata_def = $current;
 
+	onMount(async () => {
+		openCurrent();
+	});
 	const visible = {
 		book: true,
 		chapter: false,
@@ -29,15 +32,6 @@
 	function toggle(elem) {
 		visible[elem] = !visible[elem];
 	}
-	/*
-	onMount(async () => {
-		const res = await fetch('/novel/metadata.json');
-		if (res.ok) {
-			const md = await res.json();
-			metadata = md.metadata;
-		}
-	});
-	*/
 </script>
 
 <template>
@@ -47,7 +41,7 @@
 			toggle('book');
 		}}
 	>
-		{#if metadata}
+		{#if metadata && metadata.title}
 			{metadata.title}
 		{:else}
 			{$_('book.title')}
@@ -67,21 +61,21 @@
 		{$_('book.places')}
 	</span>
 	{#if visible.book}
-		<Book {metadata} />
+		<Book />
 	{/if}
 	<br />
 
 	{#if visible.chapter}
 		<div>
-			<Chapter {metadata} />
+			<Chapter />
 		</div>
 	{/if}
 
 	{#if visible.persons}
-		<div class="border-solid"><Person {metadata} /></div>
+		<div class="border-solid"><Person /></div>
 	{/if}
 
 	{#if visible.places}
-		<div><Place {metadata} /></div>
+		<div><Place /></div>
 	{/if}
 </template>

@@ -8,9 +8,19 @@ import globals from '$lib/global';
 import type { EndpointOutput } from '@sveltejs/kit';
 
 export async function get(): Promise<EndpointOutput> {
-	const novel: Novel = globals.novel;
-	await novel.close();
-	return {
-		status: 200
-	};
+  const novel: Novel = globals.novel;
+  if (novel) {
+    await novel.close();
+    globals.novel = undefined
+    return {
+      status: 200
+    };
+  } else {
+    return {
+      status: 200,
+      body: {
+        "message": "No file was open"
+      }
+    }
+  }
 }

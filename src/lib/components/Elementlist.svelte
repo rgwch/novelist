@@ -1,19 +1,17 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
 	import { _ } from 'svelte-i18n';
-	import { select_multiple_value } from 'svelte/internal';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-
+	import { current } from '$lib/services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
 	};
 
-	export let metadata: metadata_def;
-	
 	let currentElementName: string;
+	let metadata = $current;
 
 	let newelement: string;
 	function addElement() {
@@ -41,7 +39,7 @@
 </script>
 
 <template>
-	{#if metadata}
+	{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 		{#each metadata[definition.type] as elem}
 			<div
 				class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"

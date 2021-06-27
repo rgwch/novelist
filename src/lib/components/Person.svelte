@@ -12,7 +12,6 @@
 	import { load, save } from '../services/fileio';
 
 	let currentPerson: person_def = {};
-	export let metadata: metadata_def;
 	const fields = ['name', 'nicknames', 'gender', 'height', 'age', 'description'];
 	const definition = {
 		type: 'persons',
@@ -46,7 +45,7 @@
 <template>
 	<div class="flex gap-4 flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {metadata} {definition} on:selected={select} />
+			<Elementlist {definition} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">
