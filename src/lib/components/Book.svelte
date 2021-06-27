@@ -46,12 +46,16 @@
 	}
 
 	async function listFiles(): Promise<Array<string>> {
-		const res = await fetch('/novel/listfiles.json');
-		if (res.ok) {
-			const result = await res.json();
-			return result.result;
-		} else {
-			return [];
+		try {
+			const res = await fetch('/novel/listfiles.json');
+			if (res.ok) {
+				const result = await res.json();
+				return result.result;
+			} else {
+				return [];
+			}
+		} catch (err) {
+			console.log(err);
 		}
 	}
 	/*
