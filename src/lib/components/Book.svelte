@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { metadata_def } from '$lib/services/novel.d';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
-    import { DateTime } from 'luxon';
+	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	export let metadata: metadata_def;
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
@@ -16,7 +16,7 @@
 		});
 	}
 	async function open() {
-        console.log('index: Open ' + bookname.value);
+		console.log('book: Open ' + bookname.value);
 		const res = await fetch(`/novel/open-${bookname.value}.json`);
 		if (res.ok) {
 			const result = await res.json();
@@ -25,8 +25,8 @@
 				console.log('metadata=' + metadata);
 			}
 		}
-    }
-    function dateText(d: Date) {
+	}
+	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
 	}
