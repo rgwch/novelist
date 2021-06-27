@@ -48,11 +48,10 @@ export async function get({ params, headers }): Promise<EndpointOutput> {
 }
 
 export async function post({ params, body }): Promise<EndpointOutput> {
-	console.log('post ' + JSON.stringify(params));
+	// console.log('post ' + JSON.stringify(params));
 
 	try {
 		const def = JSON.parse(body);
-		console.log(def)
 		const novel: Novel = globals.novel;
 		if (!novel) {
 			return {

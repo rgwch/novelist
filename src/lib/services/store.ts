@@ -34,7 +34,7 @@ export class Store {
 					fs.renameSync(id, id + '_1');
 				}
 			} catch (err) {
-				console.log("sore:save: can't organise backups " + err);
+				console.log("store:save: can't organise backups " + err);
 				reject('Backup ' + err);
 			}
 			const instream = new sb.ReadableStreamBuffer();

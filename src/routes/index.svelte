@@ -22,7 +22,6 @@
 
 	onMount(async () => {
 		current.subscribe((value) => {
-			console.log('Book update: ' + value);
 			metadata = value;
 			if (!metadata) {
 				visible.book = true;

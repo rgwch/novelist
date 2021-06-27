@@ -19,7 +19,6 @@
 		promptname: 'book.nopersonname'
 	};
 	async function select(event) {
-		console.log(event.detail);
 		try {
 			const def = await load('persons', event.detail);
 			for (let field of fields) {

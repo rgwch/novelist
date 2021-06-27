@@ -27,7 +27,7 @@ export async function get(/* request: EndpointData */): Promise<EndpointOutput> 
 	}
 }
 export async function post({ body }): Promise<EndpointOutput> {
-	console.log('write metadata ' + JSON.stringify(body));
+	// console.log('write metadata ' + JSON.stringify(body));
 	try {
 		const novel: Novel = global.novel;
 		if (!novel) {

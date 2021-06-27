@@ -11,7 +11,6 @@
 	let bookname;
 	let metadata;
 	current.subscribe((value) => {
-		console.log('Update ' + value);
 		metadata = value;
 	});
 	function saveBook(event) {
@@ -28,17 +27,12 @@
 			alert(err);
 		}
 	}
-	async function open(file = undefined) {
-		let filename = file;
-		if (!filename) {
-			filename = bookname.value;
-		}
+	async function open(filename) {
 		console.log('book: Open ' + filename);
 		const res = await fetch(`/novel/open-${filename}.json`);
 		if (res.ok) {
 			const result = await res.json();
 			if (result.result !== 'fail') {
-				console.log(JSON.stringify(result));
 				current.set(result.result);
 				setTimeout(() => {
 					console.log('metadata=' + JSON.stringify(metadata));
@@ -85,6 +79,6 @@
 		{/await}
 
 		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
-		<button class="btn" on:click={open}>{$_('general.open')}</button>
+		<button class="btn" on:click={() => open(bookname.value)}>{$_('general.open')}</button>
 	{/if}
 </template>
