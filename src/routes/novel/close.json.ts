@@ -7,20 +7,23 @@ import type { Novel } from '$lib/services/novel';
 import globals from '$lib/global';
 import type { EndpointOutput } from '@sveltejs/kit';
 
-export async function get(): Promise<EndpointOutput> {
-  const novel: Novel = globals.novel;
-  if (novel) {
-    await novel.close();
-    globals.novel = undefined
-    return {
-      status: 200
-    };
-  } else {
-    return {
-      status: 200,
-      body: {
-        "message": "No file was open"
-      }
-    }
-  }
+export async function get(request): Promise<EndpointOutput> {
+	const novel: Novel = globals.novel;
+	if (novel) {
+		await novel.close();
+		globals.novel = undefined;
+		return {
+			status: 200,
+			body: {
+				message: 'Closed'
+			}
+		};
+	} else {
+		return {
+			status: 200,
+			body: {
+				message: 'No file was open'
+			}
+		};
+	}
 }

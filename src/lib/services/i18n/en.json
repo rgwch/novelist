@@ -15,13 +15,16 @@
   },
   "book": {
     "chapter": "Chapter",
-    "chaptername": "Name of new chapter",
+    "newchapter": "Titel des neuen Kapitels",
+    "newperson": "Name der neuen Person",
+    "newplace": "Neuer Schauplatz",
     "nochaptername": "Please enter a title for the new chapter first",
     "nopersonname": "Please enter a name for the new person",
+    "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein.",
     "open": "Open or create a book",
     "persons": "Persons",
     "places": "Places",
-    "summary": "Summary"
+    "title": "Titel"
   },
   "cal": {
     "apr": "April",
@@ -51,6 +54,22 @@
     "we": "Wed",
     "wed": "Wednesday"
   },
+  "fields": {
+    "age": "Alter",
+    "author": "Autor",
+    "created": "Erstellt am",
+    "description": "Beschreibung",
+    "expose": "Exposé",
+    "gender": "Geschlecht",
+    "hair": "Haare",
+    "height": "Größe",
+    "modified": "Geändert am",
+    "name": "Name",
+    "nicknames": "Weitere Bezeichnungen",
+    "stature": "Statur",
+    "surround": "Umgebung",
+    "title": "Titel"
+  },
   "formatting": {
     "date": "YYYY-MM-DD"
   },
@@ -58,9 +77,9 @@
     "created": "created",
     "login": "Login",
     "logout": "Logout",
-    "nopatselected": "Kein Patient ausgewählt",
     "open": "Open",
     "password": "Password",
+    "save": "Speichern",
     "username": "Username"
   },
   "headings": {

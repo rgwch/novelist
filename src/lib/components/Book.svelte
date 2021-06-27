@@ -4,17 +4,27 @@
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
-	import { current } from '$lib/services/fileio';
+	import { current, saveMetadata } from '$lib/services/fileio';
 
 	let bookname;
-	let metadata: metadata_def = $current;
-	function saveMetadata(event) {}
+	let metadata;
+	current.subscribe((value) => {
+		console.log('Update ' + value);
+		metadata = value;
+	});
+	function saveBook(event) {
+		saveMetadata(metadata);
+	}
 	function close() {
-		fetch('/novel/close.json').then((res) => {
-			if (res.ok) {
-				current.set({});
-			}
-		});
+		try {
+			fetch('/novel/close.json').then((res) => {
+				if (res.ok) {
+					current.set(undefined);
+				}
+			});
+		} catch (err) {
+			alert(err);
+		}
 	}
 	async function open() {
 		console.log('book: Open ' + bookname.value);
@@ -23,7 +33,9 @@
 			const result = await res.json();
 			if (result.result !== 'fail') {
 				current.set(result.result);
-				console.log('metadata=' + JSON.stringify(metadata));
+				setTimeout(() => {
+					console.log('metadata=' + JSON.stringify(metadata));
+				}, 100);
 			}
 		}
 	}
@@ -35,7 +47,7 @@
 
 <template>
 	{#if metadata}
-		<Fieldeditor {fields} entity={metadata} on:save={saveMetadata} />
+		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<span role="button" on:click={close}>Close</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>

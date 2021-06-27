@@ -15,30 +15,16 @@
   },
   "book": {
     "chapter": "Kapitel",
-    "title": "Titel",
     "newchapter": "Titel des neuen Kapitels",
-    "open": "Buch laden oder erstellen",
+    "newperson": "Name der neuen Person",
+    "newplace": "Neuer Schauplatz",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
     "nopersonname": "Bitte geben Sie einen Namen für die neue Person ein",
+    "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein.",
+    "open": "Buch laden oder erstellen",
     "persons": "Personen",
-    "newperson": "Name der neuen Person",
     "places": "Schauplätze",
-    "newplace": "Neuer Schauplatz",
-    "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein."
-  },
-  "fields":{
-    "name": "Name",
-    "nicknames": "Weitere Bezeichnungen",
-    "gender": "Geschlecht",
-    "height": "Größe",
-    "age": "Alter",
-    "description": "Beschreibung",
-    "surround": "Umgebung",
-    "created": "Erstellt am",
-    "modified": "Geändert am",
-    "title": "Titel",
-    "author": "Autor",
-    "expose": "Exposé"
+    "title": "Titel"
   },
   "cal": {
     "apr": "April",
@@ -68,6 +54,22 @@
     "we": "Mi",
     "wed": "Mittwoch"
   },
+  "fields": {
+    "age": "Alter",
+    "author": "Autor",
+    "created": "Erstellt am",
+    "description": "Beschreibung",
+    "expose": "Exposé",
+    "gender": "Geschlecht",
+    "hair": "Haare",
+    "height": "Größe",
+    "modified": "Geändert am",
+    "name": "Name",
+    "nicknames": "Weitere Bezeichnungen",
+    "stature": "Statur",
+    "surround": "Umgebung",
+    "title": "Titel"
+  },
   "formatting": {
     "date": "DD.MM.YYYY"
   },
@@ -77,8 +79,8 @@
     "logout": "Abmelden",
     "open": "Öffnen",
     "password": "Passwort",
-    "username": "Benutzername",
-    "save": "Speichern"
+    "save": "Speichern",
+    "username": "Benutzername"
   },
   "headings": {
     "logindatafor": "Login Daten für"

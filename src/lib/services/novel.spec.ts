@@ -49,6 +49,10 @@ describe('Novel', () => {
     expect(elvis.description).toBeDefined;
     elvis.description = 'This is only a sample person';
     elvis.nicknames = ['elv', 'elvis', 'HIM'];
-    novel.writePerson(elvis);
+    const written = await novel.writePerson(elvis);
+    expect(written).toBeTruthy
+    await novel.close()
+    expect(novel.readMetadata()).toBeUndefined
+    
   });
 });

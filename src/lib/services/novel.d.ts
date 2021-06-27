@@ -21,6 +21,8 @@ export type person_def = {
   nicknames?: Array<string>;
   gender?: 'm' | 'f';
   height?: number | string;
+  stature?: string
+  hair?: string
   age?: number
   description?: string;
 };

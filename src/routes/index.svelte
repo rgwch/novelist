@@ -17,7 +17,11 @@
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
 
-	let metadata: metadata_def = $current;
+	let metadata;
+	current.subscribe((value) => {
+		console.log('Book update: ' + value);
+		metadata = value;
+	});
 
 	onMount(async () => {
 		openCurrent();
@@ -35,46 +39,45 @@
 </script>
 
 <template>
-	<span
-		role="button"
-		on:click={() => {
-			toggle('book');
-		}}
-	>
-		{#if metadata && metadata.title}
-			{metadata.title}
-		{:else}
-			{$_('book.title')}
-		{/if}
-	</span>
-
-	<span
-		role="button"
-		on:click={() => {
-			toggle('chapter');
-		}}>{$_('book.chapter')}</span
-	>
-	<span role="button" on:click={() => toggle('persons')}>
-		{$_('book.persons')}
-	</span>
-	<span role="button" on:click={() => toggle('places')}>
-		{$_('book.places')}
-	</span>
+	<div class="border-solid border-1 border-blue-100 pb-5">
+		<span
+			role="button"
+			class="ring-2 bg-blue-200 px-3 mx-1"
+			on:click={() => {
+				toggle('book');
+			}}
+		>
+			{#if metadata}
+				{metadata.title}
+			{:else}
+				{$_('book.title')}
+			{/if}
+		</span>
+		<span
+			role="button"
+			class="ring-2 bg-blue-200 px-3 mx-1"
+			on:click={() => {
+				toggle('chapter');
+			}}>{$_('book.chapter')}</span
+		>
+		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={() => toggle('persons')}>
+			{$_('book.persons')}
+		</span>
+		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={() => toggle('places')}>
+			{$_('book.places')}
+		</span>
+	</div>
 	{#if visible.book}
 		<Book />
 	{/if}
-	<br />
-
 	{#if visible.chapter}
 		<div>
 			<Chapter />
 		</div>
 	{/if}
-
 	{#if visible.persons}
 		<div class="border-solid"><Person /></div>
 	{/if}
-
 	{#if visible.places}
 		<div><Place /></div>
 	{/if}

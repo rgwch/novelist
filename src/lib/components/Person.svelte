@@ -12,7 +12,7 @@
 	import { load, save } from '../services/fileio';
 
 	let currentPerson: person_def = {};
-	const fields = ['name', 'nicknames', 'gender', 'height', 'age', 'description'];
+	const fields = ['name', 'nicknames', 'gender', 'height', 'stature', 'hair', 'age', 'description'];
 	const definition = {
 		type: 'persons',
 		newelem: 'book.newperson',
