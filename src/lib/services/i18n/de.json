@@ -74,6 +74,7 @@
     "date": "DD.MM.YYYY"
   },
   "general": {
+    "close": "Buch schließen",
     "created": "erstellt",
     "login": "Anmelden",
     "logout": "Abmelden",

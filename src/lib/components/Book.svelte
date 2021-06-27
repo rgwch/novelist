@@ -48,7 +48,8 @@
 <template>
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
-		<span role="button" on:click={close}>Close</span>
+		<hr class="py-4" />
+		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={close}>{$_('general.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
 		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />

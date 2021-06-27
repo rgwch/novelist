@@ -18,12 +18,19 @@
 	import { current, openCurrent } from '$lib/services/fileio';
 
 	let metadata;
-	current.subscribe((value) => {
-		console.log('Book update: ' + value);
-		metadata = value;
-	});
 
 	onMount(async () => {
+		current.subscribe((value) => {
+		console.log('Book update: ' + value);
+		metadata = value;
+		if (!metadata) {
+			visible.book = true;
+			visible.chapter = false;
+			visible.persons = false;
+			visible.places = false;
+		}
+	});
+
 		openCurrent();
 	});
 	const visible = {
