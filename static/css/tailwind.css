@@ -1,3 +1,10 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
+.btn {
+  @apply ring-2 bg-blue-200 px-3 mx-1;
+}
+
+.btn:hover {
+  @apply ring-4 bg-blue-300;
+}
 @import "tailwindcss/utilities";

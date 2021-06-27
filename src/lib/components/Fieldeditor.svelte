@@ -41,7 +41,7 @@
 			{/if}
 		</table>
 		<hr />
-		<span role="button" class="ring-2 mt-4" on:click={() => dispatch('save', local)}
+		<span role="button" class="btn" on:click={() => dispatch('save', local)}
 			>{$_('general.save')}</span
 		>
 	</div>

@@ -16,22 +16,23 @@
 	import Place from '$lib/components/Place.svelte';
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
+	import { stringify } from 'yaml';
 
 	let metadata;
 
 	onMount(async () => {
 		current.subscribe((value) => {
-		console.log('Book update: ' + value);
-		metadata = value;
-		if (!metadata) {
-			visible.book = true;
-			visible.chapter = false;
-			visible.persons = false;
-			visible.places = false;
-		}
-	});
+			console.log('Book update: ' + value);
+			metadata = value;
+			if (!metadata) {
+				visible.book = true;
+				visible.chapter = false;
+				visible.persons = false;
+				visible.places = false;
+			}
+		});
 
-		openCurrent();
+		await openCurrent();
 	});
 	const visible = {
 		book: true,
@@ -49,12 +50,13 @@
 	<div class="border-solid border-1 border-blue-100 pb-5">
 		<span
 			role="button"
-			class="ring-2 bg-blue-200 px-3 mx-1"
+			class="btn"
 			on:click={() => {
 				toggle('book');
 			}}
 		>
 			{#if metadata}
+				{@debug metadata}
 				{metadata.title}
 			{:else}
 				{$_('book.title')}
@@ -62,15 +64,15 @@
 		</span>
 		<span
 			role="button"
-			class="ring-2 bg-blue-200 px-3 mx-1"
+			class="btn"
 			on:click={() => {
 				toggle('chapter');
 			}}>{$_('book.chapter')}</span
 		>
-		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={() => toggle('persons')}>
+		<span role="button" class="btn" on:click={() => toggle('persons')}>
 			{$_('book.persons')}
 		</span>
-		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={() => toggle('places')}>
+		<span role="button" class="btn" on:click={() => toggle('places')}>
 			{$_('book.places')}
 		</span>
 	</div>

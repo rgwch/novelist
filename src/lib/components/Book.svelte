@@ -32,6 +32,7 @@
 		if (res.ok) {
 			const result = await res.json();
 			if (result.result !== 'fail') {
+        console.log(JSON.stringify(result))
 				current.set(result.result);
 				setTimeout(() => {
 					console.log('metadata=' + JSON.stringify(metadata));
@@ -49,10 +50,10 @@
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<hr class="py-4" />
-		<span role="button" class="ring-2 bg-blue-200 px-3 mx-1" on:click={close}>{$_('general.close')}</span>
+		<span role="button" class="btn" on:click={close}>{$_('general.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
 		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
-		<button class="bg-green-300" on:click={open}>{$_('general.open')}</button>
+		<button class="btn" on:click={open}>{$_('general.open')}</button>
 	{/if}
 </template>
