@@ -7,4 +7,12 @@
 .btn:hover {
   @apply ring-4 bg-blue-300;
 }
+
+.item{
+  @apply cursor-pointer border-solid border-2 rounded m-1 bg-gray-100;
+}
+
+.item:hover{
+  @apply bg-gray-400;
+}
 @import "tailwindcss/utilities";

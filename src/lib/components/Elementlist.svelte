@@ -41,9 +41,7 @@
 <template>
 	{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 		{#each metadata[definition.type] as elem}
-			<div
-				class="cursor-pointer border-solid border-2 border-rounded-x1 m-1 bg-gray-100 hover:bg-gray-400"
-			>
+			<div class="item">
 				<div
 					class={currentElementName == elem ? 'font-bold' : 'font-normal'}
 					on:click={() => select(elem)}

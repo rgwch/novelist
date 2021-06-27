@@ -7,7 +7,7 @@ import type { Novel } from '$lib/services/novel';
 import globals from '$lib/global';
 import type { EndpointOutput } from '@sveltejs/kit';
 
-export async function get(request): Promise<EndpointOutput> {
+export async function get(/* request */): Promise<EndpointOutput> {
 	const novel: Novel = globals.novel;
 	if (novel) {
 		await novel.close();
