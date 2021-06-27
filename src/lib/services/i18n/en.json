@@ -24,6 +24,7 @@
     "open": "Open or create a book",
     "persons": "Persons",
     "places": "Places",
+    "summary": "Zusammenfassung",
     "title": "Titel"
   },
   "cal": {
@@ -74,6 +75,7 @@
     "date": "YYYY-MM-DD"
   },
   "general": {
+    "close": "Buch schließen",
     "created": "created",
     "login": "Login",
     "logout": "Logout",

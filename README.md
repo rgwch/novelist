@@ -29,6 +29,21 @@ Each chapter is linked to a certain position in time.
 
 Usually, you'll not want to have your book disclosed to other peopple, before you decide that it's time for. That's why novelist book files are encrypted by default.
 
+## Getting started
+
+* Make sure you have NodeJS 14 or higher installed and active.
+* clone the repository, `cd` into the repository and apply `npm i` there.
+* Make any personal modifications to static/css/tailwind.css (or just keep it for now)
+* launch `npm run build:tailwind`
+* type `npm run dev` to launch the development server
+* Navigate your browser to http://localhost:3000
+
+## Internationalization
+
+* Enter new keys in src/services/i18n/de.json
+* launch `npm run i18n` to apply keys to other languages
+* correct the translations in en.json, fr. json and it. json
+
 ## Technical
 
 Text format: Markdown
