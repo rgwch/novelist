@@ -10,8 +10,8 @@
 	import Elementlist from '$lib/components/Elementlist.svelte';
 	import Editor from './Editor.svelte';
 	import type { metadata_def, noveldef, chapter_def } from '../services/novel.d';
-	
-  import { load, save } from '../services/fileio';
+
+	import { load, save } from '../services/fileio';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -46,10 +46,9 @@
 		try {
 			const def: chapter_def = await load('chapters', event.detail);
 			currentChapter = def;
-			setTimeout(()=>{
-				currentChapterText = def.text;
-			},100)
-			
+			setTimeout(() => {
+				currentChapterText = def.text ? def.text : '';
+			}, 100);
 		} catch (err) {
 			alert(err);
 		}
