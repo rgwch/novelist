@@ -15,8 +15,9 @@
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
 	import { _ } from 'svelte-i18n';
+	import { writable } from 'svelte/store';
 
-	let metadata: metadata_def;
+	export const metadata=writable({})
 
 	const visible = {
 		book: true,
@@ -28,6 +29,7 @@
 	function toggle(elem) {
 		visible[elem] = !visible[elem];
 	}
+	/*
 	onMount(async () => {
 		const res = await fetch('/novel/metadata.json');
 		if (res.ok) {
@@ -35,6 +37,7 @@
 			metadata = md.metadata;
 		}
 	});
+	*/
 </script>
 
 <template>

@@ -5,14 +5,14 @@
  ********************************************/
 
 export type metadata_def = {
-  title: string;
+  title?: string;
   author?: string;
-  created: Date;
+  created?: Date;
   modified?: Date;
   expose?: string
-  chapters: Array<string>;
-  persons: Array<string>;
-  places: Array<string>;
+  chapters?: Array<string>;
+  persons?: Array<string>;
+  places?: Array<string>;
   // [propName: string]: any;
 };
 
