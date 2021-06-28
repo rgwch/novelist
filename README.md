@@ -25,6 +25,10 @@ Description of all important places in the story. Whenever the cursor is on a pl
 
 Each chapter is linked to a certain position in time.
 
+### Notes
+
+Free text to collect ideas, concepts and so on.
+
 ## Privacy
 
 Usually, you'll not want to have your book disclosed to other peopple, before you decide that it's time for. That's why novelist book files are encrypted by default.
