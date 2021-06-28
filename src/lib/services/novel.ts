@@ -53,7 +53,7 @@ export class Novel {
 					} catch (err) {
 						reject('structure error ' + err);
 					}
-				});
+				})
 			} else {
 				const def = {
 					metadata: default_metadata,

@@ -10,10 +10,19 @@ import globals from '$lib/global';
 import path from 'path';
 
 export async function get(request): Promise<EndpointOutput> {
-	globals.novel = await Novel.open(path.join(globals.resolveDir(), request.params.novelfile));
-	return {
-		body: {
-			result: globals.novel ? globals.novel.def.metadata : 'fail'
-		}
-	};
+  try {
+    globals.novel = await Novel.open(path.join(globals.resolveDir(), request.params.novelfile));
+    return {
+      body: {
+        result: globals.novel ? globals.novel.def.metadata : 'fail'
+      }
+    }
+  } catch (err) {
+    return {
+      status: 500,
+      body: {
+        message: "Could not open file"
+      }
+    }
+  }
 }
