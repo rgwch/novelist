@@ -14,6 +14,8 @@
 	import Chapter from '$lib/components/Chapter.svelte';
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
+	import Notes from '$lib/components/Notes.svelte';
+
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
 	import { stringify } from 'yaml';
@@ -28,6 +30,7 @@
 				visible.chapter = false;
 				visible.persons = false;
 				visible.places = false;
+				visible.notes = false;
 			}
 		});
 
@@ -37,7 +40,8 @@
 		book: true,
 		chapter: false,
 		persons: false,
-		places: false
+		places: false,
+		notes: false
 	};
 
 	function toggle(elem) {
@@ -73,6 +77,9 @@
 		<span role="button" class="btn" on:click={() => toggle('places')}>
 			{$_('book.places')}
 		</span>
+		<span role="button" class="btn" on:click={() => toggle('notes')}>
+			{$_('book.notes')}
+		</span>
 	</div>
 	{#if visible.book}
 		<Book />
@@ -87,5 +94,8 @@
 	{/if}
 	{#if visible.places}
 		<div><Place /></div>
+	{/if}
+	{#if visible.notes}
+		<div><Notes /></div>
 	{/if}
 </template>

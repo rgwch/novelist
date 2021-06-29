@@ -48,6 +48,7 @@ export type noveldef = {
     [name: string]: place_def;
   };
   timeline?: string;
+  notes?: string;
   chapters?: {
     [name: string]: chapter_def;
   };

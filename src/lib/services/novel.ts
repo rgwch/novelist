@@ -27,7 +27,7 @@ const default_metadata: n.metadata_def = {
 export class Novel {
 	private store: Store;
 	static open(pathname: string, password = 'default'): Promise<Novel> {
-		console.log("opening " + pathname)
+		console.log('opening ' + pathname);
 		return new Promise((resolve, reject) => {
 			if (!pathname.endsWith('.novel')) {
 				pathname += '.novel';
@@ -41,22 +41,25 @@ export class Novel {
         fs.writeFileSync(lockfile, new Date().toString())
         */
 				const store = new Store(password);
-				store.load(pathname).then((buffer) => {
-					try {
-						const json: n.noveldef = JSON.parse(buffer.toString('utf-8'));
-						const lastWrite = new Date(json.metadata.modified);
-						if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
-							resolve(new Novel(pathname, json));
-						} else {
-							reject('invalid date ' + json.metadata.modified);
+				store
+					.load(pathname)
+					.then((buffer) => {
+						try {
+							const json: n.noveldef = JSON.parse(buffer.toString('utf-8'));
+							const lastWrite = new Date(json.metadata.modified);
+							if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
+								resolve(new Novel(pathname, json));
+							} else {
+								reject('invalid date ' + json.metadata.modified);
+							}
+						} catch (err) {
+							reject('structure error ' + err);
 						}
-					} catch (err) {
-						reject('structure error ' + err);
-					}
-				}).catch(err=>{
-          console.log("rejected store.load in novel: "+err)
-          reject(err)
-        })
+					})
+					.catch((err) => {
+						console.log('rejected store.load in novel: ' + err);
+						reject(err);
+					});
 			} else {
 				const def = {
 					metadata: default_metadata,
@@ -225,7 +228,7 @@ export class Novel {
 	}
 	writeMetadata(meta: n.metadata_def): Promise<boolean> {
 		if (this.def) {
- 			this.def.metadata = meta;
+			this.def.metadata = meta;
 			return this.flush();
 		} else {
 			throw new Error('no book open');
@@ -241,6 +244,14 @@ export class Novel {
 			}
 			const t = this.def.timeline + ds;
 			this.def.timeline = t;
+		} else {
+			throw new Error('no book open');
+		}
+	}
+	writeNotes(notes: string): Promise<boolean> {
+		if (this.def) {
+			this.def.notes = notes;
+			return this.flush();
 		} else {
 			throw new Error('no book open');
 		}

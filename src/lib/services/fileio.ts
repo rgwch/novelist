@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { writable } from 'svelte/store';
+import { stringify } from 'yaml';
 import type { metadata_def } from './novel.d';
 
 export const current = writable(undefined);
@@ -45,6 +46,33 @@ export async function saveMetadata(meta: metadata_def): Promise<boolean> {
 	}
 }
 
+export async function loadNotes(): Promise<string> {
+	try {
+		const res = await fetch('/novel/notes.json');
+		if (res.ok) {
+			const ret = await res.json();
+			return ret.notes;
+		}
+	} catch (err) {
+		throw new Error(err);
+	}
+}
+
+export async function saveNotes(notes: string): Promise<boolean> {
+	try {
+		const res = await fetch('/novel/notes.json', {
+			method: 'POST',
+			body: JSON.stringify(notes)
+		});
+		if (res.ok) {
+			return true;
+		} else {
+			return false;
+		}
+	} catch (err) {
+		throw new Error(err);
+	}
+}
 export async function save(type: string, name: string, data: any): Promise<any> {
 	try {
 		const res = await fetch(`/novel/${type}-${name}.json`, {
