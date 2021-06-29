@@ -14,6 +14,7 @@
     "year": "Jahr"
   },
   "book": {
+    "filename": "Dateiname des Buchs",
     "chapter": "Kapitel",
     "newchapter": "Titel des neuen Kapitels",
     "newperson": "Name der neuen Person",

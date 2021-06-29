@@ -85,7 +85,7 @@
 			</ul>
 		{/await}
 
-		<input class="border-solid border-1" type="text" id="name" bind:this={bookname} />
+		<input class="border-solid border-4" type="text" id="name" bind:this={bookname} placeholder={$_("book.filename")} />
 		<button class="btn" on:click={() => open(bookname.value)}>{$_('general.open')}</button>
 	{/if}
 </template>

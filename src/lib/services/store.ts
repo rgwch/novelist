@@ -21,8 +21,14 @@ export class Store {
 	public save(id: string, data: Buffer): Promise<boolean> {
 		return new Promise((resolve, reject) => {
 			try {
-				if (fs.existsSync(id + '_3')) {
-					fs.rmSync(id + '_3');
+				if (fs.existsSync(id + '_5')) {
+					fs.rmSync(id + '_5');
+				}
+        if (fs.existsSync(id + '_4')) {
+					fs.renameSync(id + '_4', id + '_5');
+				}
+        if (fs.existsSync(id + '_3')) {
+					fs.renameSync(id + '_3', id + '_4');
 				}
 				if (fs.existsSync(id + '_2')) {
 					fs.renameSync(id + '_2', id + '_3');

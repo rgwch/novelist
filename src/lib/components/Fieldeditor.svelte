@@ -29,8 +29,8 @@
 				{#each fields as field}
 					<tr>
 						<td class="pr-4 ">{toDisplay(field)}</td>
-						<td class="focus:outline-black pl-4">
-							<span
+						<td class="border border-solid border-black-400 focus:outline-black pl-4">
+							<span class="border border-solid"
 								contenteditable="true"
 								bind:innerHTML={local[field]}
 								on:blur={() => change(field)}
