@@ -53,7 +53,10 @@ export class Novel {
 					} catch (err) {
 						reject('structure error ' + err);
 					}
-				})
+				}).catch(err=>{
+          console.log("rejected store.load in novel: "+err)
+          reject(err)
+        })
 			} else {
 				const def = {
 					metadata: default_metadata,

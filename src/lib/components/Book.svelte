@@ -38,7 +38,10 @@
 					console.log('metadata=' + JSON.stringify(metadata));
 				}, 100);
 			}
-		}
+		}else{
+      const text=await res.json()
+      alert(text.message)
+    }
 	}
 	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
