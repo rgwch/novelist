@@ -15,6 +15,7 @@
 	import Person from '$lib/components/Person.svelte';
 	import Place from '$lib/components/Place.svelte';
 	import Notes from '$lib/components/Notes.svelte';
+	import Menu from '$lib/components/Menu.svelte';
 
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
@@ -50,6 +51,7 @@
 </script>
 
 <template>
+	<Menu></Menu>
 	<div class="border-solid border-1 border-blue-100 pb-5">
 		<span
 			role="button"
