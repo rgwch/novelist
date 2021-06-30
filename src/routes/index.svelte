@@ -19,8 +19,7 @@
 
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
-	import { stringify } from 'yaml';
-
+	
 	let metadata;
 
 	onMount(async () => {
@@ -51,7 +50,7 @@
 </script>
 
 <template>
-	<Menu></Menu>
+	<Menu {visible}></Menu>
 	<div class="border-solid border-1 border-blue-100 pb-5">
 		<span
 			role="button"
