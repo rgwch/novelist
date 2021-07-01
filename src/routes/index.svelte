@@ -90,10 +90,10 @@
 <style>
 	.gridd {
 		display: grid;
-		grid-template-columns: 2fr 10px 1fr;
+		grid-template-columns: 3fr 10px 2fr;
 	}
 	.gutter {
-		grid-area: 1 / 2 / 4 / 2;
+		grid-area: 1 / 2 / 1 / 2;
 		border: solid 2px red;
 	}
 </style>
