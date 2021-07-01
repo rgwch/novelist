@@ -16,11 +16,13 @@
 	import Place from '$lib/components/Place.svelte';
 	import Notes from '$lib/components/Notes.svelte';
 	import Menu from '$lib/components/Menu.svelte';
+	import Split from 'split-grid';
 
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
 
 	let metadata;
+	let column1;
 
 	onMount(async () => {
 		current.subscribe((value) => {
@@ -35,6 +37,14 @@
 		});
 
 		await openCurrent();
+		Split({
+			columnGutters: [
+				{
+					track: 1,
+					element: column1
+				}
+			]
+		});
 	});
 	let visible = {
 		book: true,
@@ -51,52 +61,39 @@
 
 <template>
 	<Menu bind:visible />
-	<div class="border-solid border-1 border-blue-100 pb-5">
-		<span
-			role="button"
-			class="btn"
-			on:click={() => {
-				toggle('book');
-			}}
-		>
-			{#if metadata}
-				{metadata.title}
-			{:else}
-				{$_('book.title')}
+	<div class="gridd">
+		<div class="bg-green-200">
+			{#if visible.book}
+				<Book />
 			{/if}
-		</span>
-		<span
-			role="button"
-			class="btn"
-			on:click={() => {
-				toggle('chapter');
-			}}>{$_('book.chapter')}</span
-		>
-		<span role="button" class="btn" on:click={() => toggle('persons')}>
-			{$_('book.persons')}
-		</span>
-		<span role="button" class="btn" on:click={() => toggle('places')}>
-			{$_('book.places')}
-		</span>
-		<span role="button" class="btn" on:click={() => toggle('notes')}>
-			{$_('book.notes')}
-		</span>
-	</div>
-	{#if visible.book}
-		<Book />
-	{/if}
-	{#if visible.chapter}
-		<div>
-			<Chapter />
+			{#if visible.chapter}
+				<div>
+					<Chapter />
+				</div>
+			{/if}
 		</div>
-	{/if}
-	{#if visible.persons}
-		<div class="border-solid"><Person /></div>
-	{/if}
-	{#if visible.places}
-		<div><Place /></div>
-	{/if}
-	{#if visible.notes}
-		<div><Notes /></div>
-	{/if}
+		<div class="gutter" bind:this={column1} />
+		<div class="bg-blue-200">
+			{#if visible.persons}
+				<div class="border-solid"><Person /></div>
+			{/if}
+			{#if visible.places}
+				<div><Place /></div>
+			{/if}
+			{#if visible.notes}
+				<div><Notes /></div>
+			{/if}
+		</div>
+	</div>
 </template>
+
+<style>
+	.gridd {
+		display: grid;
+		grid-template-columns: 2fr 10px 1fr;
+	}
+	.gutter {
+		grid-area: 1 / 2 / 4 / 2;
+		border: solid 2px red;
+	}
+</style>
