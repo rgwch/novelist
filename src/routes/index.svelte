@@ -19,7 +19,7 @@
 
 	import { _ } from 'svelte-i18n';
 	import { current, openCurrent } from '$lib/services/fileio';
-	
+
 	let metadata;
 
 	onMount(async () => {
@@ -36,7 +36,7 @@
 
 		await openCurrent();
 	});
-	const visible = {
+	let visible = {
 		book: true,
 		chapter: false,
 		persons: false,
@@ -50,7 +50,7 @@
 </script>
 
 <template>
-	<Menu {visible}></Menu>
+	<Menu bind:visible />
 	<div class="border-solid border-1 border-blue-100 pb-5">
 		<span
 			role="button"
