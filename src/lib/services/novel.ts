@@ -190,6 +190,16 @@ export class Novel {
 			throw new Error('no book open');
 		}
 	}
+  deletePerson(name:string):Promise<boolean>{
+    const index=this.def.metadata.persons.indexOf(name)
+    if(index==-1){
+      throw new Error("person does not exist "+name)
+    }
+    this.def.metadata.persons.splice(index,1)
+
+    delete this.def.persons[name]
+    return this.flush()
+  }
 	writeChapter(cdef: n.chapter_def): Promise<boolean> {
 		if (this.def) {
 			const name = cdef.name;
@@ -202,6 +212,15 @@ export class Novel {
 			throw new Error('no book open');
 		}
 	}
+  deleteChapter(name:string): Promise<boolean>{
+    const index=this.def.metadata.chapters.indexOf(name)
+    if(index==-1){
+      throw new Error("chapter does not exist "+name)
+    }
+    this.def.metadata.chapters.splice(index,1)
+    delete this.def.chapters[name]
+    return this.flush()
+  }
 	writePlace(pdef: n.place_def): Promise<boolean> {
 		const name = pdef.name;
 		this.def.places[name] = pdef;
@@ -210,6 +229,16 @@ export class Novel {
 		}
 		return this.flush();
 	}
+  deletePlace(name:string):Promise<boolean>{
+    const index=this.def.metadata.places.indexOf(name)
+    if(index==-1){
+      throw new Error("place does not exist "+name)
+    }
+    this.def.metadata.places.splice(index,1)
+
+    delete this.def.places[name]
+    return this.flush()
+  }
 	getPerson(name: string): n.person_def {
 		return this.def ? this.def.persons[name] : undefined;
 	}

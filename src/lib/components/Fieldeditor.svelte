@@ -41,6 +41,9 @@
 			{/if}
 		</table>
 		<hr />
+    <span role="button" class="btn" on:click={()=>dispatch('delete',local)}>
+      {$_('general.delete')}
+    </span>
 		<span role="button" class="btn" on:click={() => dispatch('save', local)}
 			>{$_('general.save')}</span
 		>
