@@ -6,10 +6,21 @@
 
 export type metadata_def = {
   title?: string;
+  series?: string;
+  sequence?: number = 1;
+  genre?: string;
+  language?: string;    // de, en, fr etc.
+  description?: string;
+  contents?: string;
+  tags?: string;
   author?: string;
+  fileAs?: string;
+  copyright?: string;
+  publisher?: string;
+  published?: Date;     // year-month-day
   created?: Date;
   modified?: Date;
-  expose?: string
+  expose?: string;
   chapters?: Array<string>;
   persons?: Array<string>;
   places?: Array<string>;
@@ -41,6 +52,7 @@ export type chapter_def = {
 };
 export type noveldef = {
   metadata?: metadata_def;
+  cover?: Uint8Array;
   persons?: {
     [name: string]: person_def;
   };
