@@ -3,4 +3,5 @@ node_modules
 /.svelte-kit
 /package
 /static/css/tailwindoutput.css
+/src/git/config.json
 

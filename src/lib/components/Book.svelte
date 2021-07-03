@@ -102,8 +102,8 @@
 				}
 			}
 		} catch (err) {
-      alert(err)
-    }
+			alert(err);
+		}
 	}
 </script>
 
