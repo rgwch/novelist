@@ -1,4 +1,9 @@
 {
+  "actions":{
+    "generateHTML": "export HTML",
+    "generateEPUB": "export ePub",
+    "changePWD": "Passwort ändern"
+  },
   "adapters": {
     "database_format_date": "yyyyLLdd",
     "date_format": "dd.LL.yyyy",
@@ -58,6 +63,7 @@
     "we": "Mi",
     "wed": "Mittwoch"
   },
+
   "fields": {
     "age": "Alter",
     "author": "Autor",
@@ -90,6 +96,7 @@
     "username": "Benutzername"
   },
   "headings": {
-    "logindatafor": "Login Daten für"
+    "logindatafor": "Login Daten für",
+    "enternewpwd": "Neues Passwort eingeben"
   }
 }

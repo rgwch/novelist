@@ -18,15 +18,19 @@ export class Store {
   private key;
   private iv
 
-  constructor(private password: string) {
-    this.key = crypto.scryptSync(this.password, 'salt', 24);
+  constructor(password: string) {
+    this.setPassword(password)
+  }
+
+  setPassword(password: string) {
+    console.log("Store: Setting password "+password)
+    this.key = crypto.scryptSync(password, 'salt', 24);
     let ivraw = ""
     while (ivraw.length < 16) {
       ivraw += password
     }
     this.iv = Buffer.from(ivraw.substr(0, 16))
   }
-
   performBackup(gen: number, pathname: string): void {
     const last = pathname + "_" + gen
     if (fs.existsSync(last)) {

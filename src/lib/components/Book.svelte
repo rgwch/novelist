@@ -4,8 +4,7 @@
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	const fields = ['title', 'author', 'created', 'modified', 'expose'];
-	import { current, saveMetadata, load } from '$lib/services/fileio';
-	// import { listFiles } from '$lib/services/fileio';
+	import { current, saveMetadata, load, changePwd } from '$lib/services/fileio';
 	import marked from 'marked';
 	import globals from '$lib/global';
 
@@ -91,14 +90,30 @@
 			alert('please allow pop-ups from this site');
 		}
 	}
+	async function chpwd() {
+		try {
+			const newPWD = prompt($_('headings.enternewpwd'));
+			if (newPWD) {
+				const res = await changePwd(newPWD);
+				if (res) {
+					alert('ok');
+				} else {
+					alert('fail');
+				}
+			}
+		} catch (err) {
+      alert(err)
+    }
+	}
 </script>
 
 <template>
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<hr class="py-4" />
-		<button class="btn" on:click={toHtml}>Generate HTML</button>
-		<button class="btn">Generate eBook</button>
+		<button class="btn" on:click={toHtml}>{$_('actions.generateHTML')}</button>
+		<button class="btn">{$_('actions.generateEPUB')}</button>
+		<button class="btn" on:click={chpwd}>{$_('actions.changePWD')}</button>
 		<span role="button" class="btn" on:click={close}>{$_('general.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>

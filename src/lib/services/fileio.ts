@@ -45,6 +45,20 @@ export async function saveMetadata(meta: metadata_def): Promise<boolean> {
   }
 }
 
+export async function changePwd(newPwd: string): Promise<boolean> {
+  const res = await fetch("/novel/modify.json", {
+    method: "POST",
+    body: JSON.stringify({
+      op: "changePwd",
+      password: newPwd
+    })
+  })
+  if (res.ok) {
+    return true
+  }
+  return false;
+}
+
 export async function loadNotes(): Promise<string> {
   try {
     const res = await fetch('/novel/notes.json');
