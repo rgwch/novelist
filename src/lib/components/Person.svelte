@@ -8,10 +8,9 @@
 <script lang="ts">
 	import type { metadata_def, person_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
-  import Dropdown from '$lib/components/Dropdown.svelte'
+	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
-	import { load, save, remove } from '../services/fileio';
-
+	import { load, save, remove} from '../services/fileio';
 
 	let currentPerson: person_def = {};
 	const fields = ['name', 'nicknames', 'gender', 'height', 'stature', 'hair', 'age', 'description'];
@@ -41,14 +40,14 @@
 			alert(err);
 		}
 	}
-  async function del(event){
-    try {
+	async function del(event) {
+		try {
 			currentPerson = event.detail;
 			await remove('persons', currentPerson.name);
 		} catch (err) {
 			alert(err);
 		}
-  }
+	}
 </script>
 
 <template>
@@ -59,7 +58,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} on:delete={del}/>
+				<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} on:delete={del} />
 			</div>
 		</div>
 	</div>
