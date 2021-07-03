@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { current } from '$lib/services/fileio';
-		export let definition = {
+	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
@@ -24,8 +24,8 @@
 				})
 					.then((ok) => {
 						metadata[arr] = [...metadata[arr], elem];
-            value=elem
-            dispatch('selected',value)
+						value = elem;
+						dispatch('selected', value);
 					})
 					.catch((err) => {
 						alert(err);
@@ -43,7 +43,7 @@
 <template>
 	{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 		<!-- svelte-ignore a11y-no-onchange -->
-		<select bind:value on:change={select}>
+		<select bind:value on:change={select} on:click={select}>
 			{#each metadata[definition.type] as elem}
 				<option value={elem}>
 					{elem}

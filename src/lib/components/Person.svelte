@@ -1,7 +1,7 @@
 <!--
  ********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021 by G. Weirich         *
+ * Copyright (c) 2021                       *
  * License and Terms see LICENSE            *
  ********************************************
 -->
@@ -10,8 +10,9 @@
 	import Elementlist from '$lib/components/Elementlist.svelte';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
-	import { load, save, remove} from '../services/fileio';
+	import { load, save, remove } from '../services/fileio';
 
+	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
 	const fields = ['name', 'nicknames', 'gender', 'height', 'stature', 'hair', 'age', 'description'];
 	const definition = {
@@ -44,6 +45,10 @@
 		try {
 			currentPerson = event.detail;
 			await remove('persons', currentPerson.name);
+			const idx = metadata.persons.indexOf(currentPerson.name);
+			if (idx !== -1) {
+				metadata.persons.splice(idx, 1);
+			}
 		} catch (err) {
 			alert(err);
 		}

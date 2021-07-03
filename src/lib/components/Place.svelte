@@ -1,16 +1,18 @@
 <!--
  ********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021 by G. Weirich         *
+ * Copyright (c) 2021                       *
  * License and Terms see LICENSE            *
  ********************************************
 -->
 <script lang="ts">
 	import type { metadata_def, place_def } from '$lib/services/novel.d';
 	import Elementlist from '$lib/components/Elementlist.svelte';
+	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
-	import { load, save } from '../services/fileio';
+	import { load, save, remove } from '../services/fileio';
 
+	export let metadata: metadata_def;
 	let currentPlace: place_def = {};
 	const fields = ['name', 'surround', 'description'];
 	const definition = {
@@ -19,7 +21,6 @@
 		promptname: 'book.noplacename'
 	};
 	async function select(event) {
-		console.log(event.detail);
 		try {
 			const def = await load('places', event.detail);
 			for (let field of fields) {
@@ -40,12 +41,24 @@
 			alert(err);
 		}
 	}
+	async function del(event) {
+		try {
+			currentPlace = event.detail;
+			await remove('persons', currentPlace.name);
+			const idx = metadata.places.indexOf(currentPlace.name);
+			if (idx !== -1) {
+				metadata.places.splice(idx, 1);
+			}
+		} catch (err) {
+			alert(err);
+		}
+	}
 </script>
 
 <template>
-	<div class="flex gap-4 flex-row">
+	<div class="flex gap-4 flex-col">
 		<div class="flex-none h-full">
-			<Elementlist {definition} on:selected={select} />
+			<Dropdown {definition} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">

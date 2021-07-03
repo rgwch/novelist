@@ -11,9 +11,9 @@ import path from 'path';
 
 export async function get(request): Promise<EndpointOutput> {
   try {
-    console.log("before open")
-    globals.novel = await Novel.open(path.join(globals.resolveDir(), request.params.novelfile));
-    console.log("after open")
+    // console.log("before open")
+    globals.novel = await Novel.open(path.join(globals.resolveDir(), request.params.novelfile), request.params.password);
+    // console.log("after open")
     return {
       body: {
         result: globals.novel ? globals.novel.def.metadata : 'fail'
@@ -29,3 +29,4 @@ export async function get(request): Promise<EndpointOutput> {
     }
   }
 }
+

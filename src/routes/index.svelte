@@ -75,7 +75,7 @@
 		<div class="gutter" bind:this={column1} />
 		<div class="bg-blue-200">
 			{#if visible.persons}
-				<div class="border-solid"><Person /></div>
+				<div><Person {metadata} /></div>
 			{/if}
 			{#if visible.places}
 				<div><Place /></div>
