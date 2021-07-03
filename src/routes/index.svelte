@@ -62,7 +62,7 @@
 <template>
 	<Menu bind:visible />
 	<div class="gridd">
-		<div class="bg-green-200">
+		<div>
 			{#if visible.book}
 				<Book />
 			{/if}
@@ -73,12 +73,12 @@
 			{/if}
 		</div>
 		<div class="gutter" bind:this={column1} />
-		<div class="bg-blue-200">
+		<div class="bg-blue-100">
 			{#if visible.persons}
 				<div><Person {metadata} /></div>
 			{/if}
 			{#if visible.places}
-				<div><Place /></div>
+				<div><Place {metadata}/></div>
 			{/if}
 			{#if visible.notes}
 				<div><Notes /></div>
@@ -90,10 +90,11 @@
 <style>
 	.gridd {
 		display: grid;
-		grid-template-columns: 3fr 10px 2fr;
+		grid-template-columns: 3fr 6px 2fr;
+    padding:10px;
 	}
 	.gutter {
 		grid-area: 1 / 2 / 1 / 2;
-		border: solid 2px red;
+		border: solid 1px black;
 	}
 </style>

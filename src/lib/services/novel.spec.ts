@@ -4,7 +4,7 @@ import fs from 'fs'
 
 describe('Novel', () => {
   beforeAll(async () => {
-    await Novel.fromDirectory('test/sample');
+    await Novel.fromDirectory('test/sample',"default");
   });
 
   afterAll(async () => {
@@ -12,28 +12,28 @@ describe('Novel', () => {
     fs.rm('test/sample1.novel', () => { });
     fs.rm('test/sample1.novel_1', () => { });
     fs.rm('test/sample1.novel_2', () => { });
-
+    fs.rm('test/sample1.novel_3', () => { });
   });
   it('opens a noveldef', async () => {
-    const novel = await Novel.open('test/sample.novel');
+    const novel = await Novel.open('test/sample.novel',"default");
     expect(novel).toBeDefined;
   });
   it('reads files from the noveldef', async () => {
-    const novel = await Novel.open('test/sample.novel');
+    const novel = await Novel.open('test/sample.novel',"default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined;
     expect(novel.readMetadata()).toBeDefined;
     expect(novel.getTimeline()).toBeDefined;
   });
   it('creates a new noveldef', async () => {
-    const novel = await Novel.open('test/sample1.novel');
+    const novel = await Novel.open('test/sample1.novel',"default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined;
     expect(metadata.title).toEqual('sample1');
   });
 
   it('adds and modifies a file', async () => {
-    const novel = await Novel.open('test/sample1.novel');
+    const novel = await Novel.open('test/sample1.novel',"default");
     novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: ['fish', 'elvis'],

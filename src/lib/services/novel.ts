@@ -149,7 +149,7 @@ export class Novel {
   }
 
   async changePassword(newPwd: string) {
-    console.log("changing password " + newPwd)
+    // console.log("changing password " + newPwd)
     this.store.setPassword(newPwd)
     return this.flush()
   }

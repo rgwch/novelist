@@ -1,8 +1,8 @@
 {
-  "actions":{
-    "generateHTML": "export HTML",
+  "actions": {
+    "changePWD": "Passwort ändern",
     "generateEPUB": "export ePub",
-    "changePWD": "Passwort ändern"
+    "generateHTML": "export HTML"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
@@ -19,8 +19,8 @@
     "year": "Jahr"
   },
   "book": {
-    "filename": "Dateiname des Buchs",
     "chapter": "Kapitel",
+    "filename": "Dateiname des Buchs",
     "metadata": "Daten",
     "newchapter": "Titel des neuen Kapitels",
     "newperson": "Name der neuen Person",
@@ -63,7 +63,6 @@
     "we": "Mi",
     "wed": "Mittwoch"
   },
-
   "fields": {
     "age": "Alter",
     "author": "Autor",
@@ -96,7 +95,7 @@
     "username": "Benutzername"
   },
   "headings": {
-    "logindatafor": "Login Daten für",
-    "enternewpwd": "Neues Passwort eingeben"
+    "enternewpwd": "Neues Passwort eingeben",
+    "logindatafor": "Login Daten für"
   }
 }

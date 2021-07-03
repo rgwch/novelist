@@ -23,57 +23,57 @@
 </script>
 
 <template>
-	<div class="container mx-auto bg-purple-300 p-5">
+	<div class="container mx-auto bg-gray-300 p-2">
 		<nav class="flex-row md:justify-between">
-			<div class="flex flex-row justify-between">
-				<span>
+			<!-- div class="flex flex-row justify-between" -->
+				<!-- span>
 					{#if $current}
 						{$current.title}
 					{:else}
 						unknown
 					{/if}
-				</span>
+				</span -->
 
 				<span
-					class="md:hidden bg-purple-200"
+					class="md:hidden bg-gray-200"
 					bind:this={hamburgerbtn}
 					on:click={() => {
 						expanded = !expanded;
 					}}>menu</span
 				>
-			</div>
+			<!-- /div -->
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li
 					class="pr-5 cursor-pointer"
-					class:bg-red-200={visible.book}
+					class:bg-gray-200={visible.book}
 					on:click={() => toggle('book')}
 				>
 					{$_('book.metadata')}
 				</li>
 				<li
 					class="pr-5 cursor-pointer"
-					class:bg-red-200={visible.chapter}
+					class:bg-gray-200={visible.chapter}
 					on:click={() => toggle('chapter')}
 				>
 					{$_('book.chapter')}
 				</li>
 				<li
 					class="pr-5 cursor-pointer"
-					class:bg-red-200={visible.persons}
+					class:bg-gray-200={visible.persons}
 					on:click={() => toggle('persons')}
 				>
 					{$_('book.persons')}
 				</li>
 				<li
 					class="pr-5 cursor-pointer"
-					class:bg-red-200={visible.places}
+					class:bg-gray-200={visible.places}
 					on:click={() => toggle('places')}
 				>
 					{$_('book.places')}
 				</li>
 				<li
 					class="pr-5 cursor-pointer"
-					class:bg-red-200={visible.notes}
+					class:bg-gray-200={visible.notes}
 					on:click={() => toggle('notes')}
 				>
 					{$_('book.notes')}

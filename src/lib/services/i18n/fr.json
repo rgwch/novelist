@@ -1,4 +1,9 @@
 {
+  "actions": {
+    "changePWD": "Passwort ändern",
+    "generateEPUB": "export ePub",
+    "generateHTML": "export HTML"
+  },
   "adapters": {
     "database_format_date": "yyyyLLdd",
     "date_format": "dd.LL.yyyy",
@@ -15,12 +20,15 @@
   },
   "book": {
     "chapter": "Kapitel",
+    "filename": "Dateiname des Buchs",
+    "metadata": "Daten",
     "newchapter": "Titel des neuen Kapitels",
     "newperson": "Name der neuen Person",
     "newplace": "Neuer Schauplatz",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
     "nopersonname": "Bitte geben Sie einen Nsmrn für die neue Person ein",
     "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein.",
+    "notes": "Notizen",
     "open": "Buch laden oder erstellen",
     "persons": "Personen",
     "places": "Orte",
@@ -77,14 +85,17 @@
   "general": {
     "close": "Buch schließen",
     "created": "erstellt",
+    "delete": "Löschen",
     "login": "Se connecter",
     "logout": "Se déconnecter",
+    "new": "Neu",
     "open": "Öffnen",
-    "password": "Passwort",
+    "password": "Mot de passe",
     "save": "Speichern",
     "username": "Nom"
   },
   "headings": {
+    "enternewpwd": "Neues Passwort eingeben",
     "logindatafor": "Login Daten für"
   }
 }

@@ -10,7 +10,6 @@ import { createGzip, createGunzip } from 'zlib';
 import crypto from 'crypto';
 import sb from 'stream-buffers';
 import { pipeline } from 'stream';
-import config from '$lib/config.json'
 import { DateTime } from 'luxon';
 
 export class Store {
@@ -23,7 +22,7 @@ export class Store {
   }
 
   setPassword(password: string) {
-    console.log("Store: Setting password "+password)
+    // console.log("Store: Setting password " + password)
     this.key = crypto.scryptSync(password, 'salt', 24);
     let ivraw = ""
     while (ivraw.length < 16) {
@@ -46,44 +45,19 @@ export class Store {
       }
     }
     for (let i = gen - 1; i > 0; i--) {
-      if (fs.existsSync(pathname + "_" + i)) {
-        fs.renameSync(pathname + "_" + i, pathname + "_" + (i + 1).toString())
+      const check = pathname + "_" + i
+      if (fs.existsSync(check)) {
+        fs.renameSync(check, pathname + "_" + (i + 1).toString())
       }
+    }
+    if (fs.existsSync(pathname)) {
+      fs.renameSync(pathname, pathname + "_1")
     }
   }
   public save(id: string, data: Buffer): Promise<boolean> {
     return new Promise((resolve, reject) => {
       try {
         this.performBackup(5, id)
-        /*
-        if (fs.existsSync(id + '_5')) {
-          const now = DateTime.fromJSDate(new Date())
-          const datestring = now.toFormat("yyyy-LL-dd")
-          const basename = path.basename(id, ".novel")
-          const dir = path.dirname(id)
-          const dailybackup = path.join(dir, basename + "_" + datestring + ".novel")
-          if (fs.existsSync(dailybackup)) {
-            fs.rmSync(id + '_5');
-          } else {
-            fs.renameSync(id + "_5", dailybackup)
-          }
-        }
-        if (fs.existsSync(id + '_4')) {
-          fs.renameSync(id + '_4', id + '_5');
-        }
-        if (fs.existsSync(id + '_3')) {
-          fs.renameSync(id + '_3', id + '_4');
-        }
-        if (fs.existsSync(id + '_2')) {
-          fs.renameSync(id + '_2', id + '_3');
-        }
-        if (fs.existsSync(id + '_1')) {
-          fs.renameSync(id + '_1', id + '_2');
-        }
-        if (fs.existsSync(id)) {
-          fs.renameSync(id, id + '_1');
-        }
-        */
       } catch (err) {
         console.log("store:save: can't organise backups " + err);
         reject('Backup ' + err);
