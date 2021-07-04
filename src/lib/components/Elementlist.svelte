@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { metadata_def } from '$lib/services/novel.d';
+	import type { metadata_def } from '$lib/services/noveltypes';
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();

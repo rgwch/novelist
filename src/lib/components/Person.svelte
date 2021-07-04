@@ -6,7 +6,7 @@
  ********************************************
 -->
 <script lang="ts">
-	import type { metadata_def, person_def } from '$lib/services/novel.d';
+	import type { metadata_def, person_def } from '$lib/services/noveltypes';
 	import Elementlist from '$lib/components/Elementlist.svelte';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';

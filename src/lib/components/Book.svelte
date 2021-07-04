@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { chapter_def, metadata_def } from '$lib/services/novel.d';
+	import type { chapter_def, metadata_def } from '$lib/services/noveltypes';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
@@ -10,6 +10,7 @@
 
 	let bookname;
 	let metadata: metadata_def;
+	let filedialog = false;
 	current.subscribe((value) => {
 		metadata = value;
 	});
@@ -90,6 +91,22 @@
 			alert('please allow pop-ups from this site');
 		}
 	}
+	async function toEpub() {
+		try {
+			const ret=await fetch('/novel/createbook.json', {
+				method: 'POST',
+				body: JSON.stringify({
+					filename: metadata.title
+				})
+			});
+			if(ret.ok){
+				const data=ret.blob()
+			}
+			alert('ok');
+		} catch (err) {
+			alert(err);
+		}
+	}
 	async function chpwd() {
 		try {
 			const newPWD = prompt($_('headings.enternewpwd'));
@@ -112,7 +129,7 @@
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<hr class="py-4" />
 		<button class="btn" on:click={toHtml}>{$_('actions.generateHTML')}</button>
-		<button class="btn">{$_('actions.generateEPUB')}</button>
+		<button class="btn" on:click={toEpub}>{$_('actions.generateEPUB')}</button>
 		<button class="btn" on:click={chpwd}>{$_('actions.changePWD')}</button>
 		<span role="button" class="btn" on:click={close}>{$_('general.close')}</span>
 	{:else}
@@ -134,4 +151,10 @@
 		/>
 		<button class="btn" on:click={() => open(bookname.value)}>{$_('general.open')}</button>
 	{/if}
+	<div class:hidden={!filedialog}>
+		<form action="/novel/createbook.json" method="POST">
+			<input type="file" name="filename" />
+			<button type="submit">Create</button>
+		</form>
+	</div>
 </template>

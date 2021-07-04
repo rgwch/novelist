@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { current } from '$lib/services/fileio';
-	import type { metadata_def } from '$lib/services/novel.d';
+	import type { metadata_def } from '$lib/services/noveltypes';
 	import { _ } from 'svelte-i18n';
 	import Book from './Book.svelte';
 
@@ -28,7 +28,7 @@
 			<img
 				src="/hamburger.svg"
 				alt="menu"
-				class="md:hidden bg-gray-200"
+				class="md:hidden bg-gray-300"
 				bind:this={hamburgerbtn}
 				on:click={() => {
 					expanded = !expanded;

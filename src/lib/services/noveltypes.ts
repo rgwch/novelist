@@ -5,9 +5,11 @@
  ********************************************/
 
 export type metadata_def = {
+  id?: string;
   title?: string;
   series?: string;
-  sequence?: number = 1;
+  cover?: string
+  sequence?: number;
   genre?: string;
   language?: string;    // de, en, fr etc.
   description?: string;
@@ -17,7 +19,7 @@ export type metadata_def = {
   fileAs?: string;
   copyright?: string;
   publisher?: string;
-  published?: Date;     // year-month-day
+  published?: string;     // year-month-day
   created?: Date;
   modified?: Date;
   expose?: string;

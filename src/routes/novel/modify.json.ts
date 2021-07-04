@@ -1,7 +1,6 @@
 import type { EndpointOutput } from '@sveltejs/kit';
 import type { Novel } from '$lib/services/novel';
 import globals from '$lib/global';
-import path from 'path';
 
 export async function post({ params, body }): Promise<EndpointOutput> {
   const request = JSON.parse(body)
@@ -10,7 +9,7 @@ export async function post({ params, body }): Promise<EndpointOutput> {
     if (globals.novel) {
       const novel: Novel = globals.novel
       console.log(body)
-      if (request.op = "changePwd" && request.password) {
+      if ((request.op === "changePwd") && request.password) {
         await novel.changePassword(request.password)
         return {
           status: 200,

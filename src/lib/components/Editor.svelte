@@ -28,5 +28,5 @@
 </script>
 
 <template>
-	<textarea bind:this={container} />
+	<textarea bind:this={container} class="v-full" />
 </template>

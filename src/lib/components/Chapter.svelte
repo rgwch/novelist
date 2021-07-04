@@ -9,7 +9,7 @@
 	import { _ } from 'svelte-i18n';
 	import Elementlist from '$lib/components/Elementlist.svelte';
 	import Editor from './Editor.svelte';
-	import type { metadata_def, noveldef, chapter_def } from '../services/novel.d';
+	import type { metadata_def, noveldef, chapter_def } from '../services/noveltypes';
 
 	import { load, save } from '../services/fileio';
 	const definition = {
@@ -56,11 +56,11 @@
 </script>
 
 <template>
-	<div class="flex gap-4 flex-row">
+	<div class="flex gap-4 flex-col md:flex-row">
 		<div class="flex-none h-full">
 			<Elementlist {definition} on:selected={select} />
 		</div>
-		<div class="flex-1 h-full">
+		<div class="flex-1 h-full v-full">
 			{#if currentChapter && currentChapter.name}
 				<h3 class="text-lg font-semibold text-blue-400">
 					{currentChapter ? currentChapter.name : ''}
