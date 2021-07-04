@@ -78,7 +78,7 @@
 				<div><Person {metadata} /></div>
 			{/if}
 			{#if visible.places}
-				<div><Place {metadata}/></div>
+				<div><Place {metadata} /></div>
 			{/if}
 			{#if visible.notes}
 				<div><Notes /></div>
@@ -91,7 +91,7 @@
 	.gridd {
 		display: grid;
 		grid-template-columns: 3fr 6px 2fr;
-    padding:10px;
+		padding: 10px;
 	}
 	.gutter {
 		grid-area: 1 / 2 / 1 / 2;
