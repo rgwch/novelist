@@ -1,4 +1,7 @@
 ---
 title: Sample Novel
 author:  Sample Author
+chapters: ["First Chapter"]
+persons: ["Brutus Allerdice"]
+places: ["Illyria"]
 

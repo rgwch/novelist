@@ -4,7 +4,7 @@ import fs from 'fs'
 
 describe('Novel', () => {
   beforeAll(async () => {
-    await Novel.fromDirectory('test/sample',"default");
+    await Novel.fromDirectory('test/sample',"default",true);
   });
 
   afterAll(async () => {

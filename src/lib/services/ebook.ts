@@ -15,15 +15,24 @@ export class EBook {
 		meta.author = meta.author || 'anonymous';
 		meta.genre = meta.genre || 'fiction';
 		meta.cover = meta.cover || `${meta.title}.jpg`;
-		const dt = DateTime.fromJSDate(new Date(meta.published));
+		let dt = DateTime.fromJSDate(new Date(meta.published));
 		const md = marked.setOptions({});
-		meta.published = dt.toFormat('yyyy-LL-dd');
-		const epub = nodepub.document(meta);
-		for (const chapter of meta.chapters) {
-			const text = await load('chapters', chapter);
-			const html = marked(md.parse(text.text));
-			epub.addSection(chapter, html);
+		if (!dt.isValid) {
+			dt = DateTime.fromJSDate(new Date());
 		}
-		await epub.writeEPUB(globals.resolveDir(), meta.title);
+		meta.published = dt.toFormat('yyyy-LL-dd');
+		try {
+			const epub = nodepub.document(meta);
+			for (const chapter of meta.chapters) {
+				const text = novel.getChapter(chapter);
+				const html = marked(md.parse(text.text));
+				epub.addSection(chapter, html);
+			}
+
+			await epub.writeEPUB(globals.resolveDir(), meta.title);
+		} catch (err) {
+			console.log(err);
+			throw new Error('epub creation failed ' + err);
+		}
 	}
 }

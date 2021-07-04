@@ -78,10 +78,14 @@ export class Novel {
 		});
 	}
 
-	static async fromDirectory(dir: string, password: string): Promise<Novel> {
+	static async fromDirectory(dir: string, password: string, force = false): Promise<Novel> {
 		const filepath = path.join(dir, '../..', `${dir}.novel`);
 		if (fs.existsSync(filepath)) {
-			throw new Error('file exists');
+			if (force) {
+				fs.rmSync(filepath);
+			} else {
+				throw new Error('file exists ' + filepath);
+			}
 		}
 		const def: n.noveldef = {
 			metadata: default_metadata,
