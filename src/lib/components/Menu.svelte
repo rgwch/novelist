@@ -25,23 +25,16 @@
 <template>
 	<div class="container mx-auto bg-gray-300 p-2">
 		<nav class="flex-row md:justify-between">
-			<!-- div class="flex flex-row justify-between" -->
-				<!-- span>
-					{#if $current}
-						{$current.title}
-					{:else}
-						unknown
-					{/if}
-				</span -->
-
-				<span
-					class="md:hidden bg-gray-200"
-					bind:this={hamburgerbtn}
-					on:click={() => {
-						expanded = !expanded;
-					}}>menu</span
-				>
-			<!-- /div -->
+			<img
+				src="/hamburger.svg"
+				alt="menu"
+				class="md:hidden bg-gray-200"
+				bind:this={hamburgerbtn}
+				on:click={() => {
+					expanded = !expanded;
+				}}
+			/>
+		
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li
 					class="pr-5 cursor-pointer"

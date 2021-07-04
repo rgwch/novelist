@@ -61,6 +61,33 @@
 
 <template>
 	<Menu bind:visible />
+	<div class="flex flex-col md:flex-row">
+		<div>
+			{#if visible.book}
+				<Book />
+			{/if}
+			{#if visible.chapter}
+				<div>
+					<Chapter />
+				</div>
+			{/if}
+		</div>
+		<div>
+			{#if visible.persons}
+				<div><Person {metadata} /></div>
+			{/if}
+			{#if visible.places}
+				<div><Place {metadata} /></div>
+			{/if}
+			{#if visible.notes}
+				<div><Notes /></div>
+			{/if}
+		</div>
+	</div>
+</template>
+
+<!-- template>
+	<Menu bind:visible />
 	<div class="gridd">
 		<div>
 			{#if visible.book}
@@ -85,8 +112,7 @@
 			{/if}
 		</div>
 	</div>
-</template>
-
+</template -->
 <style>
 	.gridd {
 		display: grid;

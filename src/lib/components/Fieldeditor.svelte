@@ -24,26 +24,31 @@
 
 <template>
 	<div>
-		<table m-24 p-4>
+		<table class="m-4 p-2 border-collapse table-auto">
 			{#if entity}
 				{#each fields as field}
 					<tr>
 						<td class="pr-4 ">{toDisplay(field)}</td>
-						<td class="border border-solid border-black-400 focus:outline-black pl-4">
-							<span class="border border-solid"
+						<td class="pl-4">
+							<input
+								class="border focus:outline-none focus:ring-2 focus:ring-blue-400"
+								bind:value={local[field]}
+								on:blur={() => change(field)}
+							/>
+							<!-- span class="border border-solid"
 								contenteditable="true"
 								bind:innerHTML={local[field]}
 								on:blur={() => change(field)}
-							/>
+							/ -->
 						</td>
 					</tr>
 				{/each}
 			{/if}
 		</table>
 		<hr />
-    <span role="button" class="btn" on:click={()=>dispatch('delete',local)}>
-      {$_('general.delete')}
-    </span>
+		<span role="button" class="btn" on:click={() => dispatch('delete', local)}>
+			{$_('general.delete')}
+		</span>
 		<span role="button" class="btn" on:click={() => dispatch('save', local)}
 			>{$_('general.save')}</span
 		>
