@@ -1,6 +1,7 @@
 ---
 title: Sample Novel
 author:  Sample Author
+cover: cover.png
 chapters: ["First Chapter"]
 persons: ["Brutus Allerdice"]
 places: ["Illyria"]
