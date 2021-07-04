@@ -27,7 +27,7 @@ const default_metadata: n.metadata_def = {
 export class Novel {
 	private store: Store;
 	static open(pathname: string, password: string): Promise<Novel> {
-		console.log('opening ' + pathname);
+		// console.log('opening ' + pathname);
 		return new Promise((resolve, reject) => {
 			if (!pathname.endsWith('.novel')) {
 				pathname += '.novel';
@@ -96,23 +96,23 @@ export class Novel {
 		};
 		def.metadata.created = new Date();
 		try {
-			const time = await preadFile(path.resolve(dir, 'time.md'));
+			const time = await preadFile(path.join(dir, 'time.md'));
 			def.timeline = time.toString('utf-8');
 		} catch (err) {
 			console.log('Novel.fromDirectory: no time def found ' + err);
 			def.timeline = '';
 		}
 		try {
-			const meta = await preadFile(path.resolve(dir, 'metadata.yaml'));
+			const meta = await preadFile(path.join(dir, 'metadata.yaml'));
 			def.metadata = YAML.parse((await meta).toString('utf-8'));
 		} catch (err) {
 			console.log('Novel.fromDirectoryno metadata found ' + err);
 			def.metadata = default_metadata;
 		}
 		try {
-			const persons = await preaddir(path.resolve(dir, 'persons'));
+			const persons = await preaddir(path.join(dir, 'persons'));
 			for (const person of persons) {
-				const data = await preadFile(path.resolve(dir, 'persons', person));
+				const data = await preadFile(path.join(dir, 'persons', person));
 				const split = metadataParser(data.toString('utf-8'));
 				def.persons[split.metadata.name] = split.metadata;
 				def.persons[split.metadata.name].description = split.content;
@@ -121,9 +121,9 @@ export class Novel {
 			console.log('Novel.fromDirectory: no persons ' + err);
 		}
 		try {
-			const places = await preaddir(path.resolve(dir, 'places'));
+			const places = await preaddir(path.join(dir, 'places'));
 			for (const place of places) {
-				const data = await preadFile(path.resolve(dir, 'places', place));
+				const data = await preadFile(path.join(dir, 'places', place));
 				const split = metadataParser(data.toString('utf-8'));
 				def.places[split.metadata.name] = split.metadata;
 				def.places[split.metadata.name].description = split.content;
@@ -132,9 +132,9 @@ export class Novel {
 			console.log('Novel.fromDirectory: no places ' + err);
 		}
 		try {
-			const chapters = await preaddir(path.resolve(dir, 'chapters'));
+			const chapters = await preaddir(path.join(dir, 'chapters'));
 			for (const chapter of chapters) {
-				const data = await preadFile(path.resolve(dir, 'chapters', chapter));
+				const data = await preadFile(path.join(dir, 'chapters', chapter));
 				const split = metadataParser(data.toString('utf-8'));
 				def.chapters[split.metadata.title] = split.metadata;
 				def.chapters[split.metadata.title].text = split.content;

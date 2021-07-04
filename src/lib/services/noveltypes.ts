@@ -26,6 +26,7 @@ export type metadata_def = {
   chapters?: Array<string>;
   persons?: Array<string>;
   places?: Array<string>;
+  images?: Array<string>;
   // [propName: string]: any;
 };
 

@@ -2,7 +2,7 @@
 import { Novel } from './novel';
 import fs from 'fs'
 
-describe('Novel', () => {
+xdescribe('Novel', () => {
   beforeAll(async () => {
     await Novel.fromDirectory('test/sample',"default",true);
   });
