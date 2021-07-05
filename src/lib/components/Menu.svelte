@@ -34,7 +34,7 @@
 					expanded = !expanded;
 				}}
 			/>
-		
+
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li
 					class="pr-5 cursor-pointer"

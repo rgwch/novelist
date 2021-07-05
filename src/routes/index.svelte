@@ -60,12 +60,11 @@
 </script>
 
 <template>
-	<Menu bind:visible />
+	<div class="fixed">
+		<Menu bind:visible />
+	</div>
 	<div class="flex flex-col md:flex-row">
 		<div>
-			{#if visible.book}
-				<Book />
-			{/if}
 			{#if visible.chapter}
 				<div>
 					<Chapter />
@@ -73,6 +72,10 @@
 			{/if}
 		</div>
 		<div>
+			{#if visible.book}
+				<Book />
+			{/if}
+
 			{#if visible.persons}
 				<div><Person {metadata} /></div>
 			{/if}

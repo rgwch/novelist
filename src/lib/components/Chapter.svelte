@@ -70,7 +70,7 @@
 				</h3>
 				<textarea
 					on:blur={saveMetadata}
-					class="border-2 border-solid"
+					class="border-2 border-solid w-full"
 					placeholder={$_('book.summary')}
 					bind:value={currentChapter.summary}
 				/>
@@ -79,6 +79,3 @@
 		</div>
 	</div>
 </template>
-
-<style lang="scss">
-</style>
