@@ -43,9 +43,9 @@
 <template>
 	{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 		<!-- svelte-ignore a11y-no-onchange -->
-		<select class="w-full" bind:value on:change={select} on:click={select}>
+		<select class="w-full item" bind:value on:change={select} on:click={select}>
 			{#each metadata[definition.type] as elem}
-				<option value={elem}>
+				<option value={elem} class="item">
 					{elem}
 				</option>
 			{/each}

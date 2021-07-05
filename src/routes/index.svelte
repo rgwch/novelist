@@ -114,6 +114,7 @@
 	</div>
 </template -->
 <style>
+	/*
 	.gridd {
 		display: grid;
 		grid-template-columns: 3fr 6px 2fr;
@@ -123,4 +124,5 @@
 		grid-area: 1 / 2 / 1 / 2;
 		border: solid 1px black;
 	}
+  */
 </style>
