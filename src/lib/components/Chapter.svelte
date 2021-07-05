@@ -24,8 +24,10 @@
 	async function saveChapter(text: string) {
 		try {
 			if (currentChapter.name) {
-				currentChapter.text = text;
-				await save('chapters', currentChapter.name, currentChapter);
+				if (text && text.length > 1) {
+					currentChapter.text = text;
+					await save('chapters', currentChapter.name, currentChapter);
+				}
 			}
 		} catch (err) {
 			alert(err);
