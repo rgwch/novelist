@@ -60,31 +60,31 @@
 </script>
 
 <template>
-	<div class="fixed">
-		<Menu bind:visible />
-	</div>
-	<div class="flex flex-col md:flex-row">
-		<div>
-			{#if visible.chapter}
-				<div>
-					<Chapter />
-				</div>
-			{/if}
-		</div>
-		<div>
-			{#if visible.book}
-				<Book />
-			{/if}
+	<Menu bind:visible />
+	<div class="fixed mt-8 px-5 overflow-none bg-green-100 h-screen w-screen">
+		<div class="flex flex-col md:flex-row">
+			<div>
+				{#if visible.chapter}
+					<div>
+						<Chapter />
+					</div>
+				{/if}
+			</div>
+			<div>
+				{#if visible.book}
+					<Book />
+				{/if}
 
-			{#if visible.persons}
-				<div><Person {metadata} /></div>
-			{/if}
-			{#if visible.places}
-				<div><Place {metadata} /></div>
-			{/if}
-			{#if visible.notes}
-				<div><Notes /></div>
-			{/if}
+				{#if visible.persons}
+					<div><Person {metadata} /></div>
+				{/if}
+				{#if visible.places}
+					<div><Place {metadata} /></div>
+				{/if}
+				{#if visible.notes}
+					<div><Notes /></div>
+				{/if}
+			</div>
 		</div>
 	</div>
 </template>

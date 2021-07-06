@@ -32,16 +32,11 @@
 </script>
 
 <template>
-	<div style="height:200px">
-		<textarea bind:this={container} />
-	</div>
+	<textarea bind:this={container} />
 </template>
 
 <style>
-	.cm-wrap {
-		height: 100%;
-	}
-	.cm-scroller {
-		overflow: auto;
+	:global(.CodeMirror, .CodeMirror-scroll) {
+		max-height: 300px;
 	}
 </style>

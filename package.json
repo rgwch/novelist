@@ -1,6 +1,16 @@
 {
   "name": "novelist",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "license": "MIT",
+  "description": "A Novel writer's tool.",
+  "keywords": [
+    "Editor",
+    "eBook",
+    "writer"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "test": "jest -c .config/jest.config.cjs",
     "dev": "svelte-kit dev",

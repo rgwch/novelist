@@ -23,7 +23,7 @@
 </script>
 
 <template>
-	<div class="container mx-auto bg-gray-300 p-2">
+	<div class="fixed z-50 w-full bg-gray-300 py-1">
 		<nav class="flex-row md:justify-between">
 			<img
 				src="/hamburger.svg"

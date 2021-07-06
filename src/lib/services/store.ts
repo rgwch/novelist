@@ -1,6 +1,5 @@
 /********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021 by G. Weirich         *
  * License and Terms see LICENSE            *
  ********************************************/
 
@@ -23,15 +22,15 @@ export class Store {
   private key;
   private iv;
 
-  constructor(password: string) {
-    this.setPassword(password);
+  constructor(passphrase: string) {
+    this.setPassword(passphrase);
   }
 
-  setPassword(password: string): void {
+  setPassword(passphrase: string): void {
     // console.log("Store: Setting password " + password)
     const hash = crypto.createHash('sha256')
-    const pwd = hash.update(password)
-    this.key = crypto.scryptSync(password, config.salt || 'salt', 24);
+    const pwd = hash.update(passphrase)
+    this.key = crypto.scryptSync(passphrase, config.salt || 'salt', 24);
 
     const ivraw = pwd.digest();
     this.iv = Buffer.from(ivraw.subarray(0, 16));

@@ -17,7 +17,7 @@ const config = {
       precompress: false,
       env: {
         host: 'HOST',
-        port: 'PORT'
+        port: 2021
       }
     })
 
