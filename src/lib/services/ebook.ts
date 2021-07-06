@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import marked from 'marked';
 import globals from '../global';
-import type { metadata_def } from './noveltypes';
 import type { Novel } from './novel';
 import epub from 'epub-gen'
 

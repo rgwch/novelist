@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { writable } from 'svelte/store';
-import type { metadata_def } from './noveltypes';
 
 export const current = writable(undefined);
 

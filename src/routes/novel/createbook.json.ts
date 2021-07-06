@@ -1,7 +1,6 @@
 import type { EndpointOutput } from '@sveltejs/kit';
 import type { Novel } from '$lib/services/novel';
 import globals from '$lib/global';
-import type { metadata_def } from '$lib/services/noveltypes';
 import { EBook } from '$lib/services/ebook'
 import path from 'path'
 

@@ -10,12 +10,11 @@ import YAML from 'yaml';
 import metadataParser from 'markdown-yaml-metadata-parser';
 import { Store } from './store';
 import { promisify } from 'util';
-import type * as n from './noveltypes';
 
 const preadFile = promisify(fs.readFile);
 const preaddir = promisify(fs.readdir);
 
-const default_metadata: n.metadata_def = {
+const default_metadata: metadata_def = {
   title: '',
   author: '',
   created: new Date(),
@@ -45,7 +44,7 @@ export class Novel {
           .load(pathname)
           .then((buffer) => {
             try {
-              const json: n.noveldef = JSON.parse(buffer.toString('utf-8'));
+              const json: noveldef = JSON.parse(buffer.toString('utf-8'));
               const lastWrite = new Date(json.metadata.modified);
               if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
                 resolve(new Novel(pathname, json, password));
@@ -87,7 +86,7 @@ export class Novel {
         throw new Error('file exists ' + filepath);
       }
     }
-    const def: n.noveldef = {
+    const def: noveldef = {
       metadata: default_metadata,
       persons: {},
       places: {},
@@ -148,7 +147,7 @@ export class Novel {
     return novel;
   }
 
-  constructor(private pathname: string, private def: n.noveldef, private password) {
+  constructor(private pathname: string, private def: noveldef, private password) {
     this.store = new Store(this.password);
   }
 
@@ -187,7 +186,7 @@ export class Novel {
     this.flush();
   }
 
-  writePerson(pdef: n.person_def): Promise<boolean> {
+  writePerson(pdef: person_def): Promise<boolean> {
     if (this.def) {
       const name = pdef.name;
       this.def.persons[name] = pdef;
@@ -209,7 +208,7 @@ export class Novel {
     delete this.def.persons[name];
     return this.flush();
   }
-  writeChapter(cdef: n.chapter_def): Promise<boolean> {
+  writeChapter(cdef: chapter_def): Promise<boolean> {
     if (this.def) {
       if (!cdef) {
         throw new Error("Empty chapter definition")
@@ -236,7 +235,7 @@ export class Novel {
     delete this.def.chapters[name];
     return this.flush();
   }
-  writePlace(pdef: n.place_def): Promise<boolean> {
+  writePlace(pdef: place_def): Promise<boolean> {
     const name = pdef.name;
     this.def.places[name] = pdef;
     if (!this.def.metadata.places.find((p) => p == name)) {
@@ -254,23 +253,23 @@ export class Novel {
     delete this.def.places[name];
     return this.flush();
   }
-  getPerson(name: string): n.person_def {
+  getPerson(name: string): person_def {
     return this.def ? this.def.persons[name] : undefined;
   }
-  getChapter(title: string): n.chapter_def {
+  getChapter(title: string): chapter_def {
     return this.def ? this.def.chapters[title] : undefined;
   }
-  getPlace(name: string): n.place_def {
+  getPlace(name: string): place_def {
     return this.def ? this.def.places[name] : undefined;
   }
 
   getExpose(): string {
     return this.def ? this.def.metadata.expose : undefined;
   }
-  readMetadata(): n.metadata_def {
+  readMetadata(): metadata_def {
     return this.def ? this.def.metadata : undefined;
   }
-  writeMetadata(meta: n.metadata_def): Promise<boolean> {
+  writeMetadata(meta: metadata_def): Promise<boolean> {
     if (this.def) {
       this.def.metadata = meta;
       return this.flush();
