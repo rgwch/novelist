@@ -5,6 +5,7 @@
 
 	export let fields: Array<string> = [];
 	export let entity: any = {};
+	export let actions= false;
 
 	let local = {};
 
@@ -35,22 +36,19 @@
 								bind:value={local[field]}
 								on:blur={() => change(field)}
 							/>
-							<!-- span class="border border-solid"
-								contenteditable="true"
-								bind:innerHTML={local[field]}
-								on:blur={() => change(field)}
-							/ -->
 						</td>
 					</tr>
 				{/each}
 			{/if}
 		</table>
 		<hr />
-		<span role="button" class="btn" on:click={() => dispatch('delete', local)}>
-			{$_('general.delete')}
-		</span>
-		<span role="button" class="btn" on:click={() => dispatch('save', local)}
-			>{$_('general.save')}</span
-		>
+		{#if actions}
+			<span role="button" class="btn" on:click={() => dispatch('delete', local)}>
+				{$_('general.delete')}
+			</span>
+			<span role="button" class="btn" on:click={() => dispatch('save', local)}
+				>{$_('general.save')}</span
+			>
+		{/if}
 	</div>
 </template>

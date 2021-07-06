@@ -60,7 +60,7 @@
 
 <template>
 	<Menu bind:visible />
-	<div class="fixed mt-8 px-5 overflow-none bg-green-100 h-screen w-screen">
+	<div class="fixed mt-8 px-5 overflow-y-auto bg-green-100 h-full w-screen">
 		<div class="flex flex-col md:flex-row">
 			<div>
 				{#if visible.chapter}

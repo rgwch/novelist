@@ -63,7 +63,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} on:delete={del} />
+				<Fieldeditor {fields} entity={currentPerson} actions={true} on:save={saveFields} on:delete={del} />
 			</div>
 		</div>
 	</div>

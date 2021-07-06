@@ -38,6 +38,17 @@
 <style>
 	:global(.CodeMirror) {
 		height: 70vh;
-    width: 100%;
+		width: 100%;
 	}
+	:global(.CodeMirror-fullscreen){
+		max-height: none;
+		margin-top: 18px;
+	}
+	:global(.editor-toolbar){
+		margin-top:18px;
+	}
+	/*
+	.cm-wrap{ height: 100%}
+	.cm-scroller {overflow: auto}
+	*/
 </style>
