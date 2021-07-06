@@ -1,8 +1,11 @@
 {
   "actions": {
     "changePWD": "Passwort ändern",
+    "close": "Buch schließen",
     "generateEPUB": "export ePub",
-    "generateHTML": "export HTML"
+    "generateHTML": "export HTML",
+    "open": "Öffnen",
+    "save": "Speichern"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
@@ -93,15 +96,12 @@
     "date": "DD.MM.YYYY"
   },
   "general": {
-    "close": "Buch schließen",
     "created": "erstellt",
     "delete": "Löschen",
     "login": "Anmelden",
     "logout": "Abmelden",
     "new": "Neu",
-    "open": "Öffnen",
     "password": "Passwort",
-    "save": "Speichern",
     "username": "Benutzername"
   },
   "headings": {

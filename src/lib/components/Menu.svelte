@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { current } from '$lib/services/fileio';
 	import { _ } from 'svelte-i18n';
-	
+
 	export let visible = {
 		book: false,
 		chapter: false,
@@ -17,6 +17,7 @@
 
 	function toggle(elem) {
 		visible[elem] = !visible[elem];
+		expanded = false;
 	}
 </script>
 

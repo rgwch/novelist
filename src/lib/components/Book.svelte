@@ -149,7 +149,7 @@
 		<button class="btn" on:click={toHtml}>{$_('actions.generateHTML')}</button>
 		<button class="btn" on:click={toEpub}>{$_('actions.generateEPUB')}</button>
 		<button class="btn" on:click={chpwd}>{$_('actions.changePWD')}</button>
-		<span role="button" class="btn" on:click={close}>{$_('general.close')}</span>
+		<span role="button" class="btn" on:click={close}>{$_('actions.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
 		{#await listFiles() then files}
@@ -167,7 +167,7 @@
 			bind:this={bookname}
 			placeholder={$_('book.filename')}
 		/>
-		<button class="btn" on:click={() => open(bookname.value)}>{$_('general.open')}</button>
+		<button class="btn" on:click={() => open(bookname.value)}>{$_('actions.open')}</button>
 	{/if}
 	<div class:hidden={!filedialog}>
 		<form action="/novel/createbook.json" method="POST">

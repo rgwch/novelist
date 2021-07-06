@@ -2,11 +2,28 @@
 	// import '../node_modules/simplemde/dist/simplemde.min.css';
 	import '../../../node_modules/simplemde/dist/simplemde.min.css';
 	import { onDestroy, onMount, setContext } from 'svelte';
+	import {_} from 'svelte-i18n'
+
+	export let save: (data) => void;
+	export let contents: string;
 
 	let container;
 	let editor;
-	export let save: (data) => void;
-	export let contents: string;
+	const toolbar = [
+		'bold',
+		'italic',
+		'heading-bigger',
+		'heading-smaller',
+		'preview',
+		'fullscreen',
+		'|',
+		{
+			name: 'save',
+			action: (editor) => save(editor.value),
+			className: 'fa fa-save',
+			title: $_('actions.save')
+		}
+	];
 
 	$: setValue(contents);
 
@@ -22,6 +39,7 @@
 			element: container,
 			autofocus: true,
 			spellChecker: false,
+			toolbar,
 			autosave: { enabled: true, uniqueId: new Date().toString() }
 		});
 		editor.codemirror.on('blur', () => {
@@ -40,12 +58,12 @@
 		height: 70vh;
 		width: 100%;
 	}
-	:global(.CodeMirror-fullscreen){
+	:global(.CodeMirror-fullscreen) {
 		max-height: none;
 		margin-top: 18px;
 	}
-	:global(.editor-toolbar){
-		margin-top:18px;
+	:global(.editor-toolbar) {
+		margin-top: 18px;
 	}
 	/*
 	.cm-wrap{ height: 100%}
