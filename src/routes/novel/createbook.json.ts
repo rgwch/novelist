@@ -7,18 +7,16 @@ import path from 'path'
 export async function post({ params, body }): Promise<EndpointOutput> {
   try {
     const novel: Novel = globals.novel;
-    // const request=JSON.parse(body)
-    // console.log(body.filename);
     const meta: metadata_def = novel.readMetadata();
     const epub = new EBook()
 
     const p = globals.resolveDir();
-    console.log('writing to ' + p + ', ' + meta.title);
-    await epub.create(path.join(globals.resolveDir(), meta.title + ".epub"));
+    await epub.create(path.join(p, meta.title + ".epub"));
     return {
+      /*
       headers: {
         'content-type': 'application/octet-stream'
-      },
+      },*/
       status: 200,
       body: {
         message: 'ok'

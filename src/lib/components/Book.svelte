@@ -1,9 +1,25 @@
 <script lang="ts">
-	import type { chapter_def, metadata_def } from '$lib/services/noveltypes';
 	import Fieldeditor from '$lib/components/Fieldeditor.svelte';
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
-	const fields = ['title', 'author', 'created', 'modified', 'expose'];
+	const fields = [
+		'title',
+		'author',
+		'fileAs',
+		'id',
+		'series',
+		'sequence',
+		'created',
+		'genre',
+		'language',
+		'description',
+		'tags',
+		'copyright',
+		'publisher',
+		'published',
+		'modified',
+		'expose'
+	];
 	import { current, saveMetadata, load, changePwd } from '$lib/services/fileio';
 	import marked from 'marked';
 	import globals from '$lib/global';
@@ -60,7 +76,7 @@
 
 	async function listFiles(): Promise<Array<string>> {
 		try {
-			const res = await fetch('/novel/listfiles.json');
+			const res = await fetch('/novel/showbooks.json');
 			if (res.ok) {
 				const result = await res.json();
 				return result.result;
@@ -71,18 +87,17 @@
 			console.log(err);
 		}
 	}
-	/*
-	async function listFiles() : Promise<Array<string>>{
-		return ["a","b","c"]
-	}
-*/
+
 	async function toHtml() {
 		const chapters = metadata.chapters;
 		let html = '';
-		const md = marked.setOptions({});
+		marked.setOptions({});
 		for (const chapter of chapters) {
 			const text: chapter_def = await load('chapters', chapter);
-			html = html + '<p>' + marked(md.parse(text.text)) + '</p>';
+			if (text && text.text) {
+				const compiled = marked(text.text);
+				html = html + '<p>' + compiled + '</p>';
+			}
 		}
 		const win = window.open('_blank');
 		if (win) {
@@ -93,16 +108,19 @@
 	}
 	async function toEpub() {
 		try {
-			const ret=await fetch('/novel/createbook.json', {
+			const ret = await fetch('/novel/createbook.json', {
 				method: 'POST',
 				body: JSON.stringify({
 					filename: metadata.title
 				})
 			});
-			if(ret.ok){
-				const data=ret.blob()
-			}
-			alert('ok');
+			if (ret.ok) {
+				// const data = ret.body;
+        alert('ok');
+			}else{
+        alert("error ")
+      }
+			
 		} catch (err) {
 			alert(err);
 		}

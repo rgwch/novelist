@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { current } from '$lib/services/fileio';
-	import type { metadata_def } from '$lib/services/noveltypes';
 	import { _ } from 'svelte-i18n';
-	import Book from './Book.svelte';
-
+	
 	export let visible = {
 		book: false,
 		chapter: false,

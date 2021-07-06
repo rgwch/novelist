@@ -17,26 +17,28 @@ export class EBook {
     // meta.cover = meta.cover || `${meta.title}.jpg`;
 
     let dt = DateTime.fromJSDate(new Date(meta.published));
-    const md = marked.setOptions({});
+    marked.setOptions({});
     if (!dt.isValid) {
       dt = DateTime.fromJSDate(new Date());
     }
     meta.published = dt.toFormat('yyyy-LL-dd');
-    const options = {
-      title: meta.title,
-      author: meta.author,
-      content: meta.chapters.map(chapter => {
-        const text = novel.getChapter(chapter)
-        const html = marked(md.parse(text.text));
+    const options:any = Object.assign({}, meta)
+    delete options.chapters
+    delete options.persons
+    delete options.places
+    options.content = meta.chapters.map(chapter => {
+      const text = novel.getChapter(chapter)
+      if (text && text.text) {
+        const html = marked(text.text);
         return {
           title: chapter,
           data: html
         }
-      }),
-      verbose: false,
-      output
-    }
-    console.log("writing to " + output)
+      }
+    }).filter(el => el)
+
+    // console.log(JSON.stringify(options))
+    console.log("writing ebook to " + output)
     return new epub(options, output).promise.then(() =>
       console.log("success"), err => {
         console.log("Error " + err)

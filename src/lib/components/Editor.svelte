@@ -36,7 +36,8 @@
 </template>
 
 <style>
-	:global(.CodeMirror, .CodeMirror-scroll) {
-		max-height: 300px;
+	:global(.CodeMirror) {
+		height: 70vh;
+    width: 100%;
 	}
 </style>
