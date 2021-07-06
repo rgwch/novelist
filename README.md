@@ -15,15 +15,15 @@ A Novel writer's toolkit with simplicity and flexibility in mind. Work on your n
 
 ### Main Text area
 
-The book is divided into chapters. Each chapter is has a summary and a position in the time.
+The book is divided into chapters. Each chapter has a summary and a position in the time.
 
 ### Persons
 
-Description of all important persons in the story. Whenever the cursor is on a person's name or one of their nicknames, the Persons window will scroll to that person
+Description of all important persons in the story.
 
 ### Places
 
-Description of all important places in the story. Whenever the cursor is on a place's name, the Places-window will scroll to that place.
+Description of all important places in the story. 
 
 ### Timeline
 
@@ -35,11 +35,11 @@ Free text to collect ideas, concepts and so on.
 
 ## Output options
 
-Novelist can export files as HTML or as ePub files. You can inspect HTML files in the Browser end export them from there to PDF. The ePub files can be displayed in a eBook viewer.
+Novelist can export files as HTML or as ePub files. You can inspect HTML files in the Browser end export them from there to PDF. The ePub files can be displayed in a eBook viewer. 
 
 ## Privacy
 
-Usually, you'll not want to have your book disclosed to other peopple, before you decide that it's time for. That's why novelist book files are encrypted by default.
+Usually, you'll not want to have your book disclosed to other people, before you decide it's ready for that. That's why novelist book files are encrypted by default.
 
 
 ## Internationalization
@@ -70,14 +70,19 @@ name.novel
     places
         name1.md
     timeline.md    
+    notes.md
 </pre>    
 
 ## Credits
-https://simplemde.com/
+
+[Svelte & SvelteKit](https://kit.svelte.dev/)
+
+[Tailwind CSS](https://tailwindcss.com/)
+
+[SimpleMDE](https://simplemde.com/)
+
+![./static/favicon.png]()
 
 Bild von <a href="https://pixabay.com/de/users/openclipart-vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=156775">OpenClipart-Vectors</a> auf <a href="https://pixabay.com/de/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=156775">Pixabay</a>
 
-Svelte & SvelteKit
-
-TailwindCSS
 
