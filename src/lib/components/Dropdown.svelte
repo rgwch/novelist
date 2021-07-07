@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { metadata_def } from '$lib/services/noveltypes';
 	import { _ } from 'svelte-i18n';
+	import { onMount } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { current } from '$lib/services/fileio';
@@ -12,6 +12,15 @@
 
 	let metadata = $current;
 	let value;
+
+	onMount(() => {
+		if (metadata) {
+			const elements = metadata[definition.type];
+			if (Array.isArray(elements) && elements.length > 0) {
+				dispatch('selected', elements[0]);
+			}
+		}
+	});
 
 	function select() {
 		if (value === '_new') {
