@@ -1,7 +1,4 @@
+/node_modules/
+/public/build/
+/public/tailwind.css
 .DS_Store
-node_modules
-/.svelte-kit
-/package
-/static/css/tailwindoutput.css
-/src/lib/config.json
-
