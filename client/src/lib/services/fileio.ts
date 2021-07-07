@@ -1,12 +1,22 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
+import { io } from "socket.io-client";
 
+export const socket = io("http://localhost:3000", { autoConnect: false });
+
+socket.onAny((event, ...args) => {
+  console.log(event, args);
+});
+
+socket.on("connect_error", (err) => {
+  console.log("Error");
+});
 export const current = writable(undefined);
 
 export async function openCurrent() {
   try {
-    const res = await fetch('/novel/metadata.json');
+    const res = await fetch("/novel/metadata.json");
     if (res.ok) {
       const result = await res.json();
       current.set(result);
@@ -19,11 +29,14 @@ export async function openCurrent() {
   }
 }
 
+export async function showBooks(): Promise<Array<string>> {
+  return [];
+}
 export async function saveMetadata(meta: metadata_def): Promise<boolean> {
   try {
-    const res = await fetch('/novel/metadata.json', {
-      method: 'POST',
-      body: JSON.stringify(meta)
+    const res = await fetch("/novel/metadata.json", {
+      method: "POST",
+      body: JSON.stringify(meta),
     });
     if (res.ok) {
       return true;
@@ -39,18 +52,18 @@ export async function changePwd(newPwd: string): Promise<boolean> {
     method: "POST",
     body: JSON.stringify({
       op: "changePwd",
-      password: newPwd
-    })
-  })
+      password: newPwd,
+    }),
+  });
   if (res.ok) {
-    return true
+    return true;
   }
   return false;
 }
 
 export async function loadNotes(): Promise<string> {
   try {
-    const res = await fetch('/novel/notes.json');
+    const res = await fetch("/novel/notes.json");
     if (res.ok) {
       const ret = await res.json();
       return ret.notes;
@@ -62,9 +75,9 @@ export async function loadNotes(): Promise<string> {
 
 export async function saveNotes(notes: string): Promise<boolean> {
   try {
-    const res = await fetch('/novel/notes.json', {
-      method: 'POST',
-      body: JSON.stringify(notes)
+    const res = await fetch("/novel/notes.json", {
+      method: "POST",
+      body: JSON.stringify(notes),
     });
     if (res.ok) {
       return true;
@@ -75,20 +88,24 @@ export async function saveNotes(notes: string): Promise<boolean> {
     throw new Error(err);
   }
 }
-export async function save(type: string, name: string, data: any): Promise<any> {
+export async function save(
+  type: string,
+  name: string,
+  data: any
+): Promise<any> {
   try {
     const res = await fetch(`/novel/${type}-${name}.json`, {
-      method: 'POST',
-      body: JSON.stringify(data)
+      method: "POST",
+      body: JSON.stringify(data),
     });
     if (res.ok) {
       const ret = await res.json();
       return ret;
     } else {
-      throw new Error('Write error ' + res.status);
+      throw new Error("Write error " + res.status);
     }
   } catch (err) {
-    throw new Error('Write error ' + err);
+    throw new Error("Write error " + err);
   }
 }
 
@@ -99,20 +116,20 @@ export async function load(type: string, name: string): Promise<any> {
       const ret = await res.json();
       return ret;
     } else {
-      throw new Error('Read error ' + res.status);
+      throw new Error("Read error " + res.status);
     }
   } catch (err) {
-    throw new Error('Read error ' + err);
+    throw new Error("Read error " + err);
   }
 }
 
 export async function remove(type: string, name: string): Promise<boolean> {
   const res = await fetch(`/novel/${type}-${name}.json`, {
-    method: 'DELETE'
-  })
+    method: "DELETE",
+  });
   if (res.ok) {
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
 }

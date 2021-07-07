@@ -20,7 +20,7 @@
 		'modified',
 		'expose'
 	];
-	import { current, saveMetadata, load, changePwd } from '../services/fileio';
+	import { current, saveMetadata, load, changePwd, showBooks } from '../services/fileio';
 	
 	let bookname;
 	let metadata: metadata_def;
@@ -74,13 +74,8 @@
 
 	async function listFiles(): Promise<Array<string>> {
 		try {
-			const res = await fetch('/novel/showbooks.json');
-			if (res.ok) {
-				const result = await res.json();
-				return result.result;
-			} else {
-				return [];
-			}
+			const result = await showBooks();
+			return result
 		} catch (err) {
 			console.log(err);
 		}
