@@ -35,6 +35,35 @@
 			/>
 
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
+				<li class="relative parent">
+					<a
+						href="#"
+						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
+					>
+						<span>Service</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-4 h-4 fill-current pt-1"
+							viewBox="0 0 24 24"
+						>
+							<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+						</svg>
+					</a>
+					<ul
+						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
+					>
+						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200"> Web development </span>
+						</li>
+						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200"> Web Design </span>
+						</li>
+						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200"> Machine Learning </span>
+						</li>
+					</ul>
+				</li>
+				<li />
 				<li
 					class="pr-5 cursor-pointer"
 					class:bg-gray-200={visible.book}
@@ -78,5 +107,21 @@
 <style>
 	.active {
 		display: block;
+	}
+
+	@media only screen and (min-width: 768px) {
+		.parent:hover .child {
+			opacity: 1;
+			height: auto;
+			overflow: none;
+			transform: translateY(0);
+		}
+
+		.child {
+			opacity: 0;
+			height: 0;
+			overflow: hidden;
+			transform: translateY(-10%);
+		}
 	}
 </style>
