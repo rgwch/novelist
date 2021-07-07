@@ -10,7 +10,7 @@ import crypto from 'crypto';
 import sb from 'stream-buffers';
 import { pipeline } from 'stream';
 import { DateTime } from 'luxon';
-import config from '../config.json'
+import config from './config.json'
 
 let plaintext = false;
 
@@ -19,8 +19,8 @@ export function setPlaintext(plain: boolean): void {
 }
 export class Store {
   private algo = 'aes-192-cbc';
-  private key;
-  private iv;
+  private key: any;
+  private iv: Buffer = Buffer.alloc(16, 0);
 
   constructor(passphrase: string) {
     this.setPassword(passphrase);
@@ -137,7 +137,7 @@ export class Store {
             if (!buf) {
               reject('empty buffer');
             }
-            resolve(buf);
+            resolve(buf as Buffer);
           }
         });
       } else {
@@ -149,7 +149,7 @@ export class Store {
             if (!buf) {
               reject('empty buffer');
             }
-            resolve(buf);
+            resolve(buf as Buffer);
           }
         });
       }

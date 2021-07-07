@@ -36,8 +36,7 @@
 
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li class="relative parent">
-					<a
-						href="#"
+					<div
 						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
 					>
 						<span>Service</span>
@@ -48,7 +47,7 @@
 						>
 							<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
 						</svg>
-					</a>
+					</div>
 					<ul
 						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
 					>

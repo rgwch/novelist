@@ -18,17 +18,7 @@ export async function openCurrent() {
     throw err;
   }
 }
-/*
-export async function listFiles(): Promise<Array<string>> {
-  const res = await fetch('/novel/metadata.json');
-  if (res.ok) {
-    const result = await res.json();
-    return result.result;
-  } else {
-    return [];
-  }
-}
-*/
+
 export async function saveMetadata(meta: metadata_def): Promise<boolean> {
   try {
     const res = await fetch('/novel/metadata.json', {
