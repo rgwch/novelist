@@ -5,7 +5,7 @@ import { EBook } from './ebook';
 import globals from './base';
 import { setPlaintext } from './store';
 
-describe('Ebook', () => {
+xdescribe('Ebook', () => {
   beforeAll(async () => {
     setPlaintext(true);
     await Novel.fromDirectory('test/sample', 'default', true);
