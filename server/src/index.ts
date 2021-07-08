@@ -10,7 +10,11 @@ import { assertBlock } from "@babel/types";
 const books = {}
 
 const httpServer = createServer((req, res) => {
-  const read = fs.createReadStream(path.join(__dirname, "..", "public", "index.html"))
+  let file=req.url
+  if(!file || file==="/" || file===""){
+    file="index.html"
+  }
+  const read = fs.createReadStream(path.join(__dirname, "..", "public", file))
   read.on('end', () => {
     res.end()
   })
