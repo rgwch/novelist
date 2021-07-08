@@ -3,16 +3,25 @@
 import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:3000", { autoConnect: false });
+export const socket = io("http://localhost:3000", { autoConnect: true });
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
 socket.on("connect_error", (err) => {
-  console.log("Error");
+  console.log("Error: " + err);
 });
 export const current = writable(undefined);
+
+export function showBooks(): Promise<Array<string>> {
+  return new Promise((resolve, reject) => {
+    socket.emit('listfiles', "data", (res: Array<string>) => {
+      resolve(res)
+    })
+  })
+
+}
 
 export async function openCurrent() {
   try {
@@ -29,9 +38,7 @@ export async function openCurrent() {
   }
 }
 
-export async function showBooks(): Promise<Array<string>> {
-  return [];
-}
+
 export async function saveMetadata(meta: metadata_def): Promise<boolean> {
   try {
     const res = await fetch("/novel/metadata.json", {
