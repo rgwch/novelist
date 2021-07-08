@@ -41,7 +41,9 @@
   }
 
   async function close() {
+    await saveBook({})
     await closeBook();
+    current.set(undefined)
   }
   async function open(filename) {
     // console.log('book: Open ' + filename);

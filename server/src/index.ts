@@ -25,7 +25,12 @@ const io = new Server(httpServer, {
 
 io.on("connection", (socket: Socket) => {
   console.log("connect")
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
+    if (books[socket.id]) {
+      const novel: Novel = books[socket.id]
+      await novel.close()
+      delete books[socket.id]
+    }
     console.log("disconnected")
   })
   socket.on("listfiles", async (data, callback) => {
@@ -44,10 +49,11 @@ io.on("connection", (socket: Socket) => {
     const novel: Novel = books[socket.id]
     if (!novel) {
       callback(false, "No Book selected")
+    } else {
+      await novel.close()
+      delete books[socket.id]
+      callback(true)
     }
-    delete books[socket.id]
-    await novel.close()
-    callback(true)
   })
   socket.on("getCurrent", callback => {
     callback(getCurrent(socket.id))
@@ -124,13 +130,6 @@ io.on("connection", (socket: Socket) => {
 
       default:
         callback(undefined, "bad operation code " + op)
-    }
-  })
-  socket.on('disconnect', () => {
-    const novel: Novel = books[socket.id]
-    if (novel) {
-      delete books[socket.id]
-      novel.close()
     }
   })
 });
