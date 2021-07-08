@@ -22,10 +22,12 @@
   ];
   import {
     current,
-    saveMetadata,
+    closeBook,
     load,
+    save,
     changePwd,
     showBooks,
+    openBook,
   } from "../services/fileio";
 
   let bookname;
@@ -34,43 +36,26 @@
   current.subscribe((value) => {
     metadata = value;
   });
-  function saveBook(event) {
-    saveMetadata(metadata);
+  async function saveBook(event) {
+    await save("metadata", metadata);
   }
-  function close() {
-    try {
-      fetch("/novel/close.json").then((res) => {
-        if (res.ok) {
-          current.set(undefined);
-        }
-      });
-    } catch (err) {
-      alert(err);
-    }
+
+  async function close() {
+    await closeBook();
   }
   async function open(filename) {
     // console.log('book: Open ' + filename);
     const password = prompt($_("general.password"));
     let res;
     if (password) {
-      res = await fetch("/novel/open.json", {
-        method: "POST",
-        body: JSON.stringify({ filename, password }),
-      });
-    } else {
-      res = await fetch(`/novel/open-${filename}.json`);
-    }
-    if (res.ok) {
-      const result = await res.json();
-      if (result.result !== "fail") {
-        current.set(result.result);
+      res = await openBook(filename, password);
+      if (res) {
+        current.set(res);
         setTimeout(() => {
           console.log("metadata=" + JSON.stringify(metadata));
         }, 100);
-      }
-    } else {
-      const text = await res.json();
-      alert(text.message);
+      } else {
+      alert("error");
     }
   }
   function dateText(d: Date) {

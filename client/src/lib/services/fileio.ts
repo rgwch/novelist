@@ -9,6 +9,9 @@ socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
+socket.on("connect_failed", err => {
+  console.log("Connection failure " + err)
+})
 socket.on("connect_error", (err) => {
   console.log("Error: " + err);
 });
@@ -23,7 +26,7 @@ export function showBooks(): Promise<Array<string>> {
 
 }
 
-export async function openCurrent() {
+export function openCurrent(): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     socket.emit('getCurrent', (res: metadata_def) => {
       current.set(res)
@@ -32,105 +35,71 @@ export async function openCurrent() {
   })
 }
 
-
-export async function saveMetadata(meta: metadata_def): Promise<boolean> {
-  try {
-    const res = await fetch("/novel/metadata.json", {
-      method: "POST",
-      body: JSON.stringify(meta),
-    });
-    if (res.ok) {
-      return true;
-    }
-    return false;
-  } catch (err) {
-    throw new Error(err);
-  }
+export function openBook(title: string, password: string): Promise<metadata_def> {
+  return new Promise((resolve, reject) => {
+    socket.emit('openBook', title, password, (meta: metadata_def) => {
+      if (meta) {
+        resolve(meta)
+      } else {
+        console.log("could not open")
+        reject()
+      }
+    })
+  })
 }
 
-export async function changePwd(newPwd: string): Promise<boolean> {
-  const res = await fetch("/novel/modify.json", {
-    method: "POST",
-    body: JSON.stringify({
-      op: "changePwd",
-      password: newPwd,
-    }),
-  });
-  if (res.ok) {
-    return true;
-  }
-  return false;
+export function closeBook(): Promise<boolean>{
+  return new Promise((resolve,reject)=>{
+    socket.emit("closeBook",result=>{
+      resolve(result)
+    })
+  })
 }
 
-export async function loadNotes(): Promise<string> {
-  try {
-    const res = await fetch("/novel/notes.json");
-    if (res.ok) {
-      const ret = await res.json();
-      return ret.notes;
-    }
-  } catch (err) {
-    throw new Error(err);
-  }
+export function save(type: string, data: any): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    socket.emit("save", type, data, (result: boolean) => {
+      if (result) {
+        resolve(true)
+      } else {
+        reject("save error")
+      }
+    })
+  })
 }
 
-export async function saveNotes(notes: string): Promise<boolean> {
-  try {
-    const res = await fetch("/novel/notes.json", {
-      method: "POST",
-      body: JSON.stringify(notes),
-    });
-    if (res.ok) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    throw new Error(err);
-  }
-}
-export async function save(
-  type: string,
-  name: string,
-  data: any
-): Promise<any> {
-  try {
-    const res = await fetch(`/novel/${type}-${name}.json`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
-      const ret = await res.json();
-      return ret;
-    } else {
-      throw new Error("Write error " + res.status);
-    }
-  } catch (err) {
-    throw new Error("Write error " + err);
-  }
+export function load(type: string, name: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    socket.emit("load", type, name, result => {
+      if (result) {
+        resolve(result)
+      } else {
+        reject("load error")
+      }
+    })
+  })
+
 }
 
-export async function load(type: string, name: string): Promise<any> {
-  try {
-    const res = await fetch(`/novel/${type}-${name}.json`);
-    if (res.ok) {
-      const ret = await res.json();
-      return ret;
-    } else {
-      throw new Error("Read error " + res.status);
-    }
-  } catch (err) {
-    throw new Error("Read error " + err);
-  }
+
+export function changePwd(newPwd: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    socket.emit('modify', "changePWD", newPwd, result => {
+      if (result) {
+        resolve(true)
+      } else {
+        reject("can't change PWD")
+      }
+    })
+  })
+
 }
 
-export async function remove(type: string, name: string): Promise<boolean> {
-  const res = await fetch(`/novel/${type}-${name}.json`, {
-    method: "DELETE",
-  });
-  if (res.ok) {
-    return true;
-  } else {
-    return false;
-  }
+
+export function remove(type: string, name: string): Promise<boolean> {
+  return new Promise((resolve,reject)=>{
+    socket.emit("delete",type,name,result=>{
+      resolve(result)
+    })
+  })
 }

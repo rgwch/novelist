@@ -262,7 +262,9 @@ export class Novel {
   getPlace(name: string): place_def {
     return this.def ? this.def.places[name] : undefined;
   }
-
+  getNotes(): string {
+    return this.def ? this.def.notes : undefined;
+  }
   getExpose(): string {
     return this.def ? this.def.metadata.expose : undefined;
   }
