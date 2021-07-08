@@ -55,7 +55,8 @@
           console.log("metadata=" + JSON.stringify(metadata));
         }, 100);
       } else {
-      alert("error");
+        alert("error");
+      }
     }
   }
   function dateText(d: Date) {

@@ -138,9 +138,6 @@ io.on("connection", (socket: Socket) => {
 httpServer.listen(2999);
 console.log("server ready")
 
-function saveMetadata(owner: string, data: metadata_def) {
-  const novel: Novel =
-}
 function listfiles(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
     fs.readdir(globals.resolveDir(), (err, files) => {
