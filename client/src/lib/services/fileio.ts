@@ -3,7 +3,7 @@
 import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
-export const socket = io("http://localhost:3000", { autoConnect: true });
+export const socket = io("http://localhost:2999", { autoConnect: true });
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
@@ -24,18 +24,12 @@ export function showBooks(): Promise<Array<string>> {
 }
 
 export async function openCurrent() {
-  try {
-    const res = await fetch("/novel/metadata.json");
-    if (res.ok) {
-      const result = await res.json();
-      current.set(result);
-    } else {
-      current.set(undefined);
-    }
-  } catch (err) {
-    alert(err);
-    throw err;
-  }
+  return new Promise((resolve, reject) => {
+    socket.emit('getCurrent', (res: metadata_def) => {
+      current.set(res)
+      resolve(res)
+    })
+  })
 }
 
 
