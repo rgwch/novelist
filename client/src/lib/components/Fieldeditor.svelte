@@ -5,7 +5,7 @@
 
 	export let fields: Array<string> = [];
 	export let entity: any = {};
-	export let actions= false;
+	export let actions = false;
 
 	let local = {};
 

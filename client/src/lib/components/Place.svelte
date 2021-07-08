@@ -20,7 +20,7 @@
 	};
 	async function select(event) {
 		try {
-			const def = await load('place', event.detail);
+			const def = await load('places', event.detail);
 			for (let field of fields) {
 				if (!def[field]) {
 					def[field] = '';
@@ -34,7 +34,7 @@
 	async function saveFields(event) {
 		try {
 			currentPlace = event.detail;
-			await save('place', currentPlace);
+			await save('places', currentPlace);
 		} catch (err) {
 			alert(err);
 		}
@@ -42,7 +42,7 @@
 	async function del(event) {
 		try {
 			currentPlace = event.detail;
-			await remove('place', currentPlace.name);
+			await remove('places', currentPlace.name);
 			const idx = metadata.places.indexOf(currentPlace.name);
 			if (idx !== -1) {
 				metadata.places.splice(idx, 1);

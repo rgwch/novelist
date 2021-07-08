@@ -25,7 +25,7 @@
 			if (currentChapter.name) {
 				if (text && text.length > 1) {
 					currentChapter.text = text;
-					await save('chapter', currentChapter);
+					await save('chapters', currentChapter);
 				}
 			}
 		} catch (err) {
@@ -36,7 +36,7 @@
 	async function saveMetadata() {
 		try {
 			if (currentChapter.name) {
-				await save('chapter', currentChapter);
+				await save('chapters', currentChapter);
 			}
 		} catch (err) {
 			alert(err);
@@ -45,7 +45,7 @@
 
 	async function select(event) {
 		try {
-			const def: chapter_def = await load('chapter', event.detail);
+			const def: chapter_def = await load('chapters', event.detail);
 			currentChapter = def;
 			setTimeout(() => {
 				currentChapterText = def.text ? def.text : '';

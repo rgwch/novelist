@@ -42,7 +42,7 @@ export function openBook(title: string, password: string): Promise<metadata_def>
         resolve(meta)
       } else {
         console.log("could not open")
-        reject()
+        reject("bad file or incorrect password")
       }
     })
   })
@@ -71,7 +71,7 @@ export function save(type: string, data: any): Promise<boolean> {
 export function load(type: string, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, result => {
-      if (result) {
+      if (typeof result !== 'undefined') {
         resolve(result)
       } else {
         reject("load error")

@@ -2,7 +2,7 @@
 		import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import { current } from '../services/fileio';
+	import { current,save } from '../services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -13,20 +13,16 @@
 	let metadata = $current;
 
 	let newelement: string;
-	function addElement() {
+	async function addElement() {
 		if (newelement) {
 			const arr = definition.type;
-			fetch(`/novel/${arr}-${newelement}.json`, {
-				method: 'post',
-				body: JSON.stringify({ name: newelement })
-			})
-				.then((ok) => {
-					metadata[arr] = [...metadata[arr], newelement];
+			const result=await save(arr,{name: newelement})
+			if(result){
+				metadata[arr] = [...metadata[arr], newelement];
 					newelement = '';
-				})
-				.catch((err) => {
-					alert(err);
-				});
+			}else{
+				alert("Error")
+			}
 		} else {
 			alert($_(definition.promptname));
 		}

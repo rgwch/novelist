@@ -20,7 +20,7 @@
 	};
 	async function select(event) {
 		try {
-			const def = await load('person', event.detail);
+			const def = await load('persons', event.detail);
 			for (let field of fields) {
 				if (!def[field]) {
 					def[field] = '';
@@ -34,7 +34,7 @@
 	async function saveFields(event) {
 		try {
 			currentPerson = event.detail;
-			await save('person', currentPerson);
+			await save('persons', currentPerson);
 		} catch (err) {
 			alert(err);
 		}
@@ -42,7 +42,7 @@
 	async function del(event) {
 		try {
 			currentPerson = event.detail;
-			await remove('person', currentPerson.name);
+			await remove('persons', currentPerson.name);
 			const idx = metadata.persons.indexOf(currentPerson.name);
 			if (idx !== -1) {
 				metadata.persons.splice(idx, 1);
@@ -61,7 +61,13 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPerson} actions={true} on:save={saveFields} on:delete={del} />
+				<Fieldeditor
+					{fields}
+					entity={currentPerson}
+					actions={true}
+					on:save={saveFields}
+					on:delete={del}
+				/>
 			</div>
 		</div>
 	</div>

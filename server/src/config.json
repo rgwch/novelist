@@ -1,4 +1,4 @@
 {
-  "basedir": "/srv/ownCloud/synced/dox",
+  "basedir": "/srv/owncloud/synced/dox",
   "salt": "someRandomString"
 }

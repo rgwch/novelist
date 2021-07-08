@@ -4,23 +4,23 @@
  * License and Terms see LICENSE            *
  ********************************************/
 
-import fs from 'fs';
-import path from 'path';
-import YAML from 'yaml';
-import metadataParser from 'markdown-yaml-metadata-parser';
-import { Store } from './store';
-import { promisify } from 'util';
+import fs from "fs";
+import path from "path";
+import YAML from "yaml";
+import metadataParser from "markdown-yaml-metadata-parser";
+import { Store } from "./store";
+import { promisify } from "util";
 
 const preadFile = promisify(fs.readFile);
 const preaddir = promisify(fs.readdir);
 
 const default_metadata: metadata_def = {
-  title: '',
-  author: '',
+  title: "",
+  author: "",
   created: new Date(),
   chapters: [],
   persons: [],
-  places: []
+  places: [],
 };
 
 export class Novel {
@@ -28,11 +28,11 @@ export class Novel {
   static open(pathname: string, password: string): Promise<Novel> {
     // console.log('opening ' + pathname);
     return new Promise((resolve, reject) => {
-      if (!pathname.endsWith('.novel')) {
-        pathname += '.novel';
+      if (!pathname.endsWith(".novel")) {
+        pathname += ".novel";
       }
       if (fs.existsSync(pathname)) {
-        const lockfile: string = pathname + '.lock';
+        const lockfile: string = pathname + ".lock";
         /*
         if (fs.existsSync(lockfile)) {
           throw new Error("Book already opened")
@@ -44,19 +44,19 @@ export class Novel {
           .load(pathname)
           .then((buffer) => {
             try {
-              const json: noveldef = JSON.parse(buffer.toString('utf-8'));
+              const json: noveldef = JSON.parse(buffer.toString("utf-8"));
               const lastWrite = new Date(json.metadata.modified);
               if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
                 resolve(new Novel(pathname, json, password));
               } else {
-                reject('invalid date ' + json.metadata.modified);
+                reject("invalid date " + json.metadata.modified);
               }
             } catch (err) {
-              reject('structure error ' + err);
+              reject("structure error " + err);
             }
           })
           .catch((err) => {
-            console.log('rejected store.load in novel: ' + err);
+            console.log("rejected store.load in novel: " + err);
             reject(err);
           });
       } else {
@@ -65,9 +65,9 @@ export class Novel {
           persons: {},
           places: {},
           chapters: {},
-          time: ''
+          time: "",
         };
-        def.metadata.title = path.basename(pathname, '.novel');
+        def.metadata.title = path.basename(pathname, ".novel");
         def.metadata.created = new Date();
         const novel = new Novel(pathname, def, password);
         novel.flush().then(() => {
@@ -77,13 +77,17 @@ export class Novel {
     });
   }
 
-  static async fromDirectory(dir: string, password: string, force = false): Promise<Novel> {
-    const filepath = path.join(dir, '../..', `${dir}.novel`);
+  static async fromDirectory(
+    dir: string,
+    password: string,
+    force = false
+  ): Promise<Novel> {
+    const filepath = path.join(dir, "../..", `${dir}.novel`);
     if (fs.existsSync(filepath)) {
       if (force) {
         fs.rmSync(filepath);
       } else {
-        throw new Error('file exists ' + filepath);
+        throw new Error("file exists " + filepath);
       }
     }
     const def: noveldef = {
@@ -91,55 +95,55 @@ export class Novel {
       persons: {},
       places: {},
       chapters: {},
-      timeline: ''
+      timeline: "",
     };
     def.metadata.created = new Date();
     try {
-      const time = await preadFile(path.join(dir, 'time.md'));
-      def.timeline = time.toString('utf-8');
+      const time = await preadFile(path.join(dir, "time.md"));
+      def.timeline = time.toString("utf-8");
     } catch (err) {
-      console.log('Novel.fromDirectory: no time def found ' + err);
-      def.timeline = '';
+      console.log("Novel.fromDirectory: no time def found " + err);
+      def.timeline = "";
     }
     try {
-      const meta = await preadFile(path.join(dir, 'metadata.yaml'));
-      def.metadata = YAML.parse((await meta).toString('utf-8'));
+      const meta = await preadFile(path.join(dir, "metadata.yaml"));
+      def.metadata = YAML.parse((await meta).toString("utf-8"));
     } catch (err) {
-      console.log('Novel.fromDirectoryno metadata found ' + err);
+      console.log("Novel.fromDirectoryno metadata found " + err);
       def.metadata = default_metadata;
     }
     try {
-      const persons = await preaddir(path.join(dir, 'persons'));
+      const persons = await preaddir(path.join(dir, "persons"));
       for (const person of persons) {
-        const data = await preadFile(path.join(dir, 'persons', person));
-        const split = metadataParser(data.toString('utf-8'));
+        const data = await preadFile(path.join(dir, "persons", person));
+        const split = metadataParser(data.toString("utf-8"));
         def.persons[split.metadata.name] = split.metadata;
         def.persons[split.metadata.name].description = split.content;
       }
     } catch (err) {
-      console.log('Novel.fromDirectory: no persons ' + err);
+      console.log("Novel.fromDirectory: no persons " + err);
     }
     try {
-      const places = await preaddir(path.join(dir, 'places'));
+      const places = await preaddir(path.join(dir, "places"));
       for (const place of places) {
-        const data = await preadFile(path.join(dir, 'places', place));
-        const split = metadataParser(data.toString('utf-8'));
+        const data = await preadFile(path.join(dir, "places", place));
+        const split = metadataParser(data.toString("utf-8"));
         def.places[split.metadata.name] = split.metadata;
         def.places[split.metadata.name].description = split.content;
       }
     } catch (err) {
-      console.log('Novel.fromDirectory: no places ' + err);
+      console.log("Novel.fromDirectory: no places " + err);
     }
     try {
-      const chapters = await preaddir(path.join(dir, 'chapters'));
+      const chapters = await preaddir(path.join(dir, "chapters"));
       for (const chapter of chapters) {
-        const data = await preadFile(path.join(dir, 'chapters', chapter));
-        const split = metadataParser(data.toString('utf-8'));
+        const data = await preadFile(path.join(dir, "chapters", chapter));
+        const split = metadataParser(data.toString("utf-8"));
         def.chapters[split.metadata.title] = split.metadata;
         def.chapters[split.metadata.title].text = split.content;
       }
     } catch (err) {
-      console.log('Novel.fromDirectory: no chapters');
+      console.log("Novel.fromDirectory: no chapters");
     }
 
     const novel = new Novel(filepath, def, password);
@@ -147,7 +151,11 @@ export class Novel {
     return novel;
   }
 
-  constructor(private pathname: string, private def: noveldef, private password) {
+  constructor(
+    private pathname: string,
+    private def: noveldef,
+    private password
+  ) {
     this.store = new Store(this.password);
   }
 
@@ -159,14 +167,14 @@ export class Novel {
   async close(): Promise<void> {
     return this.flush().then((success) => {
       if (!success) {
-        throw new Error('could not write contents to file');
+        throw new Error("could not write contents to file");
       }
       this.def = undefined;
-      const lockfile = this.pathname + '.lock';
+      const lockfile = this.pathname + ".lock";
       if (fs.existsSync(lockfile)) {
         fs.rm(lockfile, (err) => {
           if (err) {
-            throw new Error('could not remove lockfile');
+            throw new Error("could not remove lockfile");
           }
         });
       }
@@ -195,13 +203,13 @@ export class Novel {
       }
       return this.flush();
     } else {
-      throw new Error('no book open');
+      throw new Error("no book open");
     }
   }
   deletePerson(name: string): Promise<boolean> {
     const index = this.def.metadata.persons.indexOf(name);
     if (index == -1) {
-      throw new Error('person does not exist ' + name);
+      throw new Error("person does not exist " + name);
     }
     this.def.metadata.persons.splice(index, 1);
 
@@ -211,25 +219,26 @@ export class Novel {
   writeChapter(cdef: chapter_def): Promise<boolean> {
     if (this.def) {
       if (!cdef) {
-        throw new Error("Empty chapter definition")
-      }
-      if (!cdef.text) {
-        console.log("WriteChapter: Empty cdef Text!")
+        throw new Error("Empty chapter definition");
       }
       const name = cdef.name;
       this.def.chapters[name] = cdef;
-      if (!this.def.metadata.chapters.find((c) => c == name)) {
+      if (this.def.metadata.chapters.find((c) => c == name)) {
+        if (!cdef.text) {
+          console.log("WriteChapter: Empty cdef Text!");
+        }
+      } else {
         this.def.metadata.chapters.push(name);
       }
       return this.flush();
     } else {
-      throw new Error('no book open');
+      throw new Error("no book open");
     }
   }
   deleteChapter(name: string): Promise<boolean> {
     const index = this.def.metadata.chapters.indexOf(name);
     if (index == -1) {
-      throw new Error('chapter does not exist ' + name);
+      throw new Error("chapter does not exist " + name);
     }
     this.def.metadata.chapters.splice(index, 1);
     delete this.def.chapters[name];
@@ -246,7 +255,7 @@ export class Novel {
   deletePlace(name: string): Promise<boolean> {
     const index = this.def.metadata.places.indexOf(name);
     if (index == -1) {
-      throw new Error('place does not exist ' + name);
+      throw new Error("place does not exist " + name);
     }
     this.def.metadata.places.splice(index, 1);
 
@@ -276,7 +285,7 @@ export class Novel {
       this.def.metadata = meta;
       return this.flush();
     } else {
-      throw new Error('no book open');
+      throw new Error("no book open");
     }
   }
   getTimeline(): string {
@@ -285,12 +294,12 @@ export class Novel {
   addTimestamp(ds: string): void {
     if (this.def) {
       if (!this.def.timeline) {
-        this.def.timeline = '';
+        this.def.timeline = "";
       }
       const t = this.def.timeline + ds;
       this.def.timeline = t;
     } else {
-      throw new Error('no book open');
+      throw new Error("no book open");
     }
   }
   writeNotes(notes: string): Promise<boolean> {
@@ -298,7 +307,7 @@ export class Novel {
       this.def.notes = notes;
       return this.flush();
     } else {
-      throw new Error('no book open');
+      throw new Error("no book open");
     }
   }
 }

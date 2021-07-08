@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import { current } from '../services/fileio';
+	import { current, save } from '../services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -27,10 +27,7 @@
 			const elem = prompt('Name ');
 			const arr = definition.type;
 			if (elem) {
-				fetch(`/novel/${arr}-${elem}.json`, {
-					method: 'post',
-					body: JSON.stringify({ name: elem })
-				})
+				save(arr, { name: elem })
 					.then((ok) => {
 						metadata[arr] = [...metadata[arr], elem];
 						value = elem;

@@ -68,14 +68,14 @@ io.on("connection", (socket: Socket) => {
       case 'metadata':
         callback(await novel.writeMetadata(data));
         break;
-      case 'chapter':
+      case 'chapters':
         const chapter = data as chapter_def
         callback(await novel.writeChapter(chapter));
         break;
-      case 'person':
+      case 'persons':
         callback(await novel.writePerson(data as person_def));
         break;
-      case 'place':
+      case 'places':
         callback(await novel.writePlace(data as place_def))
         break;
       case 'notes':
@@ -94,9 +94,9 @@ io.on("connection", (socket: Socket) => {
     }
     switch (filetype) {
       case 'metadata': callback(novel.readMetadata()); break;
-      case 'chapter': callback(novel.getChapter(name)); break;
-      case 'person': callback(novel.getPerson(name)); break;
-      case 'place': callback(novel.getPlace(name)); break;
+      case 'chapters': callback(novel.getChapter(name)); break;
+      case 'persons': callback(novel.getPerson(name)); break;
+      case 'places': callback(novel.getPlace(name)); break;
       case 'notes': callback(novel.getNotes()); break;
       default:
         console.log("bad datatype in load " + filetype)
@@ -110,9 +110,9 @@ io.on("connection", (socket: Socket) => {
       callback(undefined, "No book selected")
     }
     switch (filetype) {
-      case 'chapter': callback(await novel.deleteChapter(name)); break;
-      case 'person': callback(await novel.deletePerson(name)); break;
-      case 'place': callback(await novel.deletePlace(name)); break;
+      case 'chapters': callback(await novel.deleteChapter(name)); break;
+      case 'persons': callback(await novel.deletePerson(name)); break;
+      case 'places': callback(await novel.deletePlace(name)); break;
       default:
         console.log("bad datatype in load " + filetype)
         callback(undefined, "bad datatype " + filetype)
