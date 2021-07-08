@@ -2,11 +2,11 @@
   import Editor from "./Editor.svelte";
   import { onMount } from "svelte";
   let contents: string = "";
-  import { load, save } from "../services/fileio";
+  import { load, save as do_save} from "../services/fileio";
 
-  function dosave(text: string): void {
+  function save(text: string): void {
     contents = text;
-    save("notes", text)
+    do_save("notes", text)
       .then((ok) => {
         if (!ok) {
           alert("Error");
@@ -26,5 +26,5 @@
 </script>
 
 <template>
-  <Editor save={dosave} {contents} />
+  <Editor {save} {contents} />
 </template>
