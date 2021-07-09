@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import marked from 'marked';
-import globals from './base';
+import {config} from './config';
 import { Novel } from './novel';
 import epub from 'epub-gen'
 import { globalAgent } from 'http';
@@ -10,7 +10,7 @@ import { globalAgent } from 'http';
  */
 export class EBook {
   async create(output: string): Promise<any> {
-    const novel: Novel = globals.novel as unknown as Novel
+    const novel: Novel = config.novel as unknown as Novel
     const meta: metadata_def = novel.readMetadata();
 
     meta.id = meta.id || meta.title;

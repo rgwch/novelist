@@ -25,7 +25,7 @@
 			}
 		});
 
-		await openCurrent();
+		// await openCurrent();
 	})
 
 	let visible = {

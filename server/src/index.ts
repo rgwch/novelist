@@ -2,10 +2,8 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import fs from 'fs'
 import path from 'path'
-import cfg from './config.json'
-import globals from './base'
+import { config } from './config'
 import { Novel } from './novel'
-import { assertBlock } from "@babel/types";
 
 const books = {}
 
@@ -28,14 +26,17 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket: Socket) => {
-  console.log("connect")
+  console.log("connect " + socket.id)
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
       const novel: Novel = books[socket.id]
       await novel.close()
       delete books[socket.id]
     }
-    console.log("disconnected")
+    console.log("disconnected " + socket.id)
+  })
+  socket.onAny(args => {
+    console.log(JSON.stringify(args))
   })
   socket.on("listfiles", async (data, callback) => {
     try {
@@ -53,16 +54,13 @@ io.on("connection", (socket: Socket) => {
       callback({ status: "error", message: err })
     }
   })
-  const no_book = "no book selected"
+  const noBook = "no book selected"
 
-  const noBook = {
-    status: "error",
-    message: no_book
-  }
+
   function checkNovel(): Novel {
     const novel = books[socket.id]
     if (!novel) {
-      throw (no_book)
+      throw (noBook)
     }
     return novel
   }
@@ -91,7 +89,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("save", async (filetype, data, callback) => {
     try {
       const novel = checkNovel()
-      let result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: undefined, message: undefined }
       switch (filetype) {
         case 'metadata':
           result.result = await novel.writeMetadata(data);
@@ -123,7 +121,7 @@ io.on("connection", (socket: Socket) => {
   socket.on('load', async (filetype, name, callback) => {
     try {
       const novel = checkNovel()
-      let result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: undefined, message: undefined }
       switch (filetype) {
         case 'metadata': result.result = novel.readMetadata(); break;
         case 'chapters': result.result = novel.getChapter(name); break;
@@ -144,7 +142,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("delete", async (filetype, name, callback) => {
     try {
       const novel = checkNovel()
-      let result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: undefined, message: undefined }
       switch (filetype) {
         case 'chapters': result.result = await novel.deleteChapter(name); break;
         case 'persons': result.result = await novel.deletePerson(name); break;
@@ -163,7 +161,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("modify", async (op, data, callback) => {
     try {
       const novel = checkNovel()
-      let result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: undefined, message: undefined }
       switch (op) {
         case "changePwd":
           result.result = novel.changePassword(data);
@@ -186,7 +184,7 @@ console.log("server ready")
 
 function listfiles(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
-    fs.readdir(globals.resolveDir(), (err, files) => {
+    fs.readdir(config.resolveDir(), (err, files) => {
       if (err) {
         reject(err);
       } else {
@@ -199,9 +197,11 @@ function listfiles(): Promise<Array<string>> {
 
 function openBook(owner: string, title: string, password: string): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
-    Novel.open(path.join(globals.resolveDir(), title), password).then((novel: Novel) => {
+    Novel.open(path.join(config.resolveDir(), title), password).then((novel: Novel) => {
       books[owner] = novel
       resolve(novel.readMetadata())
+    }).catch(err => {
+      reject(err)
     })
   })
 }

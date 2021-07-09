@@ -10,7 +10,7 @@ import crypto from 'crypto';
 import sb from 'stream-buffers';
 import { pipeline } from 'stream';
 import { DateTime } from 'luxon';
-import config from './config.json'
+import {config} from './config'
 
 let plaintext = false;
 
