@@ -2,7 +2,6 @@
 import { Novel } from './novel';
 import fs from 'fs';
 import { EBook } from './ebook';
-import {config} from './config';
 import { setPlaintext } from './store';
 
 describe('Ebook', () => {
@@ -20,10 +19,10 @@ describe('Ebook', () => {
     setPlaintext(false);
   });
   it('creates an eBook from a Novel', async () => {
-    config.novel = await Novel.open('test/sample.novel', 'default');
-    expect(config.novel).toBeDefined;
+    const novel = await Novel.open('test/sample.novel', 'default');
+    expect(novel).toBeDefined;
     const ebook = new EBook();
-    const ret = await ebook.create('test/sample.epub');
+    const ret = await ebook.create(novel, 'test/sample.epub');
     expect(fs.existsSync('test/sample.epub')).toBe(true);
   });
 });

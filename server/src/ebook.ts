@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
 import marked from 'marked';
-import {config} from './config';
 import { Novel } from './novel';
 import epub from 'epub-gen'
 import { globalAgent } from 'http';
@@ -9,10 +8,8 @@ import { globalAgent } from 'http';
  * Generate ePub from .novel
  */
 export class EBook {
-  async create(output: string): Promise<any> {
-    const novel: Novel = config.novel as unknown as Novel
+  async create(novel: Novel, output: string): Promise<any> {
     const meta: metadata_def = novel.readMetadata();
-
     meta.id = meta.id || meta.title;
     meta.author = meta.author || 'anonymous';
     meta.genre = meta.genre || 'fiction';

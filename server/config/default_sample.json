@@ -1,0 +1,4 @@
+{
+    "basedir": "/base/dir/for/novels",
+    "salt": "someRandomSaltString"
+}

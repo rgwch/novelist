@@ -2,8 +2,8 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import fs from 'fs'
 import path from 'path'
-import { config } from './config'
 import { Novel } from './novel'
+import { resolveDir } from './store'
 
 const books = {}
 
@@ -184,7 +184,7 @@ console.log("server ready")
 
 function listfiles(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
-    fs.readdir(config.resolveDir(), (err, files) => {
+    fs.readdir(resolveDir(), (err, files) => {
       if (err) {
         reject(err);
       } else {
@@ -197,7 +197,7 @@ function listfiles(): Promise<Array<string>> {
 
 function openBook(owner: string, title: string, password: string): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
-    Novel.open(path.join(config.resolveDir(), title), password).then((novel: Novel) => {
+    Novel.open(path.join(resolveDir(), title), password).then((novel: Novel) => {
       books[owner] = novel
       resolve(novel.readMetadata())
     }).catch(err => {

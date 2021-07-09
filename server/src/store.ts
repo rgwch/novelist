@@ -10,10 +10,24 @@ import crypto from 'crypto';
 import sb from 'stream-buffers';
 import { pipeline } from 'stream';
 import { DateTime } from 'luxon';
-import {config} from './config'
+import os from 'os'
+import config from 'config'
 
 let plaintext = false;
 
+export function resolveDir() {
+  let ret = os.homedir()
+  if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {
+    ret = process.env.NOVELS_DIR
+  }
+  if (config.has("basedir")) {
+    const basedir = config.get("basedir")
+    if (basedir && fs.existsSync(basedir)) {
+      ret = basedir
+    }
+  }
+  return ret
+}
 export function setPlaintext(plain: boolean): void {
   plaintext = plain;
 }
@@ -30,7 +44,8 @@ export class Store {
     // console.log("Store: Setting password " + password)
     const hash = crypto.createHash('sha256')
     const pwd = hash.update(passphrase)
-    this.key = crypto.scryptSync(passphrase, config.salt || 'salt', 24);
+    const salt = config.has("salt") ? config.get("salt") : "someSalt"
+    this.key = crypto.scryptSync(passphrase, salt, 24);
 
     const ivraw = pwd.digest();
     this.iv = Buffer.from(ivraw.subarray(0, 16));
