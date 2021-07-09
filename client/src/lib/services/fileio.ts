@@ -3,11 +3,23 @@
 import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
+export const current = writable(undefined);
+
 export const socket = io("http://localhost:2999", { autoConnect: true });
+
+type result = {
+  status: "ok" | "error"
+  result?: any
+  message?: string
+}
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
 });
+
+socket.on('disconnect', () => {
+  current.set(undefined)
+})
 
 socket.on("connect_failed", err => {
   console.log("Connection failure " + err)
@@ -15,12 +27,16 @@ socket.on("connect_failed", err => {
 socket.on("connect_error", (err) => {
   console.log("Error: " + err);
 });
-export const current = writable(undefined);
+
 
 export function showBooks(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
-    socket.emit('listfiles', "data", (res: Array<string>) => {
-      resolve(res)
+    socket.emit('listfiles', "data", (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
     })
   })
 
@@ -28,41 +44,49 @@ export function showBooks(): Promise<Array<string>> {
 
 export function openCurrent(): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
-    socket.emit('getCurrent', (res: metadata_def) => {
-      current.set(res)
-      resolve(res)
+    socket.emit('getCurrent', (res: result) => {
+      if (res.status === "ok") {
+        current.set(res.result)
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
     })
   })
 }
 
 export function openBook(title: string, password: string): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
-    socket.emit('openBook', title, password, (meta: metadata_def) => {
-      if (meta) {
-        resolve(meta)
+    socket.emit('openBook', title, password, (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
       } else {
-        console.log("could not open")
-        reject("bad file or incorrect password")
+        console.log("could not open " + res.message)
+        reject(res.message)
       }
     })
   })
 }
 
-export function closeBook(): Promise<boolean>{
-  return new Promise((resolve,reject)=>{
-    socket.emit("closeBook",result=>{
-      resolve(result)
+export function closeBook(): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    socket.emit("closeBook", (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
     })
   })
 }
 
 export function save(type: string, data: any): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    socket.emit("save", type, data, (result: boolean) => {
-      if (result) {
+    socket.emit("save", type, data, (res: result) => {
+      if (res.result === "ok") {
         resolve(true)
       } else {
-        reject("save error")
+        reject("save error " + res.message)
       }
     })
   })
@@ -70,11 +94,11 @@ export function save(type: string, data: any): Promise<boolean> {
 
 export function load(type: string, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
-    socket.emit("load", type, name, result => {
-      if (typeof result !== 'undefined') {
-        resolve(result)
+    socket.emit("load", type, name, (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
       } else {
-        reject("load error")
+        reject(res.message)
       }
     })
   })
@@ -84,22 +108,25 @@ export function load(type: string, name: string): Promise<any> {
 
 export function changePwd(newPwd: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    socket.emit('modify', "changePWD", newPwd, result => {
-      if (result) {
+    socket.emit('modify', "changePWD", newPwd, (res: result) => {
+      if (res.status == "ok") {
         resolve(true)
       } else {
-        reject("can't change PWD")
+        reject(res.message)
       }
     })
   })
 
 }
 
-
 export function remove(type: string, name: string): Promise<boolean> {
-  return new Promise((resolve,reject)=>{
-    socket.emit("delete",type,name,result=>{
-      resolve(result)
+  return new Promise((resolve, reject) => {
+    socket.emit("delete", type, name, (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
     })
   })
 }

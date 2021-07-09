@@ -10,9 +10,9 @@ import { assertBlock } from "@babel/types";
 const books = {}
 
 const httpServer = createServer((req, res) => {
-  let file=req.url
-  if(!file || file==="/" || file===""){
-    file="index.html"
+  let file = req.url
+  if (!file || file === "/" || file === "") {
+    file = "index.html"
   }
   const read = fs.createReadStream(path.join(__dirname, "..", "public", file))
   read.on('end', () => {
@@ -38,104 +38,147 @@ io.on("connection", (socket: Socket) => {
     console.log("disconnected")
   })
   socket.on("listfiles", async (data, callback) => {
-    const list = await listfiles()
-    callback(list)
+    try {
+      const list = await listfiles()
+      callback({ status: "ok", result: list })
+    } catch (err) {
+      callback({ status: "error", message: err })
+    }
   })
   socket.on("openBook", async (title, password, callback) => {
     try {
       const metadata = await openBook(socket.id, title, password)
-      callback(metadata)
+      callback({ status: "ok", result: metadata })
     } catch (err) {
-      callback(undefined)
+      callback({ status: "error", message: err })
     }
   })
-  socket.on("closeBook", async (callback) => {
-    const novel: Novel = books[socket.id]
+  const no_book = "no book selected"
+
+  const noBook = {
+    status: "error",
+    message: no_book
+  }
+  function checkNovel(): Novel {
+    const novel = books[socket.id]
     if (!novel) {
-      callback(false, "No Book selected")
-    } else {
+      throw (no_book)
+    }
+    return novel
+  }
+
+  socket.on("closeBook", async (callback) => {
+    try {
+      const novel = checkNovel()
       await novel.close()
       delete books[socket.id]
-      callback(true)
+      callback({ status: "ok" })
+
+    } catch (err) {
+      callback({ status: "error", message: err })
     }
   })
   socket.on("getCurrent", callback => {
-    callback(getCurrent(socket.id))
+    try {
+      const novel = checkNovel()
+      const meta = novel.readMetadata()
+      callback({ status: "ok", result: meta })
+    } catch (err) {
+      callback({ status: "error", message: err })
+    }
   })
 
   socket.on("save", async (filetype, data, callback) => {
-    const novel: Novel = books[socket.id]
-    if (!novel) {
-      callback(false, "No Book selected")
-    }
-    switch (filetype) {
-      case 'metadata':
-        callback(await novel.writeMetadata(data));
-        break;
-      case 'chapters':
-        const chapter = data as chapter_def
-        callback(await novel.writeChapter(chapter));
-        break;
-      case 'persons':
-        callback(await novel.writePerson(data as person_def));
-        break;
-      case 'places':
-        callback(await novel.writePlace(data as place_def))
-        break;
-      case 'notes':
-        callback(await novel.writeNotes(data as string))
-        break;
-      default:
-        console.log("Bad datatype " + filetype)
-        callback(false, "bad datatype")
+    try {
+      const novel = checkNovel()
+      let result = { status: "ok", result: undefined, message: undefined }
+      switch (filetype) {
+        case 'metadata':
+          result.result = await novel.writeMetadata(data);
+          break;
+        case 'chapters':
+          const chapter = data as chapter_def
+          result.result = await novel.writeChapter(chapter);
+          break;
+        case 'persons':
+          result.result = await novel.writePerson(data as person_def);
+          break;
+        case 'places':
+          result.result = await novel.writePlace(data as place_def)
+          break;
+        case 'notes':
+          result.result = await novel.writeNotes(data as string)
+          break;
+        default:
+          result.message = "bad datatype in save: " + filetype
+          console.log(result.message)
+          result.status = "error"
+      }
+      callback(result)
+    } catch (err) {
+      callback({ status: "error", message: err })
     }
   });
 
   socket.on('load', async (filetype, name, callback) => {
-    const novel: Novel = books[socket.id]
-    if (!novel) {
-      callback(undefined, "No book selected")
-    }
-    switch (filetype) {
-      case 'metadata': callback(novel.readMetadata()); break;
-      case 'chapters': callback(novel.getChapter(name)); break;
-      case 'persons': callback(novel.getPerson(name)); break;
-      case 'places': callback(novel.getPlace(name)); break;
-      case 'notes': callback(novel.getNotes()); break;
-      default:
-        console.log("bad datatype in load " + filetype)
-        callback(undefined, "bad datatype " + filetype)
+    try {
+      const novel = checkNovel()
+      let result = { status: "ok", result: undefined, message: undefined }
+      switch (filetype) {
+        case 'metadata': result.result = novel.readMetadata(); break;
+        case 'chapters': result.result = novel.getChapter(name); break;
+        case 'persons': result.result = novel.getPerson(name); break;
+        case 'places': result.result = novel.getPlace(name); break;
+        case 'notes': result.result = novel.getNotes(); break;
+        default:
+          result.message = "bad datatype in load:" + filetype
+          console.log(result.message)
+          result.status = "error"
+      }
+      callback(result)
+    } catch (err) {
+      callback({ status: "error", message: err })
     }
   })
 
   socket.on("delete", async (filetype, name, callback) => {
-    const novel: Novel = books[socket.id]
-    if (!novel) {
-      callback(undefined, "No book selected")
-    }
-    switch (filetype) {
-      case 'chapters': callback(await novel.deleteChapter(name)); break;
-      case 'persons': callback(await novel.deletePerson(name)); break;
-      case 'places': callback(await novel.deletePlace(name)); break;
-      default:
-        console.log("bad datatype in load " + filetype)
-        callback(undefined, "bad datatype " + filetype)
+    try {
+      const novel = checkNovel()
+      let result = { status: "ok", result: undefined, message: undefined }
+      switch (filetype) {
+        case 'chapters': result.result = await novel.deleteChapter(name); break;
+        case 'persons': result.result = await novel.deletePerson(name); break;
+        case 'places': result.result = await novel.deletePlace(name); break;
+        default:
+          result.message = "bad datatype in delete " + filetype
+          console.log(result.message)
+          result.status = "error"
+      }
+      callback(result)
+    } catch (err) {
+      console.log(err)
+      callback({ status: "error", message: err })
     }
   })
   socket.on("modify", async (op, data, callback) => {
-    const novel: Novel = books[socket.id]
-    if (!novel) {
-      callback(undefined, "No book selected")
-    }
-    switch (op) {
-      case "changePwd":
-        callback(await novel.changePassword(data));
-        break;
+    try {
+      const novel = checkNovel()
+      let result = { status: "ok", result: undefined, message: undefined }
+      switch (op) {
+        case "changePwd":
+          result.result = novel.changePassword(data);
+          break;
 
-      default:
-        callback(undefined, "bad operation code " + op)
+        default:
+          result.message = "bad operation code in modify: " + op
+          result.status = "error"
+      }
+      callback(result)
+    } catch (err) {
+      callback({ status: "error", message: err })
     }
   })
+
 });
 
 httpServer.listen(2999);
@@ -159,18 +202,8 @@ function openBook(owner: string, title: string, password: string): Promise<metad
     Novel.open(path.join(globals.resolveDir(), title), password).then((novel: Novel) => {
       books[owner] = novel
       resolve(novel.readMetadata())
-    }).catch(err => {
-      console.log(err)
-      reject(err)
     })
   })
 }
 
-function getCurrent(owner: string): metadata_def {
-  const novel: Novel = books[owner]
-  if (novel) {
-    return novel.readMetadata()
-  }
-  return undefined
-}
 
