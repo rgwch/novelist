@@ -148,27 +148,23 @@ alert('please allow pop-ups from this site');
 		<span role="button" class="btn" on:click={close}>{$_('actions.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
-		{#await showBooks() then files}
-			<ul>
-				{#each files as file}
-					<li class="item" on:click={() => open(file)}>{file}</li>
-				{/each}
-			</ul>
-		{/await}
+		<div class="h-full p-1 mb-18 overflow-auto">
+			{#await showBooks() then files}
+				<ul>
+					{#each files as file}
+						<li class="item" on:click={() => open(file)}>{file}</li>
+					{/each}
+				</ul>
+			{/await}
 
-		<input
-			class="border-solid border-4"
-			type="text"
-			id="name"
-			bind:this={bookname}
-			placeholder={$_('book.filename')}
-		/>
-		<button class="btn" on:click={() => open(bookname.value)}>{$_('actions.open')}</button>
+			<input
+				class="border-solid border-4"
+				type="text"
+				id="name"
+				bind:this={bookname}
+				placeholder={$_('book.filename')}
+			/>
+			<button class="btn" on:click={() => open(bookname.value)}>{$_('actions.open')}</button>
+		</div>
 	{/if}
-	<div class:hidden={!filedialog}>
-		<form action="/novel/createbook.json" method="POST">
-			<input type="file" name="filename" />
-			<button type="submit">Create</button>
-		</form>
-	</div>
 </template>

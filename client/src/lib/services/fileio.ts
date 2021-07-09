@@ -83,7 +83,7 @@ export function closeBook(): Promise<boolean> {
 export function save(type: string, data: any): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("save", type, data, (res: result) => {
-      if (res.result === "ok") {
+      if (res.status === "ok") {
         resolve(true)
       } else {
         reject("save error " + res.message)

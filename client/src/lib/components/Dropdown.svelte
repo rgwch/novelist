@@ -24,13 +24,12 @@
 
 	function select() {
 		if (value === '_new') {
-			const elem = prompt('Name ');
+			value = prompt('Name ');
 			const arr = definition.type;
-			if (elem) {
-				save(arr, { name: elem })
+			if (value) {
+				save(arr, { name: value })
 					.then((ok) => {
-						metadata[arr] = [...metadata[arr], elem];
-						value = elem;
+						metadata[arr] = [...metadata[arr], value];
 						dispatch('selected', value);
 					})
 					.catch((err) => {
