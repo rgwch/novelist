@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { current } from '../services/fileio';
 	import { _ } from 'svelte-i18n';
 
@@ -14,6 +13,12 @@
 	let hamburgerbtn;
 	let mobileMenu;
 	let expanded: boolean = false;
+	let metadata: metadata_def;
+	let bookPresent;
+	current.subscribe((data) => {
+		metadata = data;
+		bookPresent = metadata !== undefined;
+	});
 
 	function toggle(elem) {
 		visible[elem] = !visible[elem];
@@ -55,6 +60,9 @@
 							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.open')}</span>
 						</li>
 						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('actions.changePWD')}</span>
+						</li>
+						<li>
 							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.exporthtml')}</span>
 						</li>
 						<li>
@@ -65,59 +73,61 @@
 						</li>
 					</ul>
 				</li>
-				<li class="relative parent">
-					<div
-						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
-					>
-						<span>{$_('menu.display')}</span>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="w-4 h-4 fill-current pt-1"
-							viewBox="0 0 24 24"
+				{#if bookPresent}
+					<li class="relative parent">
+						<div
+							class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
 						>
-							<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-						</svg>
-					</div>
-					<ul
-						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
-					>
-						<li>
-							<span
-								class="flex px-4 py-3 hover:bg-gray-200"
-								class:bg-blue-300={visible.book}
-								on:click={() => toggle('book')}>{$_('book.metadata')}</span
+							<span>{$_('menu.display')}</span>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-4 h-4 fill-current pt-1"
+								viewBox="0 0 24 24"
 							>
-						</li>
-						<li>
-							<span
-								class="flex px-4 py-3 hover:bg-gray-200"
-								class:bg-blue-300={visible.chapter}
-								on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
-							>
-						</li>
-						<li>
-							<span
-								class="flex px-4 py-3 hover:bg-gray-200 cursor-pointer"
-								class:bg-blue-200={visible.persons}
-								on:click={() => toggle('persons')}>{$_('book.persons')}</span
-							>
-						</li>
-						<li>
-							<span
-								class="flex px-4 py-3 hover:bg-gray-200"
-								class:bg-blue-200={visible.places}
-								on:click={() => toggle('places')}>{$_('book.places')}</span
-							>
-						</li>
-						<li>
-							<span
-								class="flex px-4 py-3 hover:bg-gray-200"
-								class:bg-blue-200={visible.notes}
-								on:click={() => toggle('notes')}>{$_('book.notes')}</span
-							>
-						</li>
-					</ul>
-				</li>
+								<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+							</svg>
+						</div>
+						<ul
+							class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
+						>
+							<li>
+								<span
+									class="checkitem"
+									class:bg-blue-300={visible.book}
+									on:click={() => toggle('book')}>{$_('book.metadata')}</span
+								>
+							</li>
+							<li>
+								<span
+									class="checkitem"
+									class:bg-blue-300={visible.chapter}
+									on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
+								>
+							</li>
+							<li>
+								<span
+									class="checkitem"
+									class:bg-blue-300={visible.persons}
+									on:click={() => toggle('persons')}>{$_('book.persons')}</span
+								>
+							</li>
+							<li>
+								<span
+									class="checkitem"
+									class:bg-blue-300={visible.places}
+									on:click={() => toggle('places')}>{$_('book.places')}</span
+								>
+							</li>
+							<li>
+								<span
+									class="checkitem"
+									class:bg-blue-300={visible.notes}
+									on:click={() => toggle('notes')}>{$_('book.notes')}</span
+								>
+							</li>
+						</ul>
+					</li>
+				{/if}
 				<!-- li
 					class="pr-5 cursor-pointer"
 					class:bg-gray-200={visible.book}
@@ -161,6 +171,14 @@
 <style>
 	.active {
 		display: block;
+	}
+
+	.checkitem {
+		@apply flex px-4 py-3  cursor-pointer;
+	}
+
+	.checkitem:hover {
+		@apply bg-gray-200;
 	}
 
 	@media only screen and (min-width: 768px) {
