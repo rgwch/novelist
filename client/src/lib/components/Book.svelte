@@ -67,60 +67,6 @@
 		return dt.toLocaleString();
 	}
 
-	async function toHtml() {
-		/*
-
-const chapters = metadata.chapters;
-
-let html = '';
-
-marked.setOptions({});
-
-for (const chapter of chapters) {
-
-const text: chapter_def = await load('chapters', chapter);
-
-if (text && text.text) {
-
-const compiled = marked(text.text);
-
-html = html + '<p>' + compiled + '</p>';
-
-}
-
-}
-
-const win = window.open('_blank');
-
-if (win) {
-
-win.document.write(html);
-
-} else {
-
-alert('please allow pop-ups from this site');
-
-}
-    */
-	}
-	async function toEpub() {
-		try {
-			const ret = await fetch('/novel/createbook.json', {
-				method: 'POST',
-				body: JSON.stringify({
-					filename: metadata.title
-				})
-			});
-			if (ret.ok) {
-				// const data = ret.body;
-				alert('ok');
-			} else {
-				alert('error ');
-			}
-		} catch (err) {
-			alert(err);
-		}
-	}
 	async function chpwd() {
 		try {
 			const newPWD = prompt($_('headings.enternewpwd'));

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Novel } from './novel';
 import fs from 'fs';
-import { EBook } from './ebook';
+import { Exporter } from './exporter';
 import { setPlaintext } from './store';
 
 describe('Ebook', () => {
@@ -21,8 +21,8 @@ describe('Ebook', () => {
   it('creates an eBook from a Novel', async () => {
     const novel = await Novel.open('test/sample.novel', 'default');
     expect(novel).toBeDefined;
-    const ebook = new EBook();
-    const ret = await ebook.create(novel, 'test/sample.epub');
+    const ebook = new Exporter(novel);
+    const ret = await ebook.toEpub('test/sample.epub');
     expect(fs.existsSync('test/sample.epub')).toBe(true);
   });
 });

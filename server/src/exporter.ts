@@ -7,9 +7,11 @@ import { globalAgent } from 'http';
 /**
  * Generate ePub from .novel
  */
-export class EBook {
-  async create(novel: Novel, output: string): Promise<any> {
-    const meta: metadata_def = novel.readMetadata();
+export class Exporter {
+  constructor(private novel: Novel) { }
+
+  async toEpub(output: string): Promise<any> {
+    const meta: metadata_def = this.novel.readMetadata();
     meta.id = meta.id || meta.title;
     meta.author = meta.author || 'anonymous';
     meta.genre = meta.genre || 'fiction';
@@ -26,7 +28,7 @@ export class EBook {
     delete options.persons
     delete options.places
     options.content = meta.chapters?.map(chapter => {
-      const text = novel.getChapter(chapter)
+      const text = this.novel.getChapter(chapter)
       if (text && text.text) {
         const html = marked(text.text);
         return {
@@ -45,5 +47,22 @@ export class EBook {
     )
   }
 
+  async toHtml(): Promise<string> {
+    const metadata = this.novel.readMetadata()
 
+    const chapters = metadata.chapters;
+
+    let html = '';
+    marked.setOptions({});
+
+    for (const chapter of chapters) {
+      const text: chapter_def = this.novel.getChapter(chapter);
+      if (text && text.text) {
+        const compiled = marked(text.text);
+        html = html + '<p>' + compiled + '</p>';
+      }
+    }
+    return html
+
+  }
 }

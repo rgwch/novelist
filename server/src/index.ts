@@ -4,6 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import { Novel } from './novel'
 import { resolveDir } from './store'
+import { Exporter } from "./exporter";
 
 const books = {}
 
@@ -172,6 +173,27 @@ io.on("connection", (socket: Socket) => {
           result.status = "error"
       }
       callback(result)
+    } catch (err) {
+      callback({ status: "error", message: err })
+    }
+  })
+
+  socket.on("export", async (op, data, callback) => {
+    try {
+      const novel = checkNovel()
+      const ex = new Exporter(novel)
+      if (op === "epub") {
+        if (!data.endsWith(".epub")) {
+          data = data + ".epub"
+        }
+        const outfile = path.join(resolveDir(), data)
+        await ex.toEpub(outfile)
+        callback({ status: "ok", result: true })
+      } else if (op === "html") {
+        const html = await ex.toHtml()
+        callback({ status: "ok", result: html })
+      }
+
     } catch (err) {
       callback({ status: "error", message: err })
     }

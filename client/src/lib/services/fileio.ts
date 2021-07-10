@@ -129,4 +129,29 @@ export function remove(type: string, name: string): Promise<boolean> {
       }
     })
   })
+
+}
+
+export function toEpub(file: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    socket.emit("export", "epub", file, (res: result) => {
+      if (res.status == "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
+    })
+  })
+}
+
+export function toHtml(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    socket.emit("export", "html", "", (res: result) => {
+      if (res.status == "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
+    })
+  })
 }

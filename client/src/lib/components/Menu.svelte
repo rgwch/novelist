@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { current } from '../services/fileio';
 	import { _ } from 'svelte-i18n';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let visible = {
 		book: false,
@@ -57,20 +59,35 @@
 						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
 					>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.open')}</span>
+							<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('open')}
+								>{$_('menu.open')}</span
+							>
 						</li>
-						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('actions.changePWD')}</span>
-						</li>
-						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.exporthtml')}</span>
-						</li>
-						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.exportebook')}</span>
-						</li>
-						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.close')}</span>
-						</li>
+						{#if bookPresent}
+							<li>
+								<span
+									class="flex px-4 py-3 hover:bg-gray-200"
+									on:click={() => dispatch('changepwd')}
+								>
+									{$_('actions.changePWD')}
+								</span>
+							</li>
+							<li>
+								<span class="menuitem" on:click={() => dispatch('html')}>
+									{$_('menu.exporthtml')}
+								</span>
+							</li>
+							<li>
+								<span class="menuitem" on:click={() => dispatch('epub')}>
+									{$_('menu.exportebook')}
+								</span>
+							</li>
+							<li>
+								<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('close')}>
+									{$_('menu.close')}
+								</span>
+							</li>
+						{/if}
 					</ul>
 				</li>
 				{#if bookPresent}
@@ -178,6 +195,13 @@
 	}
 
 	.checkitem:hover {
+		@apply bg-gray-200;
+	}
+
+	.menuitem {
+		@apply flex px-4 py-3;
+	}
+	.menuitem:hover {
 		@apply bg-gray-200;
 	}
 
