@@ -39,7 +39,7 @@
 					<div
 						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
 					>
-						<span>Service</span>
+						<span>{$_('menu.file')}</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-4 h-4 fill-current pt-1"
@@ -52,18 +52,73 @@
 						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
 					>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200"> Web development </span>
+							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.open')}</span>
 						</li>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200"> Web Design </span>
+							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.exporthtml')}</span>
 						</li>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200"> Machine Learning </span>
+							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.exportebook')}</span>
+						</li>
+						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200">{$_('menu.close')}</span>
 						</li>
 					</ul>
 				</li>
-				<li />
-				<li
+				<li class="relative parent">
+					<div
+						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
+					>
+						<span>{$_('menu.display')}</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-4 h-4 fill-current pt-1"
+							viewBox="0 0 24 24"
+						>
+							<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+						</svg>
+					</div>
+					<ul
+						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
+					>
+						<li>
+							<span
+								class="flex px-4 py-3 hover:bg-gray-200"
+								class:bg-blue-300={visible.book}
+								on:click={() => toggle('book')}>{$_('book.metadata')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="flex px-4 py-3 hover:bg-gray-200"
+								class:bg-blue-300={visible.chapter}
+								on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="flex px-4 py-3 hover:bg-gray-200 cursor-pointer"
+								class:bg-blue-200={visible.persons}
+								on:click={() => toggle('persons')}>{$_('book.persons')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="flex px-4 py-3 hover:bg-gray-200"
+								class:bg-blue-200={visible.places}
+								on:click={() => toggle('places')}>{$_('book.places')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="flex px-4 py-3 hover:bg-gray-200"
+								class:bg-blue-200={visible.notes}
+								on:click={() => toggle('notes')}>{$_('book.notes')}</span
+							>
+						</li>
+					</ul>
+				</li>
+				<!-- li
 					class="pr-5 cursor-pointer"
 					class:bg-gray-200={visible.book}
 					on:click={() => toggle('book')}
@@ -97,7 +152,7 @@
 					on:click={() => toggle('notes')}
 				>
 					{$_('book.notes')}
-				</li>
+				</li -->
 			</ul>
 		</nav>
 	</div>

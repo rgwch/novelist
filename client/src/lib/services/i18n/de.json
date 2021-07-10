@@ -24,7 +24,7 @@
   "book": {
     "chapter": "Kapitel",
     "filename": "Dateiname des Buchs",
-    "metadata": "Buch",
+    "metadata": "Details",
     "newchapter": "Titel des neuen Kapitels",
     "newperson": "Name der neuen Person",
     "newplace": "Neuer Schauplatz",
@@ -107,5 +107,14 @@
   "headings": {
     "enternewpwd": "Neues Passwort eingeben",
     "logindatafor": "Login Daten für"
+  },
+  "menu":{
+    "file": "Datei",
+    "open": "Öffnen",
+    "close": "Schließen",
+    "exportebook": "ePub exportieren",
+    "exporthtml": "HTML exportieren",
+    "display": "Anzeigen"
+    
   }
 }
