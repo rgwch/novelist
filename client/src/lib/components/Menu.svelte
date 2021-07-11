@@ -32,7 +32,7 @@
 	<div class="fixed z-50 w-full bg-gray-300 py-1">
 		<nav class="flex-row md:justify-between">
 			<img
-				src="/hamburger.svg"
+				src="hamburger.svg"
 				alt="menu"
 				class="md:hidden bg-gray-300"
 				bind:this={hamburgerbtn}
