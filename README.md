@@ -8,8 +8,8 @@ A Novel writer's toolkit. Client/Server oriented, so you could work on your next
 
 * Make sure you have NodeJS 14 or higher installed and active.
 * Clone this repository, `cd` into the repository and execute `npm i`  in the server subdirectory and in the client subdirectory.
-* Make any personal modifications to src/tailwind.css (or just keep it for now). Do *not* modify public/tailwind.css manually.
-* launch `npm run build:tailwind`. This will compile src/tailwind.css with the Tailwind utilities to public/tailwind.css.
+* Make any personal modifications to client/src/tailwind.css (or just keep it for now). Do *not* modify client/public/tailwind.css manually.
+* In the client subdir, launch `npm run build:tailwind`. This will compile src/tailwind.css with the Tailwind utilities to public/tailwind.css.
 * type `npm start` in the server directory
 * type `npm run dev` in the client directory to launch the development server
 * Navigate your browser to http://localhost:3000
