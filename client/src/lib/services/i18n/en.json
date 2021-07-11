@@ -1,8 +1,11 @@
 {
   "actions": {
     "changePWD": "Change password",
+    "close": "Close book",
     "generateEPUB": "export ePub",
-    "generateHTML": "export HTML"
+    "generateHTML": "export HTML",
+    "open": "Open",
+    "save": "Save"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
@@ -63,6 +66,9 @@
     "we": "Wed",
     "wed": "Wednesday"
   },
+  "errors": {
+    "badpwd": "Datei defekt oder falsches Passwort"
+  },
   "fields": {
     "age": "Age",
     "author": "Author",
@@ -93,19 +99,24 @@
     "date": "YYYY-MM-DD"
   },
   "general": {
-    "close": "close book",
     "created": "created",
     "delete": "Delete",
     "login": "Login",
     "logout": "Logout",
     "new": "New",
-    "open": "Open",
     "password": "Password",
-    "save": "Save",
     "username": "Username"
   },
   "headings": {
     "enternewpwd": "Enter new password",
     "logindatafor": "Login data for"
+  },
+  "menu": {
+    "close": "Close",
+    "display": "Display",
+    "exportebook": "export ePub",
+    "exporthtml": "export HTML",
+    "file": "File",
+    "open": "Open"
   }
 }

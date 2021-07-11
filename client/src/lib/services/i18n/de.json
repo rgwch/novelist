@@ -112,11 +112,11 @@
     "logindatafor": "Login Daten für"
   },
   "menu": {
-    "file": "Datei",
-    "open": "Öffnen",
     "close": "Schließen",
+    "display": "Anzeigen",
     "exportebook": "ePub exportieren",
     "exporthtml": "HTML exportieren",
-    "display": "Anzeigen"
+    "file": "Datei",
+    "open": "Öffnen"
   }
 }

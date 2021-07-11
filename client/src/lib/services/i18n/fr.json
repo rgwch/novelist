@@ -1,8 +1,11 @@
 {
   "actions": {
-    "changePWD": "Passwort ändern",
+    "changePWD": "Change mot de passe",
+    "close": "Fermer",
     "generateEPUB": "export ePub",
-    "generateHTML": "export HTML"
+    "generateHTML": "export HTML",
+    "open": "Ouvrir",
+    "save": "Speichern"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
@@ -19,7 +22,7 @@
     "year": "An"
   },
   "book": {
-    "chapter": "Kapitel",
+    "chapter": "Chapitre",
     "filename": "Dateiname des Buchs",
     "metadata": "Daten",
     "newchapter": "Titel des neuen Kapitels",
@@ -30,10 +33,10 @@
     "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein.",
     "notes": "Notizen",
     "open": "Buch laden oder erstellen",
-    "persons": "Personen",
-    "places": "Orte",
+    "persons": "Personnes",
+    "places": "Lieus",
     "summary": "Zusammenfassung",
-    "title": "Titel"
+    "title": "Titre"
   },
   "cal": {
     "apr": "Avril",
@@ -63,22 +66,25 @@
     "we": "Mer",
     "wed": "Mercredi"
   },
+  "errors": {
+    "badpwd": "Datei defekt oder falsches Passwort"
+  },
   "fields": {
-    "age": "Alter",
-    "author": "Autor",
+    "age": "age",
+    "author": "Auteur",
     "copyright": "Copyright",
-    "created": "Erstellt am",
-    "description": "Beschreibung",
+    "created": "fait le",
+    "description": "Description",
     "expose": "Exposé",
     "fileAs": "Sortierung",
-    "gender": "Geschlecht",
+    "gender": "Sexe",
     "genre": "Genre",
-    "hair": "Haare",
+    "hair": "Cheveux",
     "height": "Größe",
     "id": "ID, ISBN",
-    "language": "Sprache",
+    "language": "Langue",
     "modified": "Geändert am",
-    "name": "Name",
+    "name": "Nom",
     "nicknames": "Weitere Bezeichnungen",
     "published": "Erschienen",
     "publisher": "Verlag",
@@ -87,25 +93,30 @@
     "stature": "Statur",
     "surround": "Umgebung",
     "tags": "Stichwörter",
-    "title": "Titel"
+    "title": "Titre"
   },
   "formatting": {
     "date": "DD.MM.YYYY"
   },
   "general": {
-    "close": "Buch schließen",
-    "created": "erstellt",
-    "delete": "Löschen",
+    "created": "fait",
+    "delete": "Eraser",
     "login": "Se connecter",
     "logout": "Se déconnecter",
-    "new": "Neu",
-    "open": "Öffnen",
+    "new": "Nouveau",
     "password": "Mot de passe",
-    "save": "Speichern",
     "username": "Nom"
   },
   "headings": {
     "enternewpwd": "Neues Passwort eingeben",
     "logindatafor": "Login Daten für"
+  },
+  "menu": {
+    "close": "Fermer",
+    "display": "Anzeigen",
+    "exportebook": "ePub exportieren",
+    "exporthtml": "HTML exportieren",
+    "file": "Datei",
+    "open": "Öffnen"
   }
 }
