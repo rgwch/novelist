@@ -1,20 +1,37 @@
-![](static/favicon.png) 
+![](client/public/favicon.png) 
 
 # Novelist 
 
-A Novel writer's toolkit with simplicity and flexibility in mind. Work on your next book from a PC, Laptop, Tablet or even a Smartphone. Keep Story, persons, places and timeline ready.
+A Novel writer's toolkit. Client/Server oriented, so you could work on your next book from a PC, Laptop, Tablet or even a Smartphone. Keep Story, persons, places and timeline ready.
 
 ## Getting started
 
 * Make sure you have NodeJS 14 or higher installed and active.
-* clone the repository, `cd` into the repository and make `npm i`  in the server subdirectory and in the client subdirectory
-* Make any personal modifications to static/css/tailwind.css (or just keep it for now)
-* launch `npm run build:tailwind`
-* type `npm run dev` to launch the development server
+* Clone this repository, `cd` into the repository and execute `npm i`  in the server subdirectory and in the client subdirectory.
+* Make any personal modifications to src/tailwind.css (or just keep it for now). Do *not* modify public/tailwind.css manually.
+* launch `npm run build:tailwind`. This will compile src/tailwind.css with the Tailwind utilities to public/tailwind.css.
+* type `npm start` in the server directory
+* type `npm run dev` in the client directory to launch the development server
 * Navigate your browser to http://localhost:3000
 * For production build: `build.sh` in the base directory. Target is at http://localhost:5000 then (configurable)
 
 ## Configuration
+
+The json-files in server/config define some behaviour. See default_sample.json as an example.
+````
+{
+    "basedir": "/base/dir/for/novels",
+    "salt": "someRandomSaltString",
+    "port": 2999,
+    "timeout": 600
+}
+````
+* basedir: absolute path on the server where .novel files are located
+* salt: an initialization value for the encryption. Each installation of Novelist should have an individual salt, but within one installation, the salt should always remain the same. Decryption of a file is only possible with the same salt as was used for encryption.
+* port: the port where the server should listen. Do not change in development mode.
+* timeout: If no interaction is received from a client within that time (in seconds), the current book of that client is saved and closed.
+
+You can have a 'production.json' with values to override the default values in production mode. You might want to override e.g. the port setting.
 
 ## Concepts
 
@@ -49,7 +66,7 @@ Usually, you'll not want to have your book disclosed to other people, before you
 
 ## Internationalization
 
-* Enter new keys in src/services/i18n/de.json
+* Enter new keys in client/src/services/i18n/de.json
 * launch `npm run i18n` to apply keys to other languages
 * correct the translations in en.json, fr. json and it. json
 

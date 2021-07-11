@@ -8,7 +8,8 @@
     "clean": "rimraf public/build",
     "dev": "rollup -c -w",
     "start": "sirv public --port 3000 --no-clear",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "i18n": "sync-i18n --files '/src/lib/services/i18n/*.json' --primary de --languages en fr it --space 2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",

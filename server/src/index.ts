@@ -16,12 +16,18 @@ const httpServer = createServer((req, res) => {
   if (!file || file === "/" || file === "") {
     file = "index.html"
   }
-  const read = fs.createReadStream(path.join(__dirname, "public", file))
-  // console.log("serving " + path.join(__dirname, "public", file))
-  read.on('end', () => {
+  const fullpath = path.join(__dirname, "public", file)
+  console.log("serving " + path.join(__dirname, "public", file))
+  if (fs.existsSync(fullpath)) {
+    const read = fs.createReadStream(fullpath)
+    read.on('end', () => {
+      res.end()
+    })
+    read.pipe(res)
+  } else {
+    res.statusCode = 404
     res.end()
-  })
-  read.pipe(res)
+  }
 });
 const io = new Server(httpServer, {
   cors: {
