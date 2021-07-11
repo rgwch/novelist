@@ -45,8 +45,6 @@ export default {
     svelte({
       preprocess: sveltePreprocess({
         sourceMap: !production,
-        //replace: [['VERSION', infos.version]]
-        replace: [['isproduction', "Haha"]]
       }),
       compilerOptions: {
         // enable run-time checks when not in production
@@ -54,7 +52,8 @@ export default {
       }
     }),
     replace({
-      'isproduction': production.toString()
+      'isproduction': production.toString(),
+      'NOVELIST_VERSION': infos.version
     }),
     resolve({
       browser: true,

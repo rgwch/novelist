@@ -4,11 +4,11 @@ import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
 export const current = writable(undefined);
-const prod = "isproduction"
-console.log("Mode: " + prod)
+
+// Note: rollup will change this to "true" or "false" on build
+let prod = "isproduction"
 
 let socket
-// Note: rollup will change this on build
 if (prod === "true") {
   console.log("production mode")
   socket = io()

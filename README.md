@@ -7,12 +7,14 @@ A Novel writer's toolkit with simplicity and flexibility in mind. Work on your n
 ## Getting started
 
 * Make sure you have NodeJS 14 or higher installed and active.
-* make sure you have gulp.js globally installed (`npm i -g gulp-cli`)
-* clone the repository, `cd` into the repository and apply `npm i` in the client subdirectory and in the server subdirectory.
+* clone the repository, `cd` into the repository and make `npm i`  in the server subdirectory and in the client subdirectory
 * Make any personal modifications to static/css/tailwind.css (or just keep it for now)
 * launch `npm run build:tailwind`
 * type `npm run dev` to launch the development server
 * Navigate your browser to http://localhost:3000
+* For production build: `build.sh` in the base directory. Target is at http://localhost:5000 then (configurable)
+
+## Configuration
 
 ## Concepts
 
@@ -75,6 +77,10 @@ name.novel
     timeline.md    
     notes.md
 </pre>    
+
+## Limitations
+
+Not multiuser capable. Only one client can work on any book at a time.
 
 ## Credits
 

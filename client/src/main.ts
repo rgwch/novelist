@@ -7,4 +7,6 @@ const app = new App({
 
 });
 
+export const version = "NOVELIST_VERSION"
+console.log("Novelist v." + version)
 export default app;

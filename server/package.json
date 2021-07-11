@@ -1,7 +1,7 @@
 {
   "name": "novelist-server",
-  "version": "1.0.0",
-  "description": "Novelist-server",
+  "version": "1.0.1",
+  "description": "Novelist server",
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist/index",

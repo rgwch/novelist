@@ -1,5 +1,6 @@
 {
     "basedir": "/base/dir/for/novels",
     "salt": "someRandomSaltString",
-    "port": 2998
+    "port": 2999,
+    "timeout": 600
 }
