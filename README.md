@@ -95,6 +95,8 @@ name.novel
     notes.md
 </pre>    
 
+Novelist will always keep several copies of every book: bookname.novel_1 to bookname.novel_5 are updated with every save. And every day a new bookname_yy-mm-dd.novel is created with the current contents at the first save of that day.
+
 ## Limitations
 
 Not multiuser capable. Only one client can work on any book at a time. It is possible, however to have several clients connected with one server, each working on their own book.
