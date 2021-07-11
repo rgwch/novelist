@@ -2,14 +2,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { writable } from "svelte/store";
 import { io } from "socket.io-client";
+import props from './properties'
 
 export const current = writable(undefined);
 
 // Note: rollup will change this to "true" or "false" on build
-let prod = "isproduction"
 
 let socket
-if (prod === "true") {
+if (props.production === "true") {
   console.log("production mode")
   socket = io()
 } else {

@@ -53,7 +53,9 @@ export default {
     }),
     replace({
       'isproduction': production.toString(),
-      'NOVELIST_VERSION': infos.version
+      'NOVELIST_VERSION': infos.version,
+      'NOVELIST_BUILDDATE': new Date().toString(),
+      'preventAssignment': true
     }),
     resolve({
       browser: true,

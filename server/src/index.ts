@@ -17,6 +17,7 @@ const httpServer = createServer((req, res) => {
     file = "index.html"
   }
   const read = fs.createReadStream(path.join(__dirname, "public", file))
+  // console.log("serving " + path.join(__dirname, "public", file))
   read.on('end', () => {
     res.end()
   })
