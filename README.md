@@ -97,11 +97,11 @@ name.novel
 
 ## Limitations
 
-Not multiuser capable. Only one client can work on any book at a time.
+Not multiuser capable. Only one client can work on any book at a time. It is possible, however to have several clients connected with one server, each working on their own book.
 
 ## Credits
 
-[Svelte & SvelteKit](https://kit.svelte.dev/)
+[Svelte](https://svelte.dev)
 
 [Tailwind CSS](https://tailwindcss.com/)
 
