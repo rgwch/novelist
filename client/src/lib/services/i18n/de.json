@@ -66,6 +66,9 @@
     "we": "Mi",
     "wed": "Mittwoch"
   },
+  "errors": {
+    "badpwd": "Datei defekt oder falsches Passwort"
+  },
   "fields": {
     "age": "Alter",
     "author": "Autor",
@@ -108,13 +111,12 @@
     "enternewpwd": "Neues Passwort eingeben",
     "logindatafor": "Login Daten für"
   },
-  "menu":{
+  "menu": {
     "file": "Datei",
     "open": "Öffnen",
     "close": "Schließen",
     "exportebook": "ePub exportieren",
     "exporthtml": "HTML exportieren",
     "display": "Anzeigen"
-    
   }
 }

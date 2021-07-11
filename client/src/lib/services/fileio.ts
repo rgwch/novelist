@@ -108,7 +108,7 @@ export function load(type: string, name: string): Promise<any> {
 
 export function changePwd(newPwd: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    socket.emit('modify', "changePWD", newPwd, (res: result) => {
+    socket.emit('modify', "changePwd", newPwd, (res: result) => {
       if (res.status == "ok") {
         resolve(true)
       } else {

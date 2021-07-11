@@ -24,8 +24,6 @@
 				visible.notes = false;
 			}
 		});
-
-		// await openCurrent();
 	});
 
 	let visible = {
@@ -90,14 +88,16 @@
 </script>
 
 <template>
-	<Menu
-		bind:visible
-		on:changepwd={chpwd}
-		on:close={close}
-		on:open={open}
-		on:html={exportHtml}
-		on:epub={exportEpub}
-	/>
+	{#if !!metadata}
+		<Menu
+			bind:visible
+			on:changepwd={chpwd}
+			on:close={close}
+			on:open={open}
+			on:html={exportHtml}
+			on:epub={exportEpub}
+		/>
+	{/if}
 	<div class="fixed mt-8 px-5 overflow-y-auto bg-green-100 h-full w-screen">
 		<div class="flex flex-col md:flex-row">
 			<div>

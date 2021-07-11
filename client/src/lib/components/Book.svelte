@@ -57,7 +57,11 @@
 					console.log('metadata=' + JSON.stringify(metadata));
 				}, 100);
 			} catch (err) {
-				alert('Can not open ' + err);
+				if (err.includes('incorrect header')) {
+					alert($_('errors.badpwd'));
+				} else {
+					alert('Can not open ' + err);
+				}
 			}
 		}
 	}
@@ -66,31 +70,12 @@
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
 	}
-
-	async function chpwd() {
-		try {
-			const newPWD = prompt($_('headings.enternewpwd'));
-			if (newPWD) {
-				const res = await changePwd(newPWD);
-				if (res) {
-					alert('ok');
-				} else {
-					alert('fail');
-				}
-			}
-		} catch (err) {
-			alert(err);
-		}
-	}
 </script>
 
 <template>
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 		<hr class="py-4" />
-		<button class="btn" on:click={toHtml}>{$_('actions.generateHTML')}</button>
-		<button class="btn" on:click={toEpub}>{$_('actions.generateEPUB')}</button>
-		<button class="btn" on:click={chpwd}>{$_('actions.changePWD')}</button>
 		<span role="button" class="btn" on:click={close}>{$_('actions.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>

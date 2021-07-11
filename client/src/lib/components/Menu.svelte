@@ -59,127 +59,80 @@
 						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
 					>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('open')}
-								>{$_('menu.open')}</span
-							>
+							<span class="menuitem" on:click={() => dispatch('changepwd')}>
+								{$_('actions.changePWD')}
+							</span>
 						</li>
-						{#if bookPresent}
-							<li>
-								<span
-									class="flex px-4 py-3 hover:bg-gray-200"
-									on:click={() => dispatch('changepwd')}
-								>
-									{$_('actions.changePWD')}
-								</span>
-							</li>
-							<li>
-								<span class="menuitem" on:click={() => dispatch('html')}>
-									{$_('menu.exporthtml')}
-								</span>
-							</li>
-							<li>
-								<span class="menuitem" on:click={() => dispatch('epub')}>
-									{$_('menu.exportebook')}
-								</span>
-							</li>
-							<li>
-								<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('close')}>
-									{$_('menu.close')}
-								</span>
-							</li>
-						{/if}
+						<li>
+							<span class="menuitem" on:click={() => dispatch('html')}>
+								{$_('menu.exporthtml')}
+							</span>
+						</li>
+						<li>
+							<span class="menuitem" on:click={() => dispatch('epub')}>
+								{$_('menu.exportebook')}
+							</span>
+						</li>
+						<li>
+							<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('close')}>
+								{$_('menu.close')}
+							</span>
+						</li>
 					</ul>
 				</li>
-				{#if bookPresent}
-					<li class="relative parent">
-						<div
-							class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
+				<li class="relative parent">
+					<div
+						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
+					>
+						<span>{$_('menu.display')}</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="w-4 h-4 fill-current pt-1"
+							viewBox="0 0 24 24"
 						>
-							<span>{$_('menu.display')}</span>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="w-4 h-4 fill-current pt-1"
-								viewBox="0 0 24 24"
+							<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+						</svg>
+					</div>
+					<ul
+						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
+					>
+						<li>
+							<span
+								class="checkitem"
+								class:bg-blue-300={visible.book}
+								on:click={() => toggle('book')}>{$_('book.metadata')}</span
 							>
-								<path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-							</svg>
-						</div>
-						<ul
-							class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
-						>
-							<li>
-								<span
-									class="checkitem"
-									class:bg-blue-300={visible.book}
-									on:click={() => toggle('book')}>{$_('book.metadata')}</span
-								>
-							</li>
-							<li>
-								<span
-									class="checkitem"
-									class:bg-blue-300={visible.chapter}
-									on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
-								>
-							</li>
-							<li>
-								<span
-									class="checkitem"
-									class:bg-blue-300={visible.persons}
-									on:click={() => toggle('persons')}>{$_('book.persons')}</span
-								>
-							</li>
-							<li>
-								<span
-									class="checkitem"
-									class:bg-blue-300={visible.places}
-									on:click={() => toggle('places')}>{$_('book.places')}</span
-								>
-							</li>
-							<li>
-								<span
-									class="checkitem"
-									class:bg-blue-300={visible.notes}
-									on:click={() => toggle('notes')}>{$_('book.notes')}</span
-								>
-							</li>
-						</ul>
-					</li>
-				{/if}
-				<!-- li
-					class="pr-5 cursor-pointer"
-					class:bg-gray-200={visible.book}
-					on:click={() => toggle('book')}
-				>
-					{$_('book.metadata')}
+						</li>
+						<li>
+							<span
+								class="checkitem"
+								class:bg-blue-300={visible.chapter}
+								on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="checkitem"
+								class:bg-blue-300={visible.persons}
+								on:click={() => toggle('persons')}>{$_('book.persons')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="checkitem"
+								class:bg-blue-300={visible.places}
+								on:click={() => toggle('places')}>{$_('book.places')}</span
+							>
+						</li>
+						<li>
+							<span
+								class="checkitem"
+								class:bg-blue-300={visible.notes}
+								on:click={() => toggle('notes')}>{$_('book.notes')}</span
+							>
+						</li>
+					</ul>
 				</li>
-				<li
-					class="pr-5 cursor-pointer"
-					class:bg-gray-200={visible.chapter}
-					on:click={() => toggle('chapter')}
-				>
-					{$_('book.chapter')}
-				</li>
-				<li
-					class="pr-5 cursor-pointer"
-					class:bg-gray-200={visible.persons}
-					on:click={() => toggle('persons')}
-				>
-					{$_('book.persons')}
-				</li>
-				<li
-					class="pr-5 cursor-pointer"
-					class:bg-gray-200={visible.places}
-					on:click={() => toggle('places')}
-				>
-					{$_('book.places')}
-				</li>
-				<li
-					class="pr-5 cursor-pointer"
-					class:bg-gray-200={visible.notes}
-					on:click={() => toggle('notes')}
-				>
-					{$_('book.notes')}
-				</li -->
 			</ul>
 		</nav>
 	</div>
