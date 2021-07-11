@@ -4,8 +4,18 @@ import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 
 export const current = writable(undefined);
+const prod = "isproduction"
+console.log("Mode: " + prod)
 
-export const socket = io("http://localhost:2999", { autoConnect: true });
+let socket
+// Note: rollup will change this on build
+if (prod === "true") {
+  console.log("production mode")
+  socket = io()
+} else {
+  console.log("development mode")
+  socket = io("http://localhost:2999", { autoConnect: true });
+}
 
 type result = {
   status: "ok" | "error"

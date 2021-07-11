@@ -7,7 +7,8 @@ A Novel writer's toolkit with simplicity and flexibility in mind. Work on your n
 ## Getting started
 
 * Make sure you have NodeJS 14 or higher installed and active.
-* clone the repository, `cd` into the repository and apply `npm i` there.
+* make sure you have gulp.js globally installed (`npm i -g gulp-cli`)
+* clone the repository, `cd` into the repository and apply `npm i` in the client subdirectory and in the server subdirectory.
 * Make any personal modifications to static/css/tailwind.css (or just keep it for now)
 * launch `npm run build:tailwind`
 * type `npm run dev` to launch the development server

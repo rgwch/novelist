@@ -1,4 +1,5 @@
 {
     "basedir": "/base/dir/for/novels",
-    "salt": "someRandomSaltString"
+    "salt": "someRandomSaltString",
+    "port": 2998
 }

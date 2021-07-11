@@ -5,15 +5,17 @@ import path from 'path'
 import { Novel } from './novel'
 import { resolveDir } from './store'
 import { Exporter } from "./exporter";
+import config from 'config'
 
 const books = {}
+console.log("run mode: " + process.env.NODE_ENV)
 
 const httpServer = createServer((req, res) => {
   let file = req.url
   if (!file || file === "/" || file === "") {
     file = "index.html"
   }
-  const read = fs.createReadStream(path.join(__dirname, "..", "public", file))
+  const read = fs.createReadStream(path.join(__dirname, "public", file))
   read.on('end', () => {
     res.end()
   })
@@ -201,8 +203,14 @@ io.on("connection", (socket: Socket) => {
 
 });
 
-httpServer.listen(2999);
-console.log("server ready")
+let port = 2999
+
+if (config.has("port")) {
+  port = config.get("port")
+}
+
+httpServer.listen(port);
+console.log("server ready on port " + port)
 
 function listfiles(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {

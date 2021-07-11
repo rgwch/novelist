@@ -6,8 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/index",
     "test": "jest",
-    "clean": "rimraf dist",
-    "build": ""
+    "clean": "rimraf dist && rimraf public",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:tailwind": "postcss src/tailwind.css -o public/tailwind.css",
+    "clean": "rimraf public/build",
     "dev": "rollup -c -w",
     "start": "sirv public --port 3000 --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
@@ -12,6 +13,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-replace": "^2.4.2",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0",
     "@types/luxon": "^1.27.1",
@@ -19,6 +21,7 @@
     "autoprefixer": "^10.2.6",
     "postcss": "^8.3.5",
     "postcss-cli": "^8.3.1",
+    "rimraf": "^3.0.2",
     "rollup": "^2.3.4",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-css-only": "^3.1.0",
