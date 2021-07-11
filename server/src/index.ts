@@ -8,6 +8,7 @@ import { Exporter } from "./exporter";
 import config from 'config'
 
 const books = {}
+const sockets = {}
 console.log("run mode: " + process.env.NODE_ENV)
 
 const httpServer = createServer((req, res) => {
@@ -28,18 +29,40 @@ const io = new Server(httpServer, {
 
 });
 
+if (config.has("timeout")) {
+  const timeout = config.get("timeout")
+  console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
+  setInterval(async () => {
+    const now = new Date().getTime()
+    console.log("timeout check " + now)
+    for (const s in sockets) {
+      const then = sockets[s].getTime()
+      if ((now - then) / 1000 > timeout) {
+        console.log(timeout + " " + s)
+        if (books[s]) {
+          const novel: Novel = books[s]
+          await novel.close()
+          delete books[s]
+        }
+      }
+    }
+  }, timeout * 1000)
+}
 io.on("connection", (socket: Socket) => {
   console.log("connect " + socket.id)
+  sockets[socket.id] = new Date()
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
       const novel: Novel = books[socket.id]
       await novel.close()
       delete books[socket.id]
+      delete sockets[socket.id]
     }
     console.log("disconnected " + socket.id)
   })
   socket.onAny(args => {
     console.log(JSON.stringify(args))
+    sockets[socket.id] = new Date()
   })
   socket.on("listfiles", async (data, callback) => {
     try {
