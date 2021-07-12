@@ -1,16 +1,25 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
-
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*", "public/*"],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "public/*"
+  ],
   "compilerOptions": {
     "resolveJsonModule": true,
     "sourceMap": true,
     "allowJs": true,
     "checkJs": true,
     "baseUrl": ".",
-    "paths":{
-      "$lib/*": ["src/lib/*"]
-    }
+    "paths": {
+      "$lib/*": [
+        "src/lib/*"
+      ]
+    },
+    "types": [
+      "jest"
+    ]
   }
 }

@@ -1,10 +1,3 @@
-<!--
- ********************************************
- * This file is part of Novelist            *
- * Copyright (c) 2021 by G. Weirich         *
- * License and Terms see LICENSE            *
- ********************************************
--->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';

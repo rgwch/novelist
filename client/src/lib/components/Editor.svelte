@@ -1,5 +1,4 @@
 <script lang="ts">
-  // import '../node_modules/simplemde/dist/simplemde.min.css';
   import "../../../node_modules/simplemde/dist/simplemde.min.css";
   import SimpleMDE from "simplemde";
   import { onDestroy, onMount, setContext } from "svelte";
