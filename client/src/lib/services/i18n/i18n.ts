@@ -1,14 +1,14 @@
-import {addMessages, init} from 'svelte-i18n'
+import { addMessages, init } from 'svelte-i18n';
 
 import en from './en.json'
 import de from './de.json'
 import fr from './fr.json'
 import it from './it.json'
 
-addMessages('en',en)
-addMessages('de',de)
-addMessages('fr',fr)
-addMessages('it',it)
+addMessages('en', en);
+addMessages('de', de);
+addMessages('fr', fr);
+addMessages('it', it);
 /*
 register('en', ()=> import("./en.json"))
 register('de', ()=> import("./de.json"))

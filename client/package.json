@@ -10,11 +10,12 @@
     "start": "sirv public --port 3000 --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "i18n": "sync-i18n --files '**/i18n/*.json' --primary de --languages en fr it --space 2",
-    "test": "jest"
+    "test": "jest -c .config/jest.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
+    "@babel/preset-typescript": "^7.14.5",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^2.4.2",
