@@ -154,9 +154,9 @@ export class Novel {
   constructor(
     private pathname: string,
     private def: noveldef,
-    private password
+    password
   ) {
-    this.store = new Store(this.password);
+    this.store = new Store(password);
   }
 
   async changePassword(newPwd: string): Promise<boolean> {
