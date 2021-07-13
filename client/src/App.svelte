@@ -63,9 +63,13 @@
 	async function exportEpub() {
 		try {
 			const res = await toEpub(metadata.title);
-			if (!res) {
-				alert('Error encountered');
-			}
+			alert(
+				$_('messages.ebookok', {
+					values: {
+						epub: res
+					}
+				})
+			);
 		} catch (err) {
 			alert(err);
 		}

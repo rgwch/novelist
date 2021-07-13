@@ -44,10 +44,10 @@
 		<hr />
 		{#if actions}
 			<span role="button" class="btn" on:click={() => dispatch('delete', local)}>
-				{$_('general.delete')}
+				{$_('actions.delete')}
 			</span>
 			<span role="button" class="btn" on:click={() => dispatch('save', local)}
-				>{$_('general.save')}</span
+				>{$_('actions.save')}</span
 			>
 		{/if}
 	</div>

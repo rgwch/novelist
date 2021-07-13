@@ -65,17 +65,17 @@
 						</li>
 						<li>
 							<span class="menuitem" on:click={() => dispatch('html')}>
-								{$_('menu.exporthtml')}
+								{$_('actions.generateHTML')}
 							</span>
 						</li>
 						<li>
 							<span class="menuitem" on:click={() => dispatch('epub')}>
-								{$_('menu.exportebook')}
+								{$_('actions.generateEPUB')}
 							</span>
 						</li>
 						<li>
 							<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('close')}>
-								{$_('menu.close')}
+								{$_('actions.close')}
 							</span>
 						</li>
 					</ul>

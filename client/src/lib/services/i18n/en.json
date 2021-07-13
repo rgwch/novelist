@@ -2,6 +2,7 @@
   "actions": {
     "changePWD": "Change password",
     "close": "Close book",
+    "delete": "Delete",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
     "open": "Open",
@@ -66,9 +67,6 @@
     "we": "Wed",
     "wed": "Wednesday"
   },
-  "errors": {
-    "badpwd": "Datei defekt oder falsches Passwort"
-  },
   "fields": {
     "age": "Age",
     "author": "Author",
@@ -82,17 +80,17 @@
     "hair": "Hair",
     "height": "Height",
     "id": "ID, ISBN",
-    "language": "Sprache",
+    "language": "Language",
     "modified": "changed on",
     "name": "Name",
     "nicknames": "Other names",
-    "published": "Erschienen",
-    "publisher": "Verlag",
-    "sequence": "Nummer",
-    "series": "Serie",
+    "published": "Published",
+    "publisher": "Publisher",
+    "sequence": "Number",
+    "series": "Series",
     "stature": "Stature",
     "surround": "Environment",
-    "tags": "Stichwörter",
+    "tags": "Key words",
     "title": "Title"
   },
   "formatting": {
@@ -100,7 +98,6 @@
   },
   "general": {
     "created": "created",
-    "delete": "Delete",
     "login": "Login",
     "logout": "Logout",
     "new": "New",
@@ -112,11 +109,11 @@
     "logindatafor": "Login data for"
   },
   "menu": {
-    "close": "Close",
     "display": "Display",
-    "exportebook": "export ePub",
-    "exporthtml": "export HTML",
-    "file": "File",
-    "open": "Open"
+    "file": "File"
+  },
+  "messages": {
+    "badpwd": "File corrupt or bad password",
+    "ebookok": "File \"{epub}\" was created successfully."
   }
 }

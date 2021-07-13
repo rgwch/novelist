@@ -58,7 +58,7 @@
 				}, 100);
 			} catch (err) {
 				if (err.includes('incorrect header')) {
-					alert($_('errors.badpwd'));
+					alert($_('messages.badpwd'));
 				} else {
 					alert('Can not open ' + err);
 				}

@@ -43,13 +43,15 @@ if (config.has("timeout")) {
     const now = new Date().getTime()
     console.log("timeout check " + now)
     for (const s in sockets) {
-      const then = sockets[s].getTime()
-      if ((now - then) / 1000 > timeout) {
-        console.log(timeout + " " + s)
-        if (books[s]) {
-          const novel: Novel = books[s]
-          await novel.close()
-          delete books[s]
+      if (sockets.hasOwnProperty(s)) {
+        const then = sockets[s].getTime()
+        if ((now - then) / 1000 > timeout) {
+          console.log(timeout + " " + s)
+          if (books[s]) {
+            const novel: Novel = books[s]
+            await novel.close()
+            delete books[s]
+          }
         }
       }
     }
@@ -220,7 +222,7 @@ io.on("connection", (socket: Socket) => {
         }
         const outfile = path.join(resolveDir(), data)
         await ex.toEpub(outfile)
-        callback({ status: "ok", result: true })
+        callback({ status: "ok", result: data })
       } else if (op === "html") {
         const html = await ex.toHtml()
         callback({ status: "ok", result: html })

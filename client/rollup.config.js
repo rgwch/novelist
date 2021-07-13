@@ -64,6 +64,7 @@ export default {
     json(),
     commonjs(),
     typescript({
+      resolveJsonModule: true,
       sourceMap: !production,
       inlineSources: !production
     }),

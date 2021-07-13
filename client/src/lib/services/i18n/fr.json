@@ -2,6 +2,7 @@
   "actions": {
     "changePWD": "Change mot de passe",
     "close": "Fermer",
+    "delete": "Löschen",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
     "open": "Ouvrir",
@@ -66,9 +67,6 @@
     "we": "Mer",
     "wed": "Mercredi"
   },
-  "errors": {
-    "badpwd": "Datei defekt oder falsches Passwort"
-  },
   "fields": {
     "age": "age",
     "author": "Auteur",
@@ -100,7 +98,6 @@
   },
   "general": {
     "created": "fait",
-    "delete": "Eraser",
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "new": "Nouveau",
@@ -112,11 +109,11 @@
     "logindatafor": "Login Daten für"
   },
   "menu": {
-    "close": "Fermer",
     "display": "Anzeigen",
-    "exportebook": "ePub exportieren",
-    "exporthtml": "HTML exportieren",
-    "file": "Datei",
-    "open": "Öffnen"
+    "file": "Datei"
+  },
+  "messages": {
+    "badpwd": "Datei defekt oder falsches Passwort",
+    "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt."
   }
 }
