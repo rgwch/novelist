@@ -14,21 +14,24 @@ describe('Novel', () => {
     fs.rm('test/sample1.novel_2', () => { });
     fs.rm('test/sample1.novel_3', () => { });
   });
+  it("creates a novel from a directory",()=>{
+    expect(fs.existsSync('test/sample.novel')).toBe(true)
+  })
   it('opens a noveldef', async () => {
     const novel = await Novel.open('test/sample.novel', "default");
-    expect(novel).toBeDefined;
+    expect(novel).toBeDefined();
   });
   it('reads files from the noveldef', async () => {
     const novel = await Novel.open('test/sample.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
-    expect(brutus).toBeDefined;
-    expect(novel.readMetadata()).toBeDefined;
-    expect(novel.getTimeline()).toBeDefined;
+    expect(brutus).toBeDefined();
+    expect(novel.readMetadata()).toBeDefined();
+    expect(novel.getTimeline()).toBeDefined();
   });
   it('creates a new noveldef', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     const metadata = novel.readMetadata();
-    expect(metadata).toBeDefined;
+    expect(metadata).toBeDefined();
     expect(metadata.title).toEqual('sample1');
   });
 
@@ -40,19 +43,19 @@ describe('Novel', () => {
       description: 'A Sample person'
     });
     const meta = novel.readMetadata();
-    expect(meta).toBeDefined;
-    expect(meta.persons).toBeDefined;
+    expect(meta).toBeDefined();
+    expect(meta.persons).toBeDefined();
     expect(meta.persons).toBeInstanceOf(Array);
     expect(meta.persons[0]).toEqual('Elvis Aalborg');
     const elvis = novel.getPerson('Elvis Aalborg');
-    expect(elvis).toBeDefined;
-    expect(elvis.description).toBeDefined;
+    expect(elvis).toBeDefined();
+    expect(elvis.description).toBeDefined();
     elvis.description = 'This is only a sample person';
     elvis.nicknames = ['elv', 'elvis', 'HIM'];
     const written = await novel.writePerson(elvis);
-    expect(written).toBeTruthy
+    expect(written).toBeTruthy()
     await novel.close()
-    expect(novel.readMetadata()).toBeUndefined
+    expect(novel.readMetadata()).toBeUndefined()
 
   });
 });

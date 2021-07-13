@@ -15,6 +15,10 @@ import config from 'config'
 
 let plaintext = false;
 
+if(config.has('encryption')){
+  plaintext=!config.get('encryption')
+}
+
 export function resolveDir() {
   let ret = os.homedir()
   if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {

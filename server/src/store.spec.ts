@@ -18,7 +18,7 @@ describe("Store", () => {
     const saved = await store.save("test/dump.store", buffer)
     expect(saved).toBe(true)
     const retrieved = await store.load("test/dump.store")
-    expect(retrieved).toBeDefined
+    expect(retrieved).toBeDefined()
     expect(retrieved).toEqual(buffer)
   })
   it("generates multiple generations of backup", async () => {

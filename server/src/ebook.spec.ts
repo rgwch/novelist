@@ -20,7 +20,7 @@ describe('Ebook', () => {
   });
   it('creates an eBook from a Novel', async () => {
     const novel = await Novel.open('test/sample.novel', 'default');
-    expect(novel).toBeDefined;
+    expect(novel).toBeDefined();
     const ebook = new Exporter(novel);
     const ret = await ebook.toEpub('test/sample.epub');
     expect(fs.existsSync('test/sample.epub')).toBe(true);
