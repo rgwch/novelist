@@ -7,9 +7,12 @@ module.exports= {
     //   "**/__tests__/**/*.[jt]s?(x)",
     "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
+  moduleNameMapper: {
+    "^.+\\.css$": "<rootDir>/../.config/stylemock.ts"
+  },
   transform:{
     "^.+\\.(ts|tsx)$": "ts-jest",
-    "^.+\\.(svelte|css)$": [
+     "^.+\\.svelte$": [
       'svelte-jester',
       {
         "preprocess": true,
