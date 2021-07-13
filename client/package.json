@@ -3,10 +3,10 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c .config/rollup.config.js",
     "build:tailwind": "postcss src/tailwind.css -o public/tailwind.css",
     "clean": "rimraf public/build",
-    "dev": "rollup -c -w",
+    "dev": "rollup -c .config/rollup.config.js -w",
     "start": "sirv public --port 3000 --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "i18n": "sync-i18n --files '**/i18n/*.json' --primary de --languages en fr it --space 2",

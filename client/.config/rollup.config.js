@@ -8,7 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import json from 'rollup-plugin-json';
 import postcss from 'rollup-plugin-postcss'
 import replace from '@rollup/plugin-replace'
-import infos from './package.json'
+import infos from '../package.json'
 
 const production = !process.env.ROLLUP_WATCH;
 
