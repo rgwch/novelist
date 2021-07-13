@@ -1,11 +1,10 @@
-
-import Modal from './Modal.svelte'
+import Editor from './Editor.svelte'
 import { render } from '@testing-library/svelte'
 import '../services/i18n/i18n'
 
-describe("Modal box", () => {
+describe("Editor", () => {
     it('should create', () => {
-        const { container } = render(Modal)
+        const { container } = render(Editor)
         expect(container).toBeTruthy();
     })
 })

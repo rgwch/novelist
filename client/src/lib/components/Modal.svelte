@@ -3,7 +3,7 @@
 	export let dismiss: (val: string) => void = (result) => {};
 
 	function close() {
-		dismiss('rmpty');
+		dismiss('empty');
 	}
 </script>
 

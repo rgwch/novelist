@@ -1,11 +1,10 @@
-
-import Modal from './Modal.svelte'
+import Person from './Person.svelte'
 import { render } from '@testing-library/svelte'
 import '../services/i18n/i18n'
 
-describe("Modal box", () => {
+describe("Person", () => {
     it('should create', () => {
-        const { container } = render(Modal)
+        const { container } = render(Person)
         expect(container).toBeTruthy();
     })
 })

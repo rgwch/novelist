@@ -63,6 +63,7 @@
   :global(.editor-toolbar) {
     margin-top: 18px;
   }
+  @import "../../../node_modules/simplemde/dist/simplemde.min.css";
   /*
 	.cm-wrap{ height: 100%}
 	.cm-scroller {overflow: auto}
