@@ -1,4 +1,4 @@
-module.exports= {
+module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   rootDir: "../src",
@@ -10,9 +10,9 @@ module.exports= {
   moduleNameMapper: {
     "^.+\\.css$": "<rootDir>/../.config/stylemock.ts"
   },
-  transform:{
+  transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
-     "^.+\\.svelte$": [
+    "^.+\\.svelte$": [
       'svelte-jester',
       {
         "preprocess": true,
@@ -20,6 +20,7 @@ module.exports= {
         }
       }
     ]
-  }
+  },
+  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"]
 
 }

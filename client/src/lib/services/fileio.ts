@@ -10,10 +10,10 @@ export const current = writable(undefined);
 
 let socket
 if (props.production === "true") {
-  console.log("production mode")
+  // console.log("production mode")
   socket = io()
 } else {
-  console.log("development mode")
+  // console.log("development mode")
   socket = io("http://localhost:2999", { autoConnect: true });
 }
 

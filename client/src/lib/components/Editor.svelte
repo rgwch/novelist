@@ -1,70 +1,74 @@
 <script lang="ts">
-  import "../../../node_modules/simplemde/dist/simplemde.min.css";
-  import SimpleMDE from "simplemde";
-  import { onDestroy, onMount, setContext } from "svelte";
-  import { _ } from "svelte-i18n";
+	import '../../../node_modules/simplemde/dist/simplemde.min.css';
+	import SimpleMDE from 'simplemde';
+	import { onDestroy, onMount, setContext } from 'svelte';
+	import { _ } from 'svelte-i18n';
 
-  export let save: (data: string) => void;
-  export let contents: string;
+	export let save: (data: string) => void;
+	export let contents: string;
 
-  let container;
-  let editor;
-  const toolbar = [
-    "bold",
-    "italic",
-    "heading-bigger",
-    "heading-smaller",
-    "preview",
-    "fullscreen",
-    "|",
-    {
-      name: "save",
-      action: (editor) => save(editor.value),
-      className: "fa fa-save",
-      title: $_("actions.save"),
-    },
-  ];
+	let container;
+	let editor;
+	const toolbar = [
+		'bold',
+		'italic',
+		'heading-bigger',
+		'heading-smaller',
+		'preview',
+		'fullscreen',
+		'|',
+		{
+			name: 'save',
+			action: (editor) => save(editor.value),
+			className: 'fa fa-save',
+			title: $_('actions.save')
+		}
+	];
 
-  $: setValue(contents);
+	$: setValue(contents);
 
-  function setValue(val: string) {
-    if (editor) {
-      editor.value(val);
-    }
-  }
-  onMount(async () => {
-    editor = new SimpleMDE({
-      element: container,
-      autofocus: true,
-      spellChecker: false,
-      toolbar,
-      autosave: { enabled: true, uniqueId: new Date().toString() },
-    });
-    editor.codemirror.on("blur", () => {
-      console.log("Editor: blur");
-      save(editor.value());
-    });
-  });
+	function setValue(val: string) {
+		if (editor) {
+			editor.value(val);
+		}
+	}
+	onMount(async () => {
+		try {
+			editor = new SimpleMDE({
+				element: container,
+				autofocus: true,
+				spellChecker: false,
+				toolbar,
+				autosave: { enabled: true, uniqueId: new Date().toString() }
+			});
+			editor.codemirror.on('blur', () => {
+				console.log('Editor: blur');
+				save(editor.value());
+			});
+		} catch (err) {
+			console.log('Editor: Error in initializer ' + err);
+		}
+	});
 </script>
 
 <template>
-  <textarea bind:this={container} />
+	<textarea bind:this={container} />
 </template>
 
 <style>
-  :global(.CodeMirror) {
-    height: 70vh;
-    width: 100%;
-  }
-  :global(.CodeMirror-fullscreen) {
-    max-height: none;
-    margin-top: 18px;
-  }
-  :global(.editor-toolbar) {
-    margin-top: 18px;
-  }
-  @import "../../../node_modules/simplemde/dist/simplemde.min.css";
-  /*
+	:global(.CodeMirror) {
+		height: 70vh;
+		width: 100%;
+	}
+	:global(.CodeMirror-fullscreen) {
+		max-height: none;
+		margin-top: 18px;
+	}
+	:global(.editor-toolbar) {
+		margin-top: 18px;
+	}
+	@import '../../../node_modules/simplemde/dist/simplemde.min.css';
+	/*
 	.cm-wrap{ height: 100%}
 	.cm-scroller {overflow: auto}
 	*/
