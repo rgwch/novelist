@@ -58,6 +58,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 		const password = prompt($_('general.password'));
 		let res;
 		if (password) {
+			metadata = undefined;
 			try {
 				res = await openBook(filename, password);
 				current.set(res);

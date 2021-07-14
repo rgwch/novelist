@@ -226,6 +226,7 @@ export class Novel {
       if (this.def.metadata.chapters.find((c) => c == name)) {
         if (!cdef.text) {
           console.log("WriteChapter: Empty cdef Text!");
+          cdef.text = "##" + name;
         }
       } else {
         this.def.metadata.chapters.push(name);
