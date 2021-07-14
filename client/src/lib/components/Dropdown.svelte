@@ -1,3 +1,9 @@
+<!-- 
+	@component
+	A dropdown list. Dispatches a 'selected' event if user changes selection.
+	Allows to create new Elements.
+	
+-->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { onMount } from 'svelte';
@@ -9,8 +15,8 @@
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
 	};
+	export let metadata: metadata_def;
 
-	let metadata = $current;
 	let value;
 
 	onMount(() => {

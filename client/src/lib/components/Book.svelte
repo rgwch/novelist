@@ -1,7 +1,13 @@
+<!-- 
+@component
+Display of the metadata of the currently opened book or a list of books available.
+	
+-->
 <script lang="ts">
 	import Fieldeditor from './Fieldeditor.svelte';
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
+	/** The metadata fields for a book. All are optional*/
 	const fields = [
 		'title',
 		'author',
@@ -30,12 +36,14 @@
 		openBook
 	} from '../services/fileio';
 
+	/** Name of the currently opened book */
 	let bookname;
 	let metadata: metadata_def;
-	let filedialog = false;
+
 	current.subscribe((value) => {
 		metadata = value;
 	});
+
 	async function saveBook(event) {
 		await save('metadata', metadata);
 	}

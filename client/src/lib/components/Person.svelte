@@ -56,7 +56,7 @@
 <template>
 	<div class="flex gap-4 flex-col">
 		<div class="flex-none h-full">
-			<Dropdown {definition} on:selected={select} />
+			<Dropdown {metadata} {definition} on:selected={select} />
 		</div>
 
 		<div class="flex-1 h-full">

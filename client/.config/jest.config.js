@@ -21,6 +21,9 @@ module.exports = {
       }
     ]
   },
-  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"]
+  setupFilesAfterEnv: [
+    "@testing-library/jest-dom/extend-expect",
+    "jest-svelte-events/extend-expect"
+  ]
 
 }

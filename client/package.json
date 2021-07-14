@@ -30,6 +30,7 @@
     "babel-jest": "^27.0.6",
     "i18next-json-sync": "^2.3.1",
     "jest": "^27.0.6",
+    "jest-svelte-events": "^1.0.5",
     "postcss": "^8.3.5",
     "postcss-cli": "^8.3.1",
     "rimraf": "^3.0.2",

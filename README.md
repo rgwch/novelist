@@ -4,6 +4,8 @@
 
 A Novel writer's toolkit. Client/Server oriented, so you could work on your next book from a PC, Laptop, Tablet or even a Smartphone. Keep Story, persons, places and timeline ready.
 
+On the other hand: My playground for Svelte, SocketIO, TailwindCSS, Testing-Library, Storybook, Codecept. 
+
 ## Getting started
 
 * Make sure you have NodeJS 14 or higher installed and active.
@@ -106,6 +108,8 @@ Not multiuser capable. Only one client can work on any book at a time. It is pos
 [Svelte](https://svelte.dev)
 
 [Tailwind CSS](https://tailwindcss.com/)
+
+[SocketIO](https://socket.io/)
 
 [SimpleMDE](https://simplemde.com/)
 

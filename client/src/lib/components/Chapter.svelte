@@ -1,15 +1,20 @@
+<!--
+	@component
+	Display of the currently selected chapter.
+	
+-->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
 	import Editor from './Editor.svelte';
-	
+
 	import { load, save } from '../services/fileio';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
 	};
-	let chaptername;
+
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
 
