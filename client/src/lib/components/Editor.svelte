@@ -49,6 +49,11 @@
 			console.log('Editor: Error in initializer ' + err);
 		}
 	});
+	onDestroy(() => {
+		if (editor) {
+			editor.value('');
+		}
+	});
 </script>
 
 <template>

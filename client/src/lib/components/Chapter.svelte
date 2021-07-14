@@ -9,6 +9,7 @@
 	import Editor from './Editor.svelte';
 
 	import { load, save } from '../services/fileio';
+	import { detach_dev } from 'svelte/internal';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -44,6 +45,9 @@
 	async function select(event) {
 		try {
 			const def: chapter_def = await load('chapters', event.detail);
+			if (def.text == undefined) {
+				def.text = def.name || '';
+			}
 			currentChapter = def;
 			setTimeout(() => {
 				currentChapterText = def.text ? def.text : '';
