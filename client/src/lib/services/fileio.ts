@@ -27,6 +27,9 @@ socket.onAny((event, ...args) => {
   console.log(event, args);
 });
 
+socket.on("closed", () => {
+  current.set(undefined)
+})
 socket.on('disconnect', () => {
   current.set(undefined)
 })

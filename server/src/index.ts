@@ -1,3 +1,6 @@
+/**
+ * Main entry of the Novelist server. Setup HTTP-Server and SocketIO
+ */
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import fs from 'fs'
@@ -44,13 +47,16 @@ if (config.has("timeout")) {
     console.log("timeout check " + now)
     for (const s in sockets) {
       if (sockets.hasOwnProperty(s)) {
-        const then = sockets[s].getTime()
+        const then = sockets[s].last
         if ((now - then) / 1000 > timeout) {
           console.log(timeout + " " + s)
           if (books[s]) {
             const novel: Novel = books[s]
-            await novel.close()
-            delete books[s]
+            if (novel) {
+              await novel.close()
+              delete books[s]
+              sockets[s].socket.emit("closed")
+            }
           }
         }
       }
@@ -59,7 +65,10 @@ if (config.has("timeout")) {
 }
 io.on("connection", (socket: Socket) => {
   console.log("connect " + socket.id)
-  sockets[socket.id] = new Date()
+  sockets[socket.id] = {
+    last: new Date().getTime(),
+    socket: socket
+  }
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
       const novel: Novel = books[socket.id]
@@ -71,7 +80,7 @@ io.on("connection", (socket: Socket) => {
   })
   socket.onAny(args => {
     console.log(JSON.stringify(args))
-    sockets[socket.id] = new Date()
+    sockets[socket.id].last = new Date().getTime()
   })
   socket.on("listfiles", async (data, callback) => {
     try {
