@@ -3,6 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { current, save } from '../services/fileio';
+import { update_await_block_branch } from 'svelte/internal';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -31,6 +32,15 @@
 		currentElementName = item;
 		dispatch('selected', item);
 	}
+  function up(elem){
+
+  }
+  function down(elem){
+
+  }
+  function del(elem){
+    
+  }
 </script>
 
 <template>
@@ -44,7 +54,7 @@
 					>
 						{elem}
 						<span class="absolute right-0">
-							<span class="fa fa-arrow-up arrow-up">^</span>
+							<span class="fa fa-arrow-up arrow-up" on:click={()=>up(elem)}>^</span>
 							<span class="fa fa-arrow-down">d</span>
 							<span class="fa fa-cross">x</span>
             </span>
