@@ -1,17 +1,18 @@
 <script lang="ts">
+	import '../../../node_modules/@fortawesome/fontawesome-free/js/solid';
+	import '../../../node_modules/@fortawesome/fontawesome-free/js/fontawesome';
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import { current, save } from '../services/fileio';
-import { update_await_block_branch } from 'svelte/internal';
+	import { save } from '../services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
 	};
+	export let metadata;
 
 	let currentElementName: string;
-	let metadata = $current;
 
 	let newelement: string;
 	async function addElement() {
@@ -32,15 +33,11 @@ import { update_await_block_branch } from 'svelte/internal';
 		currentElementName = item;
 		dispatch('selected', item);
 	}
-  function up(elem){
-
-  }
-  function down(elem){
-
-  }
-  function del(elem){
-    
-  }
+	function up(elem) {
+		alert(up);
+	}
+	function down(elem) {}
+	function del(elem) {}
 </script>
 
 <template>
@@ -53,11 +50,11 @@ import { update_await_block_branch } from 'svelte/internal';
 						on:click={() => select(elem)}
 					>
 						{elem}
-						<span class="absolute right-0">
-							<span class="fa fa-arrow-up arrow-up" on:click={()=>up(elem)}>^</span>
-							<span class="fa fa-arrow-down">d</span>
-							<span class="fa fa-cross">x</span>
-            </span>
+						<span class="absolute right-0 px-3 z-10 bg-blue-100">
+							<i class="fa fa-angle-up" on:click={() => up(elem)} />
+							<i class="fas fa-angle-down" />
+							<i class="fa fa-trash" />
+						</span>
 					</div>
 				</div>
 			{/each}

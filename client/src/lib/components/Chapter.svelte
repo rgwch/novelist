@@ -8,14 +8,14 @@
 	import Elementlist from './Elementlist.svelte';
 	import Editor from './Editor.svelte';
 
-	import { load, save } from '../services/fileio';
-	import { detach_dev } from 'svelte/internal';
+	import { load, save, current } from '../services/fileio';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername'
 	};
 
+	let metadata = $current;
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
 
@@ -61,7 +61,7 @@
 <template>
 	<div class="flex gap-4 flex-col md:flex-row">
 		<div class="flex-none h-full">
-			<Elementlist {definition} on:selected={select} />
+			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
 		<div class="flex-1 h-full v-full">
 			{#if currentChapter && currentChapter.name}
