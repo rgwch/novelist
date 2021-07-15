@@ -37,12 +37,17 @@
 	<div class="max-h-full">
 		{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 			{#each metadata[definition.type] as elem}
-				<div class="item">
+				<div class="item relative">
 					<div
 						class={currentElementName == elem ? 'font-bold' : 'font-normal'}
 						on:click={() => select(elem)}
 					>
 						{elem}
+						<span class="absolute right-0">
+							<span class="fa fa-arrow-up arrow-up">^</span>
+							<span class="fa fa-arrow-down">d</span>
+							<span class="fa fa-cross">x</span>
+            </span>
 					</div>
 				</div>
 			{/each}
