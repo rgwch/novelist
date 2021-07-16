@@ -67,6 +67,7 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "array-move": "^3.0.1",
     "babel-cli": "^6.26.0",
     "luxon": "^1.27.0",
     "simplemde": "^1.11.2",

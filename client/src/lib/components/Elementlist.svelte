@@ -2,6 +2,7 @@
 	import '../../../node_modules/@fortawesome/fontawesome-free/js/solid';
 	import '../../../node_modules/@fortawesome/fontawesome-free/js/fontawesome';
 	import { _ } from 'svelte-i18n';
+	import move from 'array-move';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import { save } from '../services/fileio';
@@ -34,9 +35,16 @@
 		dispatch('selected', item);
 	}
 	function up(elem) {
-		alert(up);
+		const arr = metadata[definition.type];
+		const idx = arr.indexOf(elem);
+		move(arr, idx, idx + 1);
+		metadata[definition.type] = arr;
 	}
-	function down(elem) {}
+	function down(elem) {
+		const arr = metadata[definition.type];
+		const idx = arr.indexOf(elem);
+		move(arr, idx, idx - 1);
+	}
 	function del(elem) {}
 </script>
 
@@ -49,11 +57,11 @@
 						class={currentElementName == elem ? 'font-bold' : 'font-normal'}
 						on:click={() => select(elem)}
 					>
-						{elem}
+						<span class="z-0">{elem}</span>
 						<span class="absolute right-0 px-3 z-10 bg-blue-100">
-							<i class="fa fa-angle-up" on:click={() => up(elem)} />
-							<i class="fas fa-angle-down" />
-							<i class="fa fa-trash" />
+							<span on:click={() => up(elem)}><i class="fa fa-angle-up " /></span>
+							<span on:click={() => down(elem)} class="px-2"><i class="fa fa-angle-down" /> </span>
+							<span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
 						</span>
 					</div>
 				</div>
