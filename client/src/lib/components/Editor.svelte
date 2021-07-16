@@ -10,7 +10,7 @@
 	let container;
 	let editor;
 	const toolbar = [
-		'bold',
+		{ name: 'bold', action: 'toggleBold', className: 'fa fa-bold', title: $_('actions.bold') },
 		'italic',
 		'heading-bigger',
 		'heading-smaller',
@@ -38,7 +38,8 @@
 				element: container,
 				autofocus: true,
 				spellChecker: false,
-				toolbar,
+				toolbar: false,
+				autoDownloadFontAwesome: false,
 				autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
 			editor.codemirror.on('blur', () => {

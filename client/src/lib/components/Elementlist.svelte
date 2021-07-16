@@ -37,15 +37,20 @@
 	function up(elem) {
 		const arr = metadata[definition.type];
 		const idx = arr.indexOf(elem);
-		move(arr, idx, idx + 1);
-		metadata[definition.type] = arr;
+		metadata[definition.type]=move(arr, idx, idx - 1);
 	}
 	function down(elem) {
 		const arr = metadata[definition.type];
 		const idx = arr.indexOf(elem);
-		move(arr, idx, idx - 1);
+		metadata[definition.type]=move(arr, idx, idx + 1);
 	}
 	function del(elem) {}
+  function edit(elem){
+    const newtitle=prompt($_(definition.promptname))
+    if(newtitle){
+      
+    }
+  }
 </script>
 
 <template>
@@ -61,7 +66,8 @@
 						<span class="absolute right-0 px-3 z-10 bg-blue-100">
 							<span on:click={() => up(elem)}><i class="fa fa-angle-up " /></span>
 							<span on:click={() => down(elem)} class="px-2"><i class="fa fa-angle-down" /> </span>
-							<span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
+							<span on:click={() => edit(elem)}><i class="fa fa-edit pointer-events-auto" /></span>
+              <span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
 						</span>
 					</div>
 				</div>

@@ -21,6 +21,7 @@
 
 	async function saveChapter(text: string) {
 		try {
+      console.log("saving "+currentChapter.name)
 			if (currentChapter.name) {
 				if (text && text.length > 1) {
 					currentChapter.text = text;
