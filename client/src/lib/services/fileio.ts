@@ -6,9 +6,9 @@ import props from './properties'
 
 export const current = writable(undefined);
 
-// Note: rollup will change this to "true" or "false" on build
-
 let socket
+
+// Note: rollup will change this to "true" or "false" on build
 if (props.production === "true") {
   // console.log("production mode")
   socket = io()

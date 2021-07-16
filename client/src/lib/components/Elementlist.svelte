@@ -5,7 +5,7 @@
 	import move from 'array-move';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import { load, save, remove, rename } from '../services/fileio';
+	import { load, save, remove, rename, openCurrent } from '../services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -55,6 +55,7 @@
 			if (!done) {
 				alert('Could not delete');
 			}
+			await openCurrent();
 		}
 	}
 	async function edit(elem) {
@@ -62,6 +63,7 @@
 		if (newtitle) {
 			try {
 				metadata = await rename(definition.type, elem, newtitle);
+				await openCurrent();
 			} catch (err) {
 				alert(err);
 			}
