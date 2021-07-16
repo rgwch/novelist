@@ -210,7 +210,16 @@ io.on("connection", (socket: Socket) => {
         case "changePwd":
           result.result = novel.changePassword(data);
           break;
-
+        case "rename":
+          switch (data.type) {
+            case "chapters":
+              result.result = await novel.renameChapter(data.oldname, data.newname)
+              break;
+            default:
+              result.message = "object type not supported " + data.type
+              result.status = "error"
+          }
+          break;
         default:
           result.message = "bad operation code in modify: " + op
           result.status = "error"

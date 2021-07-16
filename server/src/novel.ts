@@ -14,7 +14,7 @@ import { promisify } from "util";
 const preadFile = promisify(fs.readFile);
 const preaddir = promisify(fs.readdir);
 
-const default_metadata: metadata_def = {
+const defaultMetadata: metadata_def = {
   title: "",
   author: "",
   created: new Date(),
@@ -46,7 +46,7 @@ export class Novel {
             try {
               const json: noveldef = JSON.parse(buffer.toString("utf-8"));
               const lastWrite = new Date(json.metadata.modified);
-              if (lastWrite && lastWrite.getTime() == lastWrite.getTime()) {
+              if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
                 resolve(new Novel(pathname, json, password));
               } else {
                 reject("invalid date " + json.metadata.modified);
@@ -61,7 +61,7 @@ export class Novel {
           });
       } else {
         const def = {
-          metadata: default_metadata,
+          metadata: defaultMetadata,
           persons: {},
           places: {},
           chapters: {},
@@ -91,7 +91,7 @@ export class Novel {
       }
     }
     const def: noveldef = {
-      metadata: default_metadata,
+      metadata: defaultMetadata,
       persons: {},
       places: {},
       chapters: {},
@@ -110,7 +110,7 @@ export class Novel {
       def.metadata = YAML.parse((await meta).toString("utf-8"));
     } catch (err) {
       console.log("Novel.fromDirectoryno metadata found " + err);
-      def.metadata = default_metadata;
+      def.metadata = defaultMetadata;
     }
     try {
       const persons = await preaddir(path.join(dir, "persons"));
@@ -139,8 +139,8 @@ export class Novel {
       for (const chapter of chapters) {
         const data = await preadFile(path.join(dir, "chapters", chapter));
         const split = metadataParser(data.toString("utf-8"));
-        def.chapters[split.metadata.title] = split.metadata;
-        def.chapters[split.metadata.title].text = split.content;
+        def.chapters[split.metadata.name] = split.metadata;
+        def.chapters[split.metadata.name].text = split.content;
       }
     } catch (err) {
       console.log("Novel.fromDirectory: no chapters");
@@ -208,7 +208,7 @@ export class Novel {
   }
   deletePerson(name: string): Promise<boolean> {
     const index = this.def.metadata.persons.indexOf(name);
-    if (index == -1) {
+    if (index === -1) {
       throw new Error("person does not exist " + name);
     }
     this.def.metadata.persons.splice(index, 1);
@@ -223,7 +223,7 @@ export class Novel {
       }
       const name = cdef.name;
       this.def.chapters[name] = cdef;
-      if (this.def.metadata.chapters.find((c) => c == name)) {
+      if (this.def.metadata.chapters.find((c) => c === name)) {
         if (!cdef.text) {
           console.log("WriteChapter: Empty cdef Text!");
           cdef.text = "##" + name;
@@ -236,9 +236,43 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+  async renameChapter(oldname, newname): Promise<metadata_def> {
+    if (!newname) {
+      throw new Error("new name is required")
+    }
+    const existing = this.getChapter(oldname)
+    if (existing) {
+      const meta = this.readMetadata()
+      if (Array.isArray(meta.chapters)) {
+        const replace = []
+        for (const i of meta.chapters) {
+          if (i === oldname) {
+            replace.push(newname)
+          } else {
+            replace.push(i)
+          }
+        }
+        existing.name = newname;
+        if (await this.writeChapter(existing)) {
+          delete this.def.chapters[oldname]
+          meta.chapters = replace
+          await this.writeMetadata(meta)
+          return meta
+        } else {
+          console.log("write failed")
+          throw new Error("could not write")
+        }
+      } else {
+        throw new Error("Chapter metadata not found " + oldname)
+      }
+    } else {
+      throw new Error("Chapter doesn't exist " + oldname)
+    }
+  }
+
   deleteChapter(name: string): Promise<boolean> {
     const index = this.def.metadata.chapters.indexOf(name);
-    if (index == -1) {
+    if (index === -1) {
       throw new Error("chapter does not exist " + name);
     }
     this.def.metadata.chapters.splice(index, 1);
@@ -255,7 +289,7 @@ export class Novel {
   }
   deletePlace(name: string): Promise<boolean> {
     const index = this.def.metadata.places.indexOf(name);
-    if (index == -1) {
+    if (index === -1) {
       throw new Error("place does not exist " + name);
     }
     this.def.metadata.places.splice(index, 1);

@@ -1,5 +1,6 @@
 {
   "actions": {
+    "bold": "Fett",
     "changePWD": "Passwort ändern",
     "close": "Buch schließen",
     "delete": "Löschen",
@@ -114,6 +115,7 @@
   },
   "messages": {
     "badpwd": "Datei defekt oder falsches Passwort",
-    "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt."
+    "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt.",
+    "reallydelete": "Wollen Sie {element} wirklich löschen?"  
   }
 }

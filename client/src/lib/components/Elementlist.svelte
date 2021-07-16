@@ -5,7 +5,7 @@
 	import move from 'array-move';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import { save } from '../services/fileio';
+	import { load, save, remove, rename } from '../services/fileio';
 	export let definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
@@ -37,20 +37,36 @@
 	function up(elem) {
 		const arr = metadata[definition.type];
 		const idx = arr.indexOf(elem);
-		metadata[definition.type]=move(arr, idx, idx - 1);
+		metadata[definition.type] = move(arr, idx, idx - 1);
 	}
 	function down(elem) {
 		const arr = metadata[definition.type];
 		const idx = arr.indexOf(elem);
-		metadata[definition.type]=move(arr, idx, idx + 1);
+		metadata[definition.type] = move(arr, idx, idx + 1);
 	}
-	function del(elem) {}
-  function edit(elem){
-    const newtitle=prompt($_(definition.promptname))
-    if(newtitle){
-      
-    }
-  }
+	async function del(elem) {
+		console.log('del ' + elem);
+		if (confirm($_('messages.reallydelete', { values: { element: elem } }))) {
+			const index = metadata[definition.type].indexOf(name);
+			if (index !== -1) {
+				metadata[definition.type].chapters.splice(index, 1);
+			}
+			const done = await remove(definition.type, elem);
+			if (!done) {
+				alert('Could not delete');
+			}
+		}
+	}
+	async function edit(elem) {
+		const newtitle = prompt($_(definition.promptname));
+		if (newtitle) {
+			try {
+				metadata = await rename(definition.type, elem, newtitle);
+			} catch (err) {
+				alert(err);
+			}
+		}
+	}
 </script>
 
 <template>
@@ -67,7 +83,7 @@
 							<span on:click={() => up(elem)}><i class="fa fa-angle-up " /></span>
 							<span on:click={() => down(elem)} class="px-2"><i class="fa fa-angle-down" /> </span>
 							<span on:click={() => edit(elem)}><i class="fa fa-edit pointer-events-auto" /></span>
-              <span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
+							<span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
 						</span>
 					</div>
 				</div>

@@ -21,7 +21,7 @@
 
 	async function saveChapter(text: string) {
 		try {
-      console.log("saving "+currentChapter.name)
+			console.log('saving ' + currentChapter.name);
 			if (currentChapter.name) {
 				if (text && text.length > 1) {
 					currentChapter.text = text;
@@ -45,9 +45,13 @@
 
 	async function select(event) {
 		try {
-			const def: chapter_def = await load('chapters', event.detail);
-			if (def.text == undefined) {
-				def.text = def.name || '';
+			let def: chapter_def = await load('chapters', event.detail);
+			if (!def) {
+				def = { name: event.detail, text: '' };
+			} else {
+				if (def.text == undefined) {
+					def.text = def.name || '';
+				}
 			}
 			currentChapter = def;
 			setTimeout(() => {

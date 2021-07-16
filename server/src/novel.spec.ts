@@ -1,30 +1,36 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+// tslint:disable:no-empty
+
 import { Novel } from './novel';
 import fs from 'fs'
 
 describe('Novel', () => {
   beforeAll(async () => {
-    await Novel.fromDirectory('test/sample', "default", true);
+
   });
 
   afterAll(async () => {
+
     fs.rm('test/sample.novel', () => { });
     fs.rm('test/sample1.novel', () => { });
     fs.rm('test/sample1.novel_1', () => { });
     fs.rm('test/sample1.novel_2', () => { });
     fs.rm('test/sample1.novel_3', () => { });
+
   });
-  it("creates a novel from a directory",()=>{
-    expect(fs.existsSync('test/sample.novel')).toBe(true)
-  })
-  it('opens a noveldef', async () => {
+  it("creates a novel from a directory", async () => {
+    await Novel.fromDirectory('test/sample', "default", true);
+    const exists = fs.existsSync('test/sample.novel')
+    expect(exists).toBe(true)
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined();
-  });
+  })
   it('reads files from the noveldef', async () => {
+    await Novel.fromDirectory('test/sample', "default", true);
     const novel = await Novel.open('test/sample.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
+    const chapter = novel.getChapter('First Chapter')
+    expect(chapter).toBeDefined()
     expect(novel.readMetadata()).toBeDefined();
     expect(novel.getTimeline()).toBeDefined();
   });
@@ -58,4 +64,19 @@ describe('Novel', () => {
     expect(novel.readMetadata()).toBeUndefined()
 
   });
+  it('renames a chapter', async () => {
+    await Novel.fromDirectory('test/sample', "default", true);
+    const novel = await Novel.open('test/sample.novel', "default");
+    expect(novel).toBeDefined()
+    const chapter = novel.getChapter("First Chapter")
+    expect(chapter).toBeTruthy()
+    expect(chapter.name).toEqual("First Chapter")
+    const newmeta = await novel.renameChapter("First Chapter", "Chapter One")
+    expect(newmeta.chapters.indexOf("First Chapter")).toEqual(-1)
+    expect(newmeta.chapters.indexOf("Chapter One")).toBeGreaterThan(-1)
+    const newChapter=novel.getChapter("Chapter One")
+    expect(newChapter).toBeTruthy()
+    const oldChapter=novel.getChapter("First Chapter")
+    expect(oldChapter).toBeUndefined()
+  })
 });

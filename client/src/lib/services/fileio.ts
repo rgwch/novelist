@@ -145,6 +145,17 @@ export function remove(type: string, name: string): Promise<boolean> {
 
 }
 
+export function rename(type, oldname, newname): Promise<metadata_def> {
+  return new Promise((resolve, reject) => {
+    socket.emit("modify", "rename", { type, oldname, newname }, (res: result) => {
+      if (res.status === "ok") {
+        resolve(res.result)
+      } else {
+        reject(res.message)
+      }
+    })
+  })
+}
 export function toEpub(file: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("export", "epub", file, (res: result) => {
