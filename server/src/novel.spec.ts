@@ -4,13 +4,19 @@ import { Novel } from './novel';
 import fs from 'fs'
 
 describe('Novel', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
+    await Novel.fromDirectory('test/sample', "default", true);
+    const exists = fs.existsSync('test/sample.novel')
+    expect(exists).toBe(true)
 
   });
 
   afterAll(async () => {
 
     fs.rm('test/sample.novel', () => { });
+    fs.rm("test/sample.novel_1",()=>{})
+    fs.rm("test/sample.novel_2",()=>{})
+   
     fs.rm('test/sample1.novel', () => { });
     fs.rm('test/sample1.novel_1', () => { });
     fs.rm('test/sample1.novel_2', () => { });
@@ -18,14 +24,10 @@ describe('Novel', () => {
 
   });
   it("creates a novel from a directory", async () => {
-    await Novel.fromDirectory('test/sample', "default", true);
-    const exists = fs.existsSync('test/sample.novel')
-    expect(exists).toBe(true)
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined();
   })
   it('reads files from the noveldef', async () => {
-    await Novel.fromDirectory('test/sample', "default", true);
     const novel = await Novel.open('test/sample.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
@@ -65,7 +67,6 @@ describe('Novel', () => {
 
   });
   it('renames a chapter', async () => {
-    await Novel.fromDirectory('test/sample', "default", true);
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -74,9 +75,9 @@ describe('Novel', () => {
     const newmeta = await novel.renameChapter("First Chapter", "Chapter One")
     expect(newmeta.chapters.indexOf("First Chapter")).toEqual(-1)
     expect(newmeta.chapters.indexOf("Chapter One")).toBeGreaterThan(-1)
-    const newChapter=novel.getChapter("Chapter One")
+    const newChapter = novel.getChapter("Chapter One")
     expect(newChapter).toBeTruthy()
-    const oldChapter=novel.getChapter("First Chapter")
+    const oldChapter = novel.getChapter("First Chapter")
     expect(oldChapter).toBeUndefined()
   })
 });

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
+	// import '../../../public/tailwind.css';
 	import '../services/i18n/i18n';
 	import El from './Elementlist.svelte';
 	const definition = {
