@@ -2,7 +2,7 @@
 
 cd client
 npm run clean
-npm rund build:tailwind
+npm run build:tailwind
 npm run build
 cd ../server
 npm run clean
