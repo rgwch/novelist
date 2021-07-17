@@ -4,18 +4,18 @@ import fs from 'fs';
 import { Exporter } from './exporter';
 import { setPlaintext } from './store';
 
-describe('Ebook', () => {
+xdescribe('Ebook', () => {
   beforeAll(async () => {
     setPlaintext(true);
     await Novel.fromDirectory('test/sample', 'default', true);
   });
 
-  afterAll(async () => {
-    fs.rm('test/sample.novel', () => { });
-    fs.rm('test/sample.novel_1', () => { });
-    fs.rm('test/sample.novel_2', () => { });
-    fs.rm('test/sample.novel_3', () => { });
-    fs.rm('test/sample.epub', () => { });
+  afterAll(() => {
+    fs.rmSync('test/sample.novel', { force: true });
+    fs.rmSync('test/sample.novel_1', { force: true });
+    fs.rmSync('test/sample.novel_2', { force: true });
+    fs.rmSync('test/sample.novel_3', { force: true });
+    fs.rmSync('test/sample.epub', { force: true });
     setPlaintext(false);
   });
   it('creates an eBook from a Novel', async () => {

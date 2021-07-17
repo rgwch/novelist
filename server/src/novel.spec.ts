@@ -5,11 +5,12 @@ import fs from 'fs'
 import path from 'path'
 
 describe('Novel', () => {
-  beforeEach(async () => {
-    await Novel.fromDirectory('test/sample', "default", true);
-    const exists = fs.existsSync('test/sample.novel')
-    expect(exists).toBe(true)
-
+  beforeEach((done) => {
+    Novel.fromDirectory('test/sample', "default", true).then(res=>{
+      const exists = fs.existsSync('test/sample.novel')
+      expect(exists).toBe(true)
+      setTimeout(()=>done(),100)
+    });
   });
 
   afterEach(() => {

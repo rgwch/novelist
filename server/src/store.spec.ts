@@ -6,10 +6,10 @@ import fs from 'fs'
 
 describe("Store", () => {
   afterAll(() => {
-    fs.rm("test/dump.store", () => { })
-    fs.rm("test/dump.store_1", () => { })
-    fs.rm("test/dump.store_2", () => { })
-    fs.rm("test/dump.store_3", () => { })
+    fs.rmSync("test/dump.store", { force: true })
+    fs.rmSync("test/dump.store_1", { force: true })
+    fs.rmSync("test/dump.store_2", { force: true })
+    fs.rmSync("test/dump.store_3", { force: true })
   })
 
   it("saves and retrieves serialized data", async () => {

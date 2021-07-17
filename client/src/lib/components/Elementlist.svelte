@@ -47,15 +47,11 @@
 	async function del(elem) {
 		console.log('del ' + elem);
 		if (confirm($_('messages.reallydelete', { values: { element: elem } }))) {
-			const index = metadata[definition.type].indexOf(name);
-			if (index !== -1) {
-				metadata[definition.type].chapters.splice(index, 1);
-			}
 			const done = await remove(definition.type, elem);
 			if (!done) {
 				alert('Could not delete');
 			}
-			await openCurrent();
+			metadata=await openCurrent();
 		}
 	}
 	async function edit(elem) {
