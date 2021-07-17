@@ -34,7 +34,7 @@ The json-files in server/config define some behaviour. See default_sample.json a
 * salt: an initialization value for the encryption. Each installation of Novelist should have an individual salt, but within one installation, the salt should always remain the same. Decryption of a file is only possible with the same salt as was used for encryption.
 * port: the port where the server should listen. Do not change in development mode.
 * timeout: If no interaction is received from a client within that time (in seconds), the current book of that client is saved and closed.
-* encryption: If true, the .novel files are compressed and encrypted. If false, they're just plaintext failes, consisting of stringified JSON.
+* encryption: If true, the .novel files are compressed and encrypted. If false, they're just plaintext files, consisting of stringified JSON.
 
 You can have a 'production.json' with values to override the default values in production mode. You might want to override e.g. the port setting.
 
