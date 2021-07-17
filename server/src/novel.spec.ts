@@ -2,6 +2,7 @@
 
 import { Novel } from './novel';
 import fs from 'fs'
+import path from 'path'
 
 describe('Novel', () => {
   beforeEach(async () => {
@@ -11,18 +12,16 @@ describe('Novel', () => {
 
   });
 
-  afterAll(async () => {
+  afterEach(() => {
+    const files = fs.readdirSync('test')
+    for (const file of files) {
+      if (file.match(/.+\.novel/)) {
+        fs.rmSync(path.join('test', file))
+      }
+    }
+  })
 
-    fs.rm('test/sample.novel', () => { });
-    fs.rm("test/sample.novel_1",()=>{})
-    fs.rm("test/sample.novel_2",()=>{})
-   
-    fs.rm('test/sample1.novel', () => { });
-    fs.rm('test/sample1.novel_1', () => { });
-    fs.rm('test/sample1.novel_2', () => { });
-    fs.rm('test/sample1.novel_3', () => { });
 
-  });
   it("creates a novel from a directory", async () => {
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined();
@@ -80,4 +79,29 @@ describe('Novel', () => {
     const oldChapter = novel.getChapter("First Chapter")
     expect(oldChapter).toBeUndefined()
   })
+
+  it('deletes a chapter', async () => {
+    const novel = await Novel.open('test/sample.novel', "default");
+    expect(novel).toBeDefined()
+    const chapter = novel.getChapter("First Chapter")
+    expect(chapter).toBeTruthy()
+    expect(chapter.name).toEqual("First Chapter")
+    expect(await novel.writeChapter({ name: "Chapter 2", text: "# 2" })).toBeTruthy()
+    expect(await novel.writeChapter({ name: "Chapter 3", text: "# 3" })).toBeTruthy()
+    expect(await novel.writeChapter({ name: "Chapter 4", text: "# 4" })).toBeTruthy()
+    expect(await novel.deleteChapter("First Chapter")).toBeTruthy()
+    expect(novel.getChapter("First Chapter")).toBeUndefined()
+    expect(await novel.deleteChapter("Chapter 3")).toBeTruthy()
+    const ch2 = novel.getChapter("Chapter 2")
+    const ch3 = novel.getChapter("Chapter 3")
+    const ch4 = novel.getChapter("Chapter 4")
+    expect(ch2).toBeDefined()
+    expect(ch2.text).toEqual("# 2")
+    expect(ch3).toBeUndefined()
+    expect(ch4).toBeDefined()
+    expect(ch4.text).toEqual("# 4")
+    const meta = novel.readMetadata();
+    expect(meta.chapters).toHaveLength(2)
+  })
 });
+

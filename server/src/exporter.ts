@@ -39,11 +39,11 @@ export class Exporter {
     }).filter(el => el)
 
     // console.log(JSON.stringify(options))
-    console.log("writing ebook to " + output)
-    return new epub(options, output).promise.then(() =>
-      console.log("success"), (err: any) => {
-        console.log("Error " + err)
-      }
+    // console.log("writing ebook to " + output)
+    return new epub(options, output).promise.then(() => { }
+      /* console.log("success"), (err: any) => {
+        console.log("Error " + err) 
+      } */
     )
   }
 
