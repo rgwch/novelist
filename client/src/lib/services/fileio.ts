@@ -123,7 +123,7 @@ export function load(type: string, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, (res: result) => {
       if (res.status === "ok") {
-        lastState[type + name] = hash.MD5(res.result)
+        lastState[type + name] = res.result ? hash.MD5(res.result) : ""
         resolve(res.result)
       } else {
         reject(res.message)

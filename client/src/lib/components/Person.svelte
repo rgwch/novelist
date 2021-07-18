@@ -7,10 +7,11 @@
 <script lang="ts">
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
-	import { load, save, remove, rename } from '../services/fileio';
+	import { load, save, remove, rename, openCurrent } from '../services/fileio';
 
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
+	let currentName: string = '';
 	const fields = ['name', 'nicknames', 'gender', 'height', 'stature', 'hair', 'age', 'description'];
 	const definition = {
 		type: 'persons',
@@ -19,6 +20,9 @@
 	};
 	async function select(event) {
 		try {
+			if (currentPerson) {
+				await save('persons', currentPerson);
+			}
 			const def = await load('persons', event.detail);
 			for (let field of fields) {
 				if (!def[field]) {
@@ -26,6 +30,7 @@
 				}
 			}
 			currentPerson = def;
+			currentName = def.name;
 		} catch (err) {
 			alert(err);
 		}
@@ -33,24 +38,21 @@
 	async function saveFields(event) {
 		try {
 			if (currentPerson) {
-				if (currentPerson.name !== event.detail.name) {
-					currentPerson = await rename('persons', currentPerson.name, event.detail.name);
+				if (currentPerson.name !== currentName) {
+					metadata = await rename('persons', currentName, currentPerson.name);
+					// metadata=await openCurrent();
 				}
 			}
-			currentPerson = event.detail;
+			currentName = currentPerson.name;
 			await save('persons', currentPerson);
 		} catch (err) {
 			alert(err);
 		}
 	}
-	async function del(event) {
+	async function del() {
 		try {
-			currentPerson = event.detail;
 			await remove('persons', currentPerson.name);
-			const idx = metadata.persons.indexOf(currentPerson.name);
-			if (idx !== -1) {
-				metadata.persons.splice(idx, 1);
-			}
+			metadata = await openCurrent();
 		} catch (err) {
 			alert(err);
 		}
