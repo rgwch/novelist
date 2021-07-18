@@ -3,6 +3,8 @@
 import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 import props from './properties'
+import hash from 'object-hash'
+
 
 export const current = writable(undefined);
 
@@ -100,8 +102,8 @@ export function closeBook(): Promise<boolean> {
 
 export function save(type: string, data: any): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    const str = JSON.stringify(data)
-    if (data && lastState[type + data.name] !== str) {
+    const str = hash.MD5(data || {})
+    if (data && (lastState[type + data.name] !== str)) {
       socket.emit("save", type, data, (res: result) => {
         if (res.status === "ok") {
           lastState[type + data.name] = str
@@ -121,7 +123,7 @@ export function load(type: string, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, (res: result) => {
       if (res.status === "ok") {
-        lastState[type + name] = JSON.stringify(res.result)
+        lastState[type + name] = hash.MD5(res.result)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -164,7 +166,7 @@ export function rename(type, oldname, newname): Promise<metadata_def> {
     socket.emit("modify", "rename", { type, oldname, newname }, (res: result) => {
       if (res.status === "ok") {
         delete lastState[type + oldname]
-        lastState[type + newname] = JSON.stringify(res.result)
+        lastState[type + newname] = hash.MD5(res.result)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -196,22 +198,3 @@ export function toHtml(): Promise<string> {
   })
 }
 
-function deepEqual(a, b): boolean {
-  if (!a) {
-    return false
-  }
-  if (!b) {
-    return false
-  }
-  for (const key of Object.keys(a)) {
-    if (a[key] !== b[key]) {
-      return false
-    }
-  }
-  for (const key of Object.keys(b)) {
-    if (b[key] !== a[key]) {
-      return false
-    }
-  }
-  return true
-}

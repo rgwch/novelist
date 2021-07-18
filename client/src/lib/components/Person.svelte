@@ -1,14 +1,13 @@
 <!--
  ********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021                       *
  * License and Terms see LICENSE            *
  ********************************************
 -->
 <script lang="ts">
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
-	import { load, save, remove } from '../services/fileio';
+	import { load, save, remove, rename } from '../services/fileio';
 
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
@@ -33,6 +32,11 @@
 	}
 	async function saveFields(event) {
 		try {
+			if (currentPerson) {
+				if (currentPerson.name !== event.detail.name) {
+					currentPerson = await rename('persons', currentPerson.name, event.detail.name);
+				}
+			}
 			currentPerson = event.detail;
 			await save('persons', currentPerson);
 		} catch (err) {

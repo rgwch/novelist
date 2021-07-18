@@ -1,6 +1,5 @@
 /********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021 by G. Weirich         *
  * License and Terms see LICENSE            *
  ********************************************/
 
@@ -25,6 +24,12 @@ const defaultMetadata: metadata_def = {
 
 export class Novel {
   private store: Store;
+  /**
+   * Open a Novel-File. If it doesn't exist: Create a new one
+   * @param pathname pathname relative to the configured base-path (defaults to user home)
+   * @param password password for encryption of the book
+   * @returns a Promise that resolves to the Novel object created from the file or rejects on error
+   */
   static open(pathname: string, password: string): Promise<Novel> {
     // console.log('opening ' + pathname);
     return new Promise((resolve, reject) => {
@@ -77,6 +82,29 @@ export class Novel {
     });
   }
 
+  /**
+   * Create a Novel-file from a directory. This is useful for debugging purposes, and to confert existing books to .novels
+   * The structure of the directory must be as follows:
+  <pre>
+  name
+    metadata.yaml
+    chapters
+        chapter1.md
+        ...
+    persons
+        name1.md
+        ,,, 
+    places
+        name1.md
+    timeline.md    
+    notes.md
+</pre>    
+  The resulting file will be name.novel in the same plase where the directory resides.
+   * @param dir Directory with novel structure
+   * @param password password for encryption of the resulting .novel file
+   * @param force if true, overwrite existing, if false: Fail if file exists.
+   * @returns a Promise resolving to the newly created Novel object
+   */
   static async fromDirectory(
     dir: string,
     password: string,
@@ -164,6 +192,9 @@ export class Novel {
     this.store.setPassword(newPwd);
     return this.flush();
   }
+  /**
+   * Flush and close Novel
+   */
   async close(): Promise<void> {
     return this.flush().then((success) => {
       if (!success) {
@@ -181,6 +212,10 @@ export class Novel {
       this.pathname = undefined;
     });
   }
+  /**
+   * Flush Novel to disk
+   * @returns Promise resolving to true on success
+   */
   flush(): Promise<boolean> {
     if (this.def) {
       this.def.metadata.modified = new Date();
@@ -206,6 +241,40 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+  async renamePerson(oldname, newname): Promise<metadata_def> {
+    if (!newname) {
+      throw new Error("new name is required")
+    }
+    const existing = this.getPerson(oldname)
+    if (existing) {
+      const meta = this.readMetadata()
+      if (Array.isArray(meta.persons)) {
+        const replace = []
+        for (const i of meta.persons) {
+          if (i === oldname) {
+            replace.push(newname)
+          } else {
+            replace.push(i)
+          }
+        }
+        existing.name = newname;
+        if (await this.writePerson(existing)) {
+          delete this.def.persons[oldname]
+          meta.persons = replace
+          await this.writeMetadata(meta)
+          return meta
+        } else {
+          console.log("write failed")
+          throw new Error("could not write")
+        }
+      } else {
+        throw new Error("Person metadata not found " + oldname)
+      }
+    } else {
+      throw new Error("Person doesn't exist " + oldname)
+    }
+  }
+
   deletePerson(name: string): Promise<boolean> {
     const index = this.def.metadata.persons.indexOf(name);
     if (index === -1) {

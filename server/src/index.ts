@@ -38,7 +38,9 @@ const io = new Server(httpServer, {
   },
 
 });
-
+/**
+ * If a timeout is configured, check in that interval if there was an access to the novel, and close it, if not.
+ */
 if (config.has("timeout")) {
   const timeout = config.get("timeout")
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
@@ -214,6 +216,9 @@ io.on("connection", (socket: Socket) => {
           switch (data.type) {
             case "chapters":
               result.result = await novel.renameChapter(data.oldname, data.newname)
+              break;
+            case "persons":
+              result.result = await novel.renamePerson(data.oldname, data.newname)
               break;
             default:
               result.message = "object type not supported " + data.type
