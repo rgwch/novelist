@@ -1,17 +1,17 @@
 <!--
  ********************************************
  * This file is part of Novelist            *
- * Copyright (c) 2021                       *
  * License and Terms see LICENSE            *
  ********************************************
 -->
 <script lang="ts">
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
-	import { load, save, remove } from '../services/fileio';
+	import { load, save, remove, rename, openCurrent } from '../services/fileio';
 
 	export let metadata: metadata_def;
 	let currentPlace: place_def = {};
+	let currentName: string = '';
 	const fields = ['name', 'surround', 'description'];
 	const definition = {
 		type: 'places',
@@ -20,6 +20,9 @@
 	};
 	async function select(event) {
 		try {
+			if (currentPlace) {
+				await save('places', currentPlace);
+			}
 			const def = await load('places', event.detail);
 			for (let field of fields) {
 				if (!def[field]) {
@@ -27,13 +30,19 @@
 				}
 			}
 			currentPlace = def;
+			currentName = def.name;
 		} catch (err) {
 			alert(err);
 		}
 	}
 	async function saveFields(event) {
 		try {
-			currentPlace = event.detail;
+			if (currentPlace) {
+				if (currentPlace.name !== currentName) {
+					metadata = await rename('places', currentName, currentPlace.name);
+				}
+			}
+			currentName = currentPlace.name;
 			await save('places', currentPlace);
 		} catch (err) {
 			alert(err);
@@ -41,12 +50,8 @@
 	}
 	async function del(event) {
 		try {
-			currentPlace = event.detail;
 			await remove('places', currentPlace.name);
-			const idx = metadata.places.indexOf(currentPlace.name);
-			if (idx !== -1) {
-				metadata.places.splice(idx, 1);
-			}
+			metadata = await openCurrent();
 		} catch (err) {
 			alert(err);
 		}
@@ -61,7 +66,7 @@
 
 		<div class="flex-1 h-full">
 			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} />
+				<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
 			</div>
 		</div>
 	</div>

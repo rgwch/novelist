@@ -220,6 +220,9 @@ io.on("connection", (socket: Socket) => {
             case "persons":
               result.result = await novel.renamePerson(data.oldname, data.newname)
               break;
+            case "places":
+              result.result = await novel.renamePlace(data.oldname, data.newname)
+              break;
             default:
               result.message = "object type not supported " + data.type
               result.status = "error"

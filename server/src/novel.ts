@@ -356,6 +356,39 @@ export class Novel {
     }
     return this.flush();
   }
+  async renamePlace(oldname, newname): Promise<metadata_def> {
+    if (!newname) {
+      throw new Error("new name is required")
+    }
+    const existing = this.getPlace(oldname)
+    if (existing) {
+      const meta = this.readMetadata()
+      if (Array.isArray(meta.places)) {
+        const replace = []
+        for (const i of meta.places) {
+          if (i === oldname) {
+            replace.push(newname)
+          } else {
+            replace.push(i)
+          }
+        }
+        existing.name = newname;
+        if (await this.writePlace(existing)) {
+          delete this.def.places[oldname]
+          meta.places = replace
+          await this.writeMetadata(meta)
+          return meta
+        } else {
+          console.log("write failed")
+          throw new Error("could not write")
+        }
+      } else {
+        throw new Error("Location metadata not found " + oldname)
+      }
+    } else {
+      throw new Error("Location doesn't exist " + oldname)
+    }
+  }
   deletePlace(name: string): Promise<boolean> {
     const index = this.def.metadata.places.indexOf(name);
     if (index === -1) {
