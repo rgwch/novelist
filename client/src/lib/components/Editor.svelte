@@ -1,5 +1,4 @@
 <script lang="ts">
-	// import '../../../node_modules/simplemde/dist/simplemde.min.css';
 	import SimpleMDE from 'simplemde';
 	import { onDestroy, onMount, setContext } from 'svelte';
 	import { _ } from 'svelte-i18n';
@@ -9,6 +8,7 @@
 
 	let container;
 	let editor;
+	let timer;
 	const toolbar = [
 		{ name: 'bold', action: 'toggleBold', className: 'fa fa-bold', title: $_('actions.bold') },
 		'italic',
@@ -39,13 +39,17 @@
 				autofocus: true,
 				spellChecker: false,
 				toolbar: false,
-				autoDownloadFontAwesome: false,
-				autosave: { enabled: true, uniqueId: new Date().toString() }
+				autoDownloadFontAwesome: false
+				// autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
 			editor.codemirror.on('blur', () => {
 				console.log('Editor: blur');
 				save(editor.value());
 			});
+      // Autosave every 5 minutes
+			timer = setInterval(() => {
+				save(editor.value());
+			}, 300000);
 		} catch (err) {
 			console.log('Editor: Error in initializer ' + err);
 		}

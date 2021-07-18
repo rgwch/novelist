@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let fields: Array<string> = [];
@@ -12,7 +12,7 @@
 	$: local = entity;
 
 	for (let field of fields) {
-		local[field] = entity[field] ? entity[field] : '';
+		local[field] = entity[field] || '';
 	}
 
 	function toDisplay(elem) {
@@ -20,7 +20,12 @@
 	}
 	function change(field) {
 		console.log(field, local[field]);
+		entity[field] = local[field];
 	}
+	onDestroy(async () => {
+		console.log('closing fieldeditor');
+		dispatch('save', local);
+	});
 </script>
 
 <template>

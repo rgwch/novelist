@@ -7,6 +7,8 @@ import props from './properties'
 export const current = writable(undefined);
 
 let socket
+let lastState = {}
+
 
 // Note: rollup will change this to "true" or "false" on build
 if (props.production === "true") {
@@ -42,6 +44,7 @@ socket.on("connect_error", (err) => {
 });
 
 
+
 export function showBooks(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
     socket.emit('listfiles', "data", (res: result) => {
@@ -69,6 +72,7 @@ export function openCurrent(): Promise<metadata_def> {
 }
 
 export function openBook(title: string, password: string): Promise<metadata_def> {
+  lastState = {}
   return new Promise((resolve, reject) => {
     socket.emit('openBook', title, password, (res: result) => {
       if (res.status === "ok") {
@@ -82,6 +86,7 @@ export function openBook(title: string, password: string): Promise<metadata_def>
 }
 
 export function closeBook(): Promise<boolean> {
+  lastState = {}
   return new Promise((resolve, reject) => {
     socket.emit("closeBook", (res: result) => {
       if (res.status === "ok") {
@@ -95,13 +100,20 @@ export function closeBook(): Promise<boolean> {
 
 export function save(type: string, data: any): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    socket.emit("save", type, data, (res: result) => {
-      if (res.status === "ok") {
-        resolve(true)
-      } else {
-        reject("save error " + res.message)
-      }
-    })
+    const str = JSON.stringify(data)
+    if (data && lastState[type + data.name] !== str) {
+      socket.emit("save", type, data, (res: result) => {
+        if (res.status === "ok") {
+          lastState[type + data.name] = str
+          resolve(true)
+        } else {
+          reject("save error " + res.message)
+        }
+      })
+    } else {
+      console.log("same data, no save")
+      resolve(true)
+    }
   })
 }
 
@@ -109,6 +121,7 @@ export function load(type: string, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, (res: result) => {
       if (res.status === "ok") {
+        lastState[type + name] = JSON.stringify(res.result)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -136,6 +149,7 @@ export function remove(type: string, name: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("delete", type, name, (res: result) => {
       if (res.status === "ok") {
+        delete lastState[type + name]
         resolve(res.result)
       } else {
         reject(res.message)
@@ -149,6 +163,8 @@ export function rename(type, oldname, newname): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     socket.emit("modify", "rename", { type, oldname, newname }, (res: result) => {
       if (res.status === "ok") {
+        delete lastState[type + oldname]
+        lastState[type + newname] = JSON.stringify(res.result)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -178,4 +194,24 @@ export function toHtml(): Promise<string> {
       }
     })
   })
+}
+
+function deepEqual(a, b): boolean {
+  if (!a) {
+    return false
+  }
+  if (!b) {
+    return false
+  }
+  for (const key of Object.keys(a)) {
+    if (a[key] !== b[key]) {
+      return false
+    }
+  }
+  for (const key of Object.keys(b)) {
+    if (b[key] !== a[key]) {
+      return false
+    }
+  }
+  return true
 }
