@@ -7,6 +7,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import Fieldeditor from './Fieldeditor.svelte';
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
+	import Modal from './Modal.svelte';
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
 		'title',
@@ -37,8 +38,11 @@ Display of the metadata of the currently opened book or a list of books availabl
 	} from '../services/fileio';
 
 	/** Name of the currently opened book */
-	let bookname;
+	let booknameInput;
+  let bookFilename: string
 	let metadata: metadata_def;
+	let modal: boolean = false;
+	let password: string = '';
 
 	current.subscribe((value) => {
 		metadata = value;
@@ -55,7 +59,11 @@ Display of the metadata of the currently opened book or a list of books availabl
 	}
 	async function open(filename) {
 		// console.log('book: Open ' + filename);
-		const password = prompt($_('general.password'));
+		// const password = prompt($_('general.password'));
+    bookFilename=filename
+		modal = true;
+  }
+  /*
 		let res;
 		if (password) {
 			metadata = undefined;
@@ -73,8 +81,29 @@ Display of the metadata of the currently opened book or a list of books availabl
 				}
 			}
 		}
-	}
+	}*/
 
+	async function modalClosed(result) {
+		modal = false;
+    if(result){
+    metadata = undefined;
+    let res;
+			try {
+				res = await openBook(bookFilename, password);
+				current.set(res);
+				setTimeout(() => {
+					console.log('metadata=' + JSON.stringify(metadata));
+				}, 100);
+			} catch (err) {
+				if (err.includes('incorrect header')) {
+					alert($_('messages.badpwd'));
+				} else {
+					alert('Can not open ' + err);
+				}
+			}
+		}
+  }
+	}
 	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
 		return dt.toLocaleString();
@@ -101,10 +130,17 @@ Display of the metadata of the currently opened book or a list of books availabl
 				class="border-solid border-4"
 				type="text"
 				id="name"
-				bind:this={bookname}
+				bind:this={booknameInput}
 				placeholder={$_('book.filename')}
 			/>
-			<button class="btn" on:click={() => open(bookname.value)}>{$_('actions.open')}</button>
+			<button class="btn" on:click={() => open(booknameInput.value)}>{$_('actions.open')}</button>
 		</div>
+		{#if modal}
+			<Modal title={$_('general.password')} dismiss={modalClosed}>
+				<div slot="body">
+					<input type="password" id="passwd" class="border-solid border-4" value={password} />
+				</div>
+			</Modal>
+		{/if}
 	{/if}
 </template>
