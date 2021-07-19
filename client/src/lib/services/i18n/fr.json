@@ -1,12 +1,15 @@
 {
   "actions": {
+    "bold": "Gras",
+    "cancel": "Annuler",
     "changePWD": "Change mot de passe",
     "close": "Fermer",
-    "delete": "Löschen",
+    "delete": "Effacer",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
+    "ok": " OK ",
     "open": "Ouvrir",
-    "save": "Speichern"
+    "save": "Enregistrer"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
@@ -24,15 +27,15 @@
   },
   "book": {
     "chapter": "Chapitre",
-    "filename": "Dateiname des Buchs",
+    "filename": "Nom du livre",
     "metadata": "Daten",
-    "newchapter": "Titel des neuen Kapitels",
-    "newperson": "Name der neuen Person",
-    "newplace": "Neuer Schauplatz",
+    "newchapter": "Titre du chapitre",
+    "newperson": "Nom de la personne",
+    "newplace": "nouveau lieu",
     "nochaptername": "Bitte geben Sie erst einen Titel für das neue Kapitel ein.",
     "nopersonname": "Bitte geben Sie einen Nsmrn für die neue Person ein",
     "noplacename": "Bitte geben Sie einen Namen für den neuen Schauplatz ein.",
-    "notes": "Notizen",
+    "notes": "Notes",
     "open": "Buch laden oder erstellen",
     "persons": "Personnes",
     "places": "Lieus",
@@ -114,6 +117,7 @@
   },
   "messages": {
     "badpwd": "Datei defekt oder falsches Passwort",
-    "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt."
+    "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt.",
+    "reallydelete": "Wollen Sie {element} wirklich löschen?"
   }
 }

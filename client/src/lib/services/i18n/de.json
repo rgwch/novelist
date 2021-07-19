@@ -1,11 +1,13 @@
 {
   "actions": {
     "bold": "Fett",
+    "cancel": "Abbruch",
     "changePWD": "Passwort ändern",
     "close": "Buch schließen",
     "delete": "Löschen",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
+    "ok": " OK ",
     "open": "Öffnen",
     "save": "Speichern"
   },
@@ -116,6 +118,6 @@
   "messages": {
     "badpwd": "Datei defekt oder falsches Passwort",
     "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt.",
-    "reallydelete": "Wollen Sie {element} wirklich löschen?"  
+    "reallydelete": "Wollen Sie {element} wirklich löschen?"
   }
 }

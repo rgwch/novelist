@@ -8,7 +8,7 @@
     "server": "cd ../server && npm start",
     "client": "cd ../client && npm run dev",
     "app": "run-p server client",
-    "test": "codeceptjs run --steps",
+    "test": "codeceptjs run --steps"
   },
   "keywords": [],
   "author": "",
