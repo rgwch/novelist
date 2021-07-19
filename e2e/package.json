@@ -1,17 +1,21 @@
 {
-  "name": "e2e",
+  "name": "novelist-e2e",
   "version": "1.0.0",
-  "description": "",
+  "description": "End to end tests for Novelist",
   "main": "codecept.conf.js",
   "scripts": {
     "codeceptjs": "codeceptjs run --steps",
-    "test": "codeceptjs run --steps"
+    "server": "cd ../server && npm start",
+    "client": "cd ../client && npm run dev",
+    "app": "run-p server client",
+    "test": "codeceptjs run --steps",
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "codeceptjs": "^3.0.7",
+    "npm-run-all": "^4.1.5",
     "puppeteer": "^10.1.0"
   }
 }
