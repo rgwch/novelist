@@ -46,7 +46,7 @@
 					<div
 						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
 					>
-						<span>{$_('menu.file')}</span>
+						<span id="menuFile">{$_('menu.file')}</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-4 h-4 fill-current pt-1"
@@ -59,22 +59,22 @@
 						class="child transition duration-300 md:absolute top-full left-0 md:w-48 bg-gray-300 md:shadow-lg md:rounded-b "
 					>
 						<li>
-							<span class="menuitem" on:click={() => dispatch('changepwd')}>
+							<span class="menuitem" id="menuChangepwd" on:click={() => dispatch('changepwd')}>
 								{$_('actions.changePWD')}
 							</span>
 						</li>
 						<li>
-							<span class="menuitem" on:click={() => dispatch('html')}>
+							<span class="menuitem" id="menuGeneratehtml" on:click={() => dispatch('html')}>
 								{$_('actions.generateHTML')}
 							</span>
 						</li>
 						<li>
-							<span class="menuitem" on:click={() => dispatch('epub')}>
+							<span class="menuitem" id="menuGenerateepub" on:click={() => dispatch('epub')}>
 								{$_('actions.generateEPUB')}
 							</span>
 						</li>
 						<li>
-							<span class="flex px-4 py-3 hover:bg-gray-200" on:click={() => dispatch('close')}>
+							<span id="menuClose" class="menuitem" on:click={() => dispatch('close')}>
 								{$_('actions.close')}
 							</span>
 						</li>
@@ -84,7 +84,7 @@
 					<div
 						class="flex justify-between md:inline-flex px-4 items-center hover:bg-gray-300 space-x-2"
 					>
-						<span>{$_('menu.display')}</span>
+						<span id="menuDisplay">{$_('menu.display')}</span>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-4 h-4 fill-current pt-1"
@@ -98,6 +98,7 @@
 					>
 						<li>
 							<span
+								id="menuBook"
 								class="checkitem"
 								class:bg-blue-300={visible.book}
 								on:click={() => toggle('book')}>{$_('book.metadata')}</span
@@ -105,6 +106,7 @@
 						</li>
 						<li>
 							<span
+								id="menuChapter"
 								class="checkitem"
 								class:bg-blue-300={visible.chapter}
 								on:click={() => toggle('chapter')}>{$_('book.chapter')}</span
@@ -112,6 +114,7 @@
 						</li>
 						<li>
 							<span
+								id="menuPersons"
 								class="checkitem"
 								class:bg-blue-300={visible.persons}
 								on:click={() => toggle('persons')}>{$_('book.persons')}</span
@@ -119,6 +122,7 @@
 						</li>
 						<li>
 							<span
+								id="menuPlaces"
 								class="checkitem"
 								class:bg-blue-300={visible.places}
 								on:click={() => toggle('places')}>{$_('book.places')}</span
@@ -126,6 +130,7 @@
 						</li>
 						<li>
 							<span
+								id="menuNotes"
 								class="checkitem"
 								class:bg-blue-300={visible.notes}
 								on:click={() => toggle('notes')}>{$_('book.notes')}</span
@@ -141,21 +146,6 @@
 <style>
 	.active {
 		display: block;
-	}
-
-	.checkitem {
-		@apply flex px-4 py-3  cursor-pointer;
-	}
-
-	.checkitem:hover {
-		@apply bg-gray-200;
-	}
-
-	.menuitem {
-		@apply flex px-4 py-3;
-	}
-	.menuitem:hover {
-		@apply bg-gray-200;
 	}
 
 	@media only screen and (min-width: 768px) {
