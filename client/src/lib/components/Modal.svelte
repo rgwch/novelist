@@ -5,8 +5,16 @@
 	function close(val) {
 		dismiss(val);
 	}
+	function keyboard(event) {
+		if (event.key == 'Enter') {
+			close(true);
+		} else if (event.key == 'Escape') {
+			close(false);
+		}
+	}
 </script>
 
+<svelte:window on:keydown={keyboard} />
 <template>
 	<div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800">
 		<div class="bg-white rounded-lg w-1/2">
@@ -36,6 +44,7 @@
 						</button>
 						<button
 							on:click={() => close(true)}
+							on:keydown={keyboard}
 							class="bg-transparent hover:bg-gray-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
 						>
 							OK

@@ -39,7 +39,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 
 	/** Name of the currently opened book */
 	let booknameInput;
-  let bookFilename: string
+	let bookFilename: string;
 	let metadata: metadata_def;
 	let modal: boolean = false;
 	let password: string = '';
@@ -60,10 +60,10 @@ Display of the metadata of the currently opened book or a list of books availabl
 	async function open(filename) {
 		// console.log('book: Open ' + filename);
 		// const password = prompt($_('general.password'));
-    bookFilename=filename
+		bookFilename = filename;
 		modal = true;
-  }
-  /*
+	}
+	/*
 		let res;
 		if (password) {
 			metadata = undefined;
@@ -85,15 +85,18 @@ Display of the metadata of the currently opened book or a list of books availabl
 
 	async function modalClosed(result) {
 		modal = false;
-    if(result){
-    metadata = undefined;
-    let res;
+		if (result) {
+			metadata = undefined;
+			let res;
 			try {
 				res = await openBook(bookFilename, password);
+        password=""
 				current.set(res);
+        /*
 				setTimeout(() => {
 					console.log('metadata=' + JSON.stringify(metadata));
 				}, 100);
+        */
 			} catch (err) {
 				if (err.includes('incorrect header')) {
 					alert($_('messages.badpwd'));
@@ -102,7 +105,6 @@ Display of the metadata of the currently opened book or a list of books availabl
 				}
 			}
 		}
-  }
 	}
 	function dateText(d: Date) {
 		const dt = DateTime.fromJSDate(d);
@@ -137,8 +139,8 @@ Display of the metadata of the currently opened book or a list of books availabl
 		</div>
 		{#if modal}
 			<Modal title={$_('general.password')} dismiss={modalClosed}>
-				<div slot="body">
-					<input type="password" id="passwd" class="border-solid border-4" value={password} />
+				<div slot="body" class="w-full">
+					<input type="password" id="passwd" class="border-solid border-4 w-full" bind:value={password} autofocus />
 				</div>
 			</Modal>
 		{/if}
