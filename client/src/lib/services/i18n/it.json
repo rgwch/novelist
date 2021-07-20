@@ -116,6 +116,7 @@
     "file": "Datei"
   },
   "messages": {
+    "autoclose": "Klicken, um automatisches Schließen zu vermeiden",
     "badpwd": "Datei defekt oder falsches Passwort",
     "ebookok": "Datei \"{epub}\" wurde erfolgreich erstellt.",
     "reallydelete": "Wollen Sie {element} wirklich löschen?"

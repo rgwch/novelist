@@ -44,9 +44,6 @@
 					expanded = !expanded;
 				}}
 			/>
-			<span style="display:none" id="warner" on:click={warned}
-				><i class="fa fa-hourglass-end" style="color:red;" /></span
-			>
 
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li class="relative parent">
@@ -145,8 +142,12 @@
 						</li>
 					</ul>
 				</li>
+			
 			</ul>
 		</nav>
+    <div style="display:none" id="warner" class="ml-2 cursor-pointer text-red-600" on:click={warned}>
+      <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
+    </div>
 	</div>
 </template>
 

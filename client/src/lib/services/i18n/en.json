@@ -116,6 +116,7 @@
     "file": "File"
   },
   "messages": {
+    "autoclose": "click to prevent auto-close",
     "badpwd": "File corrupt or bad password",
     "ebookok": "File \"{epub}\" was created successfully.",
     "reallydelete": "Do you really want to delete {element}?"
