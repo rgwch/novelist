@@ -52,13 +52,18 @@ if (config.has("timeout")) {
         const then = sockets[s].last
         if ((now - then) / 1000 > timeout) {
           console.log(timeout + " " + s)
-          if (books[s]) {
-            const novel: Novel = books[s]
-            if (novel) {
-              await novel.close()
-              delete books[s]
-              sockets[s].socket.emit("closed")
+          if (sockets[s].warned) {
+            if (books[s]) {
+              const novel: Novel = books[s]
+              if (novel) {
+                await novel.close()
+                delete books[s]
+                sockets[s].socket.emit("closed")
+              }
             }
+          } else {
+            sockets[s].socket.emit("timeout")
+            sockets[s].warned = true
           }
         }
       }
@@ -83,6 +88,10 @@ io.on("connection", (socket: Socket) => {
   socket.onAny(args => {
     console.log(JSON.stringify(args))
     sockets[socket.id].last = new Date().getTime()
+    sockets[socket.id].warned = false
+  })
+  socket.on("ping", () => {
+    sockets[socket.id].warned = false
   })
   socket.on("listfiles", async (data, callback) => {
     try {

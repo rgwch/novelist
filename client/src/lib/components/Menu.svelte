@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { current } from '../services/fileio';
+	import { current, ping } from '../services/fileio';
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -26,10 +26,14 @@
 		visible[elem] = !visible[elem];
 		expanded = false;
 	}
+	function warned() {
+		ping();
+		window.document.getElementById('warner').style.display = 'none';
+	}
 </script>
 
 <template>
-	<div class="fixed z-50 w-full bg-gray-300 py-1">
+	<div class="fixed z-50 w-full bg-gray-300 py-1" id="menubar">
 		<nav class="flex-row md:justify-between">
 			<img
 				src="/hamburger.png"
@@ -40,6 +44,9 @@
 					expanded = !expanded;
 				}}
 			/>
+			<span style="display:none" id="warner" on:click={warned}
+				><i class="fa fa-hourglass-end" style="color:red;" /></span
+			>
 
 			<ul class="hidden md:flex md:flex-row" class:active={expanded} bind:this={mobileMenu}>
 				<li class="relative parent">

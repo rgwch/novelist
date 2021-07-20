@@ -38,6 +38,11 @@ socket.on('disconnect', () => {
   current.set(undefined)
 })
 
+socket.on("timeout", () => {
+  const warner = window.document.getElementById("warner")
+  warner.style.display = "inline-block"
+
+})
 socket.on("connect_failed", err => {
   console.log("Connection failure " + err)
 })
@@ -45,7 +50,9 @@ socket.on("connect_error", (err) => {
   console.log("Error: " + err);
 });
 
-
+export function ping() {
+  socket.emit("ping")
+}
 
 export function showBooks(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
