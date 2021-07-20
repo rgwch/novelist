@@ -449,11 +449,29 @@ export class Novel {
   }
   checkUnique(type) {
     const cleaned = []
+    const store = this.def[type]
     for (const element of this.def.metadata[type]) {
-
+      if (element !== null) {
+        if (!store[element]) {
+          store[element] = {}
+        }
+        if (cleaned.indexOf(element) == -1) {
+          cleaned.push(element)
+        }
+      }
     }
+    for (const element of Object.keys(store)) {
+      if (cleaned.indexOf(element) == -1) {
+        cleaned.push(element)
+      }
+    }
+    this.def.metadata[type] = cleaned
+
   }
   async checkNovel(): Promise<boolean> {
-
+    this.checkUnique("chapters")
+    this.checkUnique("persons")
+    this.checkUnique("places")
+    return this.flush()
   }
 }
