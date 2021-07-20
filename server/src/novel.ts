@@ -447,4 +447,13 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+  checkUnique(type) {
+    const cleaned = []
+    for (const element of this.def.metadata[type]) {
+
+    }
+  }
+  async checkNovel(): Promise<boolean> {
+
+  }
 }

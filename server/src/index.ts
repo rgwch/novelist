@@ -41,8 +41,9 @@ const io = new Server(httpServer, {
 /**
  * If a timeout is configured, check in that interval if there was an access to the novel, and close it, if not.
  */
-if (config.has("timeout")) {
-  const timeout = config.get("timeout")
+const timeout = config.has("timeout") ? config.get("timeout") : 300
+
+if (timeout !== 0) {
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
   setInterval(async () => {
     const now = new Date().getTime()
@@ -70,6 +71,7 @@ if (config.has("timeout")) {
     }
   }, timeout * 1000)
 }
+
 io.on("connection", (socket: Socket) => {
   console.log("connect " + socket.id)
   sockets[socket.id] = {
@@ -236,6 +238,9 @@ io.on("connection", (socket: Socket) => {
               result.message = "object type not supported " + data.type
               result.status = "error"
           }
+          break;
+        case "check":
+          result.result = await novel.checkNovel()
           break;
         default:
           result.message = "bad operation code in modify: " + op
