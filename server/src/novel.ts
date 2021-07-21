@@ -451,17 +451,17 @@ export class Novel {
     const cleaned = []
     const store = this.def[type]
     for (const element of this.def.metadata[type]) {
-      if (element !== null) {
+      if (element) {
         if (!store[element]) {
           store[element] = {}
         }
-        if (cleaned.indexOf(element) == -1) {
+        if (cleaned.indexOf(element) === -1) {
           cleaned.push(element)
         }
       }
     }
     for (const element of Object.keys(store)) {
-      if (cleaned.indexOf(element) == -1) {
+      if (cleaned.indexOf(element) === -1) {
         cleaned.push(element)
       }
     }

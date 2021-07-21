@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { current, ping, integrityCheck } from '../services/fileio';
+	import { current, ping, integrityCheck, openCurrent } from '../services/fileio';
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -29,6 +29,15 @@
 	function warned() {
 		ping();
 		window.document.getElementById('warner').style.display = 'none';
+	}
+	async function check() {
+		const res = await integrityCheck();
+		if (res) {
+			const res = await openCurrent();
+			alert(res);
+		} else {
+			alert('Fehler');
+		}
 	}
 </script>
 
@@ -78,8 +87,8 @@
 							</span>
 						</li>
 						<li>
-							<span id="menuCheck" class="menuitem" on:click={integrityCheck}>
-								{$_('action.check')}
+							<span id="menuCheck" class="menuitem" on:click={check}>
+								{$_('actions.check')}
 							</span>
 						</li>
 						<li>
