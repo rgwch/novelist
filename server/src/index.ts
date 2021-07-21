@@ -240,7 +240,7 @@ io.on("connection", (socket: Socket) => {
           }
           break;
         case "check":
-          result.result = await novel.checkNovel()
+          result.result = await novel.checkIntegrity()
           break;
         default:
           result.message = "bad operation code in modify: " + op

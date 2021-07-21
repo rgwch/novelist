@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { current, ping } from '../services/fileio';
+	import { current, ping, integrityCheck } from '../services/fileio';
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -78,6 +78,11 @@
 							</span>
 						</li>
 						<li>
+							<span id="menuCheck" class="menuitem" on:click={integrityCheck}>
+								{$_('action.check')}
+							</span>
+						</li>
+						<li>
 							<span id="menuClose" class="menuitem" on:click={() => dispatch('close')}>
 								{$_('actions.close')}
 							</span>
@@ -142,12 +147,16 @@
 						</li>
 					</ul>
 				</li>
-			
 			</ul>
 		</nav>
-    <div style="display:none" id="warner" class="ml-2 cursor-pointer text-red-600" on:click={warned}>
-      <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
-    </div>
+		<div
+			style="display:none"
+			id="warner"
+			class="ml-2 cursor-pointer text-red-600"
+			on:click={warned}
+		>
+			<i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
+		</div>
 	</div>
 </template>
 

@@ -168,6 +168,19 @@ export function remove(type: string, name: string): Promise<boolean> {
 
 }
 
+export function integrityCheck(): Promise<boolean> {
+  console.log("checking integrity")
+  return new Promise((resolve, reject) => {
+    socket.emit("modify", "check", "", (res: result) => {
+      if (res.status === "ok") {
+        resolve(true)
+      } else {
+        reject(res.message)
+      }
+    })
+  })
+}
+
 export function rename(type, oldname, newname): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     socket.emit("modify", "rename", { type, oldname, newname }, (res: result) => {

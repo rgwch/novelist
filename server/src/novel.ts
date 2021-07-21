@@ -468,7 +468,7 @@ export class Novel {
     this.def.metadata[type] = cleaned
 
   }
-  async checkNovel(): Promise<boolean> {
+  async checkIntegrity(): Promise<boolean> {
     this.checkUnique("chapters")
     this.checkUnique("persons")
     this.checkUnique("places")
