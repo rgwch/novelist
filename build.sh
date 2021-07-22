@@ -9,6 +9,5 @@ npm run clean
 npm run build
 cp -R ../client/public dist/
 
-NODE_ENV=production node dist
 
 
