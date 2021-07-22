@@ -61,6 +61,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 		// console.log('book: Open ' + filename);
 		// const password = prompt($_('general.password'));
 		bookFilename = filename;
+		password = '';
 		modal = true;
 	}
 
@@ -71,7 +72,6 @@ Display of the metadata of the currently opened book or a list of books availabl
 			let res;
 			try {
 				res = await openBook(bookFilename, password);
-				password = '';
 				current.set(res);
 			} catch (err) {
 				if (err.includes('incorrect header')) {
@@ -79,6 +79,8 @@ Display of the metadata of the currently opened book or a list of books availabl
 				} else {
 					alert('Can not open ' + err);
 				}
+			} finally {
+				password = '';
 			}
 		}
 	}
