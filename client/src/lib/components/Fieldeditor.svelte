@@ -3,20 +3,23 @@
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let fields: Array<string> = [];
+	export let fields: Array<string | { label: string; type: string }> = [];
 	export let entity: any = {};
 	export let actions = false;
+	const _fields = [];
 
 	function toDisplay(elem) {
 		return $_('fields.' + elem);
 	}
-	function change(field) {
-		// console.log(field, local[field]);
-		// entity[field] = local[field];
-	}
 	onMount(() => {
 		for (let field of fields) {
-			entity[field] = entity[field] || '';
+			if (typeof field == 'string') {
+				_fields.push({ label: field, type: 'string' });
+				entity[field] = entity[field] || '';
+			} else {
+				_fields.push(field);
+				entity[field.label] = entity[field.label] || '';
+			}
 		}
 	});
 	onDestroy(async () => {
@@ -29,14 +32,13 @@
 	<div>
 		<table class="m-4 p-2 border-collapse table-auto">
 			{#if entity}
-				{#each fields as field}
+				{#each _fields as field}
 					<tr>
-						<td class="pr-4 ">{toDisplay(field)}</td>
+						<td class="pr-4 ">{toDisplay(field.label)}</td>
 						<td class="pl-4">
 							<input
 								class="border focus:outline-none focus:ring-2 focus:ring-blue-400"
-								bind:value={entity[field]}
-								on:blur={() => change(field)}
+								bind:value={entity[field.label]}
 							/>
 						</td>
 					</tr>

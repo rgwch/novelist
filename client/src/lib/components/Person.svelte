@@ -12,7 +12,16 @@
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
 	let currentName: string = '';
-	const fields = ['name', 'nicknames', 'gender', 'height', 'stature', 'hair', 'age', 'description'];
+	const fields: Array<{ label: string; type: string }> = [
+		{ label: 'name', type: 'string' },
+		{ label: 'nicknames', type: 'text' },
+		{ label: 'gender', type: 'string' },
+		{ label: 'height', type: 'string' },
+		{ label: 'stature', type: 'string' },
+		{ label: 'hair', type: 'string' },
+		{ label: 'age', type: 'string' },
+		{ label: 'description', type: 'text' }
+	];
 	const definition = {
 		type: 'persons',
 		newelem: 'book.newperson',
@@ -25,8 +34,8 @@
 			}
 			const def = await load('persons', event.detail);
 			for (let field of fields) {
-				if (!def[field]) {
-					def[field] = '';
+				if (!def[field.label]) {
+					def[field.label] = '';
 				}
 			}
 			currentPerson = def;

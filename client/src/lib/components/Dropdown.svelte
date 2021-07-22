@@ -2,6 +2,7 @@
 	@component
 	A dropdown list. Dispatches a 'selected' event if user changes selection.
 	Allows to create new Elements.
+  Dispatches 'select' if selection changes
 	
 -->
 <script lang="ts">

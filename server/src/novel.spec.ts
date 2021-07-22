@@ -6,10 +6,10 @@ import path from 'path'
 
 describe('Novel', () => {
   beforeEach((done) => {
-    Novel.fromDirectory('test/sample', "default", true).then(res=>{
+    Novel.fromDirectory('test/sample', "default", true).then(res => {
       const exists = fs.existsSync('test/sample.novel')
       expect(exists).toBe(true)
-      setTimeout(()=>done(),100)
+      setTimeout(() => done(), 100)
     });
   });
 
@@ -103,6 +103,27 @@ describe('Novel', () => {
     expect(ch4.text).toEqual("# 4")
     const meta = novel.readMetadata();
     expect(meta.chapters).toHaveLength(2)
+  })
+
+  it('fixes structural problems', async () => {
+    const novel = await Novel.open('test/sample.novel', "default");
+    expect(novel).toBeDefined()
+    let checked = await novel.checkIntegrity()
+    expect(checked).toBe(true)
+    const meta = novel.readMetadata()
+    const personsNumber = meta.persons.length
+    const check = meta.persons[0]
+    meta.persons.push(null)
+    meta.persons.push(check)
+    meta.persons.push(check)
+    meta.persons.push("tst")
+    await novel.writeMetadata(meta)
+    checked = await novel.checkIntegrity()
+    const korr = novel.readMetadata()
+    expect(meta.persons.length).toBe(personsNumber + 1)
+    expect(novel.getPerson(check)).toBeTruthy()
+    expect(novel.getPerson("tst")).toBeTruthy()
+    expect(novel.getPerson(undefined)).toBeFalsy()
   })
 });
 

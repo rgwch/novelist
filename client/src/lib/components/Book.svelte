@@ -10,7 +10,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import Modal from './Modal.svelte';
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
-		'title',
+		{ label: 'title' },
 		'author',
 		'fileAs',
 		'id',
@@ -116,6 +116,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 		{#if modal}
 			<Modal title={$_('general.password')} dismiss={modalClosed}>
 				<div slot="body" class="w-full">
+					<!-- svelte-ignore a11y-autofocus -->
 					<input
 						type="password"
 						id="passwd"

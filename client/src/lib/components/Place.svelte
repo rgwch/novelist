@@ -12,7 +12,11 @@
 	export let metadata: metadata_def;
 	let currentPlace: place_def = {};
 	let currentName: string = '';
-	const fields = ['name', 'surround', 'description'];
+	const fields = [
+		{ label: 'name', type: 'string' },
+		{ label: 'surround', type: 'string' },
+		{ label: 'description', type: 'text' }
+	];
 	const definition = {
 		type: 'places',
 		newelem: 'book.newplace',
@@ -25,8 +29,8 @@
 			}
 			const def = await load('places', event.detail);
 			for (let field of fields) {
-				if (!def[field]) {
-					def[field] = '';
+				if (!def[field.label]) {
+					def[field.label] = '';
 				}
 			}
 			currentPlace = def;
