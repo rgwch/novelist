@@ -47,7 +47,7 @@ if (timeout !== 0) {
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
   setInterval(async () => {
     const now = new Date().getTime()
-    console.log("timeout check " + now)
+    // console.log("timeout check " + now)
     for (const s in sockets) {
       if (sockets.hasOwnProperty(s)) {
         const then = sockets[s].last
@@ -74,14 +74,14 @@ if (timeout !== 0) {
 }
 
 io.on("connection", (socket: Socket) => {
-  console.log("connect " + socket.id)
+  // console.log("connect " + socket.id)
   sockets[socket.id] = {
     last: new Date().getTime(),
     socket: socket
   }
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
-      console.log("index: disconnect " + socket.id)
+      // console.log("index: disconnect " + socket.id)
       const novel: Novel = books[socket.id]
       await novel.close()
       delete books[socket.id]
@@ -90,7 +90,7 @@ io.on("connection", (socket: Socket) => {
     console.log("disconnected " + socket.id)
   })
   socket.onAny(args => {
-    console.log(JSON.stringify(args))
+    // console.log(JSON.stringify(args))
     sockets[socket.id].last = new Date().getTime()
     sockets[socket.id].warned = false
   })
@@ -119,7 +119,7 @@ io.on("connection", (socket: Socket) => {
   function checkNovel(): Novel {
     const novel = books[socket.id]
     if (!novel) {
-      console.log(JSON.stringify(books, null, 2))
+      // console.log(JSON.stringify(books, null, 2))
       throw (noBook)
     }
     return novel
