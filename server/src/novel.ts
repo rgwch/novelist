@@ -275,15 +275,20 @@ export class Novel {
     }
   }
 
-  deletePerson(name: string): Promise<boolean> {
-    const index = this.def.metadata.persons.indexOf(name);
-    if (index === -1) {
-      throw new Error("person does not exist " + name);
-    }
-    this.def.metadata.persons.splice(index, 1);
+  async deletePerson(name: string): Promise<boolean> {
+    if (name == "" || name == null) {
+      await this.checkIntegrity()
 
-    delete this.def.persons[name];
-    return this.flush();
+    } else {
+      const index = this.def.metadata.persons.indexOf(name);
+      if (index === -1) {
+        throw new Error("person does not exist " + name);
+      }
+      this.def.metadata.persons.splice(index, 1);
+
+      delete this.def.persons[name];
+    }
+    return await this.flush();
   }
   writeChapter(cdef: chapter_def): Promise<boolean> {
     if (this.def) {
@@ -451,7 +456,7 @@ export class Novel {
     const cleaned = []
     const store = this.def[type]
     for (const element of this.def.metadata[type]) {
-      if (element) {
+      if (element && element !== 'undefined') {
         if (!store[element]) {
           store[element] = {}
         }
@@ -461,8 +466,10 @@ export class Novel {
       }
     }
     for (const element of Object.keys(store)) {
-      if (cleaned.indexOf(element) === -1) {
-        cleaned.push(element)
+      if (element && element !== 'undefined') {
+        if (cleaned.indexOf(element) === -1) {
+          cleaned.push(element)
+        }
       }
     }
     this.def.metadata[type] = cleaned

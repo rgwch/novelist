@@ -10,7 +10,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import Modal from './Modal.svelte';
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
-		{ label: 'title' },
+		'label',
 		'author',
 		'fileAs',
 		'id',

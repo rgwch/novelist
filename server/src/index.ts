@@ -52,12 +52,13 @@ if (timeout !== 0) {
       if (sockets.hasOwnProperty(s)) {
         const then = sockets[s].last
         if ((now - then) / 1000 > timeout) {
-          console.log(timeout + " " + s)
+          console.log("timeout: " + s)
           if (sockets[s].warned) {
             if (books[s]) {
               const novel: Novel = books[s]
               if (novel) {
                 await novel.close()
+                console.log("Timeout closed " + s)
                 delete books[s]
                 sockets[s].socket.emit("closed")
               }
@@ -80,6 +81,7 @@ io.on("connection", (socket: Socket) => {
   }
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
+      console.log("index: disconnect " + socket.id)
       const novel: Novel = books[socket.id]
       await novel.close()
       delete books[socket.id]
@@ -117,6 +119,7 @@ io.on("connection", (socket: Socket) => {
   function checkNovel(): Novel {
     const novel = books[socket.id]
     if (!novel) {
+      console.log(JSON.stringify(books, null, 2))
       throw (noBook)
     }
     return novel
@@ -126,6 +129,7 @@ io.on("connection", (socket: Socket) => {
     try {
       const novel = checkNovel()
       await novel.close()
+      console.log("closeBook: closed " + socket.id)
       delete books[socket.id]
       callback({ status: "ok" })
 
@@ -137,6 +141,9 @@ io.on("connection", (socket: Socket) => {
     try {
       const novel = checkNovel()
       const meta = novel.readMetadata()
+      if (!meta) {
+        console.log("no book on getMeta!")
+      }
       callback({ status: "ok", result: meta })
     } catch (err) {
       callback({ status: "error", message: err })
@@ -171,7 +178,7 @@ io.on("connection", (socket: Socket) => {
       }
       callback(result)
     } catch (err) {
-      callback({ status: "error", message: err })
+      callback({ status: "ok", result: false, message: "no book" })
     }
   });
 

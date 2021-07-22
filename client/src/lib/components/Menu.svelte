@@ -34,7 +34,7 @@
 		const res = await integrityCheck();
 		if (res) {
 			const res = await openCurrent();
-			alert(res);
+			alert(res.title + ' ok');
 		} else {
 			alert('Fehler');
 		}

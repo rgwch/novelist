@@ -33,13 +33,15 @@
 				await save('persons', currentPerson);
 			}
 			const def = await load('persons', event.detail);
-			for (let field of fields) {
-				if (!def[field.label]) {
-					def[field.label] = '';
+			if (def) {
+				for (let field of fields) {
+					if (!def[field.label]) {
+						def[field.label] = '';
+					}
 				}
+				currentPerson = def;
+				currentName = def.name;
 			}
-			currentPerson = def;
-			currentName = def.name;
 		} catch (err) {
 			alert(err);
 		}
