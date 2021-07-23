@@ -230,7 +230,7 @@ export class Novel {
   }
 
   writePerson(pdef: person_def): Promise<boolean> {
-    if (this.def) {
+    if (this.def && pdef && pdef.name) {
       const name = pdef.name;
       this.def.persons[name] = pdef;
       if (!this.def.metadata.persons.find((p) => p == name)) {
@@ -292,7 +292,7 @@ export class Novel {
   }
   writeChapter(cdef: chapter_def): Promise<boolean> {
     if (this.def) {
-      if (!cdef) {
+      if (!cdef || !cdef.name) {
         throw new Error("Empty chapter definition");
       }
       const name = cdef.name;
@@ -354,12 +354,16 @@ export class Novel {
     return this.flush();
   }
   writePlace(pdef: place_def): Promise<boolean> {
-    const name = pdef.name;
-    this.def.places[name] = pdef;
-    if (!this.def.metadata.places.find((p) => p == name)) {
-      this.def.metadata.places.push(name);
+    if (pdef && pdef.name && this.def) {
+      const name = pdef.name;
+      this.def.places[name] = pdef;
+      if (!this.def.metadata.places.find((p) => p == name)) {
+        this.def.metadata.places.push(name);
+      }
+      return this.flush();
+    } else {
+      throw new Error("no book open or bad definition")
     }
-    return this.flush();
   }
   async renamePlace(oldname, newname): Promise<metadata_def> {
     if (!newname) {

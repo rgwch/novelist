@@ -30,7 +30,7 @@
 
 <template>
 	<div>
-		<table class="m-4 p-2 border-collapse table-auto">
+		<table class="mt-1 p-2 border-collapse table-auto">
 			{#if entity}
 				{#each _fields as field}
 					<tr>

@@ -65,7 +65,7 @@
 
 <template>
 	<div class="flex gap-4 flex-col md:flex-row">
-		<div class="flex-none h-full">
+		<div class="flex-none h-full m-1">
 			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
 		<div class="flex-1 w-full v-full m-1">

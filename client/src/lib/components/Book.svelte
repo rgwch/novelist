@@ -8,7 +8,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	import Modal from './Modal.svelte';
-  export let visible
+	export let visible;
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
 		'title',
@@ -59,9 +59,14 @@ Display of the metadata of the currently opened book or a list of books availabl
 		current.set(undefined);
 	}
 	async function open(filename) {
-		bookFilename = filename;
 		password = '';
-		modal = true;
+		if (!filename) {
+			filename = prompt($_('book.filename'));
+		}
+		if (filename) {
+			bookFilename = filename;
+			modal = true;
+		}
 	}
 
 	async function modalClosed(result) {
@@ -72,7 +77,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 			try {
 				res = await openBook(bookFilename, password);
 				current.set(res);
-        visible.chapter=true
+				visible.chapter = true;
 			} catch (err) {
 				if (err.includes('incorrect header')) {
 					alert($_('messages.badpwd'));
@@ -93,8 +98,6 @@ Display of the metadata of the currently opened book or a list of books availabl
 <template>
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
-		<hr class="py-4" />
-		<span role="button" class="btn" on:click={close}>{$_('actions.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
 		<div class="p-1 overflow-y-auto">

@@ -103,11 +103,11 @@
 			on:epub={exportEpub}
 		/>
 	{/if}
-	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-4/5 w-screen">
-		<div class="flex flex-col md:flex-row bg-red-400">
-			<div class="bg-blue-400 m-1 p-1">
+	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
+		<div class="flex flex-col md:flex-row">
+			<div class="bg-blue-300 p-1">
 				{#if visible.book}
-					<Book {visible}/>
+					<Book {visible} />
 				{/if}
 
 				{#if visible.persons}
@@ -120,7 +120,7 @@
 					<div><Notes /></div>
 				{/if}
 			</div>
-			<div class="bg-green-400 flex-grow">
+			<div class="bg-blue-300 flex-grow">
 				{#if visible.chapter}
 					<Chapter />
 				{/if}
