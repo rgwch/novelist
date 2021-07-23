@@ -43,10 +43,10 @@
 				// autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
 			editor.codemirror.on('blur', () => {
-				console.log('Editor: blur');
+				// console.log('Editor: blur');
 				save(editor.value());
 			});
-      // Autosave every 5 minutes
+			// Autosave every 5 minutes
 			timer = setInterval(() => {
 				save(editor.value());
 			}, 300000);

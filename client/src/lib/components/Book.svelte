@@ -10,7 +10,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import Modal from './Modal.svelte';
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
-		'label',
+		'name',
 		'author',
 		'fileAs',
 		'id',
@@ -25,7 +25,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 		'publisher',
 		'published',
 		'modified',
-		'expose'
+		{ label: 'expose', type: 'text' }
 	];
 	import {
 		current,
@@ -58,8 +58,6 @@ Display of the metadata of the currently opened book or a list of books availabl
 		current.set(undefined);
 	}
 	async function open(filename) {
-		// console.log('book: Open ' + filename);
-		// const password = prompt($_('general.password'));
 		bookFilename = filename;
 		password = '';
 		modal = true;

@@ -27,9 +27,11 @@ type result = {
   message?: string
 }
 
+/*
 socket.onAny((event, ...args) => {
   console.log(event, args);
 });
+*/
 
 socket.on("closed", () => {
   current.set(undefined)
@@ -120,7 +122,7 @@ export function save(type: string, data: any): Promise<boolean> {
         }
       })
     } else {
-      console.log("same data, no save")
+      // console.log("same data, no save")
       resolve(true)
     }
   })

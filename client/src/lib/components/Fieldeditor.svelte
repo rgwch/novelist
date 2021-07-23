@@ -23,13 +23,13 @@
 		}
 	});
 	onDestroy(async () => {
-		console.log('closing fieldeditor');
+		// console.log('closing fieldeditor');
 		dispatch('save', entity);
 	});
 </script>
 
 <template>
-	<div>
+	<div class="w-full min-w-400">
 		<table class="m-4 p-2 border-collapse table-auto">
 			{#if entity}
 				{#each _fields as field}

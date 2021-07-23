@@ -21,7 +21,7 @@
 
 	async function saveChapter(text: string) {
 		try {
-			console.log('saving ' + currentChapter.name);
+			// console.log('saving ' + currentChapter.name);
 			if (currentChapter.name) {
 				if (text && text.length > 1) {
 					currentChapter.text = text;
@@ -68,7 +68,7 @@
 		<div class="flex-none h-full">
 			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
-		<div class="flex-1 h-full v-full">
+		<div class="flex-1 w-full v-full">
 			{#if currentChapter && currentChapter.name}
 				<h3 class="text-lg font-semibold text-blue-400">
 					{currentChapter ? currentChapter.name : ''}
