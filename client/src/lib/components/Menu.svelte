@@ -39,6 +39,14 @@
 			alert('Fehler');
 		}
 	}
+  function close(){
+    visible.chapter=false
+    visible.persons=false
+    visible.places=false
+    visible.notes=false
+    visible.book=false
+    dispatch('close')
+  }
 </script>
 
 <template>
@@ -92,7 +100,7 @@
 							</span>
 						</li>
 						<li>
-							<span id="menuClose" class="menuitem" on:click={() => dispatch('close')}>
+							<span id="menuClose" class="menuitem" on:click={close}>
 								{$_('actions.close')}
 							</span>
 						</li>

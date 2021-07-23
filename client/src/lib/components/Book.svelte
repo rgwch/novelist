@@ -8,6 +8,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	import Modal from './Modal.svelte';
+  export let visible
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
 		'title',
@@ -71,6 +72,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 			try {
 				res = await openBook(bookFilename, password);
 				current.set(res);
+        visible.chapter=true
 			} catch (err) {
 				if (err.includes('incorrect header')) {
 					alert($_('messages.badpwd'));

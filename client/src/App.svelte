@@ -107,7 +107,7 @@
 		<div class="flex flex-col md:flex-row bg-red-400">
 			<div class="bg-blue-400 m-1 p-1">
 				{#if visible.book}
-					<Book />
+					<Book {visible}/>
 				{/if}
 
 				{#if visible.persons}
