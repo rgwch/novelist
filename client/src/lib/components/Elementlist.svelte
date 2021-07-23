@@ -68,7 +68,7 @@
 </script>
 
 <template>
-	<div class="max-h-full">
+	<div class="h-full">
 		{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 			{#each metadata[definition.type] as elem}
 				<div class="item relative">
@@ -87,7 +87,7 @@
 				</div>
 			{/each}
 		{/if}
-		<div>
+		<div class="m-1">
 			<input
 				class="border-2"
 				type="text"

@@ -68,7 +68,7 @@
 		<div class="flex-none h-full">
 			<Elementlist {metadata} {definition} on:selected={select} />
 		</div>
-		<div class="flex-1 w-full v-full">
+		<div class="flex-1 w-full v-full m-1">
 			{#if currentChapter && currentChapter.name}
 				<h3 class="text-lg font-semibold text-blue-400">
 					{currentChapter ? currentChapter.name : ''}

@@ -29,7 +29,7 @@
 </script>
 
 <template>
-	<div class="w-full min-w-400">
+	<div>
 		<table class="m-4 p-2 border-collapse table-auto">
 			{#if entity}
 				{#each _fields as field}

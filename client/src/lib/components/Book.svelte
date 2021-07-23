@@ -10,7 +10,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import Modal from './Modal.svelte';
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
-		'name',
+		'title',
 		'author',
 		'fileAs',
 		'id',
@@ -95,7 +95,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 		<span role="button" class="btn" on:click={close}>{$_('actions.close')}</span>
 	{:else}
 		<h1>{$_('book.open')}</h1>
-		<div class="h-full p-1 mb-18 overflow-auto">
+		<div class="p-1 overflow-y-auto">
 			{#await showBooks() then files}
 				<ul>
 					{#each files as file}
@@ -105,7 +105,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 			{/await}
 
 			<input
-				class="border-solid border-4"
+				class="border-solid border-4 mx-1"
 				type="text"
 				id="name"
 				bind:this={booknameInput}
