@@ -63,15 +63,6 @@
 </script>
 
 <template>
-	<div class="flex gap-4 flex-col">
-		<div class="flex-none h-full">
-			<Dropdown {metadata} {definition} on:selected={select} />
-		</div>
-
-		<div class="flex-1 h-full">
-			<div class="flex flex-row">
-				<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
-			</div>
-		</div>
-	</div>
+	<Dropdown {metadata} {definition} on:selected={select} />
+	<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
 </template>
