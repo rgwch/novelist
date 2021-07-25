@@ -105,7 +105,7 @@
 	{/if}
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row">
-			<div class="bg-blue-300 p-1">
+			<div class="bg-blue-300 p-1 w-full md:w-auto">
 				{#if visible.book}
 					<Book {visible} />
 				{/if}

@@ -30,16 +30,23 @@
 
 <template>
 	<div>
-		<table class="mt-1 p-2 border-collapse table-auto">
+		<table class="mt-1 p-2 border-collapse table-auto w-full">
 			{#if entity}
 				{#each _fields as field}
 					<tr>
 						<td class="pr-4 ">{toDisplay(field.label)}</td>
 						<td class="pl-4">
-							<input
-								class="border focus:outline-none focus:ring-2 focus:ring-blue-400"
-								bind:value={entity[field.label]}
-							/>
+							{#if field.type === 'text'}
+								<textarea
+									class="border focus:outline-none focus:ring-2 focus-ring-blue-400 w-full"
+									bind:value={entity[field.label]}
+								/>
+							{:else}
+								<input
+									class="border focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+									bind:value={entity[field.label]}
+								/>
+							{/if}
 						</td>
 					</tr>
 				{/each}
