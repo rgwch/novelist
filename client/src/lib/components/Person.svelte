@@ -10,6 +10,7 @@
 	import { load, save, remove, rename, openCurrent } from '../services/fileio';
 	import Itemlist from './Itemlist.svelte';
 	import { _ } from 'svelte-i18n';
+	import Elementlist from './Elementlist.svelte';
 
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
@@ -99,6 +100,6 @@
 				}}><i class="fa fa-list-alt" /></span
 			>
 		</div>
-		<Itemlist bind:items={metadata.persons} on:delete={del} on:rename={_rename} />
+		<Elementlist {metadata} {definition} />
 	{/if}
 </template>

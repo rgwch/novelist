@@ -40,4 +40,10 @@
 			</div>
 		</div>
 	{/each}
+	<div class="flex flex-row m-1">
+		<input class="border-2" type="text" bind:value={currentItem} />
+		<span on:click={() => dispatch('create', currentItem)} class="bg-green-400 border-2">
+			{$_('general.new')}
+		</span>
+	</div>
 </template>

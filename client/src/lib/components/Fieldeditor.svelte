@@ -5,7 +5,6 @@
 
 	export let fields: Array<string | { label: string; type: string }> = [];
 	export let entity: any = {};
-	export let actions = false;
 	const _fields = [];
 
 	function toDisplay(elem) {
