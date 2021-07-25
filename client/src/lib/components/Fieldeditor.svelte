@@ -42,16 +42,20 @@
 						<td class="pl-4">
 							{#if field.type === 'text'}
 								<textarea
-									class="border focus:outline-none focus:ring-2 focus-ring-blue-400 w-full"
+									class="border focus:outline-none focus:ring-2 focus-ring-blue-600 w-full"
 									bind:value={entity[field.label]}
 								/>
 							{:else if field.type === 'date'}
-								<input type="date" bind:value={entity[field.label]} />
+								<input
+									class="border focus-ring-blue-600"
+									type="date"
+									bind:value={entity[field.label]}
+								/>
 							{:else if field.type === 'datetime'}
 								<span>{todate(entity[field.label])}</span>
 							{:else}
 								<input
-									class="border focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+									class="border focus:outline-none focus:ring-2 focus:ring-blue-600 w-full"
 									bind:value={entity[field.label]}
 								/>
 							{/if}
