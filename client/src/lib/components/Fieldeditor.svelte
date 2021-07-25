@@ -52,14 +52,5 @@
 				{/each}
 			{/if}
 		</table>
-		<hr />
-		{#if actions}
-			<span role="button" class="btn" on:click={() => dispatch('delete', entity)}>
-				{$_('actions.delete')}
-			</span>
-			<span role="button" class="btn" on:click={() => dispatch('save', entity)}
-				>{$_('actions.save')}</span
-			>
-		{/if}
 	</div>
 </template>

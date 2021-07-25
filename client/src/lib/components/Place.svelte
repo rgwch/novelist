@@ -8,10 +8,13 @@
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
 	import { load, save, remove, rename, openCurrent } from '../services/fileio';
+	import Itemlist from './Itemlist.svelte';
+	import { _ } from 'svelte-i18n';
 
 	export let metadata: metadata_def;
 	let currentPlace: place_def = {};
 	let currentName: string = '';
+	let compact = true;
 	const fields = [
 		{ label: 'name', type: 'string' },
 		{ label: 'surround', type: 'string' },
@@ -53,9 +56,19 @@
 		}
 	}
 	async function del(event) {
+		if (confirm($_('messages.reallydelete', { values: { element: event.detail } }))) {
+			try {
+				await remove('places', event.detail);
+				metadata = await openCurrent();
+			} catch (err) {
+				alert(err);
+			}
+		}
+	}
+	async function _rename(event) {
 		try {
-			await remove('places', currentPlace.name);
-			metadata = await openCurrent();
+			metadata = await rename('places', event.detail.old, event.detail.new);
+			await openCurrent();
 		} catch (err) {
 			alert(err);
 		}
@@ -63,6 +76,25 @@
 </script>
 
 <template>
-	<Dropdown {metadata} {definition} on:selected={select} />
-	<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
+	{#if compact}
+		<div class="flex flex-row">
+			<Dropdown {metadata} {definition} on:selected={select} />
+			<span
+				on:click={() => {
+					compact = false;
+				}}><i class="fa fa-edit mx-2" /></span
+			>
+		</div>
+		<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
+	{:else}
+		<div class="flex flex-row">
+			<span class="flex-grow">{$_('book.places')}</span>
+			<span
+				on:click={() => {
+					compact = true;
+				}}><i class="fa fa-list-alt" /></span
+			>
+		</div>
+		<Itemlist bind:items={metadata.places} on:delete={del} on:rename={_rename} />
+	{/if}
 </template>
