@@ -17,15 +17,15 @@ Display of the metadata of the currently opened book or a list of books availabl
 		'id',
 		'series',
 		'sequence',
-		'created',
+		{ label: 'created', type: 'date' },
 		'genre',
 		'language',
 		'description',
 		'tags',
 		'copyright',
 		'publisher',
-		'published',
-		'modified',
+		{ label: 'published', type: 'date' },
+		{ label: 'modified', type: 'datetime' },
 		{ label: 'expose', type: 'text' }
 	];
 	import {

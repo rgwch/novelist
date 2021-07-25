@@ -10,6 +10,7 @@
     "generateHTML": "export HTML",
     "ok": " OK ",
     "open": "Open",
+    "rename": "Umbenennen",
     "save": "Save"
   },
   "adapters": {

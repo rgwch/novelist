@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+	import { DateTime } from 'luxon';
 	const dispatch = createEventDispatcher();
 
 	export let fields: Array<string | { label: string; type: string }> = [];
@@ -25,6 +26,10 @@
 		// console.log('closing fieldeditor');
 		dispatch('save', entity);
 	});
+	function todate(s) {
+		const dt = DateTime.fromISO(s);
+		return dt.toFormat($_('adapters.datetime_format'));
+	}
 </script>
 
 <template>
@@ -40,6 +45,10 @@
 									class="border focus:outline-none focus:ring-2 focus-ring-blue-400 w-full"
 									bind:value={entity[field.label]}
 								/>
+							{:else if field.type === 'date'}
+								<input type="date" bind:value={entity[field.label]} />
+							{:else if field.type === 'datetime'}
+								<span>{todate(entity[field.label])}</span>
 							{:else}
 								<input
 									class="border focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"

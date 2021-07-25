@@ -10,8 +10,8 @@
     "generateHTML": "export HTML",
     "ok": " OK ",
     "open": "Öffnen",
-    "save": "Speichern",
-    "rename": "Umbenennen"
+    "rename": "Umbenennen",
+    "save": "Speichern"
   },
   "adapters": {
     "database_format_date": "yyyyLLdd",
