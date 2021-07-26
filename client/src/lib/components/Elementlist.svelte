@@ -12,6 +12,7 @@
 		promptname: 'book.nochaptername'
 	};
 	export let metadata;
+	export let filter: (elem) => boolean = (elem) => true;
 
 	let currentElementName: string;
 
@@ -51,7 +52,7 @@
 			if (!done) {
 				alert('Could not delete');
 			}
-			metadata=await openCurrent();
+			metadata = await openCurrent();
 		}
 	}
 	async function edit(elem) {
@@ -71,20 +72,26 @@
 	<div class="h-full">
 		{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 			{#each metadata[definition.type] as elem}
-				<div class="item relative">
-					<div
-						class={currentElementName == elem ? 'font-bold' : 'font-normal'}
-						on:click={() => select(elem)}
-					>
-						<span class="z-0">{elem}</span>
-						<span class="absolute right-0 px-3 z-10 bg-blue-100">
-							<span on:click={() => up(elem)}><i class="fa fa-angle-up " /></span>
-							<span on:click={() => down(elem)} class="px-2"><i class="fa fa-angle-down" /> </span>
-							<span on:click={() => edit(elem)}><i class="fa fa-edit pointer-events-auto" /></span>
-							<span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span>
-						</span>
+				{#if filter(elem)}
+					<div class="item relative">
+						<div
+							class={currentElementName == elem ? 'font-bold' : 'font-normal'}
+							on:click={() => select(elem)}
+						>
+							<span class="z-0">{elem}</span>
+							<span class="absolute right-0 px-3 z-10 bg-blue-100">
+								<span on:click={() => up(elem)}><i class="fa fa-angle-up " /></span>
+								<span on:click={() => down(elem)} class="px-2"
+									><i class="fa fa-angle-down" />
+								</span>
+								<span on:click={() => edit(elem)}><i class="fa fa-edit pointer-events-auto" /></span
+								>
+								<span on:click={() => del(elem)}><i class="fa fa-trash pointer-events-auto" /></span
+								>
+							</span>
+						</div>
 					</div>
-				</div>
+				{/if}
 			{/each}
 		{/if}
 		<div class="m-1">

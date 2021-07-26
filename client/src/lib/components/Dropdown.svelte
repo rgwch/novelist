@@ -17,6 +17,7 @@
 		promptname: 'book.nochaptername'
 	};
 	export let metadata: metadata_def;
+	export let filter: (elem) => boolean = (elem) => true;
 
 	let value;
 
@@ -57,9 +58,11 @@
 		<!-- svelte-ignore a11y-no-onchange -->
 		<select class="flex-grow" bind:value on:change={select} on:click={select}>
 			{#each metadata[definition.type] as elem}
-				<option value={elem} class="item">
-					{elem}
-				</option>
+				{#if filter(elem)}
+					<option value={elem} class="item">
+						{elem}
+					</option>
+				{/if}
 			{/each}
 			<option value="_new">{$_('general.new')}...</option>
 		</select>

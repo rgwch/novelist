@@ -30,7 +30,7 @@ type metadata_def = {
   
   type person_def = {
     name?: string;
-    nicknames?: Array<string>;
+    nicknames?: string;
     gender?: 'm' | 'f';
     height?: number | string;
     stature?: string

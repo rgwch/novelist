@@ -11,11 +11,13 @@
 	import Itemlist from './Itemlist.svelte';
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
+	import { element } from 'svelte/internal';
 
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
 	let currentName: string = '';
 	let compact = true;
+	let filter: (elem: string) => boolean = (elem: string) => true;
 	const fields: Array<{ label: string; type: string }> = [
 		{ label: 'name', type: 'string' },
 		{ label: 'nicknames', type: 'text' },
@@ -31,6 +33,7 @@
 		newelem: 'book.newperson',
 		promptname: 'book.nopersonname'
 	};
+
 	async function select(event) {
 		try {
 			if (currentPerson) {
@@ -82,24 +85,47 @@
 			alert(err);
 		}
 	}
+	async function setFilter() {
+		const f = prompt('Filter');
+    const rx=new RegExp(f,"ig")
+		if (f) {
+			const pcache = {};
+			for (const person of metadata.persons) {
+				pcache[person] = await load('persons', person);
+			}
+			filter = (elem) => {
+				const pd: person_def = pcache[elem];
+				for (const prop of Object.keys(pd)) {
+					if (pd[prop].match(rx)) {
+						return true;
+					}
+				}
+				return false;
+			};
+		} else {
+			filter = (elem) => true;
+		}
+	}
 </script>
 
 <template>
 	{#if compact}
 		<div class="flex flex-row">
-			<Dropdown {metadata} {definition} on:selected={select} />
+			<Dropdown {metadata} {definition} on:selected={select} {filter} />
+			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span on:click={() => (compact = false)}><i class="fa fa-edit mx-2" /></span>
 		</div>
 		<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 	{:else}
 		<div class="flex flex-row">
 			<span class="flex-grow">{$_('book.persons')}</span>
+      <span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span
 				on:click={() => {
 					compact = true;
-				}}><i class="fa fa-list-alt" /></span
+				}}><i class="fa fa-list-alt mx-2" /></span
 			>
 		</div>
-		<Elementlist {metadata} {definition} />
+		<Elementlist {metadata} {definition} {filter} />
 	{/if}
 </template>
