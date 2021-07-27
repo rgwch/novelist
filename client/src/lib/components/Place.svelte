@@ -16,6 +16,8 @@
 	let currentPlace: place_def = {};
 	let currentName: string = '';
 	let compact = true;
+	let filter: (elem) => boolean = (elem) => true;
+
 	const fields = [
 		{ label: 'name', type: 'string' },
 		{ label: 'surround', type: 'string' },
@@ -74,12 +76,34 @@
 			alert(err);
 		}
 	}
+	async function setFilter() {
+		const f = prompt('Filter');
+		const rx = new RegExp(f, 'ig');
+		if (f) {
+			const pcache = {};
+			for (const place of metadata.places) {
+				pcache[place] = await load('places', place);
+			}
+			filter = (elem) => {
+				const pd: person_def = pcache[elem];
+				for (const prop of Object.keys(pd)) {
+					if (pd[prop].match(rx)) {
+						return true;
+					}
+				}
+				return false;
+			};
+		} else {
+			filter = (elem) => true;
+		}
+	}
 </script>
 
 <template>
 	{#if compact}
 		<div class="flex flex-row">
-			<Dropdown {metadata} {definition} on:selected={select} />
+			<Dropdown {metadata} {definition} on:selected={select} {filter} />
+			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span
 				on:click={() => {
 					compact = false;
@@ -90,12 +114,14 @@
 	{:else}
 		<div class="flex flex-row">
 			<span class="flex-grow">{$_('book.places')}</span>
+			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
+
 			<span
 				on:click={() => {
 					compact = true;
-				}}><i class="fa fa-list-alt" /></span
+				}}><i class="fa fa-list-alt mx-2" /></span
 			>
 		</div>
-		<Elementlist {metadata} {definition} />
+		<Elementlist {metadata} {definition} {filter} />
 	{/if}
 </template>
