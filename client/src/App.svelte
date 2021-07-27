@@ -35,6 +35,10 @@
 		notes: false
 	};
 
+	$: leftCol = visible.book || visible.persons || visible.places;
+
+	$: rightCol = visible.chapter || visible.notes;
+
 	function toggle(elem) {
 		visible[elem] = !visible[elem];
 	}
@@ -105,26 +109,30 @@
 	{/if}
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row w-full">
-			<div class="bg-blue-200 p-1 w-full md:w-1/4 flex-shrink-0">
-				{#if visible.book}
-					<Book {visible} />
-				{/if}
+			{#if leftCol}
+				<div class="bg-blue-200 p-1 w-full md:w-1/4 flex-1">
+					{#if visible.book}
+						<Book {visible} />
+					{/if}
 
-				{#if visible.persons}
-					<Person {metadata} />
-				{/if}
-				{#if visible.places}
-					<div><Place {metadata} /></div>
-				{/if}
-				{#if visible.notes}
-					<div><Notes /></div>
-				{/if}
-			</div>
-			<div class="bg-blue-300 flex-grow">
-				{#if visible.chapter}
-					<Chapter />
-				{/if}
-			</div>
+					{#if visible.persons}
+						<Person {metadata} />
+					{/if}
+					{#if visible.places}
+						<div><Place {metadata} /></div>
+					{/if}
+				</div>
+			{/if}
+			{#if rightCol}
+				<div class="bg-blue-300 flex-grow">
+					{#if visible.chapter}
+						<Chapter />
+					{/if}
+					{#if visible.notes}
+						<div><Notes /></div>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 </template>
