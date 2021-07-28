@@ -116,10 +116,22 @@
 					{/if}
 
 					{#if visible.persons}
-						<Person {metadata} />
+						<Person
+							{metadata}
+							on:close={() => {
+								visible.persons = false;
+							}}
+						/>
 					{/if}
 					{#if visible.places}
-						<div><Place {metadata} /></div>
+						<div>
+							<Place
+								{metadata}
+								on:close={() => {
+									visible.places = false;
+								}}
+							/>
+						</div>
 					{/if}
 				</div>
 			{/if}

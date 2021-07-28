@@ -8,10 +8,10 @@
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
 	import { load, save, remove, rename, openCurrent } from '../services/fileio';
-	import Itemlist from './Itemlist.svelte';
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
-	import { element } from 'svelte/internal';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let metadata: metadata_def;
 	let currentPerson: person_def = {};
@@ -67,27 +67,10 @@
 			alert(err);
 		}
 	}
-	async function del(event) {
-		if (confirm($_('messages.reallydelete', { values: { element: event.detail } }))) {
-			try {
-				await remove('persons', event.detail);
-				metadata = await openCurrent();
-			} catch (err) {
-				alert(err);
-			}
-		}
-	}
-	async function _rename(event) {
-		try {
-			metadata = await rename('persons', event.detail.old, event.detail.new);
-			await openCurrent();
-		} catch (err) {
-			alert(err);
-		}
-	}
+
 	async function setFilter() {
 		const f = prompt('Filter');
-    const rx=new RegExp(f,"ig")
+		const rx = new RegExp(f, 'ig');
 		if (f) {
 			const pcache = {};
 			for (const person of metadata.persons) {
@@ -114,18 +97,31 @@
 			<Dropdown {metadata} {definition} on:selected={select} {filter} />
 			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span on:click={() => (compact = false)}><i class="fa fa-edit mx-2" /></span>
+			<span
+				on:click={() => {
+					dispatch('close');
+				}}><i class="fa fa-window-close" /></span
+			>
 		</div>
 		<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 	{:else}
 		<div class="flex flex-row">
 			<span class="flex-grow">{$_('book.persons')}</span>
-      <span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
+			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span
 				on:click={() => {
 					compact = true;
 				}}><i class="fa fa-list-alt mx-2" /></span
 			>
+			<span
+				on:click={() => {
+					dispatch('close');
+				}}><i class="fa fa-window-close" /></span
+			>
 		</div>
-		<Elementlist {metadata} {definition} {filter} />
+		<div class="flex flex-row">
+			<Elementlist {metadata} {definition} {filter} on:selected={select} />
+			<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
+		</div>
 	{/if}
 </template>

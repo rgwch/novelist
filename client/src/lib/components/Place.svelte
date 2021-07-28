@@ -8,9 +8,10 @@
 	import Dropdown from './Dropdown.svelte';
 	import Fieldeditor from './Fieldeditor.svelte';
 	import { load, save, remove, rename, openCurrent } from '../services/fileio';
-	import Itemlist from './Itemlist.svelte';
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	export let metadata: metadata_def;
 	let currentPlace: place_def = {};
@@ -109,6 +110,11 @@
 					compact = false;
 				}}><i class="fa fa-edit mx-2" /></span
 			>
+			<span
+				on:click={() => {
+					dispatch('close');
+				}}><i class="fa fa-window-close" /></span
+			>
 		</div>
 		<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
 	{:else}
@@ -121,7 +127,17 @@
 					compact = true;
 				}}><i class="fa fa-list-alt mx-2" /></span
 			>
+			<span
+				on:click={() => {
+					dispatch('close');
+				}}><i class="fa fa-window-close" /></span
+			>
 		</div>
-		<Elementlist {metadata} {definition} {filter} />
+		<div class="flex flex-row">
+			<Elementlist {metadata} {definition} {filter} on:selected={select} />
+			<div class="flex-grow">
+				<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} />
+			</div>
+		</div>
 	{/if}
 </template>
