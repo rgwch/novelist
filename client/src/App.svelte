@@ -7,6 +7,7 @@
 	import Place from './lib/components/Place.svelte';
 	import Notes from './lib/components/Notes.svelte';
 	import Menu from './lib/components/Menu.svelte';
+	import Card from './lib/components/Card.svelte';
 
 	import { _ } from 'svelte-i18n';
 	import { current, changePwd, closeBook, save, toEpub, toHtml } from './lib/services/fileio';
@@ -112,16 +113,34 @@
 			{#if leftCol}
 				<div class="bg-blue-200 p-1 w-full md:w-1/4 flex-1">
 					{#if visible.book}
-						<Book {visible} />
+						<Card
+							title={!!metadata ? $_('book.metadata') : $_('book.open')}
+							on:close={() => {
+								visible.book = false;
+							}}
+						>
+							<div slot="contents">
+								<Book {visible} />
+							</div>
+						</Card>
 					{/if}
 
 					{#if visible.persons}
-						<Person
-							{metadata}
+						<Card
+							title={$_('book.persons')}
 							on:close={() => {
 								visible.persons = false;
 							}}
-						/>
+						>
+							<div slot="contents">
+								<Person
+									{metadata}
+									on:close={() => {
+										visible.persons = false;
+									}}
+								/>
+							</div>
+						</Card>
 					{/if}
 					{#if visible.places}
 						<div>

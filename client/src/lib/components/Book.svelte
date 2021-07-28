@@ -8,6 +8,9 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	import Modal from './Modal.svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	export let visible;
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
@@ -99,7 +102,6 @@ Display of the metadata of the currently opened book or a list of books availabl
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 	{:else}
-		<h1>{$_('book.open')}</h1>
 		<div class="p-1 overflow-y-auto">
 			{#await showBooks() then files}
 				<ul>

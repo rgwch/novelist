@@ -97,11 +97,6 @@
 			<Dropdown {metadata} {definition} on:selected={select} {filter} />
 			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span on:click={() => (compact = false)}><i class="fa fa-edit mx-2" /></span>
-			<span
-				on:click={() => {
-					dispatch('close');
-				}}><i class="fa fa-window-close" /></span
-			>
 		</div>
 		<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 	{:else}
@@ -112,11 +107,6 @@
 				on:click={() => {
 					compact = true;
 				}}><i class="fa fa-list-alt mx-2" /></span
-			>
-			<span
-				on:click={() => {
-					dispatch('close');
-				}}><i class="fa fa-window-close" /></span
 			>
 		</div>
 		<div class="flex flex-row">
