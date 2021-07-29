@@ -34,11 +34,11 @@
 
 <template>
 	<div>
-		<table class="mt-1 p-2 border-collapse table-auto w-full">
+		<table class="mt-1 p-2 border-collapse table-fixed w-full">
 			{#if entity}
 				{#each _fields as field}
 					<tr>
-						<td class="pr-4 ">{toDisplay(field.label)}</td>
+						<td class="pr-4 md:w-1/3 lg:w-1/6">{toDisplay(field.label)}</td>
 						<td class="pl-4">
 							{#if field.type === 'text'}
 								<textarea
