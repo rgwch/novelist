@@ -101,7 +101,7 @@
 		<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 	{:else}
 		<div class="flex flex-row">
-			<span class="flex-grow">{$_('book.persons')}</span>
+			<span class="flex-grow">{$_('actions.edit')}</span>
 			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
 			<span
 				on:click={() => {
@@ -111,7 +111,9 @@
 		</div>
 		<div class="flex flex-row">
 			<Elementlist {metadata} {definition} {filter} on:selected={select} />
-			<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
+			<div class="flex-grow">
+				<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
+			</div>
 		</div>
 	{/if}
 </template>

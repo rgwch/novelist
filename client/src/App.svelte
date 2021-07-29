@@ -111,7 +111,7 @@
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row w-full">
 			{#if leftCol}
-				<div class="bg-blue-200 p-1 w-full md:w-1/4 flex-1">
+				<div class="bg-blue-200 w-full md:w-1/4 flex-1">
 					{#if visible.book}
 						<Card
 							title={!!metadata ? $_('book.metadata') : $_('book.open')}
@@ -133,34 +133,42 @@
 							}}
 						>
 							<div slot="contents">
-								<Person
-									{metadata}
-									on:close={() => {
-										visible.persons = false;
-									}}
-								/>
+								<Person {metadata} />
 							</div>
 						</Card>
 					{/if}
 					{#if visible.places}
-						<div>
-							<Place
-								{metadata}
-								on:close={() => {
-									visible.places = false;
-								}}
-							/>
-						</div>
+						<Card
+							title={$_('book.places')}
+							on:close={() => {
+								visible.places = false;
+							}}
+						>
+							<div slot="contents">
+								<Place {metadata} />
+							</div>
+						</Card>
 					{/if}
 				</div>
 			{/if}
 			{#if rightCol}
 				<div class="bg-blue-300 flex-grow">
 					{#if visible.chapter}
-						<Chapter />
+						<Card
+							title={$_('book.chapter')}
+							on:close={() => {
+								visible.chapter = false;
+							}}
+						>
+							<div slot="contents">
+								<Chapter />
+							</div>
+						</Card>
 					{/if}
 					{#if visible.notes}
-						<div><Notes /></div>
+						<Card title={$_('book.notes')} on:close={() => (visible.notes = false)}>
+							<div slot="contents"><Notes /></div>
+						</Card>
 					{/if}
 				</div>
 			{/if}

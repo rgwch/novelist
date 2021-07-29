@@ -59,24 +59,7 @@
 			alert(err);
 		}
 	}
-	async function del(event) {
-		if (confirm($_('messages.reallydelete', { values: { element: event.detail } }))) {
-			try {
-				await remove('places', event.detail);
-				metadata = await openCurrent();
-			} catch (err) {
-				alert(err);
-			}
-		}
-	}
-	async function _rename(event) {
-		try {
-			metadata = await rename('places', event.detail.old, event.detail.new);
-			await openCurrent();
-		} catch (err) {
-			alert(err);
-		}
-	}
+
 	async function setFilter() {
 		const f = prompt('Filter');
 		const rx = new RegExp(f, 'ig');
@@ -110,13 +93,8 @@
 					compact = false;
 				}}><i class="fa fa-edit mx-2" /></span
 			>
-			<span
-				on:click={() => {
-					dispatch('close');
-				}}><i class="fa fa-window-close" /></span
-			>
 		</div>
-		<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} on:delete={del} />
+		<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} />
 	{:else}
 		<div class="flex flex-row">
 			<span class="flex-grow">{$_('book.places')}</span>
@@ -126,11 +104,6 @@
 				on:click={() => {
 					compact = true;
 				}}><i class="fa fa-list-alt mx-2" /></span
-			>
-			<span
-				on:click={() => {
-					dispatch('close');
-				}}><i class="fa fa-window-close" /></span
 			>
 		</div>
 		<div class="flex flex-row">

@@ -1,16 +1,17 @@
 {
   "actions": {
     "bold": "Bold",
-    "cancel": "Candel",
+    "cancel": "Cancel",
     "changePWD": "Change password",
-    "check": "Buch prüfen",
+    "check": "Consistency check",
     "close": "Close book",
     "delete": "Delete",
+    "edit": "Edit, move, delete",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
     "ok": " OK ",
     "open": "Open",
-    "rename": "Umbenennen",
+    "rename": "Rename",
     "save": "Save"
   },
   "adapters": {
@@ -28,6 +29,7 @@
     "year": "Year"
   },
   "book": {
+    "books": "Books",
     "chapter": "Chapter",
     "filename": "Filename for the book",
     "metadata": "Data",
@@ -79,7 +81,7 @@
     "created": "created on",
     "description": "Description",
     "expose": "Exposé",
-    "fileAs": "Sortierung",
+    "fileAs": "File As",
     "gender": "Gender",
     "genre": "Genre",
     "hair": "Hair",

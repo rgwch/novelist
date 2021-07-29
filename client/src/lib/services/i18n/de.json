@@ -6,6 +6,7 @@
     "check": "Buch prüfen",
     "close": "Buch schließen",
     "delete": "Löschen",
+    "edit": "Anpassen, verschieben, löschen",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
     "ok": " OK ",
