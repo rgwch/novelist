@@ -41,7 +41,7 @@ const io = new Server(httpServer, {
 /**
  * If a timeout is configured, check in that interval if there was an access to the novel, and close it, if not.
  */
-const timeout = config.has("timeout") ? config.get("timeout") : 300
+const timeout:number = config.has("timeout") ? config.get("timeout") : 300
 
 if (timeout !== 0) {
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
