@@ -20,12 +20,12 @@ if(config.has('encryption')){
 }
 
 export function resolveDir() {
-  let ret = os.homedir()
+  let ret:string = os.homedir()
   if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {
     ret = process.env.NOVELS_DIR
   }
   if (config.has("basedir")) {
-    const basedir = config.get("basedir")
+    const basedir:string = config.get("basedir")
     if (basedir && fs.existsSync(basedir)) {
       ret = basedir
     }
@@ -48,7 +48,7 @@ export class Store {
     // console.log("Store: Setting password " + password)
     const hash = crypto.createHash('sha256')
     const pwd = hash.update(passphrase)
-    const salt = config.has("salt") ? config.get("salt") : "someSalt"
+    const salt:string = config.has("salt") ? config.get("salt") : "someSalt"
     this.key = crypto.scryptSync(passphrase, salt, 24);
 
     const ivraw = pwd.digest();
