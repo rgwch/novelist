@@ -189,7 +189,7 @@ export class Novel {
 
   async changePassword(newPwd: string): Promise<boolean> {
     // console.log("changing password " + newPwd)
-    this.store.setPassword(newPwd);
+    // this.store.setPassword(newPwd);
     return this.flush();
   }
   /**
