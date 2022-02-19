@@ -1,6 +1,6 @@
 {
   "name": "novelist-server",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Novelist server",
   "main": "index.js",
   "scripts": {
