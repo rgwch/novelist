@@ -9,7 +9,7 @@ import sb from 'stream-buffers'
 import { DateTime } from 'luxon'
 import os from 'os'
 import config from 'config'
-import { Crypter } from './crypt'
+import { Crypter } from 'simple-crypt'
 import { pipeline } from 'stream'
 
 let plaintext = false

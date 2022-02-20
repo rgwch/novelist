@@ -1,8 +1,8 @@
 {
   "name": "novelist-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Novelist server",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index",
     "test": "jest",
@@ -13,13 +13,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.0",
     "@types/luxon": "^1.27.1",
     "@types/marked": "^2.0.4",
     "@types/stream-buffers": "^3.0.4",
     "babel-jest": "^27.0.6",
     "epub-gen": "^0.1.0",
+    "jest": "^27.5.1",
     "luxon": "^1.27.0",
     "rimraf": "^3.0.2",
+    "ts-jest": "^27.1.3",
     "ts-node": "^10.0.0",
     "tslib": "^2.3.0",
     "tslint": "^6.1.3",
@@ -30,7 +33,7 @@
     "http": "0.0.1-security",
     "markdown-yaml-metadata-parser": "^3.0.0",
     "marked": "^2.1.3",
-    "simple-crypt": "http://rgw.ch/rgwch-simple-crypt-1.0.2.tgz",
+    "simple-crypt": "http://rgw.ch/rgwch-simple-crypt-1.0.3.tgz",
     "socket.io": "^4.1.2",
     "stream-buffers": "^3.0.2",
     "yaml": "^1.10.2"
