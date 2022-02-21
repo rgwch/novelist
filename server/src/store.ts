@@ -117,7 +117,7 @@ export class Store {
       } else {
         return this.crypter.decrypt(instream, outstream).then((buf) => {
           if (buf) {
-            return outstream.getContents()
+            resolve(outstream.getContents() as Buffer)
           }
         })
       }
