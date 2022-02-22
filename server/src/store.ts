@@ -9,7 +9,7 @@ import sb from 'stream-buffers'
 import { DateTime } from 'luxon'
 import os from 'os'
 import config from 'config'
-import { Crypter } from 'simple-crypt'
+import { Crypter } from '@rgwch/simple-crypt'
 import { pipeline } from 'stream'
 
 let plaintext = false
@@ -90,7 +90,7 @@ export class Store {
           }
         })
       } else {
-        return this.crypter.encrypt(instream, outstream)
+        resolve(this.crypter.encrypt(instream, outstream))
       }
     })
   }
