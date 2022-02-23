@@ -93,6 +93,7 @@ export class Store {
       return outstream.getContents() as Buffer
     } catch (err) {
       console.log("Encryption error: " + err)
+      throw(err)
     }
   }
 }

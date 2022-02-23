@@ -281,7 +281,7 @@ export class Novel {
 
   async deletePerson(name: string): Promise<void> {
     if (name == "" || name == null) {
-      await this.checkIntegrity()
+      await this.ensureIntegrity()
 
     } else {
       const index = this.def.metadata.persons.indexOf(name);
@@ -358,6 +358,7 @@ export class Novel {
     delete this.def.chapters[name];
     await this.flush();
   }
+  
   async writePlace(pdef: place_def): Promise<void> {
     if (pdef && pdef.name && this.def) {
       const name = pdef.name;
@@ -486,7 +487,7 @@ export class Novel {
     this.def.metadata[type] = cleaned
 
   }
-  async checkIntegrity(): Promise<void> {
+  async ensureIntegrity(): Promise<void> {
     this.checkUnique("chapters")
     this.checkUnique("persons")
     this.checkUnique("places")

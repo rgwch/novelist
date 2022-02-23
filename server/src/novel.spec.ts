@@ -60,8 +60,7 @@ describe('Novel', () => {
     expect(elvis.description).toBeDefined();
     elvis.description = 'This is only a sample person';
     elvis.nicknames = ['elv', 'elvis', 'HIM'];
-    const written = await novel.writePerson(elvis);
-    expect(written).toBeTruthy()
+    expect(async () => await novel.writePerson(elvis)).not.toThrow();
     await novel.close()
     expect(novel.readMetadata()).toBeUndefined()
 
@@ -108,8 +107,7 @@ describe('Novel', () => {
   it('fixes structural problems', async () => {
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined()
-    let checked = await novel.checkIntegrity()
-    expect(checked).toBe(true)
+    expect(async () => await novel.ensureIntegrity()).not.toThrow()
     const meta = novel.readMetadata()
     const personsNumber = meta.persons.length
     const check = meta.persons[0]
@@ -118,7 +116,7 @@ describe('Novel', () => {
     meta.persons.push(check)
     meta.persons.push("tst")
     await novel.writeMetadata(meta)
-    checked = await novel.checkIntegrity()
+    expect(async () => await novel.ensureIntegrity()).not.toThrow()
     const korr = novel.readMetadata()
     expect(meta.persons.length).toBe(personsNumber + 1)
     expect(novel.getPerson(check)).toBeTruthy()
