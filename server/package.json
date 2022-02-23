@@ -1,6 +1,6 @@
 {
   "name": "novelist-server",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Novelist server",
   "main": "dist/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
     "http": "0.0.1-security",
     "markdown-yaml-metadata-parser": "^3.0.0",
     "marked": "^2.1.3",
-    "@rgwch/simple-crypt": "../../simple-crypt",
+    "@rgwch/simple-crypt": "http://rgw.ch/rgwch-simple-crypt-1.0.8.tgz",
     "socket.io": "^4.1.2",
     "stream-buffers": "^3.0.2",
     "yaml": "^1.10.2"
