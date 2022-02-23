@@ -12,11 +12,6 @@ import config from 'config'
 import { Crypter } from '@rgwch/simple-crypt'
 import { pipeline } from 'stream'
 
-let plaintext = false
-
-if (config.has('encryption')) {
-  plaintext = !config.get('encryption')
-}
 
 export function resolveDir() {
   let ret: string = os.homedir()
@@ -31,9 +26,6 @@ export function resolveDir() {
   }
   return ret
 }
-export function setPlaintext(plain: boolean): void {
-  plaintext = plain
-}
 export class Store {
   private crypter: Crypter
 
@@ -42,6 +34,9 @@ export class Store {
     this.crypter = new Crypter(passphrase, salt.toString())
   }
 
+  setPassword(pwd: string) {
+    this.crypter.setPassword(pwd)
+  }
   performBackup(gen: number, pathname: string): void {
     const last = pathname + '_' + gen
     if (fs.existsSync(last)) {
@@ -67,60 +62,37 @@ export class Store {
     }
   }
 
-  public save(id: string, data: Buffer): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      try {
-        this.performBackup(5, id)
-      } catch (err) {
-        console.log("store:save: can't organise backups " + err)
-        reject('Backup ' + err)
-      }
+  public async save(id: string, data: Buffer): Promise<void> {
+    try {
+      this.performBackup(5, id)
+    } catch (err) {
+      console.log("store:save: can't organise backups " + err)
+      throw ('Backup ' + err)
+    }
 
-      const instream = new sb.ReadableStreamBuffer()
-      const outstream = fs.createWriteStream(id)
-      instream.put(data)
-      instream.stop()
-      if (plaintext) {
-        pipeline(instream, outstream, (err) => {
-          if (err) {
-            reject('pipeline ' + err)
-          } else {
-            outstream.end()
-            resolve(true)
-          }
-        })
-      } else {
-        resolve(this.crypter.encrypt(instream, outstream))
-      }
-    })
+    const instream = new sb.ReadableStreamBuffer()
+    const outstream = fs.createWriteStream(id)
+    instream.put(data)
+    instream.stop()
+    try {
+      await this.crypter.encrypt(instream, outstream)
+    } catch (err) {
+      console.log("Encryption error " + err)
+      throw (err)
+    }
   }
 
-  public load(id: string): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-      const instream = fs.createReadStream(id)
-      const outstream = new sb.WritableStreamBuffer({
-        initialSize: 1024,
-        incrementAmount: 1024,
-      })
-      if (plaintext) {
-        pipeline(instream, outstream, (err) => {
-          if (err) {
-            reject('pipeline ' + err)
-          } else {
-            const buf = outstream.getContents()
-            if (!buf) {
-              reject('empty buffer')
-            }
-            resolve(buf as Buffer)
-          }
-        })
-      } else {
-        return this.crypter.decrypt(instream, outstream).then((buf) => {
-          if (buf) {
-            resolve(outstream.getContents() as Buffer)
-          }
-        })
-      }
+  public async load(id: string): Promise<Buffer> {
+    const instream = fs.createReadStream(id)
+    const outstream = new sb.WritableStreamBuffer({
+      initialSize: 1024,
+      incrementAmount: 1024,
     })
+    try {
+      await this.crypter.decrypt(instream, outstream)
+      return outstream.getContents() as Buffer
+    } catch (err) {
+      console.log("Encryption error: " + err)
+    }
   }
 }

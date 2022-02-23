@@ -187,19 +187,17 @@ export class Novel {
     this.store = new Store(password);
   }
 
-  async changePassword(newPwd: string): Promise<boolean> {
+  async changePassword(newPwd: string): Promise<void> {
     // console.log("changing password " + newPwd)
-    // this.store.setPassword(newPwd);
-    return this.flush();
+    this.store.setPassword(newPwd);
+    await this.flush();
   }
   /**
    * Flush and close Novel
    */
   async close(): Promise<void> {
-    return this.flush().then((success) => {
-      if (!success) {
-        throw new Error("could not write contents to file");
-      }
+    try {
+      await this.flush()
       this.def = undefined;
       const lockfile = this.pathname + ".lock";
       if (fs.existsSync(lockfile)) {
@@ -210,17 +208,22 @@ export class Novel {
         });
       }
       this.pathname = undefined;
-    });
+    } catch (err) {
+      console.log("Close: " + err)
+      throw new Error("could not write contents to file: " + err);
+
+    }
+
   }
   /**
    * Flush Novel to disk
    * @returns Promise resolving to true on success
    */
-  flush(): Promise<boolean> {
+  async flush(): Promise<void> {
     if (this.def) {
       this.def.metadata.modified = new Date();
       const buff = Buffer.from(JSON.stringify(this.def));
-      return this.store.save(this.pathname, buff);
+      await this.store.save(this.pathname, buff);
     }
   }
 
@@ -229,14 +232,14 @@ export class Novel {
     this.flush();
   }
 
-  writePerson(pdef: person_def): Promise<boolean> {
+  async writePerson(pdef: person_def): Promise<void> {
     if (this.def && pdef && pdef.name) {
       const name = pdef.name;
       this.def.persons[name] = pdef;
       if (!this.def.metadata.persons.find((p) => p == name)) {
         this.def.metadata.persons.push(name);
       }
-      return this.flush();
+      await this.flush();
     } else {
       throw new Error("no book open");
     }
@@ -258,14 +261,15 @@ export class Novel {
           }
         }
         existing.name = newname;
-        if (await this.writePerson(existing)) {
+        try {
+          await this.writePerson(existing)
           delete this.def.persons[oldname]
           meta.persons = replace
           await this.writeMetadata(meta)
           return meta
-        } else {
-          console.log("write failed")
-          throw new Error("could not write")
+        } catch (err) {
+          console.log("write failed " + err)
+          throw new Error("could not write: " + err)
         }
       } else {
         throw new Error("Person metadata not found " + oldname)
@@ -275,7 +279,7 @@ export class Novel {
     }
   }
 
-  async deletePerson(name: string): Promise<boolean> {
+  async deletePerson(name: string): Promise<void> {
     if (name == "" || name == null) {
       await this.checkIntegrity()
 
@@ -288,9 +292,9 @@ export class Novel {
 
       delete this.def.persons[name];
     }
-    return await this.flush();
+    await this.flush();
   }
-  writeChapter(cdef: chapter_def): Promise<boolean> {
+  async writeChapter(cdef: chapter_def): Promise<void> {
     if (this.def) {
       if (!cdef || !cdef.name) {
         throw new Error("Empty chapter definition");
@@ -305,7 +309,7 @@ export class Novel {
       } else {
         this.def.metadata.chapters.push(name);
       }
-      return this.flush();
+      this.flush();
     } else {
       throw new Error("no book open");
     }
@@ -327,12 +331,13 @@ export class Novel {
           }
         }
         existing.name = newname;
-        if (await this.writeChapter(existing)) {
+        try {
+          await this.writeChapter(existing)
           delete this.def.chapters[oldname]
           meta.chapters = replace
           await this.writeMetadata(meta)
           return meta
-        } else {
+        } catch (err) {
           console.log("write failed")
           throw new Error("could not write")
         }
@@ -344,23 +349,23 @@ export class Novel {
     }
   }
 
-  deleteChapter(name: string): Promise<boolean> {
+  async deleteChapter(name: string): Promise<void> {
     const index = this.def.metadata.chapters.indexOf(name);
     if (index === -1) {
       throw new Error("chapter does not exist " + name);
     }
     this.def.metadata.chapters.splice(index, 1);
     delete this.def.chapters[name];
-    return this.flush();
+    await this.flush();
   }
-  writePlace(pdef: place_def): Promise<boolean> {
+  async writePlace(pdef: place_def): Promise<void> {
     if (pdef && pdef.name && this.def) {
       const name = pdef.name;
       this.def.places[name] = pdef;
       if (!this.def.metadata.places.find((p) => p == name)) {
         this.def.metadata.places.push(name);
       }
-      return this.flush();
+      await this.flush();
     } else {
       throw new Error("no book open or bad definition")
     }
@@ -382,14 +387,15 @@ export class Novel {
           }
         }
         existing.name = newname;
-        if (await this.writePlace(existing)) {
+        try {
+          await this.writePlace(existing)
           delete this.def.places[oldname]
           meta.places = replace
           await this.writeMetadata(meta)
           return meta
-        } else {
-          console.log("write failed")
-          throw new Error("could not write")
+        } catch (err) {
+          console.log("write failed: " + err)
+          throw new Error("could not write: " + err)
         }
       } else {
         throw new Error("Location metadata not found " + oldname)
@@ -398,7 +404,8 @@ export class Novel {
       throw new Error("Location doesn't exist " + oldname)
     }
   }
-  deletePlace(name: string): Promise<boolean> {
+
+  async deletePlace(name: string): Promise<void> {
     const index = this.def.metadata.places.indexOf(name);
     if (index === -1) {
       throw new Error("place does not exist " + name);
@@ -406,7 +413,7 @@ export class Novel {
     this.def.metadata.places.splice(index, 1);
 
     delete this.def.places[name];
-    return this.flush();
+    await this.flush();
   }
   getPerson(name: string): person_def {
     return this.def ? this.def.persons[name] : undefined;
@@ -426,10 +433,10 @@ export class Novel {
   readMetadata(): metadata_def {
     return this.def ? this.def.metadata : undefined;
   }
-  writeMetadata(meta: metadata_def): Promise<boolean> {
+  async writeMetadata(meta: metadata_def): Promise<void> {
     if (this.def) {
       this.def.metadata = meta;
-      return this.flush();
+      await this.flush();
     } else {
       throw new Error("no book open");
     }
@@ -448,10 +455,10 @@ export class Novel {
       throw new Error("no book open");
     }
   }
-  writeNotes(notes: string): Promise<boolean> {
+  async writeNotes(notes: string): Promise<void> {
     if (this.def) {
       this.def.notes = notes;
-      return this.flush();
+      await this.flush();
     } else {
       throw new Error("no book open");
     }
@@ -479,10 +486,10 @@ export class Novel {
     this.def.metadata[type] = cleaned
 
   }
-  async checkIntegrity(): Promise<boolean> {
+  async checkIntegrity(): Promise<void> {
     this.checkUnique("chapters")
     this.checkUnique("persons")
     this.checkUnique("places")
-    return this.flush()
+    await this.flush()
   }
 }

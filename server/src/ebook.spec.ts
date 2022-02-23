@@ -2,11 +2,9 @@
 import { Novel } from './novel';
 import fs from 'fs';
 import { Exporter } from './exporter';
-import { setPlaintext } from './store';
 
 xdescribe('Ebook', () => {
   beforeAll(async () => {
-    setPlaintext(true);
     await Novel.fromDirectory('test/sample', 'default', true);
   });
 
@@ -16,7 +14,6 @@ xdescribe('Ebook', () => {
     fs.rmSync('test/sample.novel_2', { force: true });
     fs.rmSync('test/sample.novel_3', { force: true });
     fs.rmSync('test/sample.epub', { force: true });
-    setPlaintext(false);
   });
   it('creates an eBook from a Novel', async () => {
     const novel = await Novel.open('test/sample.novel', 'default');
