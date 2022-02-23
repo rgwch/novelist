@@ -10,7 +10,8 @@
       "name": "Start Server",
       "runtimeExecutable": "npm",
       "runtimeArgs": [
-        "start"
+        "start",
+        "--preserve-symlinks"
       ],
       "port": 9229,
       "cwd": "${workspaceFolder}/server",

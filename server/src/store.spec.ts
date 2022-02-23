@@ -15,7 +15,7 @@ describe("Store", () => {
   it("saves and retrieves serialized data", async () => {
     const store = new Store('default');
     const buffer = Buffer.alloc(100, "*", "utf-8")
-    expect(async ()=>await store.save("test/dump.store", buffer)).not.toThrow()
+    await store.save("test/dump.store", buffer)
     const retrieved = await store.load("test/dump.store")
     expect(retrieved).toBeDefined()
     expect(retrieved).toEqual(buffer)

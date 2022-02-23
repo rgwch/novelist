@@ -41,7 +41,7 @@ const io = new Server(httpServer, {
 /**
  * If a timeout is configured, check in that interval if there was an access to the novel, and close it, if not.
  */
-const timeout:number = config.has("timeout") ? config.get("timeout") : 300
+const timeout: number = config.has("timeout") ? config.get("timeout") : 300
 
 if (timeout !== 0) {
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
@@ -153,27 +153,28 @@ io.on("connection", (socket: Socket) => {
   socket.on("save", async (filetype, data, callback) => {
     try {
       const novel = checkNovel()
-      const result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: "saved", message: undefined }
       switch (filetype) {
         case 'metadata':
-          result.result = await novel.writeMetadata(data);
+          await novel.writeMetadata(data);
           break;
         case 'chapters':
           const chapter = data as chapter_def
-          result.result = await novel.writeChapter(chapter);
+          await novel.writeChapter(chapter);
           break;
         case 'persons':
-          result.result = await novel.writePerson(data as person_def);
+          await novel.writePerson(data as person_def);
           break;
         case 'places':
-          result.result = await novel.writePlace(data as place_def)
+          await novel.writePlace(data as place_def)
           break;
         case 'notes':
-          result.result = await novel.writeNotes(data as string)
+          await novel.writeNotes(data as string)
           break;
         default:
           result.message = "bad datatype in save: " + filetype
           console.log(result.message)
+          result.result = "not saved"
           result.status = "error"
       }
       callback(result)
@@ -206,14 +207,15 @@ io.on("connection", (socket: Socket) => {
   socket.on("delete", async (filetype, name, callback) => {
     try {
       const novel = checkNovel()
-      const result = { status: "ok", result: undefined, message: undefined }
+      const result = { status: "ok", result: "deleted", message: undefined }
       switch (filetype) {
-        case 'chapters': result.result = await novel.deleteChapter(name); break;
-        case 'persons': result.result = await novel.deletePerson(name); break;
-        case 'places': result.result = await novel.deletePlace(name); break;
+        case 'chapters': await novel.deleteChapter(name); break;
+        case 'persons': await novel.deletePerson(name); break;
+        case 'places': await novel.deletePlace(name); break;
         default:
           result.message = "bad datatype in delete " + filetype
           console.log(result.message)
+          result.result = "nothing deleted"
           result.status = "error"
       }
       callback(result)
@@ -247,7 +249,8 @@ io.on("connection", (socket: Socket) => {
           }
           break;
         case "check":
-          result.result = await novel.checkIntegrity()
+          await novel.ensureIntegrity()
+          result.result = true
           break;
         default:
           result.message = "bad operation code in modify: " + op
