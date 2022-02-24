@@ -452,10 +452,10 @@ export class Novel {
   getPerson = (name: string): person_def => this.def?.persons[name]
   getChapter = (title: string): chapter_def => this.def?.chapters[title]
   getPlace = (name: string): place_def => this.def?.places[name]
-  getNotes = (): string => this.def.notes
-  getExpose = (): string => this.def.metadata.expose
-  readMetadata = (): metadata_def => this.def.metadata
-  getTimeline = (): string => this.def.timeline
+  getNotes = (): string => this.def?.notes
+  getExpose = (): string => this.def?.metadata?.expose
+  readMetadata = (): metadata_def => this.def?.metadata
+  getTimeline = (): string => this.def?.timeline
 
 
   async writeMetadata(meta: metadata_def): Promise<void> {
