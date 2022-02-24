@@ -22,6 +22,9 @@ describe('Novel', () => {
     }
   })
 
+  afterAll(()=>{
+    fs.rm(path.join('test',"sample.novel"),err=>{})
+  })
 
   it("creates a novel from a directory", async () => {
     const novel = await Novel.open('test/sample.novel', "default");
@@ -45,7 +48,7 @@ describe('Novel', () => {
 
   it('adds and modifies a file', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
-    novel.writePerson({
+    await novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: ['fish', 'elvis'],
       description: 'A Sample person'
@@ -86,12 +89,12 @@ describe('Novel', () => {
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
     expect(chapter.name).toEqual("First Chapter")
-    expect(async () => { await novel.writeChapter({ name: "Chapter 2", text: "# 2" }) }).not.toThrow()
-    expect(async () => await novel.writeChapter({ name: "Chapter 3", text: "# 3" })).not.toThrow()
-    expect(async () => await novel.writeChapter({ name: "Chapter 4", text: "# 4" })).not.toThrow()
-    expect(async () => await novel.deleteChapter("First Chapter")).not.toThrow()
+    await novel.writeChapter({ name: "Chapter 2", text: "# 2" }) 
+    await novel.writeChapter({ name: "Chapter 3", text: "# 3" })
+    await novel.writeChapter({ name: "Chapter 4", text: "# 4" })
+    await novel.deleteChapter("First Chapter")
     expect(novel.getChapter("First Chapter")).toBeUndefined()
-    expect(async () => await novel.deleteChapter("Chapter 3")).not.toThrow()
+    await novel.deleteChapter("Chapter 3")
     const ch2 = novel.getChapter("Chapter 2")
     const ch3 = novel.getChapter("Chapter 3")
     const ch4 = novel.getChapter("Chapter 4")
