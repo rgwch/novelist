@@ -3,20 +3,19 @@ import { Novel } from './novel';
 import fs from 'fs';
 import { Exporter } from './exporter';
 
-xdescribe('Ebook', () => {
+describe('Ebook', () => {
   beforeAll(async () => {
     await Novel.fromDirectory('test/sample', 'default', true);
+    fs.renameSync("test/sample.novel", "test/ebook.novel")
   });
 
   afterAll(() => {
-    fs.rmSync('test/sample.novel', { force: true });
-    fs.rmSync('test/sample.novel_1', { force: true });
-    fs.rmSync('test/sample.novel_2', { force: true });
-    fs.rmSync('test/sample.novel_3', { force: true });
+    fs.rmSync('test/ebook.novel', { force: true });
+    fs.rmSync("test/sample.novel", { force: true })
     fs.rmSync('test/sample.epub', { force: true });
   });
   it('creates an eBook from a Novel', async () => {
-    const novel = await Novel.open('test/sample.novel', 'default');
+    const novel = await Novel.open('test/ebook.novel', 'default');
     expect(novel).toBeDefined();
     const ebook = new Exporter(novel);
     const ret = await ebook.toEpub('test/sample.epub');

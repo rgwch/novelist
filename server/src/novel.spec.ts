@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 
 describe('Novel', () => {
+ 
   beforeEach((done) => {
     Novel.fromDirectory('test/sample', "default", true).then(res => {
       const exists = fs.existsSync('test/sample.novel')
