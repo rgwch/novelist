@@ -83,7 +83,7 @@ export class Novel {
   }
 
   /**
-   * Create a Novel-file from a directory. This is useful for debugging purposes, and to confert existing books to .novels
+   * Create a Novel-file from a directory. This is useful for debugging purposes, and to convert existing books to .novels
    * The structure of the directory must be as follows:
   <pre>
   name
@@ -104,6 +104,7 @@ export class Novel {
    * @param password password for encryption of the resulting .novel file
    * @param force if true, overwrite existing, if false: Fail if file exists.
    * @returns a Promise resolving to the newly created Novel object
+   * @throws Error object
    */
   static async fromDirectory(
     dir: string,
@@ -187,6 +188,11 @@ export class Novel {
     this.store = new Store(password);
   }
 
+  /**
+   * Change encryption passphrase. The Novel is immediately re-encrypted and saved with the new Passphrasw.
+   * @param newPwd 
+   * @throws Error object if encraption or save failed.
+   */
   async changePassword(newPwd: string): Promise<void> {
     // console.log("changing password " + newPwd)
     this.store.setPassword(newPwd);
@@ -194,6 +200,7 @@ export class Novel {
   }
   /**
    * Flush and close Novel
+   * @throws Error
    */
   async close(): Promise<void> {
     try {
@@ -218,6 +225,7 @@ export class Novel {
   /**
    * Flush Novel to disk
    * @returns Promise resolving to true on success
+   * @throws Error
    */
   async flush(): Promise<void> {
     if (this.def) {
@@ -227,11 +235,21 @@ export class Novel {
     }
   }
 
-  writeExpose(text: string): void {
+  /**
+   * Write Exposé of the Novel
+   * @param text 
+   * @throws Error
+   */
+  async writeExpose(text: string): Promise<void> {
     this.def.metadata.expose = text;
-    this.flush();
+    await this.flush();
   }
 
+  /**
+   * Write a Person definition
+   * @param pdef 
+   * @throws Error
+   */
   async writePerson(pdef: person_def): Promise<void> {
     if (this.def && pdef && pdef.name) {
       const name = pdef.name;
@@ -244,7 +262,15 @@ export class Novel {
       throw new Error("no book open");
     }
   }
-  async renamePerson(oldname, newname): Promise<metadata_def> {
+
+  /**
+   * Rename a Person
+   * @param oldname 
+   * @param newname 
+   * @returns the altered Novel metadata
+   * @throws error
+   */
+  async renamePerson(oldname: string, newname: string): Promise<metadata_def> {
     if (!newname) {
       throw new Error("new name is required")
     }
@@ -279,6 +305,11 @@ export class Novel {
     }
   }
 
+  /**
+   * Delete a Person entry
+   * @param name 
+   * @throws Error
+   */
   async deletePerson(name: string): Promise<void> {
     if (name == "" || name == null) {
       await this.ensureIntegrity()
@@ -294,6 +325,7 @@ export class Novel {
     }
     await this.flush();
   }
+
   async writeChapter(cdef: chapter_def): Promise<void> {
     if (this.def) {
       if (!cdef || !cdef.name) {
@@ -314,7 +346,8 @@ export class Novel {
       throw new Error("no book open");
     }
   }
-  async renameChapter(oldname, newname): Promise<metadata_def> {
+
+  async renameChapter(oldname: string, newname: string): Promise<metadata_def> {
     if (!newname) {
       throw new Error("new name is required")
     }
@@ -358,7 +391,7 @@ export class Novel {
     delete this.def.chapters[name];
     await this.flush();
   }
-  
+
   async writePlace(pdef: place_def): Promise<void> {
     if (pdef && pdef.name && this.def) {
       const name = pdef.name;
@@ -371,7 +404,7 @@ export class Novel {
       throw new Error("no book open or bad definition")
     }
   }
-  async renamePlace(oldname, newname): Promise<metadata_def> {
+  async renamePlace(oldname: string, newname: string): Promise<metadata_def> {
     if (!newname) {
       throw new Error("new name is required")
     }
@@ -416,24 +449,15 @@ export class Novel {
     delete this.def.places[name];
     await this.flush();
   }
-  getPerson(name: string): person_def {
-    return this.def ? this.def.persons[name] : undefined;
-  }
-  getChapter(title: string): chapter_def {
-    return this.def ? this.def.chapters[title] : undefined;
-  }
-  getPlace(name: string): place_def {
-    return this.def ? this.def.places[name] : undefined;
-  }
-  getNotes(): string {
-    return this.def ? this.def.notes : undefined;
-  }
-  getExpose(): string {
-    return this.def ? this.def.metadata.expose : undefined;
-  }
-  readMetadata(): metadata_def {
-    return this.def ? this.def.metadata : undefined;
-  }
+  getPerson = (name: string): person_def => this.def?.persons[name]
+  getChapter = (title: string): chapter_def => this.def?.chapters[title]
+  getPlace = (name: string): place_def => this.def?.places[name]
+  getNotes = (): string => this.def.notes
+  getExpose = (): string => this.def.metadata.expose
+  readMetadata = (): metadata_def => this.def.metadata
+  getTimeline = (): string => this.def.timeline
+
+
   async writeMetadata(meta: metadata_def): Promise<void> {
     if (this.def) {
       this.def.metadata = meta;
@@ -441,9 +465,6 @@ export class Novel {
     } else {
       throw new Error("no book open");
     }
-  }
-  getTimeline(): string {
-    return this.def ? this.def.timeline : undefined;
   }
   addTimestamp(ds: string): void {
     if (this.def) {
@@ -464,6 +485,11 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+
+  /**
+   * Check that every element of a given type only exists once
+   * @param type 
+   */
   checkUnique(type) {
     const cleaned = []
     const store = this.def[type]
@@ -487,6 +513,10 @@ export class Novel {
     this.def.metadata[type] = cleaned
 
   }
+  /**
+   * Ensure correct structure of the Novel
+   * @throws Error if correction was not possible
+   */
   async ensureIntegrity(): Promise<void> {
     this.checkUnique("chapters")
     this.checkUnique("persons")

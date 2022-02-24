@@ -10,9 +10,11 @@ import { DateTime } from 'luxon'
 import os from 'os'
 import config from 'config'
 import { Crypter } from '@rgwch/simple-crypt'
-import { pipeline } from 'stream'
 
-
+/**
+ * find the directory where Novels are stored. Consider Environment variable NOVELS_DIR and configuration option "basedir". 
+ * @returns a directory to find ans store Novels (Which is the users homedir, if nothing else was defined)
+ */
 export function resolveDir() {
   let ret: string = os.homedir()
   if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {
@@ -26,6 +28,9 @@ export function resolveDir() {
   }
   return ret
 }
+/**
+ * Class to manage Novel-Files. 
+ */
 export class Store {
   private crypter: Crypter
 
@@ -34,10 +39,10 @@ export class Store {
     this.crypter = new Crypter(passphrase, salt.toString())
   }
 
-  setPassword(pwd: string) {
+  public setPassword(pwd: string) {
     this.crypter.setPassword(pwd)
   }
-  performBackup(gen: number, pathname: string): void {
+  private performBackup(gen: number, pathname: string): void {
     const last = pathname + '_' + gen
     if (fs.existsSync(last)) {
       const now = DateTime.fromJSDate(new Date())
@@ -62,12 +67,18 @@ export class Store {
     }
   }
 
+  /**
+   * Save data to a Novel file: Encrypts data and creates a filename from basedir and id. If such a file already exists, 
+   * copy existing to a backup filename first.
+   * @param id bare filename for the Novel
+   * @param data plain contents
+   */
   public async save(id: string, data: Buffer): Promise<void> {
     try {
       this.performBackup(5, id)
     } catch (err) {
       console.log("store:save: can't organise backups " + err)
-      throw ('Backup ' + err)
+      throw new Error('Backup ' + err)
     }
 
     const instream = new sb.ReadableStreamBuffer()
@@ -78,10 +89,16 @@ export class Store {
       await this.crypter.encrypt(instream, outstream)
     } catch (err) {
       console.log("Encryption error " + err)
-      throw (err)
+      throw err
     }
   }
 
+  /**
+   * Load a Novel file
+   * @param id bare filename
+   * @returns plain contents
+   * @throws Error
+   */
   public async load(id: string): Promise<Buffer> {
     const instream = fs.createReadStream(id)
     const outstream = new sb.WritableStreamBuffer({
@@ -92,7 +109,7 @@ export class Store {
       await this.crypter.decrypt(instream, outstream)
       return outstream.getContents() as Buffer
     } catch (err) {
-      console.log("Encryption error: " + err)
+      console.log("Decryption error: " + err)
       throw(err)
     }
   }

@@ -14,6 +14,9 @@ const books = {}
 const sockets = {}
 console.log("run mode: " + process.env.NODE_ENV)
 
+/**
+ * Create HTTP server
+ */
 const httpServer = createServer((req, res) => {
   let file = req.url
   if (!file || file === "/" || file === "") {
@@ -32,6 +35,9 @@ const httpServer = createServer((req, res) => {
     res.end()
   }
 });
+/**
+ * Create Socket server
+ */
 const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:3000",
@@ -43,6 +49,9 @@ const io = new Server(httpServer, {
  */
 const timeout: number = config.has("timeout") ? config.get("timeout") : 300
 
+/**
+ * If timeout is exceeded without read or wreite access to a Novel, save and close it after a warning to the client.
+ */
 if (timeout !== 0) {
   console.log(`setting timeout to ${timeout * 1000} Milliseconds`)
   setInterval(async () => {
@@ -113,14 +122,19 @@ io.on("connection", (socket: Socket) => {
       callback({ status: "error", message: err })
     }
   })
-  const noBook = "no book selected"
+  const noBook = new Error("no book selected")
 
 
+  /**
+   * find the Novel related to the current socket
+   * @returns The connected Novel
+   * @Throws Error if there is no suvch Novel
+   */
   function checkNovel(): Novel {
     const novel = books[socket.id]
     if (!novel) {
       // console.log(JSON.stringify(books, null, 2))
-      throw (noBook)
+      throw noBook
     }
     return novel
   }
@@ -150,6 +164,12 @@ io.on("connection", (socket: Socket) => {
     }
   })
 
+  /**
+   * Save an element
+   * @param filetype: One of the supported data types (persons, chapters and so on)
+   * @param data: Contents
+   * @param callback is called with a {status, result,message} answer.
+   */
   socket.on("save", async (filetype, data, callback) => {
     try {
       const novel = checkNovel()
@@ -179,10 +199,15 @@ io.on("connection", (socket: Socket) => {
       }
       callback(result)
     } catch (err) {
-      callback({ status: "ok", result: false, message: "no book" })
+      callback({ status: "ok", result: false, message: err })
     }
   });
 
+  /**
+   * Load an element of a given data type
+   * @param filetype: One of the supported data types (persons, chapters and so on)
+   * @param name: name of the element to retrieve
+   */
   socket.on('load', async (filetype, name, callback) => {
     try {
       const novel = checkNovel()
@@ -204,6 +229,9 @@ io.on("connection", (socket: Socket) => {
     }
   })
 
+  /**
+   * remove an element of a given type
+   */
   socket.on("delete", async (filetype, name, callback) => {
     try {
       const novel = checkNovel()
@@ -224,6 +252,10 @@ io.on("connection", (socket: Socket) => {
       callback({ status: "error", message: err })
     }
   })
+
+  /**
+   * Modify the Novel
+   */
   socket.on("modify", async (op, data, callback) => {
     try {
       const novel = checkNovel()
@@ -262,6 +294,9 @@ io.on("connection", (socket: Socket) => {
     }
   })
 
+  /**
+   * Export the Novel to an ePub or HTML
+   */
   socket.on("export", async (op, data, callback) => {
     try {
       const novel = checkNovel()
@@ -294,6 +329,10 @@ if (config.has("port")) {
 httpServer.listen(port);
 console.log("server ready on port " + port)
 
+/**
+ * List all .novel files in the configured directory
+ * @returns 
+ */
 function listfiles(): Promise<Array<string>> {
   return new Promise((resolve, reject) => {
     fs.readdir(resolveDir(), (err, files) => {
@@ -307,12 +346,20 @@ function listfiles(): Promise<Array<string>> {
   })
 }
 
+/**
+ * Open a Novel
+ * @param owner SocketId 
+ * @param title Filename
+ * @param password encryption password
+ * @returns 
+ */
 function openBook(owner: string, title: string, password: string): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     Novel.open(path.join(resolveDir(), title), password).then((novel: Novel) => {
       books[owner] = novel
       resolve(novel.readMetadata())
     }).catch(err => {
+      console.log(err)
       reject(err)
     })
   })
