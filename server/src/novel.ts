@@ -457,7 +457,14 @@ export class Novel {
   readMetadata = (): metadata_def => this.def?.metadata
   getTimeline = (): string => this.def?.timeline
 
-
+  async writeTimeline(tl: string): Promise<void> {
+    if (this.def) {
+      this.def.timeline = tl
+      await this.flush()
+    } else {
+      throw new Error("no book open");
+    }
+  }
   async writeMetadata(meta: metadata_def): Promise<void> {
     if (this.def) {
       this.def.metadata = meta;

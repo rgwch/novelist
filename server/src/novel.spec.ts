@@ -30,6 +30,7 @@ describe('Novel', () => {
   it("creates a novel from a directory", async () => {
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined();
+    await novel.close()
   })
   it('reads files from the noveldef', async () => {
     const novel = await Novel.open('test/sample.novel', "default");
@@ -39,12 +40,14 @@ describe('Novel', () => {
     expect(chapter).toBeDefined()
     expect(novel.readMetadata()).toBeDefined();
     expect(novel.getTimeline()).toBeDefined();
+    await novel.close()
   });
   it('creates a new noveldef', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined();
     expect(metadata.title).toEqual('sample1');
+    await novel.close()
   });
 
   it('adds and modifies a file', async () => {
@@ -64,7 +67,7 @@ describe('Novel', () => {
     expect(elvis.description).toBeDefined();
     elvis.description = 'This is only a sample person';
     elvis.nicknames = ['elv', 'elvis', 'HIM'];
-    expect(async () => await novel.writePerson(elvis)).not.toThrow();
+    await novel.writePerson(elvis)
     await novel.close()
     expect(novel.readMetadata()).toBeUndefined()
 
@@ -82,6 +85,7 @@ describe('Novel', () => {
     expect(newChapter).toBeTruthy()
     const oldChapter = novel.getChapter("First Chapter")
     expect(oldChapter).toBeUndefined()
+    await novel.close()
   })
 
   it('deletes a chapter', async () => {
@@ -106,12 +110,13 @@ describe('Novel', () => {
     expect(ch4.text).toEqual("# 4")
     const meta = novel.readMetadata();
     expect(meta.chapters).toHaveLength(2)
+    await novel.close()
   })
 
   it('fixes structural problems', async () => {
     const novel = await Novel.open('test/sample.novel', "default");
     expect(novel).toBeDefined()
-    expect(async () => await novel.ensureIntegrity()).not.toThrow()
+    await novel.ensureIntegrity()
     const meta = novel.readMetadata()
     const personsNumber = meta.persons.length
     const check = meta.persons[0]
@@ -120,12 +125,13 @@ describe('Novel', () => {
     meta.persons.push(check)
     meta.persons.push("tst")
     await novel.writeMetadata(meta)
-    expect(async () => await novel.ensureIntegrity()).not.toThrow()
+    await novel.ensureIntegrity()
     const korr = novel.readMetadata()
     expect(meta.persons.length).toBe(personsNumber + 1)
     expect(novel.getPerson(check)).toBeTruthy()
     expect(novel.getPerson("tst")).toBeTruthy()
     expect(novel.getPerson(undefined)).toBeFalsy()
+    await novel.close()
   })
 });
 

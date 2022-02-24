@@ -191,6 +191,9 @@ io.on("connection", (socket: Socket) => {
         case 'notes':
           await novel.writeNotes(data as string)
           break;
+        case 'timeline':
+          await novel.writeTimeline(data as string)
+          break;
         default:
           result.message = "bad datatype in save: " + filetype
           console.log(result.message)
@@ -208,7 +211,7 @@ io.on("connection", (socket: Socket) => {
    * @param filetype: One of the supported data types (persons, chapters and so on)
    * @param name: name of the element to retrieve
    */
-  socket.on('load', async (filetype, name, callback) => {
+  socket.on('load', (filetype, name, callback) => {
     try {
       const novel = checkNovel()
       const result = { status: "ok", result: undefined, message: undefined }
@@ -218,6 +221,7 @@ io.on("connection", (socket: Socket) => {
         case 'persons': result.result = novel.getPerson(name); break;
         case 'places': result.result = novel.getPlace(name); break;
         case 'notes': result.result = novel.getNotes(); break;
+        case 'timeline': result.result = novel.getTimeline(); break;
         default:
           result.message = "bad datatype in load:" + filetype
           console.log(result.message)
