@@ -65,4 +65,8 @@ type noveldef = {
     [name: string]: chapter_def;
   };
 };
-
+type timeline_entry={
+  date: string
+  offset: number
+  chapter: string
+}

@@ -5,6 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Jest",
+      "request": "launch",
+      "runtimeArgs": [
+        "test"
+      ],
+      "runtimeExecutable": "npm",
+      "cwd": "${workspaceFolder}/server",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Start Server",

@@ -96,7 +96,6 @@ export class Novel {
         ,,, 
     places
         name1.md
-    timeline.md    
     notes.md
 </pre>    
   The resulting file will be name.novel in the same plase where the directory resides.
@@ -473,6 +472,7 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+  /*
   addTimestamp(ds: string): void {
     if (this.def) {
       if (!this.def.timeline) {
@@ -484,6 +484,7 @@ export class Novel {
       throw new Error("no book open");
     }
   }
+  */
   async writeNotes(notes: string): Promise<void> {
     if (this.def) {
       this.def.notes = notes;
