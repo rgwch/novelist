@@ -1,8 +1,3 @@
-<!--
-	@component
-	Display of the currently selected chapter.
-	
--->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
@@ -64,6 +59,11 @@
 	}
 </script>
 
+<!--
+	@component
+	Display of the currently selected chapter.
+	
+-->
 <template>
 	<div class="flex gap-4 flex-col md:flex-row">
 		<div class="flex-none h-full m-1">
@@ -80,8 +80,12 @@
 					on:blur={saveMetadata}
 					class="border-2 border-solid w-full"
 					placeholder={$_('book.summary')}
-					bind:value={currentChapter.summary}
-				/>
+					bind:value={currentChapter.summary} />
+				<input
+					on:blur={saveMetadata}
+					class="w-full"
+					placeholder={$_('book.timestamp')}
+					bind:value={currentChapter.time} />
 				<Editor save={saveChapter} contents={currentChapterText} />
 			{/if}
 		</div>

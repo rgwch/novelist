@@ -69,6 +69,7 @@ type time_unit = "seconds" | "minutes" | "hours" | "days" | "weeks" | "months" |
 
 type timeline_entry = {
   chapter: string   // Chapter this entry belongs to
+  summary: string; // summary of that chapter
   date: Date      // Date/time for this entry
   offset: number    // Offset of this entry from the beginning  in units
   unit: time_unit

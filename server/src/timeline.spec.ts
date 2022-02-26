@@ -1,4 +1,5 @@
 import { Timeline } from "./timeline";
+import {Novel} from './novel'
 
 describe("Timeline", ()=>{
   const ch={
@@ -19,10 +20,12 @@ describe("Timeline", ()=>{
       time: "+3M"
     }
   }
-  it ("analyzes a timeline",()=>{
-    const t=new Timeline()
-    const arr=t.analyze(ch)
+  it ("analyzes a timeline",async ()=>{
+    const novel=await Novel.fromDirectory("test", 'default',true)
+    const t=new Timeline(novel)
+    const arr=t.read()
     expect(arr).toBeInstanceOf(Array)
     expect(arr).toHaveLength(5)
+    novel.close
   })
 })

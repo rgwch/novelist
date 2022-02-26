@@ -1,4 +1,3 @@
-<!-- Toplevel-Component -->
 <script lang="ts">
 	import Book from './lib/components/Book.svelte';
 	import { onMount } from 'svelte';
@@ -8,6 +7,7 @@
 	import Notes from './lib/components/Notes.svelte';
 	import Menu from './lib/components/Menu.svelte';
 	import Card from './lib/components/Card.svelte';
+	import Timeline from './lib/components/Timeline.svelte';
 
 	import { _ } from 'svelte-i18n';
 	import { current, changePwd, closeBook, save, toEpub, toHtml } from './lib/services/fileio';
@@ -24,6 +24,7 @@
 				visible.persons = false;
 				visible.places = false;
 				visible.notes = false;
+				visible.timeline = false;
 			}
 		});
 	});
@@ -33,10 +34,11 @@
 		chapter: false,
 		persons: false,
 		places: false,
-		notes: false
+		notes: false,
+		timeline: false
 	};
 
-	$: leftCol = visible.book || visible.persons || visible.places;
+	$: leftCol = visible.book || visible.persons || visible.places || visible.timeline;
 
 	$: rightCol = visible.chapter || visible.notes;
 
@@ -97,6 +99,11 @@
 	}
 </script>
 
+<style>
+
+</style>
+
+<!-- Toplevel-Component -->
 <template>
 	{#if !!metadata}
 		<Menu
@@ -105,8 +112,7 @@
 			on:close={close}
 			on:open={open}
 			on:html={exportHtml}
-			on:epub={exportEpub}
-		/>
+			on:epub={exportEpub} />
 	{/if}
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row w-full">
@@ -117,8 +123,7 @@
 							title={!!metadata ? $_('book.metadata') : $_('book.open')}
 							on:close={() => {
 								visible.book = false;
-							}}
-						>
+							}}>
 							<div slot="contents">
 								<Book {visible} />
 							</div>
@@ -130,8 +135,7 @@
 							title={$_('book.persons')}
 							on:close={() => {
 								visible.persons = false;
-							}}
-						>
+							}}>
 							<div slot="contents">
 								<Person {metadata} />
 							</div>
@@ -142,10 +146,20 @@
 							title={$_('book.places')}
 							on:close={() => {
 								visible.places = false;
-							}}
-						>
+							}}>
 							<div slot="contents">
 								<Place {metadata} />
+							</div>
+						</Card>
+					{/if}
+					{#if visible.timeline}
+						<Card
+							title={$_('book.timeline')}
+							on:close()={() => {
+								visible.timeline = false;
+							}}>
+							<div slot="contents">
+								<Timeline />
 							</div>
 						</Card>
 					{/if}
@@ -158,8 +172,7 @@
 							title={$_('book.chapter')}
 							on:close={() => {
 								visible.chapter = false;
-							}}
-						>
+							}}>
 							<div slot="contents">
 								<Chapter />
 							</div>
@@ -167,7 +180,9 @@
 					{/if}
 					{#if visible.notes}
 						<Card title={$_('book.notes')} on:close={() => (visible.notes = false)}>
-							<div slot="contents"><Notes /></div>
+							<div slot="contents">
+								<Notes />
+							</div>
 						</Card>
 					{/if}
 				</div>
@@ -175,6 +190,3 @@
 		</div>
 	</div>
 </template>
-
-<style>
-</style>

@@ -9,7 +9,8 @@
 		chapter: false,
 		persons: false,
 		places: false,
-		notes: false
+		notes: false,
+		timeline: false
 	};
 
 	let hamburgerbtn;
@@ -160,6 +161,14 @@
 								class="checkitem"
 								class:bg-blue-300={visible.notes}
 								on:click={() => toggle('notes')}>{$_('book.notes')}</span
+							>
+						</li>
+						<li>
+							<span
+								id="menuTimeline"
+								class="checkitem"
+								class:bg-blue-300={visible.notes}
+								on:click={() => toggle('timeline')}>{$_('book.timeline')}</span
 							>
 						</li>
 					</ul>
