@@ -99,10 +99,6 @@
 	}
 </script>
 
-<style>
-
-</style>
-
 <!-- Toplevel-Component -->
 <template>
 	{#if !!metadata}
@@ -112,7 +108,8 @@
 			on:close={close}
 			on:open={open}
 			on:html={exportHtml}
-			on:epub={exportEpub} />
+			on:epub={exportEpub}
+		/>
 	{/if}
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row w-full">
@@ -123,7 +120,8 @@
 							title={!!metadata ? $_('book.metadata') : $_('book.open')}
 							on:close={() => {
 								visible.book = false;
-							}}>
+							}}
+						>
 							<div slot="contents">
 								<Book {visible} />
 							</div>
@@ -135,7 +133,8 @@
 							title={$_('book.persons')}
 							on:close={() => {
 								visible.persons = false;
-							}}>
+							}}
+						>
 							<div slot="contents">
 								<Person {metadata} />
 							</div>
@@ -146,7 +145,8 @@
 							title={$_('book.places')}
 							on:close={() => {
 								visible.places = false;
-							}}>
+							}}
+						>
 							<div slot="contents">
 								<Place {metadata} />
 							</div>
@@ -155,9 +155,10 @@
 					{#if visible.timeline}
 						<Card
 							title={$_('book.timeline')}
-							on:close()={() => {
+							on:close={() => {
 								visible.timeline = false;
-							}}>
+							}}
+						>
 							<div slot="contents">
 								<Timeline />
 							</div>
@@ -172,7 +173,8 @@
 							title={$_('book.chapter')}
 							on:close={() => {
 								visible.chapter = false;
-							}}>
+							}}
+						>
 							<div slot="contents">
 								<Chapter />
 							</div>
@@ -190,3 +192,6 @@
 		</div>
 	</div>
 </template>
+
+<style>
+</style>

@@ -11,7 +11,7 @@
 	<ul>
 		{#each entries as entry}
 			<li>
-				{entry.date} - {entry.chapter}
+				{DateTime.fromISO(entry.date.toString()).toLocaleString()} - {entry.chapter}
 				<br />
 				{entry.summary}
 			</li>
