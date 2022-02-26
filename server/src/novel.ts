@@ -128,13 +128,6 @@ export class Novel {
     };
     def.metadata.created = new Date();
     try {
-      const time = await preadFile(path.join(dir, "time.md"));
-      def.timeline = time.toString("utf-8");
-    } catch (err) {
-      console.log("Novel.fromDirectory: no time def found " + err);
-      def.timeline = "";
-    }
-    try {
       const meta = await preadFile(path.join(dir, "metadata.yaml"));
       def.metadata = YAML.parse((await meta).toString("utf-8"));
     } catch (err) {
@@ -455,15 +448,15 @@ export class Novel {
   getNotes = (): string => this.def?.notes
   getExpose = (): string => this.def?.metadata?.expose
   readMetadata = (): metadata_def => this.def?.metadata
-  getTimeline(): Array<timeline_entry>{
-      if(this.def){
-        const tl=new Timeline(this)
-        return tl.read()
-      }else{
-        throw new Error("internal error loading timeline")
-      }
+  getTimeline(): Array<timeline_entry> {
+    if (this.def) {
+      const tl = new Timeline(this)
+      return tl.read()
+    } else {
+      throw new Error("internal error loading timeline")
+    }
 
-  } 
+  }
   async writeTimeline(tl: string): Promise<void> {
     if (this.def) {
       this.def.timeline = tl
