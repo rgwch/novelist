@@ -11,8 +11,8 @@ export class Timeline {
         }
     }
 
-    analyze(chapters, startdate: Date=new Date()) {
-        const start=DateTime.fromJSDate(startdate)
+    analyze(chapters, startdate: Date = new Date()) {
+        let start = DateTime.fromJSDate(startdate)
         const entries: Array<timeline_entry> = []
         for (const ch in chapters) {
             const t = (chapters[ch] as chapter_def).time
@@ -21,15 +21,22 @@ export class Timeline {
                 let offset: number = 0
                 let unit: time_unit = "days"
                 dt = DateTime.fromISO(t)
+                if(!dt.isValid){
+                    dt=DateTime.fromFormat(t,"d.L.y")
+                }
                 if (!dt.isValid) {
                     if (t.startsWith("+")) {
                         offset = parseInt(t.substring(1, t.length - 1))
-                        switch (t.substring(t.length)) {
+                        switch (t.substring(t.length-1)) {
                             case "s": unit = "seconds"; break
                             case "m": unit = "minutes"; break;
                             case "h": unit = "hours"; break;
+                            case "d":
                             case "D": unit = "days"; break;
+                            case "w": unit ="weeks"; break;
+                            case "L":
                             case "M": unit = "months"; break;
+                            case "y":
                             case "Y": unit = "years"; break;
                             default:
                                 throw new Error("inalid qualifyer " + t)
@@ -40,13 +47,17 @@ export class Timeline {
                         throw new Error("invalid date format " + t)
                     }
                 } else {
-                    //offset=start
+                    offset = dt.diff(start).as('days')
+                    if (offset < 0) {
+                        start = dt
+                        offset = 0
+                    }
                 }
                 entries.push({
                     date: dt.toJSDate(),
                     offset,
                     unit,
-                    chapter: (ch as chapter_def).name
+                    chapter: (chapters[ch] as chapter_def).name
                 })
             }
         }
