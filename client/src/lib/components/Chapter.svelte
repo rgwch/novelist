@@ -1,8 +1,3 @@
-<!--
-	@component
-	Display of the currently selected chapter.
-	
--->
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import Elementlist from './Elementlist.svelte';
@@ -19,6 +14,7 @@
 	let metadata = $current;
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
+	let enterTime=false;
 
 	async function saveChapter(text: string) {
 		try {
@@ -64,6 +60,11 @@
 	}
 </script>
 
+<!--
+	@component
+	Display of the currently selected chapter.
+	
+-->
 <template>
 	<div class="flex gap-4 flex-col md:flex-row">
 		<div class="flex-none h-full m-1">
@@ -72,10 +73,17 @@
 		</div>
 		<div class="flex-grow w-full v-full m-1">
 			{#if currentChapter && currentChapter.name}
-				<h3 class="text-lg font-semibold text-blue-400">
+				<h3 class="text-lg font-semibold text-blue-400" on:click={()=>{enterTime=!enterTime}}>
 					{currentChapter ? currentChapter.name : ''}
 					{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 				</h3>
+				{#if enterTime}
+				<input
+					on:blur={saveMetadata}
+					placeholder={$_('book.timestamp')}
+					bind:value={currentChapter.time}
+				/>
+				{/if}
 				<textarea
 					on:blur={saveMetadata}
 					class="border-2 border-solid w-full"

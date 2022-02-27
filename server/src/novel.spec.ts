@@ -5,9 +5,10 @@ import fs from 'fs'
 import path from 'path'
 
 describe('Novel', () => {
+ 
   beforeEach((done) => {
-    Novel.fromDirectory('test/sample', "default", true).then(res => {
-      const exists = fs.existsSync('test/sample.novel')
+    Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {
+      const exists = fs.existsSync('test/novelspec.novel')
       expect(exists).toBe(true)
       setTimeout(() => done(), 100)
     });
@@ -22,30 +23,36 @@ describe('Novel', () => {
     }
   })
 
+  afterAll(()=>{
+    fs.rm(path.join('test',"novelspec.novel"),err=>{})
+  })
 
   it("creates a novel from a directory", async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined();
+    await novel.close()
   })
   it('reads files from the noveldef', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
     const chapter = novel.getChapter('First Chapter')
     expect(chapter).toBeDefined()
     expect(novel.readMetadata()).toBeDefined();
     expect(novel.getTimeline()).toBeDefined();
+    await novel.close()
   });
   it('creates a new noveldef', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined();
     expect(metadata.title).toEqual('sample1');
+    await novel.close()
   });
 
   it('adds and modifies a file', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
-    novel.writePerson({
+    await novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: ['fish', 'elvis'],
       description: 'A Sample person'
@@ -60,14 +67,13 @@ describe('Novel', () => {
     expect(elvis.description).toBeDefined();
     elvis.description = 'This is only a sample person';
     elvis.nicknames = ['elv', 'elvis', 'HIM'];
-    const written = await novel.writePerson(elvis);
-    expect(written).toBeTruthy()
+    await novel.writePerson(elvis)
     await novel.close()
     expect(novel.readMetadata()).toBeUndefined()
 
   });
   it('renames a chapter', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -79,20 +85,21 @@ describe('Novel', () => {
     expect(newChapter).toBeTruthy()
     const oldChapter = novel.getChapter("First Chapter")
     expect(oldChapter).toBeUndefined()
+    await novel.close()
   })
 
   it('deletes a chapter', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
     expect(chapter.name).toEqual("First Chapter")
-    expect(await novel.writeChapter({ name: "Chapter 2", text: "# 2" })).toBeTruthy()
-    expect(await novel.writeChapter({ name: "Chapter 3", text: "# 3" })).toBeTruthy()
-    expect(await novel.writeChapter({ name: "Chapter 4", text: "# 4" })).toBeTruthy()
-    expect(await novel.deleteChapter("First Chapter")).toBeTruthy()
+    await novel.writeChapter({ name: "Chapter 2", text: "# 2" }) 
+    await novel.writeChapter({ name: "Chapter 3", text: "# 3" })
+    await novel.writeChapter({ name: "Chapter 4", text: "# 4" })
+    await novel.deleteChapter("First Chapter")
     expect(novel.getChapter("First Chapter")).toBeUndefined()
-    expect(await novel.deleteChapter("Chapter 3")).toBeTruthy()
+    await novel.deleteChapter("Chapter 3")
     const ch2 = novel.getChapter("Chapter 2")
     const ch3 = novel.getChapter("Chapter 3")
     const ch4 = novel.getChapter("Chapter 4")
@@ -103,13 +110,13 @@ describe('Novel', () => {
     expect(ch4.text).toEqual("# 4")
     const meta = novel.readMetadata();
     expect(meta.chapters).toHaveLength(2)
+    await novel.close()
   })
 
   it('fixes structural problems', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
-    let checked = await novel.checkIntegrity()
-    expect(checked).toBe(true)
+    await novel.ensureIntegrity()
     const meta = novel.readMetadata()
     const personsNumber = meta.persons.length
     const check = meta.persons[0]
@@ -118,12 +125,13 @@ describe('Novel', () => {
     meta.persons.push(check)
     meta.persons.push("tst")
     await novel.writeMetadata(meta)
-    checked = await novel.checkIntegrity()
+    await novel.ensureIntegrity()
     const korr = novel.readMetadata()
     expect(meta.persons.length).toBe(personsNumber + 1)
     expect(novel.getPerson(check)).toBeTruthy()
     expect(novel.getPerson("tst")).toBeTruthy()
     expect(novel.getPerson(undefined)).toBeFalsy()
+    await novel.close()
   })
 });
 

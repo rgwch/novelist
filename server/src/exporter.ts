@@ -2,7 +2,6 @@ import { DateTime } from 'luxon';
 import marked from 'marked';
 import { Novel } from './novel';
 import epub from 'epub-gen'
-import { globalAgent } from 'http';
 
 /**
  * Generate ePub from .novel

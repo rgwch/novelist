@@ -44,7 +44,9 @@
     "persons": "Personen",
     "places": "Schauplätze",
     "summary": "Zusammenfassung",
-    "title": "Titel"
+    "title": "Titel",
+    "timestamp": "Zeitpunkt",
+    "timeline": "Zeittafel"
   },
   "cal": {
     "apr": "April",

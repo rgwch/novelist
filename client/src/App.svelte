@@ -1,4 +1,3 @@
-<!-- Toplevel-Component -->
 <script lang="ts">
 	import Book from './lib/components/Book.svelte';
 	import { onMount } from 'svelte';
@@ -8,6 +7,7 @@
 	import Notes from './lib/components/Notes.svelte';
 	import Menu from './lib/components/Menu.svelte';
 	import Card from './lib/components/Card.svelte';
+	import Timeline from './lib/components/Timeline.svelte';
 
 	import { _ } from 'svelte-i18n';
 	import { current, changePwd, closeBook, save, toEpub, toHtml } from './lib/services/fileio';
@@ -24,6 +24,7 @@
 				visible.persons = false;
 				visible.places = false;
 				visible.notes = false;
+				visible.timeline = false;
 			}
 		});
 	});
@@ -33,10 +34,11 @@
 		chapter: false,
 		persons: false,
 		places: false,
-		notes: false
+		notes: false,
+		timeline: false
 	};
 
-	$: leftCol = visible.book || visible.persons || visible.places;
+	$: leftCol = visible.book || visible.persons || visible.places || visible.timeline;
 
 	$: rightCol = visible.chapter || visible.notes;
 
@@ -97,6 +99,7 @@
 	}
 </script>
 
+<!-- Toplevel-Component -->
 <template>
 	{#if !!metadata}
 		<Menu
@@ -149,6 +152,18 @@
 							</div>
 						</Card>
 					{/if}
+					{#if visible.timeline}
+						<Card
+							title={$_('book.timeline')}
+							on:close={() => {
+								visible.timeline = false;
+							}}
+						>
+							<div slot="contents">
+								<Timeline />
+							</div>
+						</Card>
+					{/if}
 				</div>
 			{/if}
 			{#if rightCol}
@@ -167,7 +182,9 @@
 					{/if}
 					{#if visible.notes}
 						<Card title={$_('book.notes')} on:close={() => (visible.notes = false)}>
-							<div slot="contents"><Notes /></div>
+							<div slot="contents">
+								<Notes />
+							</div>
 						</Card>
 					{/if}
 				</div>

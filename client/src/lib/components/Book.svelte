@@ -82,7 +82,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 				current.set(res);
 				visible.chapter = true;
 			} catch (err) {
-				if (err.includes('incorrect header')) {
+				if (err.includes('incorrect header') || err.includes('bad decrypt')) {
 					alert($_('messages.badpwd'));
 				} else {
 					alert('Can not open ' + err);
