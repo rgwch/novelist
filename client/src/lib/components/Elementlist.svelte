@@ -69,7 +69,7 @@
 </script>
 
 <template>
-	<div class="h-full">
+	<div class="h-full overflow-auto" >
 		{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
 			{#each metadata[definition.type] as elem}
 				{#if filter(elem)}

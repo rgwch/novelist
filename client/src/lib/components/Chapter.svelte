@@ -66,7 +66,7 @@
 	
 -->
 <template>
-	<div class="flex gap-4 flex-col md:flex-row">
+	<div class="flex gap-4 flex-col md:flex-row h-screen">
 		<div class="flex-none h-full m-1">
 			<!-- div class="w-full md:w-2/6" -->
 			<Elementlist {metadata} {definition} on:selected={select} />
