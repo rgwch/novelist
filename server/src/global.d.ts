@@ -72,5 +72,6 @@ type timeline_entry = {
   summary: string; // summary of that chapter
   date: Date      // Date/time for this entry
   offset: number    // Offset of this entry from the beginning  in units
+  remark: string  // any text after the date spec
   unit: time_unit
 }

@@ -4,9 +4,10 @@ import { DateTime } from 'luxon'
 /**
  * Pulls the time-descriptions out of chapter metadata. Following entry types are recognized:
  * - date as YYYY-MM-DD with or without time part: YYYY-MM-DDThh:mm:ss
- * - positive or negative offset: +8h, -8D, 
+ * - positive or negative offset: +8h, -8D, relative to previous time entry
  *   where the suffix is one of Y,M,W,D,h,m,s for years, months, weeks, days, hours, minutes, seconds
  * Everything after the first space is treated as comment
+ * If first chapter does not have an absolute date, reference is current date.
  */
 export class Timeline {
   private entries: Array<timeline_entry> = []
@@ -20,19 +21,21 @@ export class Timeline {
     return this.entries
   }
   analyze(novel: Novel, startdate: Date = new Date()) {
-    let start = DateTime.fromJSDate(startdate)
+    let ref = DateTime.fromJSDate(startdate)
     let meta: metadata_def = novel.readMetadata()
     const entries: Array<timeline_entry> = []
     for (const name of meta.chapters) {
       const chapter = novel.getChapter(name)
-      const t = chapter.time
-      if (t) {
+      const ct = chapter.time
+      if (ct) {
+        const t = ct.split(" ")[0]
+        let remark=ct.substring(t.length+1)
         let dt: DateTime
         let offset: number = 0
         let unit: time_unit = 'days'
-        dt = DateTime.fromISO(t)
+        dt = DateTime.fromISO(t,{zone: 'utc'})
         if (!dt.isValid) {
-          dt = DateTime.fromFormat(t, 'd.L.y')
+          dt = DateTime.fromFormat(t, 'd.L.y',{zone:'utc'})
         }
         if (!dt.isValid) {
           if (t.startsWith('+') || t.startsWith('-')) {
@@ -67,17 +70,16 @@ export class Timeline {
                 throw new Error('inalid qualifyer ' + t)
             }
             if (t.startsWith('+')) {
-              dt = start.plus({ [unit]: offset })
+              dt = ref.plus({ [unit]: offset })
             } else {
-              dt = start.minus({ [unit]: offset })
+              dt = ref.minus({ [unit]: offset })
             }
           } else {
-            throw new Error('invalid date format ' + t)
+            remark=ct
           }
         } else {
-          offset = dt.diff(start).as('days')
+          offset = dt.diff(ref).as('days')
           if (offset < 0) {
-            start = dt
             offset = 0
           }
         }
@@ -85,9 +87,11 @@ export class Timeline {
           date: dt.toJSDate(),
           offset,
           unit,
+          remark,
           chapter: chapter.name,
           summary: chapter.summary,
         })
+        ref=dt
       }
     }
     return entries
