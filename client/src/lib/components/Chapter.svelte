@@ -14,6 +14,7 @@
 	let metadata = $current;
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
+	let enterTime=false;
 
 	async function saveChapter(text: string) {
 		try {
@@ -72,20 +73,23 @@
 		</div>
 		<div class="flex-grow w-full v-full m-1">
 			{#if currentChapter && currentChapter.name}
-				<h3 class="text-lg font-semibold text-blue-400">
+				<h3 class="text-lg font-semibold text-blue-400" on:click={()=>{enterTime=!enterTime}}>
 					{currentChapter ? currentChapter.name : ''}
 					{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 				</h3>
+				{#if enterTime}
+				<input
+					on:blur={saveMetadata}
+					placeholder={$_('book.timestamp')}
+					bind:value={currentChapter.time}
+				/>
+				{/if}
 				<textarea
 					on:blur={saveMetadata}
 					class="border-2 border-solid w-full"
 					placeholder={$_('book.summary')}
-					bind:value={currentChapter.summary} />
-				<input
-					on:blur={saveMetadata}
-					class="w-full"
-					placeholder={$_('book.timestamp')}
-					bind:value={currentChapter.time} />
+					bind:value={currentChapter.summary}
+				/>
 				<Editor save={saveChapter} contents={currentChapterText} />
 			{/if}
 		</div>

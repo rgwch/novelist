@@ -167,7 +167,7 @@
 							<span
 								id="menuTimeline"
 								class="checkitem"
-								class:bg-blue-300={visible.notes}
+								class:bg-blue-300={visible.timeline}
 								on:click={() => toggle('timeline')}>{$_('book.timeline')}</span
 							>
 						</li>
