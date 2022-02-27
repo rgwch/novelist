@@ -1,6 +1,13 @@
 import { Novel } from './novel'
 import { DateTime } from 'luxon'
 
+/**
+ * Pulls the time-descriptions out of chapter metadata. Following entry types are recognized:
+ * - date as YYYY-MM-DD with or without time part: YYYY-MM-DDThh:mm:ss
+ * - positive or negative offset: +8h, -8D, 
+ *   where the suffix is one of Y,M,W,D,h,m,s for years, months, weeks, days, hours, minutes, seconds
+ * Everything after the first space is treated as comment
+ */
 export class Timeline {
   private entries: Array<timeline_entry> = []
   constructor(private novel?: Novel) {
@@ -28,7 +35,7 @@ export class Timeline {
           dt = DateTime.fromFormat(t, 'd.L.y')
         }
         if (!dt.isValid) {
-          if (t.startsWith('+')) {
+          if (t.startsWith('+') || t.startsWith('-')) {
             offset = parseInt(t.substring(1, t.length - 1))
             switch (t.substring(t.length - 1)) {
               case 's':
@@ -44,6 +51,7 @@ export class Timeline {
               case 'D':
                 unit = 'days'
                 break
+              case 'W':
               case 'w':
                 unit = 'weeks'
                 break
@@ -58,7 +66,11 @@ export class Timeline {
               default:
                 throw new Error('inalid qualifyer ' + t)
             }
-            dt = start.plus({ [unit]: offset })
+            if (t.startsWith('+')) {
+              dt = start.plus({ [unit]: offset })
+            } else {
+              dt = start.minus({ [unit]: offset })
+            }
           } else {
             throw new Error('invalid date format ' + t)
           }

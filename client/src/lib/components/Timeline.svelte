@@ -11,8 +11,9 @@
 	<ul>
 		{#each entries as entry}
 			<li>
-				{DateTime.fromISO(entry.date.toString()).toLocaleString()} - {entry.chapter}
-				<br />
+				<p class="font-semibold text-sm text-blue-600">
+					{DateTime.fromISO(entry.date.toString()).toLocaleString()} - {entry.chapter}
+				</p>
 				{entry.summary}
 			</li>
 		{/each}

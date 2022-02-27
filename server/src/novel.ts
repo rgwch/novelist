@@ -99,8 +99,9 @@ export class Novel {
         name1.md
     notes.md
 </pre>    
-  The resulting file will be name.novel in the same plase where the directory resides.
+  The resulting file will be outfile.novel in the same plase where the directory resides.
    * @param dir Directory with novel structure
+   * @param outfile: Filename for resulting .novel
    * @param password password for encryption of the resulting .novel file
    * @param force if true, overwrite existing, if false: Fail if file exists.
    * @returns a Promise resolving to the newly created Novel object
@@ -108,10 +109,11 @@ export class Novel {
    */
   static async fromDirectory(
     dir: string,
+    outfile: string,
     password: string,
     force = false
   ): Promise<Novel> {
-    const filepath = path.join(dir, "../..", `${dir}.novel`);
+    const filepath = path.join(dir, "../..", `${outfile}`) + (outfile.endsWith(".novel") ? "" : ".novel");
     if (fs.existsSync(filepath)) {
       if (force) {
         fs.rmSync(filepath);
@@ -124,14 +126,13 @@ export class Novel {
       persons: {},
       places: {},
       chapters: {},
-      timeline: "",
     };
     def.metadata.created = new Date();
     try {
       const meta = await preadFile(path.join(dir, "metadata.yaml"));
       def.metadata = YAML.parse((await meta).toString("utf-8"));
     } catch (err) {
-      console.log("Novel.fromDirectoryno metadata found " + err);
+      console.log("Novel.fromDirectory: no metadata found " + err);
       def.metadata = defaultMetadata;
     }
     try {
@@ -201,11 +202,7 @@ export class Novel {
       this.def = undefined;
       const lockfile = this.pathname + ".lock";
       if (fs.existsSync(lockfile)) {
-        fs.rm(lockfile, (err) => {
-          if (err) {
-            throw new Error("could not remove lockfile");
-          }
-        });
+        fs.rmSync(lockfile);
       }
       this.pathname = undefined;
     } catch (err) {

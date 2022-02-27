@@ -7,8 +7,8 @@ import path from 'path'
 describe('Novel', () => {
  
   beforeEach((done) => {
-    Novel.fromDirectory('test/sample', "default", true).then(res => {
-      const exists = fs.existsSync('test/sample.novel')
+    Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {
+      const exists = fs.existsSync('test/novelspec.novel')
       expect(exists).toBe(true)
       setTimeout(() => done(), 100)
     });
@@ -24,16 +24,16 @@ describe('Novel', () => {
   })
 
   afterAll(()=>{
-    fs.rm(path.join('test',"sample.novel"),err=>{})
+    fs.rm(path.join('test',"novelspec.novel"),err=>{})
   })
 
   it("creates a novel from a directory", async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined();
     await novel.close()
   })
   it('reads files from the noveldef', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
     const chapter = novel.getChapter('First Chapter')
@@ -73,7 +73,7 @@ describe('Novel', () => {
 
   });
   it('renames a chapter', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -89,7 +89,7 @@ describe('Novel', () => {
   })
 
   it('deletes a chapter', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -114,7 +114,7 @@ describe('Novel', () => {
   })
 
   it('fixes structural problems', async () => {
-    const novel = await Novel.open('test/sample.novel', "default");
+    const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()
     const meta = novel.readMetadata()

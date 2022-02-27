@@ -23,7 +23,7 @@ describe("Timeline", () => {
     },
     fuenf: {
       name: "fünf",
-      time: "+3M"
+      time: "-3M"
     }
   }
   afterEach(() => {
@@ -36,7 +36,7 @@ describe("Timeline", () => {
   })
 
   it("analyzes a timeline", async () => {
-    const novel = await Novel.fromDirectory("test/sample", 'default', true)
+    const novel = await Novel.fromDirectory("test/sample", 'test/timeline', 'default', true)
     for (const chapter in chapters) {
       await novel.writeChapter(chapters[chapter])
     }
