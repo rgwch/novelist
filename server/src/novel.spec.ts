@@ -113,6 +113,23 @@ describe('Novel', () => {
     await novel.close()
   })
 
+  it("deletes a person", async ()=>{
+    const novel=await Novel.open("test/novelspec.novel", "default");
+    await novel.writePerson({
+      name: "hans",
+      nicknames: ["peter"]
+    })
+    await novel.writePerson({
+      name: "Peter",
+      nicknames: ["hans"]
+    }),
+    await novel.writePerson({
+      name: "hans",
+      nicknames: ["fritz"]
+    })
+    const meta=novel.readMetadata()
+    expect(meta.persons.length).toEqual(4)
+  })
   it('fixes structural problems', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()

@@ -100,6 +100,7 @@
 		</div>
 		<Fieldeditor {fields} entity={currentPerson} on:save={saveFields} />
 	{:else}
+	eins
 		<div class="flex flex-row">
 			<span class="flex-grow">{$_('actions.edit')}</span>
 			<span on:click={() => setFilter()}><i class="fa fa-filter ml-2" /></span>
@@ -109,6 +110,7 @@
 				}}><i class="fa fa-list-alt mx-2" /></span
 			>
 		</div>
+		zwei
 		<div class="flex flex-row">
 			<Elementlist {metadata} {definition} {filter} on:selected={select} />
 			<div class="flex-grow">
