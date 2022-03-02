@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 
 describe('Novel', () => {
- 
+
   beforeEach((done) => {
     Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {
       const exists = fs.existsSync('test/novelspec.novel')
@@ -23,8 +23,8 @@ describe('Novel', () => {
     }
   })
 
-  afterAll(()=>{
-    fs.rm(path.join('test',"novelspec.novel"),err=>{})
+  afterAll(() => {
+    fs.rm(path.join('test', "novelspec.novel"), err => { })
   })
 
   it("creates a novel from a directory", async () => {
@@ -94,7 +94,7 @@ describe('Novel', () => {
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
     expect(chapter.name).toEqual("First Chapter")
-    await novel.writeChapter({ name: "Chapter 2", text: "# 2" }) 
+    await novel.writeChapter({ name: "Chapter 2", text: "# 2" })
     await novel.writeChapter({ name: "Chapter 3", text: "# 3" })
     await novel.writeChapter({ name: "Chapter 4", text: "# 4" })
     await novel.deleteChapter("First Chapter")
@@ -113,8 +113,8 @@ describe('Novel', () => {
     await novel.close()
   })
 
-  it("deletes a person", async ()=>{
-    const novel=await Novel.open("test/novelspec.novel", "default");
+  it("adds a person only once", async () => {
+    const novel = await Novel.open("test/novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
       nicknames: ["peter"]
@@ -123,12 +123,35 @@ describe('Novel', () => {
       name: "Peter",
       nicknames: ["hans"]
     }),
-    await novel.writePerson({
-      name: "hans",
-      nicknames: ["fritz"]
-    })
-    const meta=novel.readMetadata()
-    expect(meta.persons.length).toEqual(4)
+      await novel.writePerson({
+        name: "hans",
+        nicknames: ["fritz"]
+      })
+    const meta = novel.readMetadata()
+    expect(meta.persons.length).toEqual(3)
+  })
+  it("crossrefs persons and places", async () => {
+    const novel = await Novel.open("test/novelspec.novel", "default");
+    const chapter = novel.getChapter("First Chapter")
+    chapter.text = "There was Brutus Allerdice waiting in Illyria."
+    await novel.writeChapter(chapter)
+    const modified = novel.getChapter("First Chapter")
+    expect(modified).toHaveProperty("persons")
+    expect(modified.persons).toBeInstanceOf(Array)
+    expect(modified.persons.length).toBe(1)
+    expect(modified.persons[0]).toEqual("Brutus Allerdice")
+    expect(modified).toHaveProperty("places")
+    expect(modified.places).toBeInstanceOf(Array)
+    expect(modified.places.length).toBe(1)
+    expect(modified.places[0]).toEqual("Illyria")  
+    await novel.writeChapter({name: "Second Chapter", text: "Then, the Commander came aboard"})
+    const nicknamed=novel.getChapter("Second Chapter")
+    expect(nicknamed).toHaveProperty("persons")
+    expect(nicknamed.persons).toBeInstanceOf(Array)
+    expect(nicknamed.persons.length).toBe(1)
+    expect(nicknamed.persons[0]).toEqual("Brutus Allerdice")
+    
+    await novel.close()
   })
   it('fixes structural problems', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");

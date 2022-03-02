@@ -50,6 +50,13 @@
 			timer = setInterval(() => {
 				save(editor.value());
 			}, 300000);
+			/*
+			editor.codemirror.on("change",(instance,obj)=>{
+				if(obj.text==" "){
+					console.log("space")
+				}
+			})
+			*/
 		} catch (err) {
 			console.log('Editor: Error in initializer ' + err);
 		}

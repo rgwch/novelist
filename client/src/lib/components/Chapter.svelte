@@ -14,7 +14,7 @@
 	let metadata = $current;
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
-	let enterTime=false;
+	let enterTime = false;
 
 	async function saveChapter(text: string) {
 		try {
@@ -73,16 +73,35 @@
 		</div>
 		<div class="flex-grow w-full v-full m-1">
 			{#if currentChapter && currentChapter.name}
-				<h3 class="text-lg font-semibold text-blue-400" on:click={()=>{enterTime=!enterTime}}>
+				<h3
+					class="text-lg font-semibold text-blue-400"
+					on:click={() => {
+						enterTime = !enterTime;
+					}}
+				>
 					{currentChapter ? currentChapter.name : ''}
 					{currentChapter && currentChapter.time ? ', ' + currentChapter.time : ''}
 				</h3>
 				{#if enterTime}
-				<input
-					on:blur={saveMetadata}
-					placeholder={$_('book.timestamp')}
-					bind:value={currentChapter.time}
-				/>
+					<input
+						on:blur={saveMetadata}
+						placeholder={$_('book.timestamp')}
+						bind:value={currentChapter.time}
+					/>
+				{/if}
+				{#if currentChapter.persons && currentChapter.persons.length}
+					<div class="border-2 border-solid border-red-600">
+						{#each currentChapter.persons as person}
+							<span>{person} </span>
+						{/each}
+					</div>
+				{/if}
+				{#if currentChapter.places && currentChapter.places.length}
+					<div class="border-1 border-solid border-red-200">
+						{#each currentChapter.places as place}
+							<span>{place} </span>
+						{/each}
+					</div>
 				{/if}
 				<textarea
 					on:blur={saveMetadata}

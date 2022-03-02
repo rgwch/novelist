@@ -331,6 +331,40 @@ export class Novel {
       } else {
         this.def.metadata.chapters.push(name);
       }
+      if (cdef.text) {
+        cdef.persons = []
+        cdef.places = []
+        const persons: Set<string> = new Set()
+        const places: Set<string> = new Set()
+        for (const pname in this.def.persons) {
+          const person = this.def.persons[pname]
+          if (cdef.text.includes(person.name)) {
+            persons.add(person.name)
+          }
+          if (person.nicknames) {
+            for (const nn of person.nicknames) {
+              if (cdef.text.includes(nn)) {
+                persons.add(person.name)
+              }
+            }
+          }
+        }
+        for (const pname in this.def.places) {
+          const place = this.def.places[pname]
+          if (cdef.text.includes(place.name)) {
+            places.add(place.name)
+          }
+          if (place.alias) {
+            for (const nn of place.alias) {
+              if (cdef.text.includes(nn)) {
+                places.add(place.name)
+              }
+            }
+          }
+        }
+        cdef.persons = Array.from(persons)
+        cdef.places = Array.from(places)
+      }
       this.flush();
     } else {
       throw new Error("no book open");
