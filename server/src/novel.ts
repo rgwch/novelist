@@ -331,43 +331,8 @@ export class Novel {
       } else {
         this.def.metadata.chapters.push(name);
       }
-      if (cdef.text) {
-        cdef.persons = []
-        cdef.places = []
-        const persons: Set<string> = new Set()
-        const places: Set<string> = new Set()
-        for (const pname in this.def.persons) {
-          const person = this.def.persons[pname]
-          if (cdef.text.includes(person.name)) {
-            persons.add(person.name)
-          }
-          if (person.nicknames) {
-            const nicks=person.nicknames.split(/[\s,]/i)
-            for (const nn of nicks) {
-              const np=nn.replace(/[^a-z0-9]/gi,"")
-              if (cdef.text.includes(np)) {
-                persons.add(person.name+" ("+np+")")
-              }
-            }
-          }
-        }
-        for (const pname in this.def.places) {
-          const place = this.def.places[pname]
-          if (cdef.text.includes(place.name)) {
-            places.add(place.name)
-          }
-          if (place.alias) {
-            const nicks=place.alias.split(/[,\s]/i)
-            for (const nn of nicks) {
-              if (cdef.text.includes(nn)) {
-                places.add(place.name+" ("+nn+")")
-              }
-            }
-          }
-        }
-        cdef.persons = Array.from(persons)
-        cdef.places = Array.from(places)
-      }
+      delete cdef.persons
+      delete cdef.places
       this.flush();
     } else {
       throw new Error("no book open");
@@ -476,8 +441,53 @@ export class Novel {
     delete this.def.places[name];
     await this.flush();
   }
+  getChapter = (title: string): chapter_def => {
+    const cdef = this.def?.chapters[title]
+    if (cdef?.text) {
+      cdef.persons = []
+      cdef.places = []
+      const persons: Set<string> = new Set()
+      const places: Set<string> = new Set()
+      for (const pname in this.def.persons) {
+        const person = this.def.persons[pname]
+        if (cdef.text.includes(person.name)) {
+          persons.add(person.name)
+        }
+        if (person.nicknames) {
+          const nicks = person.nicknames.split(/[\r\n,]/i)
+          for (const nn of nicks) {
+            const np = nn.replace(/[^a-z0-9]/gi, "")
+            if (np.length > 1) {
+              if (cdef.text.includes(np)) {
+                persons.add(person.name + " (" + np + ")")
+              }
+            }
+          }
+        }
+      }
+      for (const pname in this.def.places) {
+        const place = this.def.places[pname]
+        if (cdef.text.includes(place.name)) {
+          places.add(place.name)
+        }
+        if (place.alias) {
+          const nicks = place.alias.split(/[,\r\n]/i)
+          for (const nn of nicks) {
+            if (nn.length > 1) {
+              if (cdef.text.includes(nn)) {
+                places.add(place.name + " (" + nn + ")")
+              }
+            }
+          }
+        }
+      }
+      cdef.persons = Array.from(persons)
+      cdef.places = Array.from(places)
+    }
+    return cdef
+  }
+
   getPerson = (name: string): person_def => this.def?.persons[name]
-  getChapter = (title: string): chapter_def => this.def?.chapters[title]
   getPlace = (name: string): place_def => this.def?.places[name]
   getNotes = (): string => this.def?.notes
   getExpose = (): string => this.def?.metadata?.expose

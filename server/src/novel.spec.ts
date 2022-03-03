@@ -136,7 +136,6 @@ describe('Novel', () => {
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
     await novel.writeChapter(chapter)
     const modified = novel.getChapter("First Chapter")
-    expect(modified).toHaveProperty("persons")
     expect(modified.persons).toBeInstanceOf(Array)
     expect(modified.persons.length).toBe(2)
     expect(modified.persons[0]).toEqual("Brutus Allerdice")
@@ -146,11 +145,13 @@ describe('Novel', () => {
     expect(modified.places[0]).toEqual("Illyria")  
     await novel.writeChapter({name: "Second Chapter", text: "Then, the Commander came aboard"})
     const nicknamed=novel.getChapter("Second Chapter")
-    expect(nicknamed).toHaveProperty("persons")
     expect(nicknamed.persons).toBeInstanceOf(Array)
     expect(nicknamed.persons.length).toBe(1)
     expect(nicknamed.persons[0]).toEqual("Brutus Allerdice (Commander)")
-    
+    await novel.writeChapter({name:"Third Chapter", text: "Brute joined the crew"})
+    const c3=novel.getChapter("Third Chapter")
+    expect(c3.persons.length).toBe(1)
+    expect(c3.persons[0]).toEqual("Brutus Allerdice (Brute)")
     await novel.close()
   })
   it('fixes structural problems', async () => {

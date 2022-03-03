@@ -1,9 +1,6 @@
 ---
 name: Brutus Allerdice
-nicknames: 
-  Brutus
-  Brute
-  Commander
+nicknames: Brutus, --Brute,  Commander
 gender: m
 heght: 185
 stature: athletic
