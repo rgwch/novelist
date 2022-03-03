@@ -44,6 +44,8 @@
     "persons": "Personen",
     "places": "Orte",
     "summary": "Zusammenfassung",
+    "timeline": "Zeittafel",
+    "timestamp": "Zeitpunkt",
     "title": "Titel"
   },
   "cal": {
@@ -76,6 +78,7 @@
   },
   "fields": {
     "age": "Alter",
+    "alias": "Alias",
     "author": "Autor",
     "copyright": "Copyright",
     "created": "Erstellt am",

@@ -342,9 +342,11 @@ export class Novel {
             persons.add(person.name)
           }
           if (person.nicknames) {
-            for (const nn of person.nicknames) {
-              if (cdef.text.includes(nn)) {
-                persons.add(person.name)
+            const nicks=person.nicknames.split(/[\s,]/i)
+            for (const nn of nicks) {
+              const np=nn.replace(/[^a-z0-9]/gi,"")
+              if (cdef.text.includes(np)) {
+                persons.add(person.name+" ("+np+")")
               }
             }
           }
@@ -355,9 +357,10 @@ export class Novel {
             places.add(place.name)
           }
           if (place.alias) {
-            for (const nn of place.alias) {
+            const nicks=place.alias.split(/[,\s]/i)
+            for (const nn of nicks) {
               if (cdef.text.includes(nn)) {
-                places.add(place.name)
+                places.add(place.name+" ("+nn+")")
               }
             }
           }

@@ -97,7 +97,7 @@
 					</div>
 				{/if}
 				{#if currentChapter.places && currentChapter.places.length}
-					<div class="border-1 border-solid border-red-200">
+					<div class="border-2 border-solid border-red-200">
 						{#each currentChapter.places as place}
 							<span>{place} </span>
 						{/each}

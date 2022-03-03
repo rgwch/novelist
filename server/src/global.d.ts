@@ -29,7 +29,7 @@ type metadata_def = {
 
 type person_def = {
   name?: string;
-  nicknames?: Array<string>;
+  nicknames?: string;
   gender?: 'm' | 'f';
   height?: number | string;
   stature?: string
@@ -39,7 +39,7 @@ type person_def = {
 };
 type place_def = {
   name?: string;
-  alias?: Array<string>
+  alias?: string;
   surround?: string;
   description?: string;
 };

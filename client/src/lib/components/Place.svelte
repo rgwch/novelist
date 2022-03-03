@@ -21,6 +21,7 @@
 
 	const fields = [
 		{ label: 'name', type: 'string' },
+		{ label: 'alias', type: 'text' },
 		{ label: 'surround', type: 'string' },
 		{ label: 'description', type: 'text' }
 	];

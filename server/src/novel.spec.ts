@@ -54,7 +54,7 @@ describe('Novel', () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     await novel.writePerson({
       name: 'Elvis Aalborg',
-      nicknames: ['fish', 'elvis'],
+      nicknames: 'fish, elvis',
       description: 'A Sample person'
     });
     const meta = novel.readMetadata();
@@ -66,7 +66,7 @@ describe('Novel', () => {
     expect(elvis).toBeDefined();
     expect(elvis.description).toBeDefined();
     elvis.description = 'This is only a sample person';
-    elvis.nicknames = ['elv', 'elvis', 'HIM'];
+    elvis.nicknames = 'elv, elvis, HIM';
     await novel.writePerson(elvis)
     await novel.close()
     expect(novel.readMetadata()).toBeUndefined()
@@ -117,15 +117,15 @@ describe('Novel', () => {
     const novel = await Novel.open("test/novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
-      nicknames: ["peter"]
+      nicknames: "peter"
     })
     await novel.writePerson({
       name: "Peter",
-      nicknames: ["hans"]
+      nicknames: "hans"
     }),
       await novel.writePerson({
         name: "hans",
-        nicknames: ["fritz"]
+        nicknames: "fritz"
       })
     const meta = novel.readMetadata()
     expect(meta.persons.length).toEqual(3)
@@ -138,7 +138,7 @@ describe('Novel', () => {
     const modified = novel.getChapter("First Chapter")
     expect(modified).toHaveProperty("persons")
     expect(modified.persons).toBeInstanceOf(Array)
-    expect(modified.persons.length).toBe(1)
+    expect(modified.persons.length).toBe(2)
     expect(modified.persons[0]).toEqual("Brutus Allerdice")
     expect(modified).toHaveProperty("places")
     expect(modified.places).toBeInstanceOf(Array)
@@ -149,7 +149,7 @@ describe('Novel', () => {
     expect(nicknamed).toHaveProperty("persons")
     expect(nicknamed.persons).toBeInstanceOf(Array)
     expect(nicknamed.persons.length).toBe(1)
-    expect(nicknamed.persons[0]).toEqual("Brutus Allerdice")
+    expect(nicknamed.persons[0]).toEqual("Brutus Allerdice (Commander)")
     
     await novel.close()
   })

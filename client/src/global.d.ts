@@ -40,6 +40,7 @@ type person_def = {
 };
 type place_def = {
 	name?: string;
+	alias?: string;
 	surround?: string;
 	description?: string;
 };

@@ -44,6 +44,8 @@
     "persons": "Personnes",
     "places": "Lieus",
     "summary": "Zusammenfassung",
+    "timeline": "Chronologie",
+    "timestamp": "Temps",
     "title": "Titre"
   },
   "cal": {
@@ -76,6 +78,7 @@
   },
   "fields": {
     "age": "age",
+    "alias": "Alias",
     "author": "Auteur",
     "copyright": "Copyright",
     "created": "fait le",
