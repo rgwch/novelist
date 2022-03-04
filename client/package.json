@@ -2,7 +2,7 @@
   "name": "novelist-client",
   "version": "1.1.1",
   "private": true,
-  "engines":{
+  "engines": {
     "node": "^16.0.0"
   },
   "scripts": {
@@ -30,6 +30,7 @@
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/addon-svelte-csf": "^1.1.0",
     "@storybook/svelte": "^6.4.19",
     "@testing-library/jest-dom": "^5.14.1",

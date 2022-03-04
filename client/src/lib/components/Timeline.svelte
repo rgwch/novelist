@@ -19,9 +19,8 @@
 					{dateString(entry.date)}
 					{entry.remark} - {entry.chapter}
 				</p>
-				{entry.summary ? entry.summary : ""}
+				{entry.summary ? entry.summary : ''}
 			</li>
 		{/each}
 	</ul>
 </template>
-I

@@ -111,10 +111,14 @@
 			on:epub={exportEpub}
 		/>
 	{/if}
+	<div class="flex flex-row w-screen">
+		<div class="bg-blue-400 h-full w-1/4">Links</div>
+		<div class="bg-green-400 h-full w-full">Rechts</div>
+	</div>
 	<div class="fixed my-5 mt-8 px-5 overflow-y-auto h-5/6 w-screen">
 		<div class="flex flex-col md:flex-row w-full">
 			{#if leftCol}
-				<div class="bg-blue-200 w-full md:w-1/4 flex-1">
+				<div class="bg-blue-200 w-1/4">
 					{#if visible.book}
 						<Card
 							title={!!metadata ? $_('book.metadata') : $_('book.open')}
@@ -167,7 +171,7 @@
 				</div>
 			{/if}
 			{#if rightCol}
-				<div class="bg-blue-300 flex-grow">
+				<div class="bg-blue-300 flex-auto">
 					{#if visible.chapter}
 						<Card
 							title={$_('book.chapter')}
