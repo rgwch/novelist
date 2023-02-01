@@ -6,7 +6,6 @@ import { Server, Socket } from 'socket.io'
 import fs from 'fs'
 import path from 'path'
 import { Novel } from './novel'
-import { resolveDir } from './store'
 import { Exporter } from './exporter'
 import config from 'config'
 
@@ -109,7 +108,7 @@ io.on('connection', (socket: Socket) => {
   })
   socket.on('listfiles', async (data, callback) => {
     try {
-      const list = await listfiles()
+      const list = await Novel.list()
       callback({ status: 'ok', result: list })
     } catch (err) {
       callback({ status: 'error', message: err })
@@ -335,7 +334,7 @@ io.on('connection', (socket: Socket) => {
         if (!data.endsWith('.epub')) {
           data = data + '.epub'
         }
-        const outfile = path.join(resolveDir(), data)
+        const outfile = path.join(".", data)
         await ex.toEpub(outfile)
         callback({ status: 'ok', result: data })
       } else if (op === 'html') {
@@ -358,23 +357,6 @@ httpServer.listen(port)
 console.log('server ready on port ' + port)
 
 /**
- * List all .novel files in the configured directory
- * @returns
- */
-function listfiles(): Promise<Array<string>> {
-  return new Promise((resolve, reject) => {
-    fs.readdir(resolveDir(), (err, files) => {
-      if (err) {
-        reject(err)
-      } else {
-        const list = files.filter((file) => file.endsWith('.novel'))
-        resolve(list)
-      }
-    })
-  })
-}
-
-/**
  * Open a Novel
  * @param owner SocketId
  * @param title Filename
@@ -387,7 +369,7 @@ function openBook(
   password: string,
 ): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
-    Novel.open(path.join(resolveDir(), title), password)
+    Novel.open(title, password)
       .then((novel: Novel) => {
         books[owner] = novel
         resolve(novel.readMetadata())

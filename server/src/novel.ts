@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import YAML from "yaml";
 import metadataParser from "markdown-yaml-metadata-parser";
-import { Store } from "./store";
+import { storeFactory } from "./store-factory";
 import { promisify } from "util";
 
 const preadFile = promisify(fs.readFile);
@@ -24,64 +24,53 @@ const defaultMetadata: metadata_def = {
 };
 
 export class Novel {
-  private store: Store;
+
+  constructor(
+    private id: string,
+    private def: noveldef,
+    private store: IStore
+  ) { }
+
+  static list(): Promise<Array<string>> {
+    return storeFactory.list()
+  }
   /**
    * Open a Novel-File. If it doesn't exist: Create a new one
-   * @param pathname pathname relative to the configured base-path (defaults to user home)
+   * @param name public Name of the nowel
    * @param password password for encryption of the book
    * @returns a Promise that resolves to the Novel object created from the file or rejects on error
    */
-  static open(pathname: string, password: string): Promise<Novel> {
-    // console.log('opening ' + pathname);
-    return new Promise((resolve, reject) => {
-      if (!pathname.endsWith(".novel")) {
-        pathname += ".novel";
-      }
-      if (fs.existsSync(pathname)) {
-        const lockfile: string = pathname + ".lock";
-        /*
-        if (fs.existsSync(lockfile)) {
-          throw new Error("Book already opened")
+  static async open(id: string, password: string): Promise<Novel> {
+    const store: IStore = storeFactory.createStore(id, password)
+    const contents: Buffer = await store.load()
+    if (contents.length < 10) {
+      const def = {
+        metadata: defaultMetadata,
+        persons: {},
+        places: {},
+        chapters: {},
+        time: "",
+      };
+      def.metadata.title = id;
+      def.metadata.created = new Date();
+      const novel = new Novel(id, def, store);
+      await novel.flush()
+      return novel
+    } else {
+      try {
+        const json: noveldef = JSON.parse(contents.toString("utf-8"));
+        const lastWrite = new Date(json.metadata.modified);
+        if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
+          return (new Novel(id, json, store));
+        } else {
+          throw new Error("invalid date " + json.metadata.modified);
         }
-        fs.writeFileSync(lockfile, new Date().toString())
-        */
-        const store = new Store(password);
-        store
-          .load(pathname)
-          .then((buffer) => {
-            try {
-              const json: noveldef = JSON.parse(buffer.toString("utf-8"));
-              const lastWrite = new Date(json.metadata.modified);
-              if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
-                resolve(new Novel(pathname, json, password));
-              } else {
-                reject("invalid date " + json.metadata.modified);
-              }
-            } catch (err) {
-              reject("structure error " + err);
-            }
-          })
-          .catch((err) => {
-            console.log("rejected store.load in novel: " + err);
-            reject(err);
-          });
-      } else {
-        const def = {
-          metadata: defaultMetadata,
-          persons: {},
-          places: {},
-          chapters: {},
-          time: "",
-        };
-        def.metadata.title = path.basename(pathname, ".novel");
-        def.metadata.created = new Date();
-        const novel = new Novel(pathname, def, password);
-        novel.flush().then(() => {
-          resolve(novel);
-        });
+      } catch (err) {
+        throw new Error("structure error " + err);
       }
-    });
+    }
   }
+
 
   /**
    * Create a Novel-file from a directory. This is useful for debugging purposes, and to convert existing books to .novels
@@ -169,18 +158,12 @@ export class Novel {
       console.log("Novel.fromDirectory: no chapters");
     }
 
-    const novel = new Novel(filepath, def, password);
+    const novel = new Novel(filepath, def, store);
     await novel.flush();
     return novel;
   }
 
-  constructor(
-    private pathname: string,
-    private def: noveldef,
-    password
-  ) {
-    this.store = new Store(password);
-  }
+
 
   /**
    * Change encryption passphrase. The Novel is immediately re-encrypted and saved with the new Passphrasw.

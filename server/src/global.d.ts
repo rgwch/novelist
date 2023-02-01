@@ -76,3 +76,10 @@ type timeline_entry = {
   remark: string  // any text after the date spec
   unit: time_unit
 }
+
+interface IStore {
+  open(id: string, password: string): void
+  save(data: Buffer): Promise<void>
+  load(): Promise<Buffer>
+  setPassword(pwd: string): void
+}
