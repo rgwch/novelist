@@ -38,14 +38,12 @@ export class FileStore implements IStore {
   private crypter: Crypter
   private filename: string
 
-  constructor(id: string, passphrase: string) {
+  constructor(private id: string, passphrase: string) {
     const salt = config.has('salt') ? config.get('salt') : 'someSalt'
     this.crypter = new Crypter(passphrase, salt.toString())
+    this.filename=path.join(basedir,id)
   }
 
-  public open(id: string) {
-    this.filename = path.join(basedir, id)
-  }
 
   /**
  * List all .novel files in the configured directory

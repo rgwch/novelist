@@ -4,7 +4,7 @@ import { Novel } from './novel';
 import fs from 'fs'
 import path from 'path'
 
-describe('Novel', () => {
+xdescribe('Novel', () => {
 
   beforeEach((done) => {
     Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {

@@ -1,3 +1,4 @@
 {
-  "encryption": false
+  "encryption": false,
+  "basedir": "test"
 }

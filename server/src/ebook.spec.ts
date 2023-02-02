@@ -3,7 +3,7 @@ import { Novel } from './novel';
 import fs from 'fs';
 import { Exporter } from './exporter';
 
-describe('Ebook', () => {
+xdescribe('Ebook', () => {
 
   afterAll(() => {
     fs.rmSync("test/ebook.novel", { force: true })

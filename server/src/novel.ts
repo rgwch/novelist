@@ -157,7 +157,7 @@ export class Novel {
     } catch (err) {
       console.log("Novel.fromDirectory: no chapters");
     }
-
+    const store: IStore = storeFactory.createStore(outfile, password)
     const novel = new Novel(filepath, def, store);
     await novel.flush();
     return novel;
@@ -183,11 +183,13 @@ export class Novel {
     try {
       await this.flush()
       this.def = undefined;
+      /*
       const lockfile = this.pathname + ".lock";
       if (fs.existsSync(lockfile)) {
         fs.rmSync(lockfile);
       }
-      this.pathname = undefined;
+      */
+      this.id = undefined;
     } catch (err) {
       console.log("Close: " + err)
       throw new Error("could not write contents to file: " + err);
@@ -204,7 +206,7 @@ export class Novel {
     if (this.def) {
       this.def.metadata.modified = new Date();
       const buff = Buffer.from(JSON.stringify(this.def));
-      await this.store.save(this.pathname, buff);
+      await this.store.save(buff);
     }
   }
 

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "clean": "rimraf dist && rimraf public",
     "build": "tsc"
   },

@@ -78,7 +78,6 @@ type timeline_entry = {
 }
 
 interface IStore {
-  open(id: string, password: string): void
   save(data: Buffer): Promise<void>
   load(): Promise<Buffer>
   setPassword(pwd: string): void

@@ -7,13 +7,11 @@ export class S3Store implements IStore {
     setPassword(pwd: string) {
         throw new Error("Method not implemented.");
     }
-    create(password: string): IStore {
+    
+    save(data_Buffer: Buffer): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    save(id: string, data_Buffer: any): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    load(id: string): Promise<Buffer> {
+    load(): Promise<Buffer> {
         throw new Error("Method not implemented.");
     }
 
