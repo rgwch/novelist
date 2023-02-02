@@ -4,7 +4,7 @@ import { Novel } from './novel';
 import fs from 'fs'
 import path from 'path'
 
-xdescribe('Novel', () => {
+describe('Novel', () => {
 
   beforeEach((done) => {
     Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {
@@ -32,7 +32,7 @@ xdescribe('Novel', () => {
     expect(novel).toBeDefined();
     await novel.close()
   })
-  it('reads files from the noveldef', async () => {
+  xit('reads files from the noveldef', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
@@ -42,7 +42,7 @@ xdescribe('Novel', () => {
     expect(novel.getTimeline()).toBeDefined();
     await novel.close()
   });
-  it('creates a new noveldef', async () => {
+  xit('creates a new noveldef', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined();
@@ -50,7 +50,7 @@ xdescribe('Novel', () => {
     await novel.close()
   });
 
-  it('adds and modifies a file', async () => {
+  xit('adds and modifies a file', async () => {
     const novel = await Novel.open('test/sample1.novel', "default");
     await novel.writePerson({
       name: 'Elvis Aalborg',
@@ -72,7 +72,7 @@ xdescribe('Novel', () => {
     expect(novel.readMetadata()).toBeUndefined()
 
   });
-  it('renames a chapter', async () => {
+  xit('renames a chapter', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -88,7 +88,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  it('deletes a chapter', async () => {
+  xit('deletes a chapter', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -113,7 +113,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  it("adds a person only once", async () => {
+  xit("adds a person only once", async () => {
     const novel = await Novel.open("test/novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
@@ -130,7 +130,7 @@ xdescribe('Novel', () => {
     const meta = novel.readMetadata()
     expect(meta.persons.length).toEqual(3)
   })
-  it("crossrefs persons and places", async () => {
+  xit("crossrefs persons and places", async () => {
     const novel = await Novel.open("test/novelspec.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
@@ -154,7 +154,7 @@ xdescribe('Novel', () => {
     expect(c3.persons[0]).toEqual("Brutus Allerdice (Brute)")
     await novel.close()
   })
-  it('fixes structural problems', async () => {
+  xit('fixes structural problems', async () => {
     const novel = await Novel.open('test/novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()

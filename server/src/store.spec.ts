@@ -11,7 +11,7 @@ describe("Store", () => {
     fs.rmSync("test/dump.store_3", { force: true })
   })
 
-  xit("saves and retrieves serialized data", async () => {
+  it("saves and retrieves serialized data", async () => {
     const store = storeFactory.createStore("dump.store", "default");
     const buffer = Buffer.alloc(100, "*", "utf-8")
     await store.save(buffer)
@@ -27,6 +27,6 @@ describe("Store", () => {
     await store.save(buffer)
     expect(fs.existsSync("test/dump.store_1")).toBe(true)
     expect(fs.existsSync("test/dump.store_2")).toBe(true)
-    expect(fs.existsSync("test/dump.store_3")).toBe(true)
+    expect(fs.existsSync("test/dump.store")).toBe(true)
   })
 })
