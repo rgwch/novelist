@@ -33,13 +33,14 @@ describe("Timeline", () => {
     new Date("2022-03-18"),
     new Date("2021-12-18")
   ]
-  afterAll(() => {
+  afterAll((done) => {
     const files = fs.readdirSync('test')
     for (const file of files) {
       if (file.match(/timeline.*/)) {
         fs.rmSync(path.join('test', file))
       }
     }
+    done()
   })
 
   it("analyzes a timeline", async () => {

@@ -15,42 +15,35 @@ import { Crypter } from '@rgwch/simple-crypt'
  * find the directory where Novels are stored. Consider Environment variable NOVELS_DIR and configuration option "basedir". 
  * @returns a directory to find and store Novels (Which is the users homedir, if nothing else was defined)
  */
-function resolveDir() {
-  let ret: string = os.homedir()
-  if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {
-    ret = process.env.NOVELS_DIR
-  }
-  if (config.has('basedir')) {
-    const basedir: string = config.get('basedir')
-    if (basedir && fs.existsSync(basedir)) {
-      ret = basedir
+
+
+let basedir
+
+export class FileStore implements IStore {
+  constructor(cfg) {
+    basedir = os.homedir()
+    if (cfg.basedir) {
+      basedir = cfg.basedir
+    } else {
+      if (process.env.NOVELS_DIR && fs.existsSync(process.env.NOVELS_DIR)) {
+        basedir = process.env.NOVELS_DIR
+      }
     }
   }
-  return ret
-}
-
-
-const basedir = resolveDir()
-/**
- * Class to manage Novel-Files. 
- */
-export class FileStore implements IStore {
-  private crypter: Crypter
-  private filename: string
-
-  constructor(private id: string, passphrase: string) {
-    const salt = config.has('salt') ? config.get('salt') : 'someSalt'
-    this.crypter = new Crypter(passphrase, salt.toString())
-    this.filename = path.join(basedir, id)
+  createStoreObject(id: string, passphrase: string): IStoreObject {
+    return new FileStoreObject(id, passphrase)
   }
-
-
-  /**
- * List all .novel files in the configured directory
- * @returns
- */
-
-  public static async list(): Promise<Array<string>> {
+  removeObject(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      fs.rm(path.join(basedir, id), err => {
+        if (err) {
+          reject(err)
+        }
+        resolve()
+      })
+    })
+  }
+  listObjects(): Promise<string[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(basedir, (err, files) => {
         if (err) {
@@ -62,6 +55,28 @@ export class FileStore implements IStore {
       })
     })
   }
+  queryObject(id: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      fs.stat(path.join(basedir, id), (err, stat) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(stat)
+      })
+    })
+  }
+
+}
+export class FileStoreObject implements IStoreObject {
+  private crypter: Crypter
+  private filename: string
+
+  constructor(private id: string, passphrase: string) {
+    const salt = config.has('salt') ? config.get('salt') : 'someSalt'
+    this.crypter = new Crypter(passphrase, salt.toString())
+    this.filename = path.join(basedir, id)
+  }
+
 
   public setPassword(pwd: string) {
     this.crypter.setPassword(pwd)
@@ -72,7 +87,7 @@ export class FileStore implements IStore {
       const now = DateTime.fromJSDate(new Date())
       const datestring = now.toFormat('yyyy-LL-dd')
       const basename = path.basename(this.filename, '.novel')
-      const dailybackup = path.join(basedir,basename + '_' + datestring + '.novel')
+      const dailybackup = path.join(basedir, basename + '_' + datestring + '.novel')
       if (fs.existsSync(dailybackup)) {
         fs.rmSync(last)
       } else {
@@ -141,4 +156,5 @@ export class FileStore implements IStore {
       return Buffer.alloc(0)
     }
   }
+
 }
