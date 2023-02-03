@@ -11,6 +11,9 @@ describe("Store", () => {
     fs.rmSync("test/dump.store_3", { force: true })
   })
 
+  it("creates a new store, if it doesn't exist", async ()=>{
+    
+  })
   it("saves and retrieves serialized data", async () => {
     const store = storeFactory.createStore("dump.store", "default");
     const buffer = Buffer.alloc(100, "*", "utf-8")

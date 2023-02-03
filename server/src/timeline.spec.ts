@@ -33,10 +33,10 @@ describe("Timeline", () => {
     new Date("2022-03-18"),
     new Date("2021-12-18")
   ]
-  afterEach(() => {
+  afterAll(() => {
     const files = fs.readdirSync('test')
     for (const file of files) {
-      if (file.match(/timeline.*\.novel/)) {
+      if (file.match(/timeline.*/)) {
         fs.rmSync(path.join('test', file))
       }
     }

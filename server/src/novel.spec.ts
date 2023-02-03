@@ -18,14 +18,20 @@ describe('Novel', () => {
   afterEach(() => {
     const files = fs.readdirSync('test')
     for (const file of files) {
-      if (file.match(/.+\.novel/)) {
+      if (file.match(/sample[0-9].*/)) {
         fs.rmSync(path.join('test', file))
       }
     }
   })
 
   afterAll(() => {
-    fs.rm(path.join('test', "novelspec.novel"), err => { })
+    const files = fs.readdirSync('test')
+    for (const file of files) {
+      if (file.match(/novelspec.+/)) {
+        fs.rmSync(path.join('test', file))
+      }
+    }
+ 
   })
 
   it("creates a novel from a directory", async () => {
@@ -43,16 +49,16 @@ describe('Novel', () => {
     expect(novel.getTimeline()).toBeDefined();
     await novel.close()
   });
-  xit('creates a new noveldef', async () => {
-    const novel = await Novel.open('sample1.novel', "default");
+  it('creates a new noveldef', async () => {
+    const novel = await Novel.open('sample1', "default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined();
     expect(metadata.title).toEqual('sample1');
     await novel.close()
   });
 
-  xit('adds and modifies a file', async () => {
-    const novel = await Novel.open('sample1.novel', "default");
+  it('adds and modifies a file', async () => {
+    const novel = await Novel.open('sample1', "default");
     await novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: 'fish, elvis',
@@ -73,7 +79,7 @@ describe('Novel', () => {
     expect(novel.readMetadata()).toBeUndefined()
 
   });
-  xit('renames a chapter', async () => {
+  it('renames a chapter', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -89,7 +95,7 @@ describe('Novel', () => {
     await novel.close()
   })
 
-  xit('deletes a chapter', async () => {
+  it('deletes a chapter', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -114,7 +120,7 @@ describe('Novel', () => {
     await novel.close()
   })
 
-  xit("adds a person only once", async () => {
+  it("adds a person only once", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
@@ -131,7 +137,7 @@ describe('Novel', () => {
     const meta = novel.readMetadata()
     expect(meta.persons.length).toEqual(3)
   })
-  xit("crossrefs persons and places", async () => {
+  it("crossrefs persons and places", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
@@ -155,7 +161,7 @@ describe('Novel', () => {
     expect(c3.persons[0]).toEqual("Brutus Allerdice (Brute)")
     await novel.close()
   })
-  xit('fixes structural problems', async () => {
+  it('fixes structural problems', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()

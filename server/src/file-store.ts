@@ -41,7 +41,7 @@ export class FileStore implements IStore {
   constructor(private id: string, passphrase: string) {
     const salt = config.has('salt') ? config.get('salt') : 'someSalt'
     this.crypter = new Crypter(passphrase, salt.toString())
-    this.filename=path.join(basedir,id)
+    this.filename = path.join(basedir, id)
   }
 
 
@@ -72,7 +72,7 @@ export class FileStore implements IStore {
       const now = DateTime.fromJSDate(new Date())
       const datestring = now.toFormat('yyyy-LL-dd')
       const basename = path.basename(this.filename, '.novel')
-      const dailybackup = basename + '_' + datestring + '.novel'
+      const dailybackup = path.join(basedir,basename + '_' + datestring + '.novel')
       if (fs.existsSync(dailybackup)) {
         fs.rmSync(last)
       } else {
@@ -123,17 +123,22 @@ export class FileStore implements IStore {
    * @throws Error
    */
   public async load(): Promise<Buffer> {
-    const instream = fs.createReadStream(this.filename)
-    const outstream = new sb.WritableStreamBuffer({
-      initialSize: 1024,
-      incrementAmount: 1024,
-    })
-    try {
-      await this.crypter.decrypt(instream, outstream)
-      return outstream.getContents() as Buffer
-    } catch (err) {
-      console.log("Decryption error: " + err)
-      throw (err)
+    if (fs.existsSync(this.filename)) {
+      const instream = fs.createReadStream(this.filename)
+      const outstream = new sb.WritableStreamBuffer({
+        initialSize: 1024,
+        incrementAmount: 1024,
+      })
+      try {
+        await this.crypter.decrypt(instream, outstream)
+        return outstream.getContents() as Buffer
+      } catch (err) {
+        console.log("Decryption error: " + err)
+        throw (err)
+      }
+
+    } else {
+      return Buffer.alloc(0)
     }
   }
 }
