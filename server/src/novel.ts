@@ -102,7 +102,8 @@ export class Novel {
     password: string,
     force = false
   ): Promise<Novel> {
-    const filepath = path.join(dir, "../..", `${outfile}`) + (outfile.endsWith(".novel") ? "" : ".novel");
+    outfile=outfile.endsWith(".novel") ? outfile : outfile+".novel"
+    const filepath = path.join(dir, "..", `${outfile}`);
     if (fs.existsSync(filepath)) {
       if (force) {
         fs.rmSync(filepath);

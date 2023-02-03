@@ -3,11 +3,12 @@
 import { Novel } from './novel';
 import fs from 'fs'
 import path from 'path'
+// jest.setTimeout(100000)
 
 describe('Novel', () => {
 
   beforeEach((done) => {
-    Novel.fromDirectory('test/sample', "test/novelspec", "default", true).then(res => {
+    Novel.fromDirectory('test/sample', "novelspec", "default", true).then(res => {
       const exists = fs.existsSync('test/novelspec.novel')
       expect(exists).toBe(true)
       setTimeout(() => done(), 100)
@@ -28,12 +29,12 @@ describe('Novel', () => {
   })
 
   it("creates a novel from a directory", async () => {
-    const novel = await Novel.open('test/novelspec.novel', "default");
+    const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined();
     await novel.close()
   })
-  xit('reads files from the noveldef', async () => {
-    const novel = await Novel.open('test/novelspec.novel', "default");
+  it('reads files from the noveldef', async () => {
+    const novel = await Novel.open('novelspec.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
     const chapter = novel.getChapter('First Chapter')
@@ -43,7 +44,7 @@ describe('Novel', () => {
     await novel.close()
   });
   xit('creates a new noveldef', async () => {
-    const novel = await Novel.open('test/sample1.novel', "default");
+    const novel = await Novel.open('sample1.novel', "default");
     const metadata = novel.readMetadata();
     expect(metadata).toBeDefined();
     expect(metadata.title).toEqual('sample1');
@@ -51,7 +52,7 @@ describe('Novel', () => {
   });
 
   xit('adds and modifies a file', async () => {
-    const novel = await Novel.open('test/sample1.novel', "default");
+    const novel = await Novel.open('sample1.novel', "default");
     await novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: 'fish, elvis',
@@ -73,7 +74,7 @@ describe('Novel', () => {
 
   });
   xit('renames a chapter', async () => {
-    const novel = await Novel.open('test/novelspec.novel', "default");
+    const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -89,7 +90,7 @@ describe('Novel', () => {
   })
 
   xit('deletes a chapter', async () => {
-    const novel = await Novel.open('test/novelspec.novel', "default");
+    const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -114,7 +115,7 @@ describe('Novel', () => {
   })
 
   xit("adds a person only once", async () => {
-    const novel = await Novel.open("test/novelspec.novel", "default");
+    const novel = await Novel.open("novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
       nicknames: "peter"
@@ -131,7 +132,7 @@ describe('Novel', () => {
     expect(meta.persons.length).toEqual(3)
   })
   xit("crossrefs persons and places", async () => {
-    const novel = await Novel.open("test/novelspec.novel", "default");
+    const novel = await Novel.open("novelspec.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
     await novel.writeChapter(chapter)
@@ -155,7 +156,7 @@ describe('Novel', () => {
     await novel.close()
   })
   xit('fixes structural problems', async () => {
-    const novel = await Novel.open('test/novelspec.novel', "default");
+    const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()
     const meta = novel.readMetadata()

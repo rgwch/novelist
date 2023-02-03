@@ -3,7 +3,7 @@ import { Novel } from './novel'
 import fs from 'fs'
 import path from 'path'
 
-xdescribe("Timeline", () => {
+describe("Timeline", () => {
   const chapters = {
     eins: {
       name: "eins",
@@ -36,14 +36,14 @@ xdescribe("Timeline", () => {
   afterEach(() => {
     const files = fs.readdirSync('test')
     for (const file of files) {
-      if (file.match(/.+\.novel/)) {
+      if (file.match(/timeline.*\.novel/)) {
         fs.rmSync(path.join('test', file))
       }
     }
   })
 
   it("analyzes a timeline", async () => {
-    const novel = await Novel.fromDirectory("test/sample", 'test/timeline', 'default', true)
+    const novel = await Novel.fromDirectory("test/sample", 'timeline', 'default', true)
     for (const chapter in chapters) {
       await novel.writeChapter(chapters[chapter])
     }
