@@ -43,7 +43,7 @@ export class FileStore implements IStore {
       })
     })
   }
-  listObjects(filter:RegExp=/.+/): Promise<string[]> {
+  listObjects(filter: RegExp = /.*/): Promise<string[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(basedir, (err, files) => {
         if (err) {
@@ -65,7 +65,16 @@ export class FileStore implements IStore {
       })
     })
   }
-
+  renameObject(id: string, newId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      fs.rename(path.join(basedir, id), path.join(basedir, newId), err => {
+        if (err) {
+          reject(err)
+        }
+        resolve()
+      })
+    })
+  }
 }
 export class FileStoreObject implements IStorable {
   private crypter: Crypter
@@ -86,7 +95,7 @@ export class FileStoreObject implements IStorable {
     if (fs.existsSync(last)) {
       const now = DateTime.fromJSDate(new Date())
       const datestring = now.toFormat('yyyy-LL-dd')
-      const extname=path.extname(this.filename)
+      const extname = path.extname(this.filename)
       const basename = path.basename(this.filename, extname)
       const dailybackup = path.join(basedir, basename + '_' + datestring + extname)
       if (fs.existsSync(dailybackup)) {
@@ -114,7 +123,7 @@ export class FileStoreObject implements IStorable {
    */
   public async save(data: Buffer): Promise<void> {
     try {
-      this.performBackup(5)
+      // this.performBackup(5)
     } catch (err) {
       console.log("store:save: can't organise backups " + err)
       throw new Error('Backup ' + err)

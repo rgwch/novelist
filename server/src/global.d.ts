@@ -77,15 +77,16 @@ type timeline_entry = {
   unit: time_unit
 }
 
-interface IStorable{
+interface IStorable {
   save(data: Buffer): Promise<void>
   load(): Promise<Buffer>
   setPassword(pwd: string): void
 }
 
 interface IStore {
-  createStorable(id:string,passphrase:string):IStorable
-  removeObject(id:string):Promise<void>
-  listObjects():Promise<Array<string>>
-  queryObject(id:string):Promise<any>
+  createStorable(id: string, passphrase: string): IStorable
+  removeObject(id: string): Promise<void>
+  listObjects(pattern: RegExp): Promise<Array<string>>
+  queryObject(id: string): Promise<any>
+  renameObject(id: string, newId: string): Promise<void>
 }

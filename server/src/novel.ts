@@ -32,7 +32,7 @@ export class Novel {
   ) { }
 
   static list(): Promise<Array<string>> {
-    return storeFactory.getFileStore().listObjects()
+    return storeFactory.listObjects()
   }
   /**
    * Open a Novel-File. If it doesn't exist: Create a new one
@@ -41,8 +41,7 @@ export class Novel {
    * @returns a Promise that resolves to the Novel object created from the file or rejects on error
    */
   static async open(id: string, password: string): Promise<Novel> {
-    const factory: IStore = storeFactory.getFileStore()
-    const store = factory.createStorable(id, password)
+    const store = storeFactory.createStorable(id, password)
     const contents: Buffer = await store.load()
     if (contents.length < 10) {
       const def = {
@@ -159,8 +158,7 @@ export class Novel {
     } catch (err) {
       console.log("Novel.fromDirectory: no chapters");
     }
-    const factory: IStore = storeFactory.getFileStore()
-    const store: IStorable = factory.createStorable(outfile, password)
+    const store: IStorable = storeFactory.createStorable(outfile, password)
     const novel = new Novel(filepath, def, store);
     await novel.flush();
     return novel;

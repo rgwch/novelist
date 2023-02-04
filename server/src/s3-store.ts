@@ -12,6 +12,9 @@ export class S3Store implements IStore {
         minio = new Minio.Client(cfg)
 
     }
+    renameObject(id: string, newId: string): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
     createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
     }
@@ -27,7 +30,7 @@ export class S3Store implements IStore {
         })
 
     }
-    listObjects(): Promise<string[]> {
+    listObjects(pat=/.*/): Promise<string[]> {
         return new Promise((resolve, reject) => {
             const ret = []
             const stream = minio.listObjectsV2(bucketname, "", false, "")
