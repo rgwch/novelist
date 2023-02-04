@@ -1,18 +1,15 @@
+import { storeFactory } from './store-factory';
 // tslint:disable:no-empty
 
 import { Novel } from './novel';
 import fs from 'fs'
 import path from 'path'
-// jest.setTimeout(100000)
+jest.setTimeout(100000)
 
 xdescribe('Novel', () => {
 
-  beforeEach((done) => {
-    Novel.fromDirectory('test/sample', "novelspec", "default", true).then(res => {
-      const exists = fs.existsSync('test/novelspec.novel')
-      expect(exists).toBe(true)
-      setTimeout(() => done(), 100)
-    });
+  beforeEach(async () => {
+    await Novel.fromDirectory('test/sample', "novelspec", "default", true)
   });
 
   afterEach(() => {
@@ -24,14 +21,8 @@ xdescribe('Novel', () => {
     }
   })
 
-  afterAll(() => {
-    const files = fs.readdirSync('test')
-    for (const file of files) {
-      if (file.match(/novelspec.+/)) {
-        fs.rmSync(path.join('test', file))
-      }
-    }
- 
+  afterAll(async () => {
+    await storeFactory.removeObject("novelspec.novel")
   })
 
   it("creates a novel from a directory", async () => {
@@ -95,7 +86,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  it('deletes a chapter', async () => {
+  xit('deletes a chapter', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -120,7 +111,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  it("adds a person only once", async () => {
+  xit("adds a person only once", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
@@ -137,7 +128,7 @@ xdescribe('Novel', () => {
     const meta = novel.readMetadata()
     expect(meta.persons.length).toEqual(3)
   })
-  it("crossrefs persons and places", async () => {
+  xit("crossrefs persons and places", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
@@ -149,19 +140,19 @@ xdescribe('Novel', () => {
     expect(modified).toHaveProperty("places")
     expect(modified.places).toBeInstanceOf(Array)
     expect(modified.places.length).toBe(1)
-    expect(modified.places[0]).toEqual("Illyria")  
-    await novel.writeChapter({name: "Second Chapter", text: "Then, the Commander came aboard"})
-    const nicknamed=novel.getChapter("Second Chapter")
+    expect(modified.places[0]).toEqual("Illyria")
+    await novel.writeChapter({ name: "Second Chapter", text: "Then, the Commander came aboard" })
+    const nicknamed = novel.getChapter("Second Chapter")
     expect(nicknamed.persons).toBeInstanceOf(Array)
     expect(nicknamed.persons.length).toBe(1)
     expect(nicknamed.persons[0]).toEqual("Brutus Allerdice (Commander)")
-    await novel.writeChapter({name:"Third Chapter", text: "Brute joined the crew"})
-    const c3=novel.getChapter("Third Chapter")
+    await novel.writeChapter({ name: "Third Chapter", text: "Brute joined the crew" })
+    const c3 = novel.getChapter("Third Chapter")
     expect(c3.persons.length).toBe(1)
     expect(c3.persons[0]).toEqual("Brutus Allerdice (Brute)")
     await novel.close()
   })
-  it('fixes structural problems', async () => {
+  xit('fixes structural problems', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()

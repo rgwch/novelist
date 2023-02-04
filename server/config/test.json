@@ -1,13 +1,13 @@
 {
   "encryption": false,
-  "storage": "s3",
+  "storage": "file",
   "file": {
     "basedir": "test"
   },
   "s3": {
-    "accessKey": "Wq1txIRWZonBSGJm",
-    "secretKey": "GILOV5NpATEuODYwgWGKPzwlmE8lSo2n",
-    "endPoint": "gwcloud.lan",
+    "accessKey": "bPSlpHZZbmKCOdJK",
+    "secretKey": "9rONzSVVpO0rsk2NsbKNcMHBooYUoFZb",
+    "endPoint": "localhost",
     "port": 9000,
     "useSSL": false
   }

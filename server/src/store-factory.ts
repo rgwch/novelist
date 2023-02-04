@@ -28,7 +28,7 @@ export class StoreFactory implements IStore {
     removeObject(id: string): Promise<void> {
         return this.store.removeObject(id)
     }
-    listObjects(pat=/.*/): Promise<string[]> {
+    listObjects(pat = /.*/): Promise<string[]> {
         return this.store.listObjects(pat)
     }
     queryObject(id: string): Promise<any> {
@@ -56,7 +56,8 @@ export class StoreFactory implements IStore {
         const ext = this.extname(id)
         const base = this.basename(id)
         const last = base + "_" + generations + ext
-        if (await this.store.queryObject(last)) {
+        const exists = await this.store.queryObject(last)
+        if (exists) {
             const now = DateTime.fromJSDate(new Date())
             const datestring = now.toFormat('yyyy-LL-dd')
             const dailybackup = base + "_" + datestring + ext

@@ -42,8 +42,20 @@ export class Novel {
    */
   static async open(id: string, password: string): Promise<Novel> {
     const store = storeFactory.createStorable(id, password)
-    const contents: Buffer = await store.load()
-    if (contents.length < 10) {
+    try {
+      const contents: Buffer = await store.load()
+      try {
+        const json: noveldef = JSON.parse(contents.toString("utf-8"));
+        const lastWrite = new Date(json.metadata.modified);
+        if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
+          return (new Novel(id, json, store));
+        } else {
+          throw new Error("invalid date " + json.metadata.modified);
+        }
+      } catch (err) {
+        throw new Error("structure error " + err);
+      }
+    } catch (err) {
       const def = {
         metadata: defaultMetadata,
         persons: {},
@@ -56,18 +68,6 @@ export class Novel {
       const novel = new Novel(id, def, store);
       await novel.flush()
       return novel
-    } else {
-      try {
-        const json: noveldef = JSON.parse(contents.toString("utf-8"));
-        const lastWrite = new Date(json.metadata.modified);
-        if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
-          return (new Novel(id, json, store));
-        } else {
-          throw new Error("invalid date " + json.metadata.modified);
-        }
-      } catch (err) {
-        throw new Error("structure error " + err);
-      }
     }
   }
 
@@ -98,17 +98,16 @@ export class Novel {
    */
   static async fromDirectory(
     dir: string,
-    outfile: string,
+    fileId: string,
     password: string,
     force = false
   ): Promise<Novel> {
-    outfile = outfile.endsWith(".novel") ? outfile : outfile + ".novel"
-    const filepath = path.join(dir, "..", `${outfile}`);
-    if (fs.existsSync(filepath)) {
+    fileId = fileId.endsWith(".novel") ? fileId : fileId + ".novel"
+    if (await storeFactory.queryObject(fileId)) {
       if (force) {
-        fs.rmSync(filepath);
+        await storeFactory.removeObject(fileId)
       } else {
-        throw new Error("file exists " + filepath);
+        throw new Error("file exists " + fileId);
       }
     }
     const def: noveldef = {
@@ -158,8 +157,8 @@ export class Novel {
     } catch (err) {
       console.log("Novel.fromDirectory: no chapters");
     }
-    const store: IStorable = storeFactory.createStorable(outfile, password)
-    const novel = new Novel(filepath, def, store);
+    const store: IStorable = storeFactory.createStorable(fileId, password)
+    const novel = new Novel(fileId, def, store);
     await novel.flush();
     return novel;
   }

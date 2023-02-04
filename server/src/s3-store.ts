@@ -12,8 +12,8 @@ export class S3Store implements IStore {
         minio = new Minio.Client(cfg)
     }
     async renameObject(id: string, newId: string): Promise<void> {
-        const cp=await minio.copyObject(bucketname,newId,id,null)
-        const del=await minio.removeObject(bucketname,id)
+        const cp = await minio.copyObject(bucketname, newId, "/" + bucketname + "/" + id, null)
+        const del = await minio.removeObject(bucketname, id)
     }
     createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
@@ -30,7 +30,7 @@ export class S3Store implements IStore {
         })
 
     }
-    listObjects(pat=/.*/): Promise<string[]> {
+    listObjects(pat = /.*/): Promise<string[]> {
         return new Promise((resolve, reject) => {
             const ret = []
             const stream = minio.listObjectsV2(bucketname, "", false, "")
@@ -41,15 +41,15 @@ export class S3Store implements IStore {
                 reject(err)
             })
             stream.on('end', () => {
-                resolve(ret.map(r=>r.name))
+                resolve(ret.map(r => r.name).filter(n => n.match(pat)))
             })
         })
     }
     async queryObject(id: string): Promise<boolean> {
-        const find=await this.listObjects(new RegExp(id))
-        if(find.length){
+        const find = await this.listObjects(new RegExp(id))
+        if (find.length) {
             return true
-        }else{
+        } else {
             return false;
         }
     }
@@ -63,11 +63,12 @@ export class S3StoreObject implements IStorable {
         this.crypter = new Crypter(pwd, salt.toString())
     }
     setPassword(pwd: string) {
-        throw new Error("Method not implemented.");
+        this.crypter.setPassword(pwd)
     }
 
     async save(data_Buffer: Buffer): Promise<void> {
-        await minio.putObject(bucketname, this.id, data_Buffer)
+        const encrypted = await this.crypter.encryptBuffer(data_Buffer)
+        await minio.putObject(bucketname, this.id, encrypted)
     }
     load(): Promise<Buffer> {
         return new Promise((resolve, reject) => {
@@ -76,11 +77,15 @@ export class S3StoreObject implements IStorable {
                 if (err) {
                     reject(err)
                 }
+                if (!data) {
+                    reject("no data")
+                }
                 data.on('data', chunk => {
                     bufs.push(chunk)
                 })
-                data.on('end', () => {
+                data.on('end', async () => {
                     const ret = Buffer.concat(bufs)
+                    const decrypted = await this.crypter.decryptBuffer(ret)
                     resolve(ret)
                 })
                 data.on("error", err => {
