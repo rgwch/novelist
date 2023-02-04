@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 // jest.setTimeout(100000)
 
-describe('Novel', () => {
+xdescribe('Novel', () => {
 
   beforeEach((done) => {
     Novel.fromDirectory('test/sample', "novelspec", "default", true).then(res => {

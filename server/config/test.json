@@ -1,5 +1,7 @@
 {
   "encryption": false,
-  "basedir": "test"
+  "file":{
+    "basedir": "test"
+}
   
 }

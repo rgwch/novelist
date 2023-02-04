@@ -30,7 +30,7 @@ export class FileStore implements IStore {
       }
     }
   }
-  createStoreObject(id: string, passphrase: string): IStoreObject {
+  createStorable(id: string, passphrase: string): IStorable {
     return new FileStoreObject(id, passphrase)
   }
   removeObject(id: string): Promise<void> {
@@ -43,31 +43,31 @@ export class FileStore implements IStore {
       })
     })
   }
-  listObjects(): Promise<string[]> {
+  listObjects(filter:RegExp=/.+/): Promise<string[]> {
     return new Promise((resolve, reject) => {
       fs.readdir(basedir, (err, files) => {
         if (err) {
           reject(err)
         } else {
-          const list = files.filter((file) => file.endsWith('.novel'))
+          const list = files.filter((file) => file.match(filter))
           resolve(list)
         }
       })
     })
   }
-  queryObject(id: string): Promise<any> {
+  queryObject(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      fs.stat(path.join(basedir, id), (err, stat) => {
+      fs.access(path.join(basedir, id), fs.constants.R_OK | fs.constants.W_OK, (err) => {
         if (err) {
-          reject(err)
+          resolve(false)
         }
-        resolve(stat)
+        resolve(true)
       })
     })
   }
 
 }
-export class FileStoreObject implements IStoreObject {
+export class FileStoreObject implements IStorable {
   private crypter: Crypter
   private filename: string
 
@@ -86,8 +86,9 @@ export class FileStoreObject implements IStoreObject {
     if (fs.existsSync(last)) {
       const now = DateTime.fromJSDate(new Date())
       const datestring = now.toFormat('yyyy-LL-dd')
-      const basename = path.basename(this.filename, '.novel')
-      const dailybackup = path.join(basedir, basename + '_' + datestring + '.novel')
+      const extname=path.extname(this.filename)
+      const basename = path.basename(this.filename, extname)
+      const dailybackup = path.join(basedir, basename + '_' + datestring + extname)
       if (fs.existsSync(dailybackup)) {
         fs.rmSync(last)
       } else {
@@ -131,12 +132,6 @@ export class FileStoreObject implements IStoreObject {
     }
   }
 
-  /**
-   * Load a Novel file
-   * @param id bare filename
-   * @returns plain contents
-   * @throws Error
-   */
   public async load(): Promise<Buffer> {
     if (fs.existsSync(this.filename)) {
       const instream = fs.createReadStream(this.filename)

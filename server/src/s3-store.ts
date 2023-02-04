@@ -12,7 +12,7 @@ export class S3Store implements IStore {
         minio = new Minio.Client(cfg)
 
     }
-    createStoreObject(id: string, passphrase: string): IStoreObject {
+    createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
     }
 
@@ -47,7 +47,7 @@ export class S3Store implements IStore {
     }
 
 }
-export class S3StoreObject implements IStoreObject {
+export class S3StoreObject implements IStorable {
     private crypter: Crypter
 
     constructor(private id: string, pwd: string) {

@@ -28,7 +28,7 @@ export class Novel {
   constructor(
     private id: string,
     private def: noveldef,
-    private store: IStoreObject
+    private store: IStorable
   ) { }
 
   static list(): Promise<Array<string>> {
@@ -42,7 +42,7 @@ export class Novel {
    */
   static async open(id: string, password: string): Promise<Novel> {
     const factory: IStore = storeFactory.getFileStore()
-    const store = factory.createStoreObject(id, password)
+    const store = factory.createStorable(id, password)
     const contents: Buffer = await store.load()
     if (contents.length < 10) {
       const def = {
@@ -160,7 +160,7 @@ export class Novel {
       console.log("Novel.fromDirectory: no chapters");
     }
     const factory: IStore = storeFactory.getFileStore()
-    const store: IStoreObject = factory.createStoreObject(outfile, password)
+    const store: IStorable = factory.createStorable(outfile, password)
     const novel = new Novel(filepath, def, store);
     await novel.flush();
     return novel;

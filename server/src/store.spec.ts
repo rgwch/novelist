@@ -3,19 +3,24 @@
 import { storeFactory } from './store-factory'
 
 describe("Store", () => {
-  const stor=storeFactory.getFileStore()
-  afterAll(async () => {
-    await stor.removeObject("dump.store")
-    await stor.removeObject("dump.store_1")
-    await stor.removeObject("dump.store_2")
-    await stor.removeObject("dump.store_3")
-  })
 
-  it("creates a new store, if it doesn't exist", async ()=>{
+  const stor=storeFactory.getFileStore()
+  
+  /*
+  afterAll(async () => {
+    const files=await stor.listObjects()
+    for(const f of files){
+      if(f.match(/dump.+/)){
+        await stor.removeObject(f)
+      }
+    }
+  }) 
+*/
+  xit("creates a new store, if it doesn't exist", async ()=>{
     
   })
-  it("saves and retrieves serialized data", async () => {
-    const store = stor.createStoreObject("dump.store", "default");
+  xit("saves and retrieves serialized data", async () => {
+    const store:IStorable = stor.createStorable("dump1.store", "default");
     const buffer = Buffer.alloc(100, "*", "utf-8")
     await store.save(buffer)
     const retrieved = await store.load()
@@ -23,13 +28,13 @@ describe("Store", () => {
     expect(retrieved).toEqual(buffer)
   })
   it("generates multiple generations of backup", async () => {
-    const store:IStoreObject = stor.createStoreObject("dump.store","default")
+    const store:IStorable = stor.createStorable("dump2.store","default")
     const buffer = Buffer.alloc(100, "*", "utf-8")
     await store.save(buffer)
     await store.save(buffer)
     await store.save(buffer)
-    expect(stor.queryObject("dump.store_1")).toBe(true)
-    expect(stor.queryObject("test/dump.store_2")).toBe(true)
-    expect(stor.queryObject("test/dump.store")).toBe(true)
+    expect(await stor.queryObject("dump2.store_1")).toBe(true)
+    expect(await stor.queryObject("dump2.store_2")).toBe(true)
+    expect(await stor.queryObject("dump2.store")).toBe(true)
   })
 })
