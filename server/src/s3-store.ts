@@ -1,5 +1,5 @@
 import { StoreFactory } from './store-factory';
-import Minio from 'minio'
+import * as Minio from 'minio'
 import config from 'config'
 import { Crypter } from '@rgwch/simple-crypt'
 
@@ -10,10 +10,10 @@ export class S3Store implements IStore {
 
     constructor(cfg) {
         minio = new Minio.Client(cfg)
-
     }
-    renameObject(id: string, newId: string): Promise<void> {
-        throw new Error('Method not implemented.');
+    async renameObject(id: string, newId: string): Promise<void> {
+        const cp=await minio.copyObject(bucketname,newId,id,null)
+        const del=await minio.removeObject(bucketname,id)
     }
     createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
@@ -41,12 +41,17 @@ export class S3Store implements IStore {
                 reject(err)
             })
             stream.on('end', () => {
-                resolve(ret)
+                resolve(ret.map(r=>r.name))
             })
         })
     }
-    queryObject(id: string): Promise<any> {
-        throw new Error('Method not implemented.');
+    async queryObject(id: string): Promise<boolean> {
+        const find=await this.listObjects(new RegExp(id))
+        if(find.length){
+            return true
+        }else{
+            return false;
+        }
     }
 
 }
@@ -61,15 +66,8 @@ export class S3StoreObject implements IStorable {
         throw new Error("Method not implemented.");
     }
 
-    save(data_Buffer: Buffer): Promise<void> {
-        return new Promise((resolve, reject) => {
-            minio.putObject(bucketname, this.id, data_Buffer, (err) => {
-                if (err) {
-                    reject(err)
-                }
-            })
-            resolve()
-        })
+    async save(data_Buffer: Buffer): Promise<void> {
+        await minio.putObject(bucketname, this.id, data_Buffer)
     }
     load(): Promise<Buffer> {
         return new Promise((resolve, reject) => {

@@ -87,6 +87,6 @@ interface IStore {
   createStorable(id: string, passphrase: string): IStorable
   removeObject(id: string): Promise<void>
   listObjects(pattern: RegExp): Promise<Array<string>>
-  queryObject(id: string): Promise<any>
+  queryObject(id: string): Promise<boolean>
   renameObject(id: string, newId: string): Promise<void>
 }

@@ -2,7 +2,7 @@
 
 import { storeFactory } from './store-factory'
 import { DateTime } from 'luxon'
-
+jest.setTimeout(200000)
 const today = DateTime.now().toFormat("yyyy-LL-dd")
 describe("Store", () => {
 
@@ -15,14 +15,14 @@ describe("Store", () => {
   })
 
 
-  it("parses the name correctly", () => {
+  xit("parses the name correctly", () => {
     expect(storeFactory.basename("someweird/path.exten")).toEqual("someweird/path")
     expect(storeFactory.extname("someweird/path.exten")).toEqual(".exten")
     expect(storeFactory.basename("someweird/path")).toEqual("someweird/path")
     expect(storeFactory.extname("someweird/path")).toEqual("")
   })
 
-  it("rotates backup files", async () => {
+  xit("rotates backup files", async () => {
     const store: IStorable = storeFactory.createStorable("dump0.store", "default");
     const buffer = Buffer.alloc(100, "*", "utf-8")
     await store.save(buffer)

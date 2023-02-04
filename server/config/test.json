@@ -1,7 +1,14 @@
 {
   "encryption": false,
-  "file":{
+  "storage": "s3",
+  "file": {
     "basedir": "test"
-}
-  
+  },
+  "s3": {
+    "accessKey": "Wq1txIRWZonBSGJm",
+    "secretKey": "GILOV5NpATEuODYwgWGKPzwlmE8lSo2n",
+    "endPoint": "gwcloud.lan",
+    "port": 9000,
+    "useSSL": false
+  }
 }
