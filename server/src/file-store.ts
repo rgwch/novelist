@@ -33,13 +33,17 @@ export class FileStore implements IStore {
   createStorable(id: string, passphrase: string): IStorable {
     return new FileStoreObject(id, passphrase)
   }
-  removeObject(id: string): Promise<void> {
+  removeObject(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      if (!this.queryObject(id)) {
+        console.log("delete: " + id + " dies not exist")
+        resolve(false)
+      }
       fs.rm(path.join(basedir, id), err => {
         if (err) {
           reject(err)
         }
-        resolve()
+        resolve(true)
       })
     })
   }
@@ -65,13 +69,17 @@ export class FileStore implements IStore {
       })
     })
   }
-  renameObject(id: string, newId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+  renameObject(id: string, newId: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      if (!await this.queryObject(id)) {
+        console.log("rename: " + id + " does not exist")
+        resolve(false)
+      }
       fs.rename(path.join(basedir, id), path.join(basedir, newId), err => {
         if (err) {
           reject(err)
         }
-        resolve()
+        resolve(true)
       })
     })
   }
@@ -80,13 +88,20 @@ export class FileStoreObject implements IStorable {
   private crypter: Crypter
   private filename: string
 
-  constructor(private id: string, passphrase: string) {
-    const salt = config.has('salt') ? config.get('salt') : 'someSalt'
-    this.crypter = new Crypter(passphrase, salt.toString())
+  constructor(private id: string, passphrase: string | Crypter) {
     this.filename = path.join(basedir, id)
+    const salt = config.has('salt') ? config.get('salt') : 'someSalt'
+    if (typeof (passphrase) == 'string') {
+      this.crypter = new Crypter(passphrase, salt.toString())
+    } else {
+      this.crypter = passphrase
+    }
+
   }
 
-
+  public clone(cid: string): IStorable {
+    return new FileStoreObject(cid, this.crypter)
+  }
   public setPassword(pwd: string) {
     this.crypter.setPassword(pwd)
   }
@@ -121,20 +136,14 @@ export class FileStoreObject implements IStorable {
    * @param id bare filename for the Novel
    * @param data plain contents
    */
-  public async save(data: Buffer): Promise<void> {
-    try {
-      // this.performBackup(5)
-    } catch (err) {
-      console.log("store:save: can't organise backups " + err)
-      throw new Error('Backup ' + err)
-    }
-
+  public async save(data: Buffer): Promise<boolean> {
     const instream = new sb.ReadableStreamBuffer()
     const outstream = fs.createWriteStream(this.filename)
     instream.put(data)
     instream.stop()
     try {
       await this.crypter.encrypt(instream, outstream)
+      return true
     } catch (err) {
       console.log("Encryption error " + err)
       throw err

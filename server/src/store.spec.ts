@@ -8,10 +8,7 @@ describe("Store", () => {
 
 
   afterAll(async () => {
-    const files = await storeFactory.listObjects(/dump.+/)
-    for (const f of files) {
-      await storeFactory.removeObject(f)
-    }
+    await storeFactory.removeAll(/dump.+/)
   })
 
 

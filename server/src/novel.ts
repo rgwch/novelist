@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { Timeline } from './timeline';
 /********************************************
  * This file is part of Novelist            *
@@ -205,10 +206,13 @@ export class Novel {
    */
   async flush(): Promise<void> {
     if (this.def) {
-      await storeFactory.rotate(this.id, 5)
+      const backup_id = DateTime.now().toFormat("yyyy-LL-dd") + "_" + this.id
       this.def.metadata.modified = new Date();
       const buff = Buffer.from(JSON.stringify(this.def));
       await this.store.save(buff);
+      const clone = this.store.clone(backup_id)
+      await clone.save(buff)
+      // await storeFactory.rotate(this.id, 5)
     }
   }
 

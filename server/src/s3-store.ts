@@ -1,4 +1,3 @@
-import { StoreFactory } from './store-factory';
 import * as Minio from 'minio'
 import config from 'config'
 import { Crypter } from '@rgwch/simple-crypt'
@@ -11,24 +10,26 @@ export class S3Store implements IStore {
     constructor(cfg) {
         minio = new Minio.Client(cfg)
     }
-    async renameObject(id: string, newId: string): Promise<void> {
+    async renameObject(id: string, newId: string): Promise<boolean> {
+        if (!(await this.queryObject(id))) {
+            console.log("rename: " + id + " does not exists")
+            return false;
+        }
         const cp = await minio.copyObject(bucketname, newId, "/" + bucketname + "/" + id, null)
         const del = await minio.removeObject(bucketname, id)
+        return true
     }
     createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
     }
 
-    removeObject(id: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            minio.removeObject(bucketname, id, err => {
-                if (err) {
-                    reject(err)
-                }
-                resolve()
-            })
-        })
-
+    async removeObject(id: string): Promise<boolean> {
+        if (!(await this.queryObject(id))) {
+            console.log("remove: " + id + " does not exists")
+            return false;
+        }
+        await minio.removeObject(bucketname, id)
+        return true
     }
     listObjects(pat = /.*/): Promise<string[]> {
         return new Promise((resolve, reject) => {
@@ -58,17 +59,27 @@ export class S3Store implements IStore {
 export class S3StoreObject implements IStorable {
     private crypter: Crypter
 
-    constructor(private id: string, pwd: string) {
+    constructor(private id: string, pwd: string | Crypter) {
         const salt = config.has('salt') ? config.get('salt') : 'someSalt'
-        this.crypter = new Crypter(pwd, salt.toString())
+        if (typeof (pwd) == 'string') {
+            this.crypter = new Crypter(pwd, salt.toString())
+        } else {
+            this.crypter = pwd
+        }
     }
+
     setPassword(pwd: string) {
         this.crypter.setPassword(pwd)
     }
 
-    async save(data_Buffer: Buffer): Promise<void> {
+    clone(clone_id: string): IStorable {
+        return new S3StoreObject(clone_id, this.crypter)
+    }
+
+    async save(data_Buffer: Buffer): Promise<boolean> {
         const encrypted = await this.crypter.encryptBuffer(data_Buffer)
         await minio.putObject(bucketname, this.id, encrypted)
+        return true
     }
     load(): Promise<Buffer> {
         return new Promise((resolve, reject) => {

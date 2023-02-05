@@ -17,8 +17,8 @@ describe('Novel', () => {
   })
 
   afterAll(async () => {
-    await storeFactory.removeAll(/novelspec_?[0-9]?.novel/)
-    await storeFactory.removeAll(/novelspec_[0-9]{4}-[0-9]{2}-[0-9]{2}.novel/)
+    await storeFactory.removeAll(/novelspec.*/)
+    // await storeFactory.removeAll(/novelspec_[0-9]{4}-[0-9]{2}-[0-9]{2}.novel/)
   })
 
   it("creates a novel from a directory", async () => {
