@@ -2,3 +2,6 @@ dist
 public
 node_modules
 config/default.json
+config/test.json
+config/production.json
+
