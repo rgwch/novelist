@@ -73,24 +73,23 @@ export class S3StoreObject implements IStorable {
     load(): Promise<Buffer> {
         return new Promise((resolve, reject) => {
             let bufs: Array<Buffer> = []
-            minio.getObject(bucketname, this.id, (err, data) => {
+            minio.getObject(bucketname, this.id, (err, stream) => {
                 if (err) {
                     reject(err)
+                } else {
+                    stream.on('data', chunk => {
+                        bufs.push(chunk)
+                    })
+                    stream.on('end', () => {
+                        const ret = Buffer.concat(bufs)
+                        this.crypter.decryptBuffer(ret).then(decrypted => {
+                            resolve(decrypted)
+                        })
+                    })
+                    stream.on("error", err => {
+                        reject(err)
+                    })
                 }
-                if (!data) {
-                    reject("no data")
-                }
-                data.on('data', chunk => {
-                    bufs.push(chunk)
-                })
-                data.on('end', async () => {
-                    const ret = Buffer.concat(bufs)
-                    const decrypted = await this.crypter.decryptBuffer(ret)
-                    resolve(ret)
-                })
-                data.on("error", err => {
-                    reject(err)
-                })
             })
         })
     }

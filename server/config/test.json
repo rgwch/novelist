@@ -1,6 +1,6 @@
 {
   "encryption": false,
-  "storage": "file",
+  "storage": "s3",
   "file": {
     "basedir": "test"
   },

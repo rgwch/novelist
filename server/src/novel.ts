@@ -56,6 +56,7 @@ export class Novel {
         throw new Error("structure error " + err);
       }
     } catch (err) {
+      // store.load failed
       const def = {
         metadata: defaultMetadata,
         persons: {},
@@ -204,6 +205,7 @@ export class Novel {
    */
   async flush(): Promise<void> {
     if (this.def) {
+      await storeFactory.rotate(this.id, 5)
       this.def.metadata.modified = new Date();
       const buff = Buffer.from(JSON.stringify(this.def));
       await this.store.save(buff);

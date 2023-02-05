@@ -4,25 +4,21 @@ import { storeFactory } from './store-factory';
 import { Novel } from './novel';
 import fs from 'fs'
 import path from 'path'
-jest.setTimeout(100000)
+// jest.setTimeout(100000)
 
-xdescribe('Novel', () => {
+describe('Novel', () => {
 
   beforeEach(async () => {
     await Novel.fromDirectory('test/sample', "novelspec", "default", true)
   });
 
-  afterEach(() => {
-    const files = fs.readdirSync('test')
-    for (const file of files) {
-      if (file.match(/sample[0-9].*/)) {
-        fs.rmSync(path.join('test', file))
-      }
-    }
+  afterEach(async () => {
+    await storeFactory.removeAll(/sample[0-9].*/)
   })
 
   afterAll(async () => {
-    await storeFactory.removeObject("novelspec.novel")
+    await storeFactory.removeAll(/novelspec_?[0-9]?.novel/)
+    await storeFactory.removeAll(/novelspec_[0-9]{4}-[0-9]{2}-[0-9]{2}.novel/)
   })
 
   it("creates a novel from a directory", async () => {
@@ -86,7 +82,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  xit('deletes a chapter', async () => {
+  it('deletes a chapter', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
@@ -111,7 +107,7 @@ xdescribe('Novel', () => {
     await novel.close()
   })
 
-  xit("adds a person only once", async () => {
+  it("adds a person only once", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     await novel.writePerson({
       name: "hans",
@@ -128,7 +124,7 @@ xdescribe('Novel', () => {
     const meta = novel.readMetadata()
     expect(meta.persons.length).toEqual(3)
   })
-  xit("crossrefs persons and places", async () => {
+  it("crossrefs persons and places", async () => {
     const novel = await Novel.open("novelspec.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
@@ -152,7 +148,7 @@ xdescribe('Novel', () => {
     expect(c3.persons[0]).toEqual("Brutus Allerdice (Brute)")
     await novel.close()
   })
-  xit('fixes structural problems', async () => {
+  it('fixes structural problems', async () => {
     const novel = await Novel.open('novelspec.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()

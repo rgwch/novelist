@@ -28,6 +28,13 @@ export class StoreFactory implements IStore {
     removeObject(id: string): Promise<void> {
         return this.store.removeObject(id)
     }
+    async removeAll(pattern: RegExp): Promise<number> {
+        const files = await this.store.listObjects(pattern)
+        for (const file of files) {
+            await this.store.removeObject(file)
+        }
+        return files.length
+    }
     listObjects(pat = /.*/): Promise<string[]> {
         return this.store.listObjects(pat)
     }

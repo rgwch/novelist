@@ -2,7 +2,7 @@
 
 import { storeFactory } from './store-factory'
 import { DateTime } from 'luxon'
-jest.setTimeout(200000)
+// jest.setTimeout(200000)
 const today = DateTime.now().toFormat("yyyy-LL-dd")
 describe("Store", () => {
 
