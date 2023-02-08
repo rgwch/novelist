@@ -1,12 +1,6 @@
-<script lang="ts" context="module">
-    export type MenuDef = {
-        name: string | Array<MenuDef>;
-        label: string;
-    };
-</script>
-
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
+    import Popup from './Popup.svelte';
+    import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
     export let menudef: Array<MenuDef> = [];
     let hamburgerbtn;
@@ -29,15 +23,15 @@
             <ul class="hidden md:(flex flex-row px-2 mx-2) cursor-pointer">
                 {#each menudef as item}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
-                    {#if typeof item.name == "string"}
+                    {#if typeof item.name == 'string'}
                         <li
                             class="mr-2 pr-2"
-                            on:click={() => dispatch("menuselect", item.name)}
+                            on:click={() => dispatch('menuselect', item.name)}
                         >
                             {item.label}
                         </li>
                     {:else}
-                        <svelte:self menudef={item} on:menuselect />
+                        <Popup items={item.name} on:menuselect />
                     {/if}
                 {/each}
             </ul>
