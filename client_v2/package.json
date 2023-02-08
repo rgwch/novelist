@@ -13,6 +13,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
+    "@storybook/addon-essentials": "^7.0.0-beta.43",
+    "@storybook/addon-interactions": "^7.0.0-beta.43",
+    "@storybook/addon-links": "^7.0.0-beta.43",
+    "@storybook/blocks": "^7.0.0-beta.43",
+    "@storybook/svelte": "^7.0.0-beta.43",
+    "@storybook/svelte-vite": "^7.0.0-beta.43",
+    "@storybook/testing-library": "^0.0.14-next.1",
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
     "babel-loader": "^8.3.0",
