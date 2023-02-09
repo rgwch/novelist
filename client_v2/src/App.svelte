@@ -1,7 +1,9 @@
 <script lang="ts">
   import Menu from "./lib/widgets/Menu.svelte";
   import type { MenuDef } from "./lib/widgets/Popup.svelte";
+  import {_} from 'svelte-i18n'
   const def: Array<MenuDef> = [
+    { name:"menuFile",label: $_('menu.file')},
     { name: "first", label: "eins" },
     { name: "second", label: "zwei" },
   ];

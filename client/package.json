@@ -63,6 +63,7 @@
     "socket.io-client": "^4.1.2",
     "svelte": "^3.46.4",
     "svelte-check": "^2.0.0",
+    "svelte-i18n": "^3.6.0",
     "svelte-jester": "^2.3.2",
     "svelte-loader": "^3.1.2",
     "svelte-preprocess": "^4.7.4",
@@ -75,7 +76,6 @@
     "array-move": "^3.0.1",
     "babel-cli": "^6.26.0",
     "simplemde": "^1.11.2",
-    "sirv-cli": "^1.0.0",
-    "svelte-i18n": "^3.3.9"
+    "sirv-cli": "^1.0.0"
   }
 }
