@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Popup from "./Popup.svelte";
-    import { createEventDispatcher } from "svelte";
-    import type { MenuDef } from "./Popup.svelte";
+    import Popup from './Popup.svelte';
+    import { createEventDispatcher } from 'svelte';
+    import type { MenuDef } from './Popup.svelte';
     const dispatch = createEventDispatcher();
     export let menudef: Array<MenuDef> = [];
     let hamburgerbtn;
@@ -21,14 +21,17 @@
                     expanded = !expanded;
                 }}
             />
-            <ul class:hidden={!expanded} class="flex flex-col md:(flex flex-row px-2 mx-2) cursor-pointer">
+            <ul
+                class:hidden={!expanded}
+                class="flex flex-col md:(flex flex-row px-2 mx-2) cursor-pointer"
+            >
                 {#each menudef as item}
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <li
                         class="mr-2 pr-2"
-                        on:click={() => dispatch("menuselect", item.name)}
+                        on:click={() => dispatch('menuselect', item.name)}
                     >
-                        {#if typeof item.name == "string"}
+                        {#if typeof item.name == 'string'}
                             {item.label}
                         {:else}
                             <Popup

@@ -1,18 +1,12 @@
 <script lang="ts">
-  import Menu from "./lib/widgets/Menu.svelte";
-  import type { MenuDef } from "./lib/widgets/Popup.svelte";
-  import {_} from 'svelte-i18n'
-  const def: Array<MenuDef> = [
-    { name:"menuFile",label: $_('menu.file')},
-    { name: "first", label: "eins" },
-    { name: "second", label: "zwei" },
-  ];
+  import Menu from './lib/widgets/Menu.svelte';
+  import mainMenu from './menu';
+  import { _ } from 'svelte-i18n';
 </script>
 
 <main>
-  
   <Menu
-    menudef={def}
+    menudef={mainMenu}
     on:menuselect={(event) => {
       console.log(event.detail);
     }}
