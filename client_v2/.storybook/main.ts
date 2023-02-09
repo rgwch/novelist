@@ -1,7 +1,4 @@
 import type { StorybookConfig } from '@storybook/svelte-vite';
-import path from 'path'
-import * as preprocess from 'svelte-windicss-preprocess'
-import WindiCSS from "vite-plugin-windicss"
 
 const config: StorybookConfig = {
   "stories": [
@@ -19,15 +16,6 @@ const config: StorybookConfig = {
   },
   "docs": {
     "autodocs": "tag"
-  },
-  async viteFinal(config, { configType }) {
-    config.plugins = config.plugins ?? [];
-    config.plugins.push(
-      WindiCSS({
-        config: path.join(__dirname, "..", "windi.config.ts")
-      })
-    )
-    return config
   }
 };
 

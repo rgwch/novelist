@@ -1,5 +1,6 @@
 <script lang="ts">
-  import Menu, { type MenuDef } from "./lib/widgets/Menu.svelte";
+  import Menu from "./lib/widgets/Menu.svelte";
+  import type { MenuDef } from "./lib/widgets/Popup.svelte";
   const def: Array<MenuDef> = [
     { name: "first", label: "eins" },
     { name: "second", label: "zwei" },
