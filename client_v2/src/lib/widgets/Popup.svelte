@@ -44,7 +44,7 @@
         open = !open;
       }}
     >
-      {#if level === 0 && title == ''}
+      {#if title == ""}
         <svg width="20" height="30">
           <rect y="2" x="3" width="15" height="3" style="fill:rgb(0,0,0)" />
           <rect y="9" x="3" width="15" height="3" style="fill:rgb(0,0,0)" />
@@ -57,23 +57,23 @@
     {#if open}
       <div class="bg-green-800 z-100 opacity-100">
         <ul
-          class="absolute left-2 top-3 py-0 my-0 border-2 bg-gray-100 list-none"
+          class="absolute left-1 top-8 py-0 my-0 border-2 bg-gray-100 list-none"
         >
           {#each items as item}
-            {#if Array.isArray(item)}
+            {#if Array.isArray(item.name)}
               <li>
-                <svelte:self {...submenu([...item])} on:selected />
+                <svelte:self title={item.label} items={item.name} on:selected />
               </li>
             {:else}
               <li
                 class="relative w-50 my-0 py-0 hover:text-blue-600 cursor-pointer"
                 transition:slide
                 on:click={() => {
-                  dispatch('menuselect', item);
+                  dispatch('menuselect', item.name);
                   open = false;
                 }}
               >
-                {item}
+                {item.label}
               </li>
             {/if}
           {/each}
