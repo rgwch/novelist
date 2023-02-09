@@ -2,9 +2,9 @@
 	import { _ } from 'svelte-i18n';
 	import Elementlist from '../widgets/Elementlist.svelte';
 	import Editor from '../widgets/Editor.svelte';
+	import type { SvelteComponentTyped } from 'svelte';
 
 	import { load, save, current } from '../services/fileio';
-	import Itemlist from '../widgets/Itemlist.svelte';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
