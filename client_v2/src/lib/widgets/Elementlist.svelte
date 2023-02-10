@@ -2,7 +2,7 @@
 	import '../../../node_modules/@fortawesome/fontawesome-free/js/solid';
 	import '../../../node_modules/@fortawesome/fontawesome-free/js/fontawesome';
 	import { _ } from 'svelte-i18n';
-	import move from 'array-move';
+	import {arrayMoveMutable as move} from 'array-move';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	import {
