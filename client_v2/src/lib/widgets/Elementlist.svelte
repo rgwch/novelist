@@ -1,94 +1,89 @@
+<!--
+	A list of arbitrary objects
+-->
 <script lang="ts">
-	import '../../../node_modules/@fortawesome/fontawesome-free/js/solid';
-	import '../../../node_modules/@fortawesome/fontawesome-free/js/fontawesome';
-	import { _ } from 'svelte-i18n';
-	import {arrayMoveMutable as move} from 'array-move';
-	import { createEventDispatcher } from 'svelte';
+	import "@fortawesome/fontawesome-free/js/solid";
+	import "@fortawesome/fontawesome-free";
+	import { _ } from "svelte-i18n";
+	import { arrayMoveImmutable as move } from "array-move";
+	import { createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
-	import {
-		load,
-		save,
-		remove,
-		rename,
-		openCurrent,
-	} from '../services/fileio';
-	export let definition = {
-		type: 'chapters',
-		newelem: 'book.newchapter',
-		promptname: 'book.nochaptername',
-	};
-	export let metadata: metadata_def;
-	export let filter: (elem: string) => boolean = (elem) => true;
 
-	let currentElementName: string;
+	/** List of Elements in consumer-defined format */
+	export let elements = [];
+	/** Title for the "new Element" input */
+	export let newelem = "New...";
+	/** Title for the "Edit"- Prompt */
+	export let promptname = "New";
+	/** function returns true if element shuld be displayed */
+	export let filter: (elem) => boolean = (n) => true;
+	/** function returns string as label for element */
+	export let label: (elem) => string = (n) => n.toString();
+	/** function creates new element from label */
+	export let create: (label) => any = (l) => l;
+
+	let currentElement;
 
 	let newelement: string;
 	async function addElement() {
 		if (newelement) {
-			const arr = definition.type;
-			const result = await save(arr, { name: newelement });
-			if (result) {
-				metadata[arr] = [...metadata[arr], newelement];
-				newelement = '';
-			} else {
-				alert('Error');
-			}
+			const e = create(newelement);
+			elements = [...elements, e];
+			newelement = "";
+			dispatch("update", e);
 		} else {
-			alert($_(definition.promptname));
+			alert($_(promptname));
 		}
 	}
+
 	function select(item) {
-		currentElementName = item;
-		dispatch('selected', item);
+		currentElement = item;
+		dispatch("selected", item);
 	}
 	function up(elem) {
-		const arr = metadata[definition.type];
+		const arr = elements;
 		const idx = arr.indexOf(elem);
-		metadata[definition.type] = move(arr, idx, idx - 1);
+		elements = move(arr, idx, idx - 1);
+		dispatch("update", elem);
 	}
 	function down(elem) {
-		const arr = metadata[definition.type];
+		const arr = elements;
 		const idx = arr.indexOf(elem);
-		metadata[definition.type] = move(arr, idx, idx + 1);
+		elements = move(arr, idx, idx + 1);
+		dispatch("update", elem);
 	}
-	async function del(elem) {
-		console.log('del ' + elem);
+	function del(elem) {
+		console.log("del " + elem);
 		if (
-			confirm($_('messages.reallydelete', { values: { element: elem } }))
+			confirm($_("messages.reallydelete", { values: { element: elem } }))
 		) {
-			const done = await remove(definition.type, elem);
-			if (!done) {
-				alert('Could not delete');
-			}
-			metadata = await openCurrent();
+			const idx = elements.indexOf(elem);
+			elements.splice(idx,1)
+			dispatch("update",null)
 		}
 	}
 	async function edit(elem) {
-		const newtitle = prompt($_(definition.promptname));
+		const newtitle = prompt($_(promptname));
 		if (newtitle) {
-			try {
-				metadata = await rename(definition.type, elem, newtitle);
-				await openCurrent();
-			} catch (err) {
-				alert(err);
-			}
+			const idx = elements.indexOf(elem);		
 		}
 	}
 </script>
 
 <template>
-	<div class="h-full">
-		{#if metadata && metadata[definition.type] && Array.isArray(metadata[definition.type])}
-			{#each metadata[definition.type] as elem}
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<div class="h-full max-w-60">
+		{#if elements && Array.isArray(elements)}
+			{#each elements as elem}
 				{#if filter(elem)}
 					<div class="item relative">
 						<div
-							class={currentElementName == elem
-								? 'font-bold'
-								: 'font-normal'}
+							class={currentElement == elem
+								? "font-bold"
+								: "font-normal"}
 							on:click={() => select(elem)}
 						>
-							<span class="z-0">{elem}</span>
+							<span class="z-0">{label(elem)}</span>
 							<span
 								class="absolute right-0 px-3 z-10 bg-blue-100"
 							>
@@ -119,7 +114,7 @@
 				class="border-2"
 				type="text"
 				bind:value={newelement}
-				placeholder={$_(definition.newelem)}
+				placeholder={$_(newelem)}
 			/>
 			<span on:click={addElement} class="bg-green-400 border-2"
 				>Neu...</span

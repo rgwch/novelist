@@ -1,6 +1,6 @@
 <script lang="ts">
   import Menu from "./lib/widgets/Menu.svelte";
-  import Test from "./lib/widgets/Test.svelte";
+  import Book from "./lib/components/Book.svelte"
   import mainMenu from "./menu";
   import { _ } from "svelte-i18n";
 </script>
@@ -18,7 +18,7 @@
       <div
         class="grid grid-cols-[200px,auto] grid-rows-[min-content,min-content,min-content"
       >
-        <div class="left bg-green-100">Left<br />2<br />3<br /></div>
+        <div class="left bg-green-100"><Book></Book></div>
         <div class="right col-start-2 col-span-1 row-span-3 bg-blue-100">
           right
         </div>

@@ -106,7 +106,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	{#if metadata}
 		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
 	{:else}
-		<div class="p-1 overflow-y-auto">
+		<div class="p-1 overflow-y-auto min-h-80">
 			{#await showBooks() then files}
 				<ul>
 					{#each files as file}
