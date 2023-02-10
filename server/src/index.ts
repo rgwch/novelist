@@ -39,7 +39,7 @@ const httpServer = createServer((req, res) => {
  */
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.NODE_ENV==='develop' ? '*' : 'http://localhost:3000',
   },
 })
 /**

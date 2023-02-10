@@ -4,8 +4,9 @@
   "description": "Novelist server",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && node dist/index",
+    "start": "tsc && NODE_ENV=production node dist/index",
     "test": "NODE_ENV=test jest",
+    "dev": "tsc && NODE_ENV=develop node dist/index",
     "clean": "rimraf dist && rimraf public",
     "build": "tsc"
   },
