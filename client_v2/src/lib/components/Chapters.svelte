@@ -5,6 +5,18 @@
     const elements = $currentBook?.chapters;
     const newelem = 'book.newchapter';
     const promptname = 'book.nochaptername';
+    const create = async (label) => {
+        const newChapter = {
+            name: label,
+            persons: [],
+            places: [],
+            summary: '',
+            time: '',
+            text: '',
+        };
+        await save('chapters', newChapter);
+        return label;
+    };
     function update(event) {}
     async function selected(event) {
         try {
@@ -24,6 +36,7 @@
         {elements}
         {newelem}
         {promptname}
+        {create}
         on:update={update}
         on:selected={selected}
     />

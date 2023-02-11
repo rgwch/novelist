@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SimpleMDE from 'easymde';
+	import EasyMDE from 'easymde';
 	import { onDestroy, onMount, setContext } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -39,12 +39,12 @@
 	}
 	onMount(async () => {
 		try {
-			editor = new SimpleMDE({
+			editor = new EasyMDE({
 				element: container,
 				autofocus: true,
 				spellChecker: false,
 				toolbar: false,
-				autoDownloadFontAwesome: false,
+				autoDownloadFontAwesome: true,
 				// autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
 			editor.codemirror.on('blur', () => {

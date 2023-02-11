@@ -4,10 +4,16 @@
     import { _ } from 'svelte-i18n';
     import Chapters from './Chapters.svelte';
     import Book from './Book.svelte';
+    let idx = 0;
+    currentBook.subscribe((b) => {
+        if (b == undefined) {
+            idx = 0;
+        }
+    });
 </script>
 
 <template>
-    <Tabs>
+    <Tabs initialSelectedIndex={idx}>
         <TabList>
             <Tab>{$_('book.metadata')}</Tab>
             {#if $currentBook}

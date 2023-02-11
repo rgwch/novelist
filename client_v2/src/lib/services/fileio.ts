@@ -3,7 +3,7 @@
 import { io } from "socket.io-client";
 import props from './properties'
 import hash from 'object-hash'
-import { currentBook } from './store'
+import { currentBook, currentChapter } from './store'
 
 export type dataType = "metadata" | "chapters" | "persons" | "places" | "notes" | "timeline"
 
@@ -102,6 +102,7 @@ export function closeBook(): Promise<boolean> {
     socket.emit("closeBook", (res: result) => {
       if (res.status === "ok") {
         currentBook.set(undefined)
+        currentChapter.set(undefined)
         resolve(res.result)
       } else {
         reject(res.message)

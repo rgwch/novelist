@@ -76,8 +76,10 @@ Display of the metadata of the currently opened book or a list of books availabl
 			try {
 				res = await openBook(bookFilename, password);
 				// current.set(res);
-				visible.chapter = true;
+				// visible.chapter = true;
+				console.log('ok');
 			} catch (err) {
+				/*
 				if (
 					err.includes('incorrect header') ||
 					err.includes('bad decrypt')
@@ -86,6 +88,8 @@ Display of the metadata of the currently opened book or a list of books availabl
 				} else {
 					alert('Can not open ' + err);
 				}
+				*/
+				alert(err);
 			} finally {
 				password = '';
 			}

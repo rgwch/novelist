@@ -18,19 +18,18 @@
 	/** function returns true if element shuld be displayed */
 	export let filter: (elem) => boolean = (n) => true;
 	/** function returns string as label for element */
-	export let label: (elem) => string = (n) => n.toString();
+	export let label: (elem) => string = (n) => n?.toString();
 	/** function creates new element from label */
-	export let create: (label) => any = (l) => l;
+	export let create: (label) => Promise<any> = (l) => Promise.resolve(l);
 
 	let currentElement;
 
 	let newelement: string;
 	async function addElement() {
 		if (newelement) {
-			const e = create(newelement);
+			const e = await create(newelement);
 			elements = [...elements, e];
 			newelement = '';
-			dispatch('update', e);
 		} else {
 			alert($_(promptname));
 		}
