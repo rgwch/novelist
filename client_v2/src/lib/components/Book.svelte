@@ -8,8 +8,8 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import { DateTime } from 'luxon';
 	import { _ } from 'svelte-i18n';
 	import Modal from '../widgets/Modal.svelte';
+	import { currentBook } from '../services/store';
 	import {
-		current,
 		closeBook,
 		load,
 		save,
@@ -45,22 +45,17 @@ Display of the metadata of the currently opened book or a list of books availabl
 	/** Name of the currently opened book */
 	let booknameInput;
 	let bookFilename: string;
-	let metadata: metadata_def;
 	let modal: boolean = false;
 	let password: string = '';
 
-	current.subscribe((value) => {
-		metadata = value;
-	});
-
 	async function saveBook(event) {
-		await save('metadata', metadata);
+		await save('metadata', $currentBook);
 	}
 
 	async function close() {
 		await saveBook({});
 		await closeBook();
-		current.set(undefined);
+		// currentBook.set(undefined);
 	}
 	async function open(filename) {
 		password = '';
@@ -76,11 +71,11 @@ Display of the metadata of the currently opened book or a list of books availabl
 	async function modalClosed(result) {
 		modal = false;
 		if (result) {
-			metadata = undefined;
+			// metadata = undefined;
 			let res;
 			try {
 				res = await openBook(bookFilename, password);
-				current.set(res);
+				// current.set(res);
 				visible.chapter = true;
 			} catch (err) {
 				if (
@@ -103,8 +98,9 @@ Display of the metadata of the currently opened book or a list of books availabl
 </script>
 
 <template>
-	{#if metadata}
-		<Fieldeditor {fields} entity={metadata} on:save={saveBook} />
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	{#if $currentBook}
+		<Fieldeditor {fields} entity={$currentBook} on:save={saveBook} />
 	{:else}
 		<div class="p-1 overflow-y-auto min-h-80">
 			{#await showBooks() then files}

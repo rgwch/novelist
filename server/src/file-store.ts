@@ -105,30 +105,6 @@ export class FileStoreObject implements IStorable {
   public setPassword(pwd: string) {
     this.crypter.setPassword(pwd)
   }
-  private performBackup(gen: number): void {
-    const last = this.filename + '_' + gen
-    if (fs.existsSync(last)) {
-      const now = DateTime.fromJSDate(new Date())
-      const datestring = now.toFormat('yyyy-LL-dd')
-      const extname = path.extname(this.filename)
-      const basename = path.basename(this.filename, extname)
-      const dailybackup = path.join(basedir, basename + '_' + datestring + extname)
-      if (fs.existsSync(dailybackup)) {
-        fs.rmSync(last)
-      } else {
-        fs.renameSync(last, dailybackup)
-      }
-    }
-    for (let i = gen - 1; i > 0; i--) {
-      const check = this.filename + '_' + i
-      if (fs.existsSync(check)) {
-        fs.renameSync(check, this.filename + '_' + (i + 1).toString())
-      }
-    }
-    if (fs.existsSync(this.filename)) {
-      fs.renameSync(this.filename, this.filename + '_1')
-    }
-  }
 
   /**
    * Save data to a Novel file: Encrypts data and creates a filename from basedir and id. If such a file already exists, 

@@ -2,16 +2,16 @@
 	import { _ } from 'svelte-i18n';
 	import Elementlist from '../widgets/Elementlist.svelte';
 	import Editor from '../widgets/Editor.svelte';
-	import type { SvelteComponentTyped } from 'svelte';
+	import { currentBook } from '../services/store';
 
-	import { load, save, current } from '../services/fileio';
+	import { load, save } from '../services/fileio';
 	const definition = {
 		type: 'chapters',
 		newelem: 'book.newchapter',
 		promptname: 'book.nochaptername',
 	};
 
-	let metadata = $current;
+	let metadata = $currentBook;
 	let currentChapter: chapter_def = {};
 	let currentChapterText: string = '';
 	let enterTime = false;
@@ -66,6 +66,7 @@
 	
 -->
 <template>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<div class="flex gap-4 flex-col md:flex-row h-screen">
 		<div class="flex-none h-full m-1">
 			<!-- div class="w-full md:w-2/6" -->

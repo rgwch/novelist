@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SimpleMDE from 'simplemde';
+	import SimpleMDE from 'easymde';
 	import { onDestroy, onMount, setContext } from 'svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -10,7 +10,12 @@
 	let editor;
 	let timer;
 	const toolbar = [
-		{ name: 'bold', action: 'toggleBold', className: 'fa fa-bold', title: $_('actions.bold') },
+		{
+			name: 'bold',
+			action: 'toggleBold',
+			className: 'fa fa-bold',
+			title: $_('actions.bold'),
+		},
 		'italic',
 		'heading-bigger',
 		'heading-smaller',
@@ -21,8 +26,8 @@
 			name: 'save',
 			action: (editor) => save(editor.value),
 			className: 'fa fa-save',
-			title: $_('actions.save')
-		}
+			title: $_('actions.save'),
+		},
 	];
 
 	$: setValue(contents);
@@ -39,7 +44,7 @@
 				autofocus: true,
 				spellChecker: false,
 				toolbar: false,
-				autoDownloadFontAwesome: false
+				autoDownloadFontAwesome: false,
 				// autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
 			editor.codemirror.on('blur', () => {

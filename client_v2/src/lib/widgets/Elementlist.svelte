@@ -2,19 +2,19 @@
 	A list of arbitrary objects
 -->
 <script lang="ts">
-	import "@fortawesome/fontawesome-free/js/solid";
-	import "@fortawesome/fontawesome-free";
-	import { _ } from "svelte-i18n";
-	import { arrayMoveImmutable as move } from "array-move";
-	import { createEventDispatcher } from "svelte";
+	import '@fortawesome/fontawesome-free/js/solid';
+	import '@fortawesome/fontawesome-free';
+	import { _ } from 'svelte-i18n';
+	import { arrayMoveImmutable as move } from 'array-move';
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	/** List of Elements in consumer-defined format */
 	export let elements = [];
 	/** Title for the "new Element" input */
-	export let newelem = "New...";
+	export let newelem = 'New...';
 	/** Title for the "Edit"- Prompt */
-	export let promptname = "New";
+	export let promptname = 'New';
 	/** function returns true if element shuld be displayed */
 	export let filter: (elem) => boolean = (n) => true;
 	/** function returns string as label for element */
@@ -29,8 +29,8 @@
 		if (newelement) {
 			const e = create(newelement);
 			elements = [...elements, e];
-			newelement = "";
-			dispatch("update", e);
+			newelement = '';
+			dispatch('update', e);
 		} else {
 			alert($_(promptname));
 		}
@@ -38,34 +38,34 @@
 
 	function select(item) {
 		currentElement = item;
-		dispatch("selected", item);
+		dispatch('selected', item);
 	}
 	function up(elem) {
 		const arr = elements;
 		const idx = arr.indexOf(elem);
 		elements = move(arr, idx, idx - 1);
-		dispatch("update", elem);
+		dispatch('update', elem);
 	}
 	function down(elem) {
 		const arr = elements;
 		const idx = arr.indexOf(elem);
 		elements = move(arr, idx, idx + 1);
-		dispatch("update", elem);
+		dispatch('update', elem);
 	}
 	function del(elem) {
-		console.log("del " + elem);
+		console.log('del ' + elem);
 		if (
-			confirm($_("messages.reallydelete", { values: { element: elem } }))
+			confirm($_('messages.reallydelete', { values: { element: elem } }))
 		) {
 			const idx = elements.indexOf(elem);
-			elements.splice(idx,1)
-			dispatch("update",null)
+			elements.splice(idx, 1);
+			dispatch('update', null);
 		}
 	}
 	async function edit(elem) {
 		const newtitle = prompt($_(promptname));
 		if (newtitle) {
-			const idx = elements.indexOf(elem);		
+			const idx = elements.indexOf(elem);
 		}
 	}
 </script>
@@ -79,8 +79,8 @@
 					<div class="item relative">
 						<div
 							class={currentElement == elem
-								? "font-bold"
-								: "font-normal"}
+								? 'font-bold'
+								: 'font-normal'}
 							on:click={() => select(elem)}
 						>
 							<span class="z-0">{label(elem)}</span>

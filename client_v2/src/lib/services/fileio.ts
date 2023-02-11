@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { writable } from "svelte/store";
 import { io } from "socket.io-client";
 import props from './properties'
 import hash from 'object-hash'
+import { currentBook } from './store'
 
-
-export const current = writable(undefined);
+export type dataType = "metadata" | "chapters" | "persons" | "places" | "notes" | "timeline"
 
 let socket
 let lastState = {}
@@ -34,10 +33,10 @@ socket.onAny((event, ...args) => {
 */
 
 socket.on("closed", () => {
-  current.set(undefined)
+  currentBook.set(undefined)
 })
 socket.on('disconnect', () => {
-  current.set(undefined)
+  currentBook.set(undefined)
 })
 
 socket.on("timeout", () => {
@@ -73,7 +72,7 @@ export function openCurrent(): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     socket.emit('getCurrent', (res: result) => {
       if (res.status === "ok") {
-        current.set(res.result)
+        currentBook.set(res.result)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -87,6 +86,7 @@ export function openBook(title: string, password: string): Promise<metadata_def>
   return new Promise((resolve, reject) => {
     socket.emit('openBook', title, password, (res: result) => {
       if (res.status === "ok") {
+        currentBook.set(res.result)
         resolve(res.result)
       } else {
         console.log("could not open " + res.message)
@@ -101,6 +101,7 @@ export function closeBook(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("closeBook", (res: result) => {
       if (res.status === "ok") {
+        currentBook.set(undefined)
         resolve(res.result)
       } else {
         reject(res.message)
@@ -109,7 +110,13 @@ export function closeBook(): Promise<boolean> {
   })
 }
 
-export function save(type: string, data: any): Promise<boolean> {
+/**
+ * save data. Will oonly sent to server if changed since last save (cached data)
+ * @param type data Type
+ * @param data the data
+ * @returns 
+ */
+export function save(type: dataType, data: any): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const str = hash.MD5(data || {})
     if (data && (lastState[type + data.name] !== str)) {
@@ -128,7 +135,14 @@ export function save(type: string, data: any): Promise<boolean> {
   })
 }
 
-export function load(type: string, name: string): Promise<any> {
+
+/**
+ * Load a defined datatype
+ * @param type type of the data to load
+ * @param name name of the element to load
+ * @returns 
+ */
+export function load(type: dataType, name: string): Promise<any> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, (res: result) => {
       if (res.status === "ok") {
@@ -156,7 +170,13 @@ export function changePwd(newPwd: string): Promise<boolean> {
 
 }
 
-export function remove(type: string, name: string): Promise<boolean> {
+/**
+ * Remove an element from the book
+ * @param type data type of the element
+ * @param name name of the element
+ * @returns 
+ */
+export function remove(type: dataType, name: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("delete", type, name, (res: result) => {
       if (res.status === "ok") {
@@ -183,12 +203,20 @@ export function integrityCheck(): Promise<boolean> {
   })
 }
 
-export function rename(type, oldname, newname): Promise<metadata_def> {
+/**
+ * Rename an element
+ * @param type data type of the element
+ * @param oldname previous name
+ * @param newname new name
+ * @returns 
+ */
+export function rename(type: dataType, oldname: string, newname: string): Promise<metadata_def> {
   return new Promise((resolve, reject) => {
     socket.emit("modify", "rename", { type, oldname, newname }, (res: result) => {
       if (res.status === "ok") {
         delete lastState[type + oldname]
         lastState[type + newname] = hash.MD5(res.result)
+        currentBook.set(res.result)
         resolve(res.result)
       } else {
         reject(res.message)

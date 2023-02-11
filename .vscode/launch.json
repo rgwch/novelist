@@ -22,27 +22,16 @@
       "request": "launch",
       "name": "Start Server",
       "runtimeExecutable": "npm",
+      "env": {
+        "NODE_ENV": "development"
+      },
       "runtimeArgs": [
-        "start",
+        "run","dev",
         "--preserve-symlinks"
       ],
-      "port": 9229,
       "cwd": "${workspaceFolder}/server",
       "skipFiles": [
         "<node_internals>/**"
-      ]
-    },
-    {
-      "type": "pwa-node",
-      "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "cwd": "${workspaceFolder}/server",
-      "program": "${workspaceFolder}/server/",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
       ]
     }
   ]
