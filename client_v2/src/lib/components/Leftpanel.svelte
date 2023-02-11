@@ -2,7 +2,7 @@
     import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
     import { currentBook } from '../services/store';
     import { _ } from 'svelte-i18n';
-    import Chapter from './Chapter.svelte';
+    import Chapters from './Chapters.svelte';
     import Book from './Book.svelte';
 </script>
 
@@ -20,7 +20,7 @@
             <Book />
         </TabPanel>
         <TabPanel>
-            <p>Chapter</p>
+            <Chapters />
         </TabPanel>
         <TabPanel>
             <p>Persons</p>

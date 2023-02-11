@@ -111,7 +111,7 @@ export function closeBook(): Promise<boolean> {
 }
 
 /**
- * save data. Will oonly sent to server if changed since last save (cached data)
+ * save data. Will only sent to server if changed since last save (cached data)
  * @param type data Type
  * @param data the data
  * @returns 
