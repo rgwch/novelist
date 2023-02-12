@@ -28,7 +28,7 @@
 <template>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	{#if $currentBook}
-		<div>
+		<div class="h-full">
 			{#if $currentChapter && $currentChapter.name}
 				<h3
 					class="text-lg font-semibold text-blue-400"
@@ -66,7 +66,7 @@
 					placeholder={$_('book.summary')}
 					bind:value={$currentChapter.summary} />
 				<textarea
-					class="border-2 border-solid w-full min-h-80"
+					class="border-2 border-solid w-full h-full min-h-80"
 					on:blur={saveChapter}
 					bind:value={$currentChapter.text} />
 				<!-- Editor save={saveChapter} bind:contents={$currentChapter.text} / -->

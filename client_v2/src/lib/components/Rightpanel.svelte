@@ -6,7 +6,7 @@
 
 <template>
     <div class="flex flex-col bg-red-100 h-full pb-30px">
-        <div class="flex-auto">
+        <div class="flex-auto h-full">
             <Chapter />
         </div>
         <div>
