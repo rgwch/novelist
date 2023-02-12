@@ -61,11 +61,12 @@ export class FileStore implements IStore {
   }
   queryObject(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      fs.access(path.join(basedir, id), fs.constants.R_OK | fs.constants.W_OK, (err) => {
+      fs.access(path.join(basedir, id), fs.constants.F_OK, (err) => {
         if (err) {
           resolve(false)
+        } else {
+          resolve(true)
         }
-        resolve(true)
       })
     })
   }
@@ -76,6 +77,20 @@ export class FileStore implements IStore {
         resolve(false)
       }
       fs.rename(path.join(basedir, id), path.join(basedir, newId), err => {
+        if (err) {
+          reject(err)
+        }
+        resolve(true)
+      })
+    })
+  }
+  copyObject(id: string, newId: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      if (!await this.queryObject(id)) {
+        console.log("copy: " + id + " does not exist")
+        resolve(false)
+      }
+      fs.copyFile(path.join(basedir, id), path.join(basedir, newId), err => {
         if (err) {
           reject(err)
         }

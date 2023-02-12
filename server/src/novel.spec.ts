@@ -8,26 +8,25 @@ import path from 'path'
 
 describe('Novel', () => {
 
-  beforeEach(async () => {
-    await Novel.fromDirectory('test/sample', "novelspec", "default", true)
-  });
 
   afterEach(async () => {
     await storeFactory.removeAll(/sample[0-9].*/)
   })
 
   afterAll(async () => {
-    await storeFactory.removeAll(/novelspec.*/)
+    await storeFactory.removeAll(/novelspec[0-9].*/)
     // await storeFactory.removeAll(/novelspec_[0-9]{4}-[0-9]{2}-[0-9]{2}.novel/)
   })
 
   it("creates a novel from a directory", async () => {
-    const novel = await Novel.open('novelspec.novel', "default");
+    await Novel.fromDirectory('test/sample', "novelspec1", "default", true)
+    const novel = await Novel.open('novelspec1.novel', "default");
     expect(novel).toBeDefined();
     await novel.close()
   })
   it('reads files from the noveldef', async () => {
-    const novel = await Novel.open('novelspec.novel', "default");
+    await Novel.fromDirectory('test/sample', "novelspec2", "default", true)
+    const novel = await Novel.open('novelspec2.novel', "default");
     const brutus = novel.getPerson('Brutus Allerdice');
     expect(brutus).toBeDefined();
     const chapter = novel.getChapter('First Chapter')
@@ -45,7 +44,7 @@ describe('Novel', () => {
   });
 
   it('adds and modifies a file', async () => {
-    const novel = await Novel.open('sample1', "default");
+    const novel = await Novel.open('sample2', "default");
     await novel.writePerson({
       name: 'Elvis Aalborg',
       nicknames: 'fish, elvis',
@@ -67,7 +66,8 @@ describe('Novel', () => {
 
   });
   it('renames a chapter', async () => {
-    const novel = await Novel.open('novelspec.novel', "default");
+    await Novel.fromDirectory('test/sample', "novelspec3", "default", true)
+    const novel = await Novel.open('novelspec3.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -83,7 +83,8 @@ describe('Novel', () => {
   })
 
   it('deletes a chapter', async () => {
-    const novel = await Novel.open('novelspec.novel', "default");
+    await Novel.fromDirectory('test/sample', "novelspec4", "default", true)
+    const novel = await Novel.open('novelspec4.novel', "default");
     expect(novel).toBeDefined()
     const chapter = novel.getChapter("First Chapter")
     expect(chapter).toBeTruthy()
@@ -108,7 +109,8 @@ describe('Novel', () => {
   })
 
   it("adds a person only once", async () => {
-    const novel = await Novel.open("novelspec.novel", "default");
+    await Novel.fromDirectory('test/sample', "novelspec5", "default", true)
+    const novel = await Novel.open("novelspec5.novel", "default");
     await novel.writePerson({
       name: "hans",
       nicknames: "peter"
@@ -125,7 +127,8 @@ describe('Novel', () => {
     expect(meta.persons.length).toEqual(3)
   })
   it("crossrefs persons and places", async () => {
-    const novel = await Novel.open("novelspec.novel", "default");
+    await Novel.fromDirectory('test/sample', "novelspec6", "default", true)
+    const novel = await Novel.open("novelspec6.novel", "default");
     const chapter = novel.getChapter("First Chapter")
     chapter.text = "There was Brutus Allerdice waiting in Illyria."
     await novel.writeChapter(chapter)
@@ -149,7 +152,8 @@ describe('Novel', () => {
     await novel.close()
   })
   it('fixes structural problems', async () => {
-    const novel = await Novel.open('novelspec.novel', "default");
+    await Novel.fromDirectory('test/sample', "novelspec7", "default", true)
+    const novel = await Novel.open('novelspec7.novel', "default");
     expect(novel).toBeDefined()
     await novel.ensureIntegrity()
     const meta = novel.readMetadata()

@@ -22,6 +22,9 @@ export class StoreFactory implements IStore {
         }
 
     }
+    copyObject(id: string, newId: string): Promise<boolean> {
+        return this.store.copyObject(id, newId)
+    }
     createStorable(id: string, passphrase: string): IStorable {
         return this.store.createStorable(id, passphrase)
     }
@@ -60,7 +63,7 @@ export class StoreFactory implements IStore {
         return base
     }
     /**
-     * On every call, create a new Version of the object debnoted by 'id', up to 'generations' versions.
+     * On every call, create a new Version of the object denoted by 'id', up to 'generations' versions.
      * Additionally, move the last kept version in a "today" version.
      * Does NOT store the object itself
      * @param id id of the object to rotate
@@ -72,7 +75,7 @@ export class StoreFactory implements IStore {
         const last = base + "_" + generations + ext
         const exists = await this.store.queryObject(last)
         if (exists) {
-            // last version to keep must drop out -> create "today"-Versiob
+            // last version to keep must drop out -> create "today"-Version
             const datestring = DateTime.now().toFormat('yyyy-LL-dd')
             const dailybackup = base + "_" + datestring + ext
             // if today version exists already: remove it
@@ -89,9 +92,9 @@ export class StoreFactory implements IStore {
                 await this.store.renameObject(check, base + "_" + (i + 1).toString() + ext)
             }
         }
-        // rename current file to backup #1
+        // save current object to backup #1
         if (await this.store.queryObject(id)) {
-            await this.store.renameObject(id, base + "_1" + ext)
+            await this.store.copyObject(id, base + "_1" + ext)
         }
     }
 

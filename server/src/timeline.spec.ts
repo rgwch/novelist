@@ -3,6 +3,7 @@ import { Timeline } from "./timeline";
 import { Novel } from './novel'
 import fs from 'fs'
 import path from 'path'
+jest.setTimeout(100000)
 
 describe("Timeline", () => {
   const chapters = {

@@ -96,4 +96,5 @@ interface IStore {
   listObjects(pattern: RegExp): Promise<Array<string>>
   queryObject(id: string): Promise<boolean>
   renameObject(id: string, newId: string): Promise<boolean>
+  copyObject(id: string, newId: string): Promise<boolean>
 }

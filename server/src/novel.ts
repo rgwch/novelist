@@ -46,24 +46,15 @@ export class Novel {
     let contents: Buffer
     try {
       contents = await store.load()
+      if (contents.length == 0) {
+        return this.newNovel(id, store)
+      }
     } catch (err) {
       if (err.message == ("Decrypt error")) {
         throw (err)
       } else {
         // file didn't exist -> create new
-        const def = {
-          metadata: defaultMetadata,
-          persons: {},
-          places: {},
-          chapters: {},
-          time: "",
-        };
-        def.metadata.title = id;
-        def.metadata.created = new Date();
-        const novel = new Novel(id, def, store);
-        await novel.flush()
-        return novel
-
+        return this.newNovel(id, store)
       }
     }
     try {
@@ -79,6 +70,20 @@ export class Novel {
     }
   }
 
+  static async newNovel(id: string, store: IStorable) {
+    const def = {
+      metadata: defaultMetadata,
+      persons: {},
+      places: {},
+      chapters: {},
+      time: "",
+    };
+    def.metadata.title = id;
+    def.metadata.created = new Date();
+    const novel = new Novel(id, def, store);
+    await novel.flush()
+    return novel
+  }
 
   /**
    * Create a Novel-file from a directory. This is useful for debugging purposes, and to convert existing books to .novels
@@ -212,13 +217,13 @@ export class Novel {
    */
   async flush(): Promise<void> {
     if (this.def) {
-      const backup_id = DateTime.now().toFormat("yyyy-LL-dd") + "_" + this.id
+      await storeFactory.rotate(this.id, 5)
       this.def.metadata.modified = new Date();
       const buff = Buffer.from(JSON.stringify(this.def));
       await this.store.save(buff);
-      const clone = this.store.clone(backup_id)
-      await clone.save(buff)
-      // await storeFactory.rotate(this.id, 5)
+      // const backup_id = DateTime.now().toFormat("yyyy-LL-dd") + "_" + this.id
+      // const clone = this.store.clone(backup_id)
+      // await clone.save(buff)
     }
   }
 

@@ -19,6 +19,15 @@ export class S3Store implements IStore {
         const del = await minio.removeObject(bucketname, id)
         return true
     }
+    async copyObject(id: string, newId: string): Promise<boolean> {
+        if (!(await this.queryObject(id))) {
+            console.log("copy: " + id + " does not exists")
+            return false;
+        }
+        const cp = await minio.copyObject(bucketname, newId, "/" + bucketname + "/" + id, null)
+        return !!cp
+    }
+
     createStorable(id: string, passphrase: string): IStorable {
         return new S3StoreObject(id, passphrase)
     }
