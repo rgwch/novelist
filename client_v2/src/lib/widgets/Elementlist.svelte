@@ -80,28 +80,21 @@
 							class={currentElement == elem
 								? 'font-bold'
 								: 'font-normal'}
-							on:click={() => select(elem)}
-						>
-							<span class="z-0">{label(elem)}</span>
+							on:click={() => select(elem)}>
+							<span class="z-0">{@html label(elem)}</span>
 							<span
-								class="absolute right-0 px-3 z-10 bg-blue-100"
-							>
+								class="absolute right-0 px-3 z-10 bg-blue-100 top-0">
 								<span on:click={() => up(elem)}
-									><i class="fa fa-angle-up " /></span
-								>
+									><i class="fa fa-angle-up " /></span>
 								<span on:click={() => down(elem)} class="px-2"
 									><i class="fa fa-angle-down" />
 								</span>
 								<span on:click={() => edit(elem)}
 									><i
-										class="fa fa-edit pointer-events-auto"
-									/></span
-								>
+										class="fa fa-edit pointer-events-auto" /></span>
 								<span on:click={() => del(elem)}
 									><i
-										class="fa fa-trash pointer-events-auto"
-									/></span
-								>
+										class="fa fa-trash pointer-events-auto" /></span>
 							</span>
 						</div>
 					</div>
@@ -113,11 +106,9 @@
 				class="border-2"
 				type="text"
 				bind:value={newelement}
-				placeholder={$_(newelem)}
-			/>
+				placeholder={$_(newelem)} />
 			<span on:click={addElement} class="bg-green-400 border-2"
-				>Neu...</span
-			>
+				>Neu...</span>
 		</div>
 	</div>
 </template>
