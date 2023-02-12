@@ -28,8 +28,11 @@ type metadata_def = {
 	// [propName: string]: any;
 };
 
-type person_def = {
-	name?: string;
+type entrydef = {
+	name?: string
+}
+
+type person_def = entrydef & {
 	nicknames?: string;
 	gender?: 'm' | 'f';
 	height?: number | string;
@@ -38,14 +41,12 @@ type person_def = {
 	age?: number;
 	description?: string;
 };
-type place_def = {
-	name?: string;
+type place_def = entrydef & {
 	alias?: string;
 	surround?: string;
 	description?: string;
 };
-type chapter_def = {
-	name?: string;
+type chapter_def = entrydef & {
 	persons?: Array<string>;
 	places?: Array<string>;
 	summary?: string;
@@ -72,7 +73,7 @@ type time_unit = 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months' |
 
 type timeline_entry = {
 	chapter: string; // Chapter this entry belongs to
-  summary: string; // summary of that chapter
+	summary: string; // summary of that chapter
 	date: Date; // Date/time for this entry
 	offset: number; // Offset of this entry from the beginning  in units
 	remark: string; // any text after the time spec

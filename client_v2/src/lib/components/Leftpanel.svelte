@@ -4,6 +4,7 @@
     import { _ } from 'svelte-i18n';
     import Chapters from './Chapters.svelte';
     import Book from './Book.svelte';
+    import Person from './Person.svelte';
     let idx = 0;
     currentBook.subscribe((b) => {
         if (b == undefined) {
@@ -29,7 +30,7 @@
             <Chapters />
         </TabPanel>
         <TabPanel>
-            <p>Persons</p>
+            <Person />
         </TabPanel>
         <TabPanel>
             <p>Places</p>

@@ -117,7 +117,7 @@ export function closeBook(): Promise<boolean> {
  * @param data the data
  * @returns 
  */
-export function save(type: dataType, data: any): Promise<boolean> {
+export function save(type: dataType, data: entrydef): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const str = hash.MD5(data || {})
     if (data && (lastState[type + data.name] !== str)) {
@@ -143,7 +143,7 @@ export function save(type: dataType, data: any): Promise<boolean> {
  * @param name name of the element to load
  * @returns 
  */
-export function load(type: dataType, name: string): Promise<any> {
+export function load(type: dataType, name: string): Promise<entrydef> {
   return new Promise((resolve, reject) => {
     socket.emit("load", type, name, (res: result) => {
       if (res.status === "ok") {
