@@ -53,6 +53,9 @@ type chapter_def = entrydef & {
 	time?: string;
 	text?: string;
 };
+type note_def = entrydef & {
+	text: string
+}
 type noveldef = {
 	metadata?: metadata_def;
 	cover?: Uint8Array;
