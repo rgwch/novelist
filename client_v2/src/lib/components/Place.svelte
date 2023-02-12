@@ -8,49 +8,42 @@
 	import ExtensibleDropdown from '../widgets/ExtensibleDropdown.svelte';
 	import Fieldeditor from '../widgets/Fieldeditor.svelte';
 	import { load, save, remove, rename } from '../services/fileio';
+	import { currentBook, currentPlace } from '../services/store';
 	import { _ } from 'svelte-i18n';
 	import Elementlist from '../widgets/Elementlist.svelte';
-	import { currentBook, currentPerson } from '../services/store';
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
 
 	let compact = true;
-	let filter: (elem: string) => boolean = (elem: string) => true;
-	const fields: Array<{ label: string; type: string }> = [
+	let filter: (elem) => boolean = (elem) => true;
+
+	const fields = [
 		{ label: 'name', type: 'string' },
-		{ label: 'nicknames', type: 'text' },
-		{ label: 'gender', type: 'string' },
-		{ label: 'height', type: 'string' },
-		{ label: 'stature', type: 'string' },
-		{ label: 'hair', type: 'string' },
-		{ label: 'age', type: 'string' },
+		{ label: 'alias', type: 'text' },
+		{ label: 'surround', type: 'string' },
 		{ label: 'description', type: 'text' },
 	];
 
-	const newelem = 'book.newperson';
-	const promptname = 'book.nopersonname';
+	const newelem = 'book.newplace';
+	const promptname = 'book.noplacename';
 
 	async function select(event) {
 		try {
-			if ($currentPerson) {
-				await save('persons', $currentPerson);
+			if ($currentPlace) {
+				await save('places', $currentPlace);
 			}
-			const def = await load('persons', event.detail);
-			if (def) {
-				for (let field of fields) {
-					if (!def[field.label]) {
-						def[field.label] = '';
-					}
+			const def = await load('places', event.detail);
+			for (let field of fields) {
+				if (!def[field.label]) {
+					def[field.label] = '';
 				}
-				currentPerson.set(def);
 			}
+			currentPlace.set(def);
 		} catch (err) {
 			alert(err);
 		}
 	}
 	async function saveFields(event) {
 		try {
-			await save('persons', $currentPerson);
+			await save('places', $currentPlace);
 		} catch (err) {
 			alert(err);
 		}
@@ -61,8 +54,8 @@
 		const rx = new RegExp(f, 'ig');
 		if (f) {
 			const pcache = {};
-			for (const person of $currentBook.persons) {
-				pcache[person] = await load('persons', person);
+			for (const place of $currentBook.places) {
+				pcache[place] = await load('places', place);
 			}
 			filter = (elem) => {
 				const pd: person_def = pcache[elem];
@@ -78,10 +71,10 @@
 		}
 	}
 	const create = async (name) => {
-		const person: person_def = {
+		const place: place_def = {
 			name,
 		};
-		await save('persons', person);
+		await save('places', place);
 		await select({ detail: name });
 		return name;
 	};
@@ -92,27 +85,30 @@
 	{#if compact}
 		<div class="flex flex-row">
 			<ExtensibleDropdown
-				bind:elements={$currentBook.persons}
+				bind:elements={$currentBook.places}
 				{newelem}
 				{promptname}
-				{create}
 				on:selected={select}
 				{filter}
+				{create}
 			/>
 			<span on:click={() => setFilter()}
 				><i class="fa fa-filter ml-2" /></span
 			>
-			<span on:click={() => (compact = false)}
-				><i class="fa fa-edit mx-2" /></span
+			<span
+				on:click={() => {
+					compact = false;
+				}}><i class="fa fa-edit mx-2" /></span
 			>
 		</div>
-		<Fieldeditor {fields} entity={$currentPerson} on:save={saveFields} />
+		<Fieldeditor {fields} entity={currentPlace} on:save={saveFields} />
 	{:else}
 		<div class="flex flex-row">
-			<span class="flex-grow">{$_('actions.edit')}</span>
+			<span class="flex-grow">{$_('book.places')}</span>
 			<span on:click={() => setFilter()}
 				><i class="fa fa-filter ml-2" /></span
 			>
+
 			<span
 				on:click={() => {
 					compact = true;
@@ -121,7 +117,7 @@
 		</div>
 		<div class="flex flex-row">
 			<Elementlist
-				bind:elements={$currentBook.persons}
+				bind:elements={$currentBook.places}
 				{filter}
 				on:selected={select}
 			/>
