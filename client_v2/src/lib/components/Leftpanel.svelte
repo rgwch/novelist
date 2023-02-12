@@ -34,8 +34,6 @@
     });
 </script>
 
-<template>
-    <div>
-        <Tabs tabs={tabdef} activeTab={idx} />
-    </div>
-</template>
+<div>
+    <Tabs tabs={tabdef} activeTab={idx} />
+</div>

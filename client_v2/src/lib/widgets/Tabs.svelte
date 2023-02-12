@@ -3,25 +3,24 @@
     export let activeTab = 0;
 </script>
 
-<template>
-    {#each tabs as tab, idx}
-        {#if tab.display}
-            <button
-                class="tab"
-                class:active={idx === activeTab}
-                on:click={() => {
-                    activeTab = idx;
-                }}>
-                {tab.name}
-            </button>
-        {/if}
-    {/each}
-    {#each tabs as tab, idx}
-        {#if idx === activeTab}
-            <svelte:component this={tab.content} />
-        {/if}
-    {/each}
-</template>
+{#each tabs as tab, idx}
+    {#if tab.display}
+        <button
+            class="tab"
+            class:active={idx === activeTab}
+            on:click={() => {
+                activeTab = idx;
+            }}
+        >
+            {tab.name}
+        </button>
+    {/if}
+{/each}
+{#each tabs as tab, idx}
+    {#if idx === activeTab}
+        <svelte:component this={tab.content} />
+    {/if}
+{/each}
 
 <style>
     .tab {

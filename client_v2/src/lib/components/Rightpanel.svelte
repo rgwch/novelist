@@ -1,16 +1,14 @@
 <script lang="ts">
-    import { currentChapter } from '../services/store';
-    import Chapter from '../components/Chapter.svelte';
-    import Notes from '../components/Notes.svelte';
+    import { currentChapter } from "../services/store";
+    import Chapter from "../components/Chapter.svelte";
+    import Notes from "../components/Notes.svelte";
 </script>
 
-<template>
-    <div class="flex flex-col bg-red-100 h-full pb-30px">
-        <div class="flex-auto h-full">
-            <Chapter />
-        </div>
-        <div>
-            <Notes />
-        </div>
+<div class="flex flex-col bg-red-100 h-full pb-30px">
+    <div class="flex-auto h-full">
+        <Chapter />
     </div>
-</template>
+    <div>
+        <Notes />
+    </div>
+</div>

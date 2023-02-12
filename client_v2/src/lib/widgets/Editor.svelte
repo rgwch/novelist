@@ -1,7 +1,7 @@
 <script lang="ts">
-	import EasyMDE from 'easymde';
-	import { onDestroy, onMount, setContext } from 'svelte';
-	import { _ } from 'svelte-i18n';
+	import EasyMDE from "easymde";
+	import { onDestroy, onMount, setContext } from "svelte";
+	import { _ } from "svelte-i18n";
 
 	export let save: (data: string) => void;
 	export let contents: string;
@@ -11,22 +11,22 @@
 	let timer;
 	const toolbar = [
 		{
-			name: 'bold',
-			action: 'toggleBold',
-			className: 'fa fa-bold',
-			title: $_('actions.bold'),
+			name: "bold",
+			action: "toggleBold",
+			className: "fa fa-bold",
+			title: $_("actions.bold"),
 		},
-		'italic',
-		'heading-bigger',
-		'heading-smaller',
-		'preview',
-		'fullscreen',
-		'|',
+		"italic",
+		"heading-bigger",
+		"heading-smaller",
+		"preview",
+		"fullscreen",
+		"|",
 		{
-			name: 'save',
+			name: "save",
 			action: (editor) => save(editor.value),
-			className: 'fa fa-save',
-			title: $_('actions.save'),
+			className: "fa fa-save",
+			title: $_("actions.save"),
 		},
 	];
 
@@ -47,7 +47,7 @@
 				autoDownloadFontAwesome: true,
 				// autosave: { enabled: true, uniqueId: new Date().toString() }
 			});
-			editor.codemirror.on('blur', () => {
+			editor.codemirror.on("blur", () => {
 				// console.log('Editor: blur');
 				save(editor.value());
 			});
@@ -63,19 +63,17 @@
 			})
 			*/
 		} catch (err) {
-			console.log('Editor: Error in initializer ' + err);
+			console.log("Editor: Error in initializer " + err);
 		}
 	});
 	onDestroy(() => {
 		if (editor) {
-			editor.value('');
+			editor.value("");
 		}
 	});
 </script>
 
-<template>
-	<textarea bind:this={container} />
-</template>
+<textarea bind:this={container} />
 
 <style>
 	:global(.CodeMirror) {
