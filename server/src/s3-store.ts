@@ -81,7 +81,21 @@ export class S3StoreObject implements IStorable {
         await minio.putObject(bucketname, this.id, encrypted)
         return true
     }
-    load(): Promise<Buffer> {
+    async load(): Promise<Buffer> {
+        let encrypted, decrypted
+        try {
+            encrypted = await this._load()
+        } catch (err) {
+            throw new Error("load error")
+        }
+        try {
+            const decrypted = await this.crypter.decryptBuffer(encrypted)
+            return decrypted
+        } catch (err) {
+            throw new Error("Decrypt error")
+        }
+    }
+    _load(): Promise<Buffer> {
         return new Promise((resolve, reject) => {
             let bufs: Array<Buffer> = []
             minio.getObject(bucketname, this.id, (err, stream) => {
@@ -93,9 +107,7 @@ export class S3StoreObject implements IStorable {
                     })
                     stream.on('end', () => {
                         const ret = Buffer.concat(bufs)
-                        this.crypter.decryptBuffer(ret).then(decrypted => {
-                            resolve(decrypted)
-                        })
+                        resolve(ret);
                     })
                     stream.on("error", err => {
                         reject(err)

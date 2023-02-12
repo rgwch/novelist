@@ -34,10 +34,10 @@ socket.onAny((event, ...args) => {
 */
 
 socket.on("closed", () => {
-  currentBook.set(undefined)
+  closeElements()
 })
 socket.on('disconnect', () => {
-  currentBook.set(undefined)
+  closeElements()
 })
 
 socket.on("timeout", () => {
@@ -52,6 +52,13 @@ socket.on("connect_error", (err) => {
   console.log("Error: " + err);
 });
 
+function closeElements() {
+  window.document.getElementById('warner').style.display = 'none';
+  currentBook.set(undefined)
+  currentChapter.set(undefined)
+  currentPerson.set(undefined)
+  currentPlace.set(undefined)
+}
 export function ping() {
   socket.emit("ping")
 }
@@ -102,10 +109,7 @@ export function closeBook(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     socket.emit("closeBook", (res: result) => {
       if (res.status === "ok") {
-        currentBook.set(undefined)
-        currentChapter.set(undefined)
-        currentPerson.set(undefined)
-        currentPlace.set(undefined)
+        closeElements()
         resolve(res.result)
       } else {
         reject(res.message)

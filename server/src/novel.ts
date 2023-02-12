@@ -43,33 +43,39 @@ export class Novel {
    */
   static async open(id: string, password: string): Promise<Novel> {
     const store = storeFactory.createStorable(id, password)
+    let contents: Buffer
     try {
-      const contents: Buffer = await store.load()
-      try {
-        const json: noveldef = JSON.parse(contents.toString("utf-8"));
-        const lastWrite = new Date(json.metadata.modified);
-        if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
-          return (new Novel(id, json, store));
-        } else {
-          throw new Error("invalid date " + json.metadata.modified);
-        }
-      } catch (err) {
-        throw new Error("structure error " + err);
+      contents = await store.load()
+    } catch (err) {
+      if (err.message == ("Decrypt error")) {
+        throw (err)
+      } else {
+        // file didn't exist -> create new
+        const def = {
+          metadata: defaultMetadata,
+          persons: {},
+          places: {},
+          chapters: {},
+          time: "",
+        };
+        def.metadata.title = id;
+        def.metadata.created = new Date();
+        const novel = new Novel(id, def, store);
+        await novel.flush()
+        return novel
+
+      }
+    }
+    try {
+      const json: noveldef = JSON.parse(contents.toString("utf-8"));
+      const lastWrite = new Date(json.metadata.modified);
+      if (lastWrite && lastWrite.getTime() === lastWrite.getTime()) {
+        return (new Novel(id, json, store));
+      } else {
+        throw new Error("invalid date " + json.metadata.modified);
       }
     } catch (err) {
-      // store.load failed
-      const def = {
-        metadata: defaultMetadata,
-        persons: {},
-        places: {},
-        chapters: {},
-        time: "",
-      };
-      def.metadata.title = id;
-      def.metadata.created = new Date();
-      const novel = new Novel(id, def, store);
-      await novel.flush()
-      return novel
+      throw new Error("structure error " + err);
     }
   }
 

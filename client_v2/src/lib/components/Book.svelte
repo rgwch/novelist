@@ -75,21 +75,15 @@ Display of the metadata of the currently opened book or a list of books availabl
 			let res;
 			try {
 				res = await openBook(bookFilename, password);
-				// current.set(res);
-				// visible.chapter = true;
-				console.log('ok');
 			} catch (err) {
-				/*
 				if (
 					err.includes('incorrect header') ||
-					err.includes('bad decrypt')
+					err.includes('Decrypt')
 				) {
 					alert($_('messages.badpwd'));
 				} else {
 					alert('Can not open ' + err);
 				}
-				*/
-				alert(err);
 			} finally {
 				password = '';
 			}

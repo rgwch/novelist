@@ -4,16 +4,26 @@
   import { load, save as do_save } from '../services/fileio';
 
   let note: note_def = {
-    name: $currentBook?.title + ' - notes',
+    name: 'notes',
     text: '',
   };
   currentBook.subscribe((b) => {
     load('notes', '')
       .then((n: note_def) => {
-        note = n;
+        if (!n.text) {
+          note = {
+            name: 'note',
+            text: n.toString(),
+          };
+        } else {
+          note = n;
+        }
       })
       .catch((errmsg) => {
-        note.text = '';
+        note = {
+          name: 'note',
+          text: '',
+        };
         console.log(errmsg);
       });
   });
@@ -35,6 +45,5 @@
   <textarea
     class="border-2 border-solid w-full h-full"
     on:blur={save}
-    bind:value={note.text}
-  />
+    bind:value={note.text} />
 </template>

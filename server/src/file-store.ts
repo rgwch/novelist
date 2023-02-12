@@ -138,7 +138,7 @@ export class FileStoreObject implements IStorable {
         return outstream.getContents() as Buffer
       } catch (err) {
         console.log("Decryption error: " + err)
-        throw (err)
+        throw new Error("Decrypt error")
       }
 
     } else {

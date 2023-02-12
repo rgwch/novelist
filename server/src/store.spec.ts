@@ -46,4 +46,13 @@ describe("Store", () => {
     expect(retrieved).toEqual(buffer)
   })
 
+  it("throws an error on bad password", async () => {
+    const store: IStorable = storeFactory.createStorable("dump1.store", "default");
+    const buffer = Buffer.alloc(100, "*", "utf-8")
+    await store.save(buffer)
+
+    const store2 = storeFactory.createStorable("dump1.store", "defaul");
+    expect(async () => await store2.load()).rejects.toThrow("Decrypt error")
+
+  })
 })

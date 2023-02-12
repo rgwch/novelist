@@ -119,7 +119,7 @@ io.on('connection', (socket: Socket) => {
       const metadata = await openBook(socket.id, title, password)
       callback({ status: 'ok', result: metadata })
     } catch (err) {
-      callback({ status: 'error', message: err })
+      callback({ status: 'error', message: err.message })
     }
   })
   const noBook = new Error('no book selected')

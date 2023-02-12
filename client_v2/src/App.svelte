@@ -1,24 +1,26 @@
 <script lang="ts">
-  import Menu from './lib/widgets/Menu.svelte';
   import Leftpanel from './lib/components/Leftpanel.svelte';
   import Rightpanel from './lib/components/Rightpanel.svelte';
-  import mainMenu from './menu';
-  import { closeBook } from './lib/services/fileio';
+  import { ping } from './lib/services/fileio';
   import { _ } from 'svelte-i18n';
-  import Rigthpanel from './lib/components/Rightpanel.svelte';
-
-  function menuselect(event) {
-    switch (event.detail) {
-      case 'menuClose':
-        closeBook();
-        break;
-    }
+  function warned() {
+    ping();
+    window.document.getElementById('warner').style.display = 'none';
   }
 </script>
 
 <template>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+
   <main>
     <div class="container p-2">
+      <div
+        style="display:none"
+        id="warner"
+        class="ml-2 cursor-pointer text-red-600"
+        on:click={warned}>
+        <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
+      </div>
       <div
         class="grid grid-cols-[400px,auto] grid-rows-[min-content] h-screen w-screen">
         <div class="left bg-green-100"><Leftpanel /></div>
