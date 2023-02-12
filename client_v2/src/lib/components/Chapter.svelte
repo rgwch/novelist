@@ -11,7 +11,7 @@
 		try {
 			console.log('saving ' + $currentChapter.name);
 			console.log($currentChapter.text);
-			const done = await save('chapters', currentChapter);
+			const done = await save('chapters', $currentChapter);
 			console.log(done);
 		} catch (err) {
 			alert(err);
@@ -27,7 +27,7 @@
 <template>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 
-	<div>
+	<div class="w-full h-full">
 		{#if $currentChapter && $currentChapter.name}
 			<h3
 				class="text-lg font-semibold text-blue-400"
@@ -68,7 +68,7 @@
 				bind:value={$currentChapter.summary}
 			/>
 			<textarea
-				class="border-2 border-solid w-full"
+				class="border-2 border-solid w-full h-full"
 				on:blur={saveChapter}
 				bind:value={$currentChapter.text}
 			/>

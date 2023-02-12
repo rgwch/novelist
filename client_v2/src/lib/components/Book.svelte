@@ -21,7 +21,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let visible;
+	//export let visible;
 	/** The metadata fields for a book. All are optional*/
 	const fields = [
 		'title',

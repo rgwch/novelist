@@ -2,7 +2,7 @@
     import { currentBook, currentChapter } from '../services/store';
     import { load, save } from '../services/fileio';
     import Elementlist from '../widgets/Elementlist.svelte';
-    const elements = $currentBook?.chapters;
+    // const elements = $currentBook?.chapters;
     const newelem = 'book.newchapter';
     const promptname = 'book.nochaptername';
     const create = async (label) => {
@@ -33,7 +33,7 @@
 
 <template>
     <Elementlist
-        {elements}
+        bind:elements={$currentBook.chapters}
         {newelem}
         {promptname}
         {create}
