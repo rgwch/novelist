@@ -66,7 +66,7 @@ type noveldef = {
 		[name: string]: place_def;
 	};
 	timeline?: string;
-	notes?: string;
+	notes?: note_def;
 	chapters?: {
 		[name: string]: chapter_def;
 	};

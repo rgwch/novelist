@@ -1,3 +1,4 @@
+import { currentPerson, currentPlace } from './store';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { io } from "socket.io-client";
@@ -103,6 +104,8 @@ export function closeBook(): Promise<boolean> {
       if (res.status === "ok") {
         currentBook.set(undefined)
         currentChapter.set(undefined)
+        currentPerson.set(undefined)
+        currentPlace.set(undefined)
         resolve(res.result)
       } else {
         reject(res.message)

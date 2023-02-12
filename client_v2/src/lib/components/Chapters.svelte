@@ -32,12 +32,13 @@
 </script>
 
 <template>
-    <Elementlist
-        bind:elements={$currentBook.chapters}
-        {newelem}
-        {promptname}
-        {create}
-        on:update={update}
-        on:selected={selected}
-    />
+    {#if $currentBook}
+        <Elementlist
+            bind:elements={$currentBook.chapters}
+            {newelem}
+            {promptname}
+            {create}
+            on:update={update}
+            on:selected={selected} />
+    {/if}
 </template>

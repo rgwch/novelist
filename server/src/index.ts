@@ -39,7 +39,7 @@ const httpServer = createServer((req, res) => {
  */
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.NODE_ENV==='develop' ? '*' : 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'develop' ? '*' : 'http://localhost:3000',
   },
 })
 /**
@@ -187,7 +187,7 @@ io.on('connection', (socket: Socket) => {
           await novel.writePlace(data as place_def)
           break
         case 'notes':
-          await novel.writeNotes(data as string)
+          await novel.writeNotes(data as note_def)
           break
         case 'timeline':
           await novel.writeTimeline(data as string)

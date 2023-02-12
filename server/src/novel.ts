@@ -480,7 +480,7 @@ export class Novel {
 
   getPerson = (name: string): person_def => this.def?.persons[name]
   getPlace = (name: string): place_def => this.def?.places[name]
-  getNotes = (): string => this.def?.notes
+  getNotes = (): note_def => this.def?.notes
   getExpose = (): string => this.def?.metadata?.expose
   readMetadata = (): metadata_def => this.def?.metadata
   getTimeline(): Array<timeline_entry> {
@@ -521,7 +521,7 @@ export class Novel {
     }
   }
   */
-  async writeNotes(notes: string): Promise<void> {
+  async writeNotes(notes: note_def): Promise<void> {
     if (this.def) {
       this.def.notes = notes;
       await this.flush();

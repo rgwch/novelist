@@ -5,10 +5,12 @@
 </script>
 
 <template>
-    <div>
-        <Chapter />
-    </div>
-    <div>
-        <Notes />
+    <div class="flex flex-col bg-red-100 h-full pb-30px">
+        <div class="flex-auto">
+            <Chapter />
+        </div>
+        <div>
+            <Notes />
+        </div>
     </div>
 </template>

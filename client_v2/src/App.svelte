@@ -18,12 +18,9 @@
 
 <template>
   <main>
-    <Menu menudef={mainMenu} on:menuselect={menuselect} />
-
-    <div class="container mt-30px">
+    <div class="container p-2">
       <div
-        class="grid grid-cols-[400px,auto] grid-rows-[min-content] h-screen w-screen"
-      >
+        class="grid grid-cols-[400px,auto] grid-rows-[min-content] h-screen w-screen">
         <div class="left bg-green-100"><Leftpanel /></div>
         <div class="right col-start-2 col-span-1 row-span-3 bg-blue-100">
           <Rightpanel />

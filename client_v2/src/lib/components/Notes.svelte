@@ -8,9 +8,14 @@
     text: '',
   };
   currentBook.subscribe((b) => {
-    load('notes', '').then((n: note_def) => {
-      note = n;
-    });
+    load('notes', '')
+      .then((n: note_def) => {
+        note = n;
+      })
+      .catch((errmsg) => {
+        note.text = '';
+        console.log(errmsg);
+      });
   });
 
   function save(): void {

@@ -105,6 +105,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	{#if $currentBook}
 		<Fieldeditor {fields} entity={$currentBook} on:save={saveBook} />
+		<button on:click={close}>{$_('actions.close')}</button>
 	{:else}
 		<div class="p-1 overflow-y-auto min-h-80">
 			{#await showBooks() then files}
@@ -120,11 +121,9 @@ Display of the metadata of the currently opened book or a list of books availabl
 				type="text"
 				id="name"
 				bind:this={booknameInput}
-				placeholder={$_('book.filename')}
-			/>
+				placeholder={$_('book.filename')} />
 			<button class="btn" on:click={() => open(booknameInput.value)}
-				>{$_('actions.open')}</button
-			>
+				>{$_('actions.open')}</button>
 		</div>
 		{#if modal}
 			<Modal title={$_('general.password')} dismiss={modalClosed}>
@@ -135,8 +134,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 						id="passwd"
 						class="border-solid border-2 border-blue-200 hover:border-blue-300 w-full"
 						bind:value={password}
-						autofocus
-					/>
+						autofocus />
 				</div>
 			</Modal>
 		{/if}

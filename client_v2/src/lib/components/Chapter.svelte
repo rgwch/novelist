@@ -17,6 +17,7 @@
 			alert(err);
 		}
 	}
+	let test = 'Haaaa';
 </script>
 
 <!--
@@ -26,53 +27,50 @@
 -->
 <template>
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-
-	<div class="w-full h-full">
-		{#if $currentChapter && $currentChapter.name}
-			<h3
-				class="text-lg font-semibold text-blue-400"
-				on:click={() => {
-					enterTime = !enterTime;
-				}}
-			>
-				{$currentChapter ? $currentChapter.name : ''}
-				{$currentChapter && $currentChapter.time
-					? ', ' + $currentChapter.time
-					: ''}
-			</h3>
-			{#if enterTime}
-				<input
+	{#if $currentBook}
+		<div>
+			{#if $currentChapter && $currentChapter.name}
+				<h3
+					class="text-lg font-semibold text-blue-400"
+					on:click={() => {
+						enterTime = !enterTime;
+					}}>
+					{$currentChapter ? $currentChapter.name : ''}
+					{$currentChapter && $currentChapter.time
+						? ', ' + $currentChapter.time
+						: ''}
+				</h3>
+				{#if enterTime}
+					<input
+						on:blur={saveChapter}
+						placeholder={$_('book.timestamp')}
+						bind:value={$currentChapter.time} />
+				{/if}
+				{#if $currentChapter.persons && $currentChapter.persons.length}
+					<div class="border-2 border-solid border-red-600">
+						{#each $currentChapter.persons as person}
+							<span>{person} </span>
+						{/each}
+					</div>
+				{/if}
+				{#if $currentChapter.places && $currentChapter.places.length}
+					<div class="border-2 border-solid border-red-200">
+						{#each $currentChapter.places as place}
+							<span>{place} </span>
+						{/each}
+					</div>
+				{/if}
+				<textarea
 					on:blur={saveChapter}
-					placeholder={$_('book.timestamp')}
-					bind:value={$currentChapter.time}
-				/>
+					class="border-2 border-solid w-full"
+					placeholder={$_('book.summary')}
+					bind:value={$currentChapter.summary} />
+				<textarea
+					class="border-2 border-solid w-full min-h-80"
+					on:blur={saveChapter}
+					bind:value={$currentChapter.text} />
+				<!-- Editor save={saveChapter} bind:contents={$currentChapter.text} / -->
 			{/if}
-			{#if $currentChapter.persons && $currentChapter.persons.length}
-				<div class="border-2 border-solid border-red-600">
-					{#each $currentChapter.persons as person}
-						<span>{person} </span>
-					{/each}
-				</div>
-			{/if}
-			{#if $currentChapter.places && $currentChapter.places.length}
-				<div class="border-2 border-solid border-red-200">
-					{#each $currentChapter.places as place}
-						<span>{place} </span>
-					{/each}
-				</div>
-			{/if}
-			<textarea
-				on:blur={saveChapter}
-				class="border-2 border-solid w-full"
-				placeholder={$_('book.summary')}
-				bind:value={$currentChapter.summary}
-			/>
-			<textarea
-				class="border-2 border-solid w-full h-full"
-				on:blur={saveChapter}
-				bind:value={$currentChapter.text}
-			/>
-			<!-- Editor save={saveChapter} bind:contents={$currentChapter.text} / -->
-		{/if}
-	</div>
+		</div>
+	{/if}
 </template>
