@@ -1,7 +1,17 @@
 {
-    "basedir": "/base/dir/for/novels",
-    "salt": "someRandomSaltString",
+    "salt": "someRandomSaltedString",
     "port": 2999,
-    "timeout": 900,
-    "encryption": true
+    "timeout": 600,
+    "encryption": false,
+    "storage": "file",
+    "file":{
+        "basedir": "/home/gerry/Dokumente/novels"
+    },
+    "s3":{
+        "endPoint": "my.s3.server.local",
+        "accessKey": "someIdentification",
+        "secretKey": "verySecretAuthentication",
+        "useSSL": false,
+        "port": 9000
+    }
 }

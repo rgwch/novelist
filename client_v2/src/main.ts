@@ -1,3 +1,6 @@
+/**
+ * Copyright @see LICENSE file
+ */
 import './lib/services/i18n/i18n'
 import App from './App.svelte'
 import 'virtual:windi.css'

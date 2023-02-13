@@ -8,35 +8,62 @@ On the other hand: My playground for Svelte, SocketIO, WindiCSS, Testing-Library
 
 ## Getting started
 
-* Make sure you have NodeJS 14 or higher installed and active.
-* Clone this repository, `cd` into the repository and execute `npm i`  in the server subdirectory and in the client subdirectory.
-* Make any personal modifications to client/src/tailwind.css (or just keep it for now). Do *not* modify client/public/tailwind.css manually.
-* In the client subdir, launch `npm run build:tailwind`. This will compile src/tailwind.css with the Tailwind utilities to public/tailwind.css.
-* type `npm start` in the server directory
-* type `npm run dev` in the client directory to launch the development server
-* Navigate your browser to http://localhost:3000
-* For production build: `build.sh` in the base directory. Target is at http://localhost:5000 then (configurable)
+* Make sure you have NodeJS 16 or higher installed and active.
+* Clone this repository, `cd` into the repository and execute `npm i`  in the server subdirectory and in the client_v2 subdirectory.
+* type `npm run dev` in the server directory
+* type `npm run dev` in the client_v2 directory to launch the development server
+* Navigate your browser to http://localhost:5173
+* For production build: `build.sh` in the base directory. Target is at http://localhost:2999 then (configurable in config/default.json or production.json)
 
 ## Configuration
 
 The json-files in server/config define some behaviour. See default_sample.json as an example.
 ````
 {
-    "basedir": "/base/dir/for/novels",
-    "salt": "someRandomSaltString",
+    "salt": "someRandomSaltedString",
     "port": 2999,
     "timeout": 600,
-    "encryption": true
+    "encryption": false,
+    "storage": "file",
+    "file":{
+        "basedir": "/home/gerry/Dokumente/novels"
+    },
+    "s3":{
+        "endPoint": "my.s3.server.local",
+        "accessKey": "someIdentification",
+        "secretKey": "verySecretAuthentication",
+        "useSSL": false,
+        "port": 9000
+    }
 }
-}
+
 ````
-* basedir: absolute path on the server where .novel files are located
 * salt: an initialization value for the encryption. Each installation of Novelist should have an individual salt, but within one installation, the salt should always remain the same. Decryption of a file is only possible with the same salt as was used for encryption.
 * port: the port where the server should listen. Do not change in development mode.
 * timeout: If no interaction is received from a client within that time (in seconds), the current book of that client is saved and closed.
 * encryption: If true, the .novel files are compressed and encrypted. If false, they're just plaintext files, consisting of stringified JSON.
+* storage: Method to store novels. Currently, "file" and "s3" are supported (see below)
 
 You can have a 'production.json' with values to override the default values in production mode. You might want to override e.g. the port setting.
+
+## Storage
+
+Novel files are stored either in the local filesystem (of the server), or in any S3-compatible database. Prominent example of S3 Storage is [Amazon's AWS](https://aws.amazon.com/s3/), but there are others. If you want to create an S3 Storage on your own system, you might give [Minio](https://min.io/) a try. This is quite easy to set up via [Docker](https://hub.docker.com/r/minio/minio).
+
+### Storage specific settings
+
+**file:**
+
+"basedir": Absolute path to the directory for .novel files.
+
+**s3:**
+
+"endPoint": URL of the S3 Server
+"accessKey": Access Key (created on the server management console)
+"secretKey": Matching secret key
+"useSSL": true if you connect via public internet, probably false withnin your own LAN or VPN
+"port": Port on the server, defaults to 80. Minio's default port is 9000
+
 
 ## Concepts
 
@@ -100,7 +127,7 @@ name.novel
     notes.md
 </pre>    
 
-Novelist will always keep several copies of every book: bookname.novel_1 to bookname.novel_5 are updated with every save. And every day a new bookname_yy-mm-dd.novel is created with the current contents at the first save of that day.
+Novelist will always keep several copies of every book: bookname_1.novel to bookname_5.novel are updated with every save. And every day a new bookname_yy-mm-dd.novel is created with the current contents at the first save of that day.
 
 ## Limitations
 
@@ -110,11 +137,10 @@ Not multiuser capable. Only one client can work on any book at a time. It is pos
 
 [Svelte](https://svelte.dev)
 
-[Tailwind CSS](https://tailwindcss.com/)
+[WindiCSS](https://windicss.org/)
 
 [SocketIO](https://socket.io/)
 
-[SimpleMDE](https://simplemde.com/)
 
 
 

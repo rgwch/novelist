@@ -1,8 +1,12 @@
 {
-  "name": "client_v2",
+  "name": "novelist_client",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
+  "engines": {
+    "node": "^16",
+    "npm":"^8"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -25,7 +29,6 @@
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^3.0.0",
     "@types/luxon": "^3.2.0",
-    "@types/simplemde": "^1.11.8",
     "array-move": "^4.0.0",
     "babel-loader": "^8.3.0",
     "easymde": "^2.18.0",
