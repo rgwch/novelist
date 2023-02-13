@@ -21,9 +21,24 @@ const httpServer = createServer((req, res) => {
   if (!file || file === '/' || file === '') {
     file = 'index.html'
   }
-  const fullpath = path.join(__dirname, 'public', file)
-  console.log('serving ' + path.join(__dirname, 'public', file))
+
+  const fullpath = path.join(__dirname, '../../', 'client_v2/dist', file)
+  let mime = 'text/html; charset="utf-8"'
+  if (file.endsWith('js')) {
+    mime = 'text/javascript'
+  } else if (file.endsWith('css')) {
+    mime = 'text/css'
+  } else if (file.endsWith('svg')) {
+    mime = 'text/svg+xml'
+  } else if (file.endsWith('jpg')) {
+    mime = 'image/jpeg'
+  } else if (file.endsWith('txt')) {
+    mime = 'text/plain'
+  }
+
+  console.log('serving ' + fullpath)
   if (fs.existsSync(fullpath)) {
+    res.setHeader('Content-Type', mime)
     const read = fs.createReadStream(fullpath)
     read.on('end', () => {
       res.end()

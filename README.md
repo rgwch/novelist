@@ -4,7 +4,7 @@
 
 A Novel writer's toolkit. Client/Server oriented, so you could work on your next book from a PC, Laptop, Tablet or even a Smartphone. Keep Story, persons, places and timeline ready.
 
-On the other hand: My playground for Svelte, SocketIO, TailwindCSS, Testing-Library, Storybook, Codecept. 
+On the other hand: My playground for Svelte, SocketIO, WindiCSS, Testing-Library, Storybook, Codecept. 
 
 ## Getting started
 

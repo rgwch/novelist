@@ -1,11 +1,13 @@
 #! /bin/sh
 
-cd client_v2
+cd client
 npm run clean
+npm run build:tailwind
 npm run build
 cd ../server
 npm run clean
 npm run build
-touch server/tmp/restart.txt
+cp -R ../client/public dist/
+
 
 

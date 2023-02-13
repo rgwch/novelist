@@ -9,7 +9,6 @@
   }
 </script>
 
-<template>
   <!-- svelte-ignore a11y-click-events-have-key-events -->
 
   <main class="w-max">
@@ -30,7 +29,6 @@
       </div>
     </div>
   </main>
-</template>
 
 <style windi:preflights:global windi:safelist:global>
 </style>
