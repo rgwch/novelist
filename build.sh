@@ -6,6 +6,6 @@ npm run build
 cd ../server
 npm run clean
 npm run build
-touch server/tmp/restart.txt
+touch tmp/restart.txt
 
 

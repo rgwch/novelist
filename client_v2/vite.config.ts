@@ -16,10 +16,10 @@ export default defineConfig({
           from: "isproduction",
           to: production.toString(),
         }, {
-          from: "WEBELEXIS_VERSION",
+          from: "NOVELIST_VERSION",
           to: infos.version,
         }, {
-          from: "WEBELEXIS_BUILDDATE",
+          from: "NOVELIST_BUILDDATE",
           to: new Date().toString()
         }]
       }]

@@ -3,6 +3,7 @@
   import Rightpanel from './lib/components/Rightpanel.svelte';
   import { ping } from './lib/services/fileio';
   import { _ } from 'svelte-i18n';
+  import defs from './lib/services/properties'
   function warned() {
     ping();
     window.document.getElementById('warner').style.display = 'none';
@@ -12,6 +13,7 @@
   <!-- svelte-ignore a11y-click-events-have-key-events -->
 
   <main class="w-max">
+    <!-- {defs.production}, {defs.build} -->
     <div class="container overflow-hidden ml-2 p-1 w-screen">
       <div
         style="display:none"
