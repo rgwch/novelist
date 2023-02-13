@@ -1,8 +1,28 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import filterReplace from "vite-plugin-filter-replace";
+const infos = require('./package.json')
 import WindiCSS from 'vite-plugin-windicss'
+const production = process.env.NODE_ENV != "development"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte(),WindiCSS()],
+  plugins: [svelte(), WindiCSS(),
+  filterReplace(
+    [
+      {
+        filter: ['src/lib/services/properties.ts'],
+        replace: [{
+          from: "isproduction",
+          to: production.toString(),
+        }, {
+          from: "WEBELEXIS_VERSION",
+          to: infos.version,
+        }, {
+          from: "WEBELEXIS_BUILDDATE",
+          to: new Date().toString()
+        }]
+      }]
+  )]
 })
+
