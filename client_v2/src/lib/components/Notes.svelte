@@ -1,6 +1,6 @@
 <script lang="ts">
   import { currentBook } from "../services/store";
-  import { onMount } from "svelte";
+  import { _ } from 'svelte-i18n' 
   import { load, save as do_save } from "../services/fileio";
 
   let note: note_def = {
@@ -43,6 +43,7 @@
 
 <textarea
   class="border-2 border-solid w-full h-full"
+  placeholder={$_("book.notes")}
   on:blur={save}
   bind:value={note.text}
 />

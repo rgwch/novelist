@@ -66,7 +66,7 @@
 				bind:value={$currentChapter.summary}
 			/>
 			<textarea
-				class="border-2 border-solid w-full h-full min-h-80"
+				class="border-2 border-solid w-full h-80vh min-h-80"
 				on:blur={saveChapter}
 				bind:value={$currentChapter.text}
 			/>

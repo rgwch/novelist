@@ -80,10 +80,15 @@ if (timeout !== 0) {
               if (books[s]) {
                 const novel: Novel = books[s]
                 if (novel) {
-                  await novel.close()
-                  console.log('Timeout closed ' + s)
-                  delete books[s]
-                  sockets[s].socket.emit('closed')
+                  try {
+                    await novel.close()
+                    console.log('Timeout closed ' + s)
+                  } catch (err) {
+                    console.log(err.message)
+                  } finally {
+                    sockets[s].socket.emit('closed')
+                    delete books[s]
+                  }
                 }
               }
             } else {
@@ -105,11 +110,16 @@ io.on('connection', (socket: Socket) => {
   }
   socket.on('disconnect', async () => {
     if (books[socket.id]) {
-      // console.log("index: disconnect " + socket.id)
-      const novel: Novel = books[socket.id]
-      await novel.close()
-      delete books[socket.id]
-      delete sockets[socket.id]
+      try {
+        // console.log("index: disconnect " + socket.id)
+        const novel: Novel = books[socket.id]
+        await novel.close()
+      } catch (err) {
+        console.log(err.message)
+      } finally {
+        delete books[socket.id]
+        delete sockets[socket.id]
+      }
     }
     console.log('disconnected ' + socket.id)
   })
@@ -161,7 +171,7 @@ io.on('connection', (socket: Socket) => {
       delete books[socket.id]
       callback({ status: 'ok' })
     } catch (err) {
-      callback({ status: 'error', message: err })
+      callback({ status: 'error', message: err.message })
     }
   })
   socket.on('getCurrent', (callback) => {

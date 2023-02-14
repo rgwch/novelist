@@ -53,9 +53,13 @@ Display of the metadata of the currently opened book or a list of books availabl
 	}
 
 	async function close() {
-		await saveBook({});
-		await closeBook();
-		// currentBook.set(undefined);
+		try {
+			await saveBook({});
+			await closeBook();
+			// currentBook.set(undefined);
+		} catch (err) {
+			alert(err);
+		}
 	}
 	async function open(filename) {
 		password = "";
@@ -76,7 +80,10 @@ Display of the metadata of the currently opened book or a list of books availabl
 			try {
 				res = await openBook(bookFilename, password);
 			} catch (err) {
-				if (err.includes("incorrect header") || err.includes("Decrypt")) {
+				if (
+					err.includes("incorrect header") ||
+					err.includes("Decrypt")
+				) {
 					alert($_("messages.badpwd"));
 				} else {
 					alert("Can not open " + err);
@@ -111,11 +118,9 @@ Display of the metadata of the currently opened book or a list of books availabl
 			type="text"
 			id="name"
 			bind:this={booknameInput}
-			placeholder={$_("book.filename")}
-		/>
+			placeholder={$_("book.filename")} />
 		<button class="btn" on:click={() => open(booknameInput.value)}
-			>{$_("actions.open")}</button
-		>
+			>{$_("actions.open")}</button>
 	</div>
 	{#if modal}
 		<Modal title={$_("general.password")} dismiss={modalClosed}>
@@ -126,8 +131,7 @@ Display of the metadata of the currently opened book or a list of books availabl
 					id="passwd"
 					class="border-solid border-2 border-blue-200 hover:border-blue-300 w-full"
 					bind:value={password}
-					autofocus
-				/>
+					autofocus />
 			</div>
 		</Modal>
 	{/if}
