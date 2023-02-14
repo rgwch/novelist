@@ -48,7 +48,7 @@ You can have a 'production.json' with values to override the default values in p
 
 ## Storage
 
-Novel files are stored either in the local filesystem (of the server), or in any S3-compatible database. Prominent example of S3 Storage is [Amazon's AWS](https://aws.amazon.com/s3/), but there are others. If you want to create an S3 Storage on your own system, you might give [Minio](https://min.io/) a try. This is quite easy to set up via [Docker](https://hub.docker.com/r/minio/minio).
+Novel files are stored either in the local filesystem (of the server), or in any S3-compatible database. Prominent example of S3 Storage is [Amazon's AWS](https://aws.amazon.com/s3/), but there are others. If you want to create an S3 Storage on your own system, you might give [Minio](https://min.io/) a try. This is quite easy to set up via [Docker](https://hub.docker.com/r/minio/minio) (see [docker-compose.yaml](docker-compose.yaml) for an example).
 
 ### Storage specific settings
 
@@ -61,7 +61,7 @@ Novel files are stored either in the local filesystem (of the server), or in any
 "endPoint": URL of the S3 Server
 "accessKey": Access Key (created on the server management console)
 "secretKey": Matching secret key
-"useSSL": true if you connect via public internet, probably false withnin your own LAN or VPN
+"useSSL": true if you connect via public internet, probably false within your own LAN or VPN
 "port": Port on the server, defaults to 80. Minio's default port is 9000
 
 

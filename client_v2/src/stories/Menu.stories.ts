@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
-import Menu  from './Menu.svelte'
-import type { MenuDef } from './Popup.svelte';
+import Menu  from '../lib/widgets/Menu.svelte'
+import type { MenuDef } from '../lib/widgets/Popup.svelte';
 
 const meta = {
     title: "Widgets/Menu",

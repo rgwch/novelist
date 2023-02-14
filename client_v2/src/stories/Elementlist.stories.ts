@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte';
-import '../services/i18n/i18n';
-import El from './Elementlist.svelte';
+import '../lib/services/i18n/i18n';
+import El from '../lib/widgets/Elementlist.svelte';
 
 const data = [[1, 'one'], [2, 'two'], [9, 'more']]
 let idx = 3
