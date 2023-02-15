@@ -1,21 +1,22 @@
 <script lang="ts">
     // import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs';
-    import { currentBook } from "../services/store";
-    import { _ } from "svelte-i18n";
-    import Chapters from "./Chapters.svelte";
-    import Book from "./Book.svelte";
-    import Person from "./Person.svelte";
-    import Place from "./Place.svelte";
-    import Timeline from "./Timeline.svelte";
-    import Tabs from "../widgets/Tabs.svelte";
+    import { currentBook } from '../services/store';
+    import { _ } from 'svelte-i18n';
+    import Chapters from './Chapters.svelte';
+    import Book from './Book.svelte';
+    import Person from './Person.svelte';
+    import Place from './Place.svelte';
+    import Timeline from './Timeline.svelte';
+    import Tabs from '../widgets/Tabs.svelte';
+    import Notes from './Notes.svelte';
     let idx = 0;
 
     let tabdef = [
-        { name: $_("book.metadata"), content: Book, display: true },
-        { name: $_("book.chapter"), content: Chapters, display: false },
-        { name: $_("book.persons"), content: Person, display: false },
-        { name: $_("book.places"), content: Place, display: false },
-        { name: $_("book.timeline"), content: Timeline, display: false },
+        { name: $_('book.metadata'), content: Book, display: true },
+        { name: $_('book.chapter'), content: Chapters, display: false },
+        { name: $_('book.persons'), content: Person, display: false },
+        { name: $_('book.places'), content: Place, display: false },
+        { name: $_('book.timeline'), content: Timeline, display: false },
     ];
 
     currentBook.subscribe((b) => {
@@ -36,4 +37,5 @@
 
 <div>
     <Tabs tabs={tabdef} activeTab={idx} />
+    <Notes />
 </div>

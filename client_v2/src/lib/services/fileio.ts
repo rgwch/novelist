@@ -41,6 +41,7 @@ socket.on('disconnect', () => {
 })
 
 socket.on("timeout", () => {
+  console.log("Tiemout warning")
   const warner = window.document.getElementById("warner")
   warner.style.display = "inline-block"
 

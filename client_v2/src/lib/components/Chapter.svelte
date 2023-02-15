@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { _ } from "svelte-i18n";
-	import { currentBook, currentChapter } from "../services/store";
+	import { _ } from 'svelte-i18n';
+	import { currentBook, currentChapter } from '../services/store';
 
-	import { load, save } from "../services/fileio";
+	import { load, save } from '../services/fileio';
 
 	let enterTime = false;
 
 	async function saveChapter(event) {
 		try {
-			console.log("saving " + $currentChapter.name);
-			console.log($currentChapter.text);
-			const done = await save("chapters", $currentChapter);
+			console.log('saving ' + $currentChapter.name);
+			// console.log($currentChapter.text);
+			const done = await save('chapters', $currentChapter);
 			console.log(done);
 		} catch (err) {
 			alert(err);
@@ -24,26 +24,24 @@
 	
 -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-{#if $currentBook}
-	<div class="h-full">
-		{#if $currentChapter && $currentChapter.name}
+{#if $currentBook && $currentChapter}
+	<div class="h-90vh">
+		<div class="bg-yellow-300">
 			<h3
 				class="text-lg font-semibold text-blue-400"
 				on:click={() => {
 					enterTime = !enterTime;
-				}}
-			>
-				{$currentChapter ? $currentChapter.name : ""}
+				}}>
+				{$currentChapter ? $currentChapter.name : ''}
 				{$currentChapter && $currentChapter.time
-					? ", " + $currentChapter.time
-					: ""}
+					? ', ' + $currentChapter.time
+					: ''}
 			</h3>
 			{#if enterTime}
 				<input
 					on:blur={saveChapter}
-					placeholder={$_("book.timestamp")}
-					bind:value={$currentChapter.time}
-				/>
+					placeholder={$_('book.timestamp')}
+					bind:value={$currentChapter.time} />
 			{/if}
 			{#if $currentChapter.persons && $currentChapter.persons.length}
 				<div class="border-2 border-solid border-red-600">
@@ -62,15 +60,21 @@
 			<textarea
 				on:blur={saveChapter}
 				class="border-2 border-solid w-full"
-				placeholder={$_("book.summary")}
-				bind:value={$currentChapter.summary}
-			/>
+				placeholder={$_('book.summary')}
+				bind:value={$currentChapter.summary} />
+		</div>
+		<div class="bg-red-300 textwrapper">
 			<textarea
-				class="border-2 border-solid w-full h-80vh min-h-80"
+				class="border-2 border-solid w-full h-full"
 				on:blur={saveChapter}
-				bind:value={$currentChapter.text}
-			/>
+				bind:value={$currentChapter.text} />
 			<!-- Editor save={saveChapter} bind:contents={$currentChapter.text} / -->
-		{/if}
+		</div>
 	</div>
 {/if}
+
+<style>
+	.textwrapper {
+		height: calc(100%-100px);
+	}
+</style>
