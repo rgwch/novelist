@@ -1,5 +1,5 @@
 #! /bin/sh
-
+git pull
 cd client_v2
 npm run clean
 npm run build
