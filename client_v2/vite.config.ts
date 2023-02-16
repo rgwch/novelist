@@ -20,7 +20,7 @@ export default defineConfig({
           to: infos.version,
         }, {
           from: "NOVELIST_BUILDDATE",
-          to: new Date().toString()
+          to: new Date().toISOString()
         }]
       }]
   )]
