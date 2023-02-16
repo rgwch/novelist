@@ -2,7 +2,7 @@
 declare module 'svelte-i18n';
 declare module 'svelte';
 
-type metadata_def = {
+type metadata_def = entrydef & {
 	id?: string;
 	title?: string;
 	series?: string;

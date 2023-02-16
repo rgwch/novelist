@@ -8,7 +8,6 @@
     import Place from './Place.svelte';
     import Timeline from './Timeline.svelte';
     import Tabs from '../widgets/Tabs.svelte';
-    import Notes from './Notes.svelte';
     let idx = 0;
 
     let tabdef = [
@@ -37,5 +36,4 @@
 
 <div>
     <Tabs tabs={tabdef} activeTab={idx} />
-    <Notes />
 </div>

@@ -119,6 +119,9 @@ export function closeBook(): Promise<boolean> {
   })
 }
 
+async function saveBook(event) {
+  await save('metadata', currentBook);
+}
 /**
  * save data. Will only sent to server if changed since last save (cached data)
  * @param type data Type
