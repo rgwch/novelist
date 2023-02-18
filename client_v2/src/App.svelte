@@ -17,7 +17,7 @@
 
 <!-- {defs.production}, {defs.build} -->
 <div
-  class="flex flex-col md:(grid grid-cols-[400px,auto] grid-rows-[min-content,min-content] content-between w-95vw h-90vh) ml-1 p-1">
+  class="flex flex-col md:(grid grid-cols-[420px,auto] grid-rows-[min-content,min-content] content-between w-95vw h-90vh) ml-1 p-1">
   <div class="left bg-green-100 m-1 p-1">
     <Leftpanel />
     <div class="h-3">
@@ -27,7 +27,7 @@
     </div>
   </div>
   <div
-    class="right col-start-2 col-span-1 row-span-2 bg-blue-300 h-full border-1">
+    class="right col-start-2 col-span-1 row-span-2 bg-blue-200 h-full border-1">
     <div
       style="display:none"
       id="warner"
@@ -39,10 +39,10 @@
   </div>
   {#if $currentBook}
     <div class="bg-green-500">
-      <div>
+      <div class="h-20 max-h-30">
         <Notes />
       </div>
-      <div class="h-6">
+      <div class="h-6 max-h-6">
         <Buttons />
       </div>
     </div>

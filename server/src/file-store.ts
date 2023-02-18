@@ -11,14 +11,14 @@ import os from 'os'
 import config from 'config'
 import { Crypter } from '@rgwch/simple-crypt'
 
-/**
- * find the directory where Novels are stored. Consider Environment variable NOVELS_DIR and configuration option "basedir". 
- * @returns a directory to find and store Novels (Which is the users homedir, if nothing else was defined)
- */
-
 
 let basedir
 
+/**
+ * Store implementation for the file systems
+ * Following config is needed:
+ * "file":{ "basedir": "/path/to/base/dir"}
+ */
 export class FileStore implements IStore {
   constructor(cfg) {
     basedir = os.homedir()

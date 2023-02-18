@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { _ } from "svelte-i18n";
-	import { createEventDispatcher, onMount, onDestroy } from "svelte";
-	import { DateTime } from "luxon";
+	import { _ } from 'svelte-i18n';
+	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+	import { DateTime } from 'luxon';
 	const dispatch = createEventDispatcher();
 
 	export let fields: Array<string | { label: string; type: string }> = [];
@@ -9,26 +9,26 @@
 	const _fields = [];
 
 	function toDisplay(elem) {
-		return $_("fields." + elem);
+		return $_('fields.' + elem);
 	}
 	onMount(() => {
 		for (let field of fields) {
-			if (typeof field == "string") {
-				_fields.push({ label: field, type: "string" });
-				entity[field] = entity[field] || "";
+			if (typeof field == 'string') {
+				_fields.push({ label: field, type: 'string' });
+				entity[field] = entity[field] || '';
 			} else {
 				_fields.push(field);
-				entity[field.label] = entity[field.label] || "";
+				entity[field.label] = entity[field.label] || '';
 			}
 		}
 	});
 	onDestroy(async () => {
 		// console.log('closing fieldeditor');
-		dispatch("save", entity);
+		dispatch('save', entity);
 	});
 	function todate(s) {
 		const dt = DateTime.fromISO(s);
-		return dt.toFormat($_("adapters.datetime_format"));
+		return dt.toFormat($_('adapters.datetime_format'));
 	}
 </script>
 
@@ -37,26 +37,24 @@
 		{#if entity}
 			{#each _fields as field}
 				<tr>
-					<td class="pr-4 md:w-1/3 lg:w-1/6">{toDisplay(field.label)}</td>
+					<td class="pr-4 w-1/3 lg:w-1/4"
+						>{toDisplay(field.label)}</td>
 					<td class="pl-4">
-						{#if field.type === "text"}
+						{#if field.type === 'text'}
 							<textarea
 								class="border focus:outline-none focus:ring-2 focus-ring-blue-600 w-full"
-								bind:value={entity[field.label]}
-							/>
-						{:else if field.type === "date"}
+								bind:value={entity[field.label]} />
+						{:else if field.type === 'date'}
 							<input
 								class="border focus-ring-blue-600"
 								type="date"
-								bind:value={entity[field.label]}
-							/>
-						{:else if field.type === "datetime"}
+								bind:value={entity[field.label]} />
+						{:else if field.type === 'datetime'}
 							<span>{todate(entity[field.label])}</span>
 						{:else}
 							<input
 								class="border focus:outline-none focus:ring-2 focus:ring-blue-600 w-full"
-								bind:value={entity[field.label]}
-							/>
+								bind:value={entity[field.label]} />
 						{/if}
 					</td>
 				</tr>

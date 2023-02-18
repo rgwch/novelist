@@ -5,6 +5,17 @@ import { Crypter } from '@rgwch/simple-crypt'
 const bucketname = "novels"
 let minio: Minio.Client
 
+/**
+ * Store implementation for an S3 compatible store
+ * Config:
+  "s3":{
+      "accessKey": "KeyAsSetInTheS2AdminConsole",
+      "secretKey": "SecretAsCreatedInTheAdminConsole",
+      "endPoint": "localhost",
+      "port": 9000,
+      "useSSL": false   
+     }
+ */
 export class S3Store implements IStore {
 
     constructor(cfg) {

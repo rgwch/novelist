@@ -26,7 +26,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 {#if $currentBook && $currentChapter}
 	<div class="h-90vh">
-		<div class="bg-yellow-300">
+		<div class="bg-blu-200">
 			<h3
 				class="text-lg font-semibold text-blue-400"
 				on:click={() => {
