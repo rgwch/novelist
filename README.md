@@ -54,15 +54,15 @@ Novel files are stored either in the local filesystem (of the server), or in any
 
 **file:**
 
-"basedir": Absolute path to the directory for .novel files.
+* "basedir": Absolute path to the directory for .novel files.
 
 **s3:**
 
-"endPoint": URL of the S3 Server
-"accessKey": Access Key (created on the server management console)
-"secretKey": Matching secret key
-"useSSL": true if you connect via public internet, probably false within your own LAN or VPN
-"port": Port on the server, defaults to 80. Minio's default port is 9000
+* "endPoint": URL of the S3 Server
+* "accessKey": Access Key (created on the server management console)
+* "secretKey": Matching secret key
+* "useSSL": true if you connect via public internet, probably false within your own LAN or VPN
+* "port": Port on the server, defaults to 80. Minio's default port is 9000
 
 
 ## Concepts
