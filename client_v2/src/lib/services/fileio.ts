@@ -12,7 +12,7 @@ let socket
 let lastState = {}
 
 
-// Note: rollup will change this to "true" or "false" on build
+// Note: Vite will change this to "true" or "false" on build
 if (props.production === "true") {
   // console.log("production mode")
   socket = io()
@@ -119,9 +119,6 @@ export function closeBook(): Promise<boolean> {
   })
 }
 
-async function saveBook(event) {
-  await save('metadata', currentBook);
-}
 /**
  * save data. Will only sent to server if changed since last save (cached data)
  * @param type data Type

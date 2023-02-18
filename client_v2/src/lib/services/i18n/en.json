@@ -29,6 +29,7 @@
     "year": "Year"
   },
   "book": {
+    "book": "Book",
     "books": "Books",
     "chapter": "Chapter",
     "filename": "Filename for the book",

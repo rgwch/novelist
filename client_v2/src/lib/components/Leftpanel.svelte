@@ -9,9 +9,14 @@
     import Timeline from './Timeline.svelte';
     import Tabs from '../widgets/Tabs.svelte';
     let idx = 0;
+    let heading: string = $currentBook ? $_('book.metadata') : $_('book.open');
 
     let tabdef = [
-        { name: $_('book.metadata'), content: Book, display: true },
+        {
+            name: $_('book.book'),
+            content: Book,
+            display: true,
+        },
         { name: $_('book.chapter'), content: Chapters, display: false },
         { name: $_('book.persons'), content: Person, display: false },
         { name: $_('book.places'), content: Place, display: false },
@@ -19,8 +24,8 @@
     ];
 
     currentBook.subscribe((b) => {
+        idx = 0;
         if (b == undefined) {
-            idx = 0;
             tabdef.forEach((t) => {
                 t.display = false;
             });
@@ -35,5 +40,5 @@
 </script>
 
 <div>
-    <Tabs tabs={tabdef} activeTab={idx} />
+    <Tabs tabs={tabdef} bind:activeTab={idx} />
 </div>

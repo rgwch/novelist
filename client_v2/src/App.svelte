@@ -27,10 +27,15 @@
     </div>
   </div>
   <div class="div2">
-    <Notes />
+    {#if $currentBook}
+      <Notes />
+    {/if}
   </div>
+
   <div class="div3">
-    <Buttons />
+    {#if $currentBook}
+      <Buttons />
+    {/if}
   </div>
   <div class="div4">
     <div style="display:none" id="warner" class="warn" on:click={warned}>

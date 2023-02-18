@@ -1,7 +1,7 @@
 {
   "name": "novelist_client",
   "private": true,
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "engines": {
     "node": "^16",
@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "i18n": "sync-i18n --files '**/i18n/*.json' --primary de --languages en fr it --space 2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -32,6 +33,7 @@
     "array-move": "^4.0.0",
     "babel-loader": "^8.3.0",
     "easymde": "^2.18.0",
+    "i18next-json-sync": "^3.1.2",
     "luxon": "^3.2.1",
     "object-hash": "^3.0.0",
     "react": "^18.2.0",

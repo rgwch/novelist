@@ -1,5 +1,13 @@
+<script lang="ts" context="module">
+    type tabdef = {
+        name: string;
+        content: any;
+        display: boolean;
+    };
+</script>
+
 <script lang="ts">
-    export let tabs;
+    export let tabs: Array<tabdef>;
     export let activeTab = 0;
 </script>
 
@@ -10,8 +18,7 @@
             class:active={idx === activeTab}
             on:click={() => {
                 activeTab = idx;
-            }}
-        >
+            }}>
             {tab.name}
         </button>
     {/if}
