@@ -63,7 +63,7 @@
 				placeholder={$_('book.summary')}
 				bind:value={$currentChapter.summary} />
 		</div>
-		<div class="h-70vh">
+		<div class="h-75vh">
 			<textarea
 				class="border-2 border-solid w-full h-full"
 				on:blur={saveChapter}
