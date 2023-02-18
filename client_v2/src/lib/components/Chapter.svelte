@@ -24,9 +24,9 @@
 	
 -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-{#if $currentBook && $currentChapter}
-	<div class="h-90vh">
-		<div class="bg-blu-200">
+<div>
+	{#if $currentBook && $currentChapter}
+		<div class="bg-blue-200">
 			<h3
 				class="text-lg font-semibold text-blue-400"
 				on:click={() => {
@@ -63,18 +63,18 @@
 				placeholder={$_('book.summary')}
 				bind:value={$currentChapter.summary} />
 		</div>
-		<div class="bg-red-300 textwrapper h-78vh">
+		<div class="h-70vh">
 			<textarea
 				class="border-2 border-solid w-full h-full"
 				on:blur={saveChapter}
 				bind:value={$currentChapter.text} />
 			<!-- Editor save={saveChapter} bind:contents={$currentChapter.text} / -->
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <style>
 	.textwrapper {
-		height: calc(100%-100px);
+		height: calc(100% - 200px);
 	}
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Leftpanel from './lib/components/Leftpanel.svelte';
   import Rightpanel from './lib/components/Rightpanel.svelte';
+  import Chapter from './lib/components/Chapter.svelte';
   import { ping } from './lib/services/fileio';
   import { _ } from 'svelte-i18n';
   import defs from './lib/services/properties';
@@ -17,17 +18,16 @@
 
 <!-- {defs.production}, {defs.build} -->
 <div
-  class="flex flex-col md:(grid grid-cols-[420px,auto] grid-rows-[min-content,min-content] content-between w-95vw h-90vh) ml-1 p-1">
-  <div class="left bg-green-100 m-1 p-1">
+  class="flex flex-col md:(grid grid-cols-[400px,auto] grid-rows-[min-content,min-content] content-between w-95vw h-screen) ml-1 p-1">
+  <div class="left bg-green-100 m-1 p-1 col-start-1 col-span-1">
     <Leftpanel />
     <div class="h-3">
-      <p class="text-gray-800 text-xs">
+      <p class="text-gray-400 text-xs">
         {defs.version}, {defs.build}
       </p>
     </div>
   </div>
-  <div
-    class="right col-start-2 col-span-1 row-span-2 bg-blue-200 h-full border-1">
+  <div class=" bg-blue-200 border-1">
     <div
       style="display:none"
       id="warner"
@@ -35,7 +35,7 @@
       on:click={warned}>
       <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
     </div>
-    <Rightpanel />
+    <Chapter />
   </div>
   {#if $currentBook}
     <div class="bg-green-500">
