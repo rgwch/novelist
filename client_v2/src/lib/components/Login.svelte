@@ -8,10 +8,10 @@
     onMount(async () => {
         const token = localStorage.getItem("token");
         if (token) {
-            try{
-            const result=await login(token)
-            }catch(err){
-                console.log("invalid token")
+            try {
+                const result = await login(token);
+            } catch (err) {
+                console.log("invalid token");
                 // localStorage.removeItem("token")
             }
         }
@@ -31,20 +31,22 @@
     }
 </script>
 
-<div class="flex flex-col">
-    <input name="username" bind:value={username} placeholder="Username" />
-    <input
-        name="password"
-        bind:value={password}
-        type="password"
-        placeholder="Password"
-    />
-    <span
-        >Save<input
-            class="ml-5"
-            type="checkbox"
-            bind:checked={savecred}
-        /></span
-    >
-    <button on:click={doLogin}>Login</button>
+<div class="w-100vw h-100vh">
+    <div class="flex flex-col mx-auto bg-gray-300 w-400px border-2 border-blue-500 p-5">
+        <input name="username" bind:value={username} placeholder="Username" />
+        <input
+            name="password"
+            bind:value={password}
+            type="password"
+            placeholder="Password"
+        />
+        <span
+            >Save<input
+                class="ml-5"
+                type="checkbox"
+                bind:checked={savecred}
+            /></span
+        >
+        <button class="ring bg-blue-200" on:click={doLogin}>Login</button>
+    </div>
 </div>
