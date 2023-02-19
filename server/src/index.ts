@@ -8,9 +8,11 @@ import path from 'path'
 import { Novel } from './novel'
 import { Exporter } from './exporter'
 import config from 'config'
+import md5 from 'md5'
 
 const books = {}
 const sockets = {}
+const tokens = {}
 console.log('run mode: ' + process.env.NODE_ENV)
 
 /**
@@ -106,6 +108,7 @@ io.on('connection', (socket: Socket) => {
   // console.log("connect " + socket.id)
   sockets[socket.id] = {
     last: new Date().getTime(),
+    loggedIn: false,
     socket: socket,
   }
   socket.on('disconnect', async () => {
@@ -124,8 +127,14 @@ io.on('connection', (socket: Socket) => {
     console.log('disconnected ' + socket.id)
   })
   socket.use(([event, ...args], next) => {
-    console.log("use: " + event)
-    next(new Error("not authorized"))
+    // console.log("use: " + event)
+    if (event === 'login') {
+      next()
+    } else if (sockets[socket.id].loggedIn) {
+      next()
+    } else {
+      socket.emit("unauthorized")
+    }
   })
   socket.on('error', err => {
     console.log(err)
@@ -138,8 +147,34 @@ io.on('connection', (socket: Socket) => {
   socket.on('ping', () => {
     sockets[socket.id].warned = false
   })
-  socket.on('login', async (name, pwd, callback) => {
-    return true
+  socket.on('login', async (cred, callback) => {
+    if (cred.token) {
+      if (tokens[cred.token]) {
+        tokens[cred.token] = new Date()
+        sockets[socket.id].loggedIn = true
+        callback({ status: "ok", result: cred.token })
+      } else {
+        sockets[socket.id].loggedIn = false
+        callback(err("Invalid token"))
+      }
+    } else {
+      if (config.has("users")) {
+        const users = config.get("users")
+        if (users.has(cred.username) && (users.get(cred.username) == cred.password)) {
+          const token = md5(cred.username + cred.password + new Date().toString())
+          tokens[token]=new Date()
+          sockets[socket.id].loggedIn = true
+          callback({ status: "ok", result: token })
+        } else {
+          sockets[socket.id].loggedIn = false
+          callback({ status: "error", message: "Invalid username or password" })
+        }
+      } else {
+        sockets[socket.id].loggedIn = true
+        callback({ status: "ok" })
+      }
+    }
+
   })
   socket.on('listfiles', async (data, callback) => {
     try {
@@ -391,6 +426,9 @@ if (config.has('port')) {
 httpServer.listen(port)
 console.log('server ready on port ' + port)
 
+function err(msg: string) {
+  return { status: "error", message: msg }
+}
 /**
  * Open a Novel
  * @param owner SocketId

@@ -67,15 +67,16 @@ export function ping() {
   socket.emit("ping")
 }
 
-export async function login(username: string, password: string): Promise<boolean> {
+export async function login(username: string, password?: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    socket.emit('login', username, password, (res: result) => {
+    const params = password ? { username, password } : { token: username }
+    socket.emit('login', params, (res: result) => {
       if (res.status === "ok") {
         isLoggedIn.set(true)
-        return true
+        resolve(res.result)
       } else {
         isLoggedIn.set(false)
-        return false
+        reject(res.message)
       }
     })
   })

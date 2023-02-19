@@ -13,5 +13,8 @@
         "secretKey": "verySecretAuthentication",
         "useSSL": false,
         "port": 9000
+    },
+    "users":{
+        "somebody":"topsecret"
     }
 }
