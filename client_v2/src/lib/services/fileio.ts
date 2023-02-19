@@ -1,10 +1,9 @@
-import { currentPerson, currentPlace } from './store';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { io } from "socket.io-client";
 import props from './properties'
 import hash from 'object-hash'
-import { currentBook, currentChapter } from './store'
+import { currentBook, currentChapter, currentPerson, currentPlace, isLoggedIn } from './store'
 
 export type dataType = "metadata" | "chapters" | "persons" | "places" | "notes" | "timeline"
 
@@ -53,6 +52,10 @@ socket.on("connect_error", (err) => {
   console.log("Error: " + err);
 });
 
+socket.on("unauthorized", () => {
+  isLoggedIn.set(false)
+})
+
 function closeElements() {
   window.document.getElementById('warner').style.display = 'none';
   currentBook.set(undefined)
@@ -62,6 +65,20 @@ function closeElements() {
 }
 export function ping() {
   socket.emit("ping")
+}
+
+export async function login(username: string, password: string): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    socket.emit('login', username, password, (res: result) => {
+      if (res.status === "ok") {
+        isLoggedIn.set(true)
+        return true
+      } else {
+        isLoggedIn.set(false)
+        return false
+      }
+    })
+  })
 }
 
 export function showBooks(): Promise<Array<string>> {

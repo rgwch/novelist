@@ -1,13 +1,14 @@
 <script lang="ts">
   import Leftpanel from './lib/components/Leftpanel.svelte';
   import Rightpanel from './lib/components/Rightpanel.svelte';
+  import Login from './lib/components/Login.svelte';
   import Chapter from './lib/components/Chapter.svelte';
   import { ping } from './lib/services/fileio';
   import { _ } from 'svelte-i18n';
   import defs from './lib/services/properties';
   import Buttons from './lib/components/Buttons.svelte';
   import Notes from './lib/components/Notes.svelte';
-  import { currentBook } from './lib/services/store';
+  import { currentBook, isLoggedIn } from './lib/services/store';
   function warned() {
     ping();
     window.document.getElementById('warner').style.display = 'none';
@@ -17,33 +18,34 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 
 <!-- {defs.production}, {defs.build} -->
-<div class="parent p-5 bg-blue-100">
-  <div class="div1">
-    <Leftpanel />
-    <div class="h-3">
-      <p class="text-gray-400 text-xs">
-        {defs.version}, {defs.build}
-      </p>
+{#if $isLoggedIn}
+  <div class="parent p-5 bg-blue-100">
+    <div class="div1">
+      <Leftpanel />
+      <div class="h-3">
+        <p class="text-gray-400 text-xs">
+          {defs.version}, {defs.build}
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="div2">
-    {#if $currentBook}
-      <Notes />
-    {/if}
-  </div>
+    <div class="div2">
+      {#if $currentBook}
+        <Notes />
+      {/if}
+    </div>
 
-  <div class="div3">
-    {#if $currentBook}
-      <Buttons />
-    {/if}
-  </div>
-  <div class="div4">
-    <div style="display:none" id="warner" class="warn" on:click={warned}>
-      <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
+    <div class="div3">
+      {#if $currentBook}
+        <Buttons />
+      {/if}
     </div>
-    <Chapter />
-  </div>
-  <!-- div class=" bg-blue-200 border-1 row-span-2">
+    <div class="div4">
+      <div style="display:none" id="warner" class="warn" on:click={warned}>
+        <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
+      </div>
+      <Chapter />
+    </div>
+    <!-- div class=" bg-blue-200 border-1 row-span-2">
     <div
       style="display:none"
       id="warner"
@@ -51,16 +53,9 @@
       on:click={warned}>
       <i class="fa fa-hourglass-end mx-2" />{$_('messages.autoclose')}
     </div -->
-</div>
-{#if false}
-  <div class="bg-green-500">
-    <div class="h-20">
-      <Notes />
-    </div>
-    <div class="h-6 max-h-6">
-      <Buttons />
-    </div>
   </div>
+{:else}
+  <Login />
 {/if}
 
 <style windi:preflights:global windi:safelist:global>

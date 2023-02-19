@@ -123,6 +123,13 @@ io.on('connection', (socket: Socket) => {
     }
     console.log('disconnected ' + socket.id)
   })
+  socket.use(([event, ...args], next) => {
+    console.log("use: " + event)
+    next(new Error("not authorized"))
+  })
+  socket.on('error', err => {
+    console.log(err)
+  })
   socket.onAny((args) => {
     // console.log(JSON.stringify(args))
     sockets[socket.id].last = new Date().getTime()
@@ -130,6 +137,9 @@ io.on('connection', (socket: Socket) => {
   })
   socket.on('ping', () => {
     sockets[socket.id].warned = false
+  })
+  socket.on('login', async (name, pwd, callback) => {
+    return true
   })
   socket.on('listfiles', async (data, callback) => {
     try {
