@@ -34,6 +34,10 @@ The json-files in server/config define some behaviour. See default_sample.json a
         "secretKey": "verySecretAuthentication",
         "useSSL": false,
         "port": 9000
+    },
+    "users":{
+        "johndoe": "topsecret",
+        "janedoe": "othersecret"
     }
 }
 
@@ -43,6 +47,8 @@ The json-files in server/config define some behaviour. See default_sample.json a
 * timeout: If no interaction is received from a client within that time (in seconds), the current book of that client is saved and closed.
 * encryption: If true, the .novel files are compressed and encrypted. If false, they're just plaintext files, consisting of stringified JSON.
 * storage: Method to store novels. Currently, "file" and "s3" are supported (see below)
+* users: if this key exists, login is required to access the novel files. This has no influence on the individual files being encrypted. You might want to enable this option, if your server is publicly accessible, but disable it in a LAN or VPN environment.
+  
 
 You can have a 'production.json' with values to override the default values in production mode. You might want to override e.g. the port setting.
 

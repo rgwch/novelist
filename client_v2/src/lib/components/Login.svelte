@@ -1,12 +1,13 @@
 <script lang="ts">
     import { login } from "../services/fileio";
     import { onMount } from "svelte";
+    import { _ } from "svelte-i18n";
     let username: string = "";
     let password: string = "";
     let savecred: boolean = false;
 
     onMount(async () => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token") || "autocheck";
         if (token) {
             try {
                 const result = await login(token);
@@ -32,21 +33,25 @@
 </script>
 
 <div class="w-100vw h-100vh">
-    <div class="flex flex-col mx-auto bg-gray-300 w-400px border-2 border-blue-500 p-5">
-        <input name="username" bind:value={username} placeholder="Username" />
+    <div
+        class="flex flex-col mx-auto bg-blue-100 w-300px h-200px border-2 border-blue-500 p-5 mt-10">
         <input
+            class="m-1"
+            name="username"
+            bind:value={username}
+            placeholder={$_("general.username")} />
+        <input
+            class="m-1"
             name="password"
             bind:value={password}
             type="password"
-            placeholder="Password"
-        />
-        <span
-            >Save<input
-                class="ml-5"
+            placeholder={$_("general.password")} />
+        <span class="mt-2">
+            <input
+                class="mt-2 mr-5"
                 type="checkbox"
-                bind:checked={savecred}
-            /></span
-        >
-        <button class="ring bg-blue-200" on:click={doLogin}>Login</button>
+                bind:checked={savecred} />{$_("actions.autologin")}</span>
+        <button class="ring bg-blue-200 mt-3" on:click={doLogin}
+            >{$_("actions.login")}</button>
     </div>
 </div>

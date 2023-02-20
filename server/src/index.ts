@@ -148,31 +148,31 @@ io.on('connection', (socket: Socket) => {
     sockets[socket.id].warned = false
   })
   socket.on('login', async (cred, callback) => {
-    if (cred.token) {
-      if (tokens[cred.token]) {
-        tokens[cred.token] = new Date()
-        sockets[socket.id].loggedIn = true
-        callback({ status: "ok", result: cred.token })
+    if (config.has("users")) {
+      if (cred.token) {
+        if (tokens[cred.token]) {
+          tokens[cred.token] = new Date()
+          sockets[socket.id].loggedIn = true
+          callback({ status: "ok", result: cred.token })
+        } else {
+          sockets[socket.id].loggedIn = false
+          callback(err("Invalid token"))
+        }
       } else {
-        sockets[socket.id].loggedIn = false
-        callback(err("Invalid token"))
-      }
-    } else {
-      if (config.has("users")) {
         const users = config.get("users")
         if (users.has(cred.username) && (users.get(cred.username) == cred.password)) {
           const token = md5(cred.username + cred.password + new Date().toString())
-          tokens[token]=new Date()
+          tokens[token] = new Date()
           sockets[socket.id].loggedIn = true
           callback({ status: "ok", result: token })
         } else {
           sockets[socket.id].loggedIn = false
           callback({ status: "error", message: "Invalid username or password" })
         }
-      } else {
-        sockets[socket.id].loggedIn = true
-        callback({ status: "ok" })
       }
+    } else {
+      sockets[socket.id].loggedIn = true
+      callback({ status: "ok" })
     }
 
   })

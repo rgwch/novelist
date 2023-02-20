@@ -1,5 +1,6 @@
 {
   "actions": {
+    "autologin": "Automatisch anmelden",
     "bold": "Bold",
     "cancel": "Cancel",
     "changePWD": "Change password",
@@ -9,6 +10,7 @@
     "edit": "Edit, move, delete",
     "generateEPUB": "export ePub",
     "generateHTML": "export HTML",
+    "login": "Anmelden",
     "ok": " OK ",
     "open": "Open",
     "rename": "Rename",
