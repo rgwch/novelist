@@ -461,7 +461,7 @@ export class Novel {
             const np = nn.replace(/[^a-z0-9]/gi, "")
             if (np.length > 1) {
               if (cdef.text.includes(np)) {
-                persons.add(person.name + " (" + np + ")")
+                persons.add(person.name)
               }
             }
           }
@@ -477,7 +477,7 @@ export class Novel {
           for (const nn of nicks) {
             if (nn.length > 1) {
               if (cdef.text.includes(nn)) {
-                places.add(place.name + " (" + nn + ")")
+                places.add(place.name)
               }
             }
           }
