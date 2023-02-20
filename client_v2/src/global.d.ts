@@ -39,6 +39,7 @@ type person_def = entrydef & {
 	stature?: string;
 	hair?: string;
 	age?: number;
+	traits?: string;
 	description?: string;
 };
 type place_def = entrydef & {

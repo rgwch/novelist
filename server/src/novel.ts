@@ -461,7 +461,7 @@ export class Novel {
             const np = nn.replace(/[^a-z0-9]/gi, "")
             if (np.length > 1) {
               if (cdef.text.includes(np)) {
-                persons.add(person.name + " (" + np + ")")
+                persons.add(person.name)
               }
             }
           }
@@ -477,7 +477,7 @@ export class Novel {
           for (const nn of nicks) {
             if (nn.length > 1) {
               if (cdef.text.includes(nn)) {
-                places.add(place.name + " (" + nn + ")")
+                places.add(place.name)
               }
             }
           }
@@ -548,16 +548,20 @@ export class Novel {
   checkUnique(type) {
     const cleaned = []
     const store = this.def[type]
+    /* For each element of metadata, 
+      check if it exists exactly once in the store */
     for (const element of this.def.metadata[type]) {
       if (element && element !== 'undefined') {
         if (!store[element]) {
-          store[element] = {}
+          store[element] = {} // create if doesn't exist
         }
         if (cleaned.indexOf(element) === -1) {
-          cleaned.push(element)
+          cleaned.push(element) // keep if didn't exist before
         }
       }
     }
+    /** For each element in the store, add it to 
+     *  metadata, if it doesn't exist there  */
     for (const element of Object.keys(store)) {
       if (element && element !== 'undefined') {
         if (cleaned.indexOf(element) === -1) {
