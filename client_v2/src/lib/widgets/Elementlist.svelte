@@ -56,7 +56,7 @@
 		if (confirm($_("messages.reallydelete", { values: { element: elem } }))) {
 			const idx = elements.indexOf(elem);
 			elements.splice(idx, 1);
-			dispatch("update", null);
+			dispatch("delete", elem);
 		}
 	}
 	async function edit(elem) {

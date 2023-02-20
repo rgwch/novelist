@@ -85,6 +85,10 @@
 		await select({ detail: name });
 		return name;
 	};
+	const do_remove = async(name)=>{
+		await remove('persons',name.detail)
+	}
+
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -118,7 +122,9 @@
 			<Elementlist
 				bind:elements={$currentBook.persons}
 				{filter}
-				on:selected={select} />
+				on:selected={select}
+				on:delete={do_remove}
+				/>
 		</div>
 	{/if}
 {/if}
