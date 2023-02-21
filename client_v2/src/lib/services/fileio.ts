@@ -252,7 +252,7 @@ export function rename(type: dataType, oldname: string, newname: string): Promis
     })
   })
 }
-export function toEpub(file: string): Promise<boolean> {
+export function toEpub(file: string): Promise<string> {
   return new Promise((resolve, reject) => {
     socket.emit("export", "epub", file, (res: result) => {
       if (res.status == "ok") {

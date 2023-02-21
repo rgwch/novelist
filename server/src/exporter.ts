@@ -2,7 +2,8 @@ import { DateTime } from 'luxon';
 import marked from 'marked';
 import { Novel } from './novel';
 import epub from 'epub-gen'
-
+import path from 'path'
+import config from 'config'
 /**
  * Generate ePub from .novel
  */
@@ -14,6 +15,7 @@ export class Exporter {
     meta.id = meta.id || meta.title;
     meta.author = meta.author || 'anonymous';
     meta.genre = meta.genre || 'fiction';
+
     // meta.cover = meta.cover || `${meta.title}.jpg`;
 
     let dt = DateTime.fromJSDate(new Date(meta.published as string));
@@ -39,7 +41,9 @@ export class Exporter {
 
     // console.log(JSON.stringify(options))
     // console.log("writing ebook to " + output)
-    return new epub(options, output).promise.then(() => { }
+    return new epub(options, output).promise.then(() => {
+      return output
+    }
       /* console.log("success"), (err: any) => {
         console.log("Error " + err) 
       } */

@@ -14,6 +14,7 @@ const books = {}
 const sockets = {}
 const tokens = {}
 console.log('run mode: ' + process.env.NODE_ENV)
+const publ = path.join(__dirname, '../../', 'client_v2/dist')
 
 /**
  * Create HTTP server
@@ -24,7 +25,7 @@ const httpServer = createServer((req, res) => {
     file = 'index.html'
   }
 
-  const fullpath = path.join(__dirname, '../../', 'client_v2/dist', file)
+  const fullpath = path.join(publ, file)
   let mime = 'text/html; charset="utf-8"'
   if (file.endsWith('js')) {
     mime = 'text/javascript'
@@ -36,6 +37,9 @@ const httpServer = createServer((req, res) => {
     mime = 'image/jpeg'
   } else if (file.endsWith('txt')) {
     mime = 'text/plain'
+  } else if (file.endsWith(".epub")) {
+    mime = "application/epub+zip"
+    res.setHeader("Content-disposition","attachment; filename="+file)
   }
 
   console.log('serving ' + fullpath)
@@ -404,8 +408,7 @@ io.on('connection', (socket: Socket) => {
         if (!data.endsWith('.epub')) {
           data = data + '.epub'
         }
-        const outfile = path.join(".", data)
-        await ex.toEpub(outfile)
+        const generated = await ex.toEpub(path.join(publ, data))
         callback({ status: 'ok', result: data })
       } else if (op === 'html') {
         const html = await ex.toHtml()

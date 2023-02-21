@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { _ } from "svelte-i18n";
     import {
         save,
@@ -7,6 +7,8 @@
         toEpub,
         toHtml,
     } from "../services/fileio";
+    import props from "../services/properties";
+
     import { currentBook } from "../services/store";
 
     async function close() {
@@ -28,9 +30,11 @@
     async function exportHtml() {
         try {
             const html = await toHtml();
-            const win = window.open("_blank");
+            const win: Window = window.open("_blank");
             if (win) {
                 win.document.write(html);
+                win.document.title=$currentBook.title
+
             } else {
                 alert("please allow pop-ups from this site");
             }
@@ -39,10 +43,19 @@
         }
     }
     async function exportEPub() {
-        try{
-            const data=await toEpub("export.epub")
-        }catch(err){
-            alert(err)
+        try {
+            const title = $currentBook.title ?? "export";
+            const data = await toEpub(title + ".epub");
+            const anchor = document.createElement("a");
+            anchor.href = "http://localhost:2999/" + data;
+            if (props.production == "true") {
+                anchor.href = "/" + data;
+            }
+            anchor.target = "_blank";
+            anchor.download = data;
+            anchor.click();
+        } catch (err) {
+            alert(err);
         }
     }
 </script>
@@ -50,8 +63,10 @@
 <div class="flex justify-center">
     <button class="btn" on:click={close}>{$_("actions.close")}</button>
     <button class="btn" on:click={check}>{$_("actions.check")}</button>
-    <button class="btn" on:click={exportHtml}>{$_('actions.generateHTML')}</button>
-    <button class="btn">{$_('actions.generateEPUB')}</button>
+    <button class="btn" on:click={exportHtml}
+        >{$_("actions.generateHTML")}</button>
+    <button class="btn" on:click={exportEPub}
+        >{$_("actions.generateEPUB")}</button>
 </div>
 
 <style>
