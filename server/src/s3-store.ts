@@ -62,7 +62,7 @@ export class S3Store implements IStore {
                 reject(err)
             })
             stream.on('end', () => {
-                resolve(ret.map(r => r.name).filter(n => n.match(pat)))
+                resolve(ret.map(r => r.name).filter(n => n?.match(pat)))
             })
         })
     }

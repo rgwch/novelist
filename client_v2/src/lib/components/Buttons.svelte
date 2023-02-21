@@ -1,6 +1,12 @@
 <script>
     import { _ } from "svelte-i18n";
-    import { save, closeBook, integrityCheck } from "../services/fileio";
+    import {
+        save,
+        closeBook,
+        integrityCheck,
+        toEpub,
+        toHtml,
+    } from "../services/fileio";
     import { currentBook } from "../services/store";
 
     async function close() {
@@ -19,19 +25,37 @@
             alert(err);
         }
     }
+    async function exportHtml() {
+        try {
+            const html = await toHtml();
+            const win = window.open("_blank");
+            if (win) {
+                win.document.write(html);
+            } else {
+                alert("please allow pop-ups from this site");
+            }
+        } catch (err) {
+            alert(err);
+        }
+    }
+    async function exportEPub() {
+        try{
+            const data=await toEpub("export.epub")
+        }catch(err){
+            alert(err)
+        }
+    }
 </script>
 
 <div class="flex justify-center">
-    <button class="btn" on:click={close}
-        >{$_("actions.close")}</button>
-    <button class="btn" on:click={check}
-        >{$_("actions.check")}</button>
-    <button class="btn">Preview</button>
-    <button class="btn">E-Book</button>
+    <button class="btn" on:click={close}>{$_("actions.close")}</button>
+    <button class="btn" on:click={check}>{$_("actions.check")}</button>
+    <button class="btn" on:click={exportHtml}>{$_('actions.generateHTML')}</button>
+    <button class="btn">{$_('actions.generateEPUB')}</button>
 </div>
 
 <style>
-    .btn{
+    .btn {
         padding: 1px;
         margin-left: 1px;
         margin-right: 1px;

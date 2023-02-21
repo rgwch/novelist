@@ -220,8 +220,9 @@ export function remove(type: dataType, name: string): Promise<boolean> {
 export function integrityCheck(): Promise<boolean> {
   console.log("checking integrity")
   return new Promise((resolve, reject) => {
-    socket.emit("modify", "check", "", (res: result) => {
+    socket.emit("modify", "check", "", async (res: result) => {
       if (res.status === "ok") {
+        await openCurrent()
         resolve(true)
       } else {
         reject(res.message)
