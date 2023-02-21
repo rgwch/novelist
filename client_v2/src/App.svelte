@@ -85,9 +85,9 @@
     }
     .div3 {
       grid-area: 3 / 1 / 4 / 2;
-      height: 1.5rem;
-      max-height: 1.5rem;
-      background-color: rgba(16, 185, 129);
+      height: 2rem;
+      max-height: 2rem;
+      background-color: lightgray;
     }
     .div4 {
       grid-area: 1 / 2 / 4 / 3;

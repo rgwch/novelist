@@ -4,8 +4,8 @@
     "bold": "Fett",
     "cancel": "Abbruch",
     "changePWD": "Passwort ändern",
-    "check": "Buch prüfen",
-    "close": "Buch schließen",
+    "check": "Prüfen",
+    "close": "Schließen",
     "delete": "Löschen",
     "edit": "Anpassen, verschieben, löschen",
     "generateEPUB": "export ePub",
@@ -104,7 +104,8 @@
     "stature": "Statur",
     "surround": "Umgebung",
     "tags": "Stichwörter",
-    "title": "Titel"
+    "title": "Titel",
+    "traits": "Eigenschaften"
   },
   "formatting": {
     "date": "DD.MM.YYYY"
